@@ -1,0 +1,199 @@
+<title>Can LLMs Forecast Conditionals?</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Spectral:wght@500;600&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
+<style>
+:root{
+  --paper:#fbfaf8; --ink:#161512; --ink2:#5b594f; --grid:#e6e4de; --panel:#ffffff;
+  --blue:#2a78d6; --orange:#eb6834; --rule:#d8d5cd;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --paper:#1a1a19; --ink:#f2f1ec; --ink2:#c3c2b7; --grid:#333330; --panel:#222220;
+    --blue:#3987e5; --orange:#d95926; --rule:#3c3b37;
+  }
+}
+:root[data-theme="dark"]{
+  --paper:#1a1a19; --ink:#f2f1ec; --ink2:#c3c2b7; --grid:#333330; --panel:#222220;
+  --blue:#3987e5; --orange:#d95926; --rule:#3c3b37;
+}
+body{background:var(--paper);color:var(--ink);font:400 15px/1.55 "IBM Plex Sans",system-ui,sans-serif;margin:0;}
+main{max-width:880px;margin:0 auto;padding:40px 24px 72px;}
+h1{font:600 30px/1.2 Spectral,Georgia,serif;margin:0 0 6px;text-wrap:balance;}
+h2{font:600 20px/1.25 Spectral,Georgia,serif;margin:46px 0 4px;}
+h2 .no{color:var(--ink2);font-weight:500;margin-right:8px;}
+.sub{color:var(--ink2);margin:0 0 8px;max-width:66ch;}
+.reading{font-size:13.5px;color:var(--ink2);max-width:72ch;margin:10px 0 0;}
+.reading b{color:var(--ink);font-weight:600;}
+figure{margin:16px 0 0;}
+#hero svg{max-width:600px;}
+svg{display:block;width:100%;height:auto;}
+svg text{font:400 11.5px "IBM Plex Sans",system-ui,sans-serif;fill:var(--ink2);}
+svg .lbl{font-weight:500;fill:var(--ink);}
+svg .axis line,svg .frame{stroke:var(--grid);}
+table{border-collapse:collapse;margin-top:14px;font-variant-numeric:tabular-nums;font-size:14px;}
+th,td{text-align:left;padding:7px 18px 7px 0;border-bottom:1px solid var(--rule);}
+th{font-weight:500;color:var(--ink2);font-size:12.5px;text-transform:uppercase;letter-spacing:.04em;}
+td.num{text-align:right;}th.num{text-align:right;}
+.fail{font-weight:600;}
+.legend{display:flex;gap:18px;align-items:center;color:var(--ink2);font-size:13px;margin:10px 0 0;flex-wrap:wrap;}
+.sw{display:inline-block;width:9px;height:9px;border-radius:50%;margin-right:6px;vertical-align:-1px;}
+.sw.open{background:transparent!important;border:2px solid var(--blue);width:7px;height:7px;}
+.note{color:var(--ink2);font-size:13px;max-width:72ch;}
+#tip{position:fixed;pointer-events:none;background:var(--ink);color:var(--paper);padding:6px 9px;border-radius:4px;font-size:12px;display:none;z-index:9;max-width:300px;}
+a{color:var(--blue);}
+@media (prefers-reduced-motion: reduce){*{transition:none!important;}}
+</style>
+<main>
+<h1>Can LLMs Forecast Conditionals?</h1>
+<p class="sub">Told &ldquo;suppose A happened&rdquo; about paired ForecastBench weather questions (&ldquo;will it be warmer at station X in 30 days than today?&rdquo;), do models move P(B) in the right direction, by an amount that tracks the association measured in two years of resolution data? Three conditions, one chart each.</p>
+
+<h2><span class="no">1</span>Near-duplicates (sanity check)</h2>
+<p class="sub">Nantes and Poitiers move together almost perfectly (measured association 0.99). A working model should push P(B|A) toward 1 and P(B|¬A) toward 0.</p>
+<div class="legend"><span><span class="sw" style="background:var(--blue)"></span>P(B|A)</span><span><span class="sw open"></span>P(B|¬A)</span></div>
+<figure id="sanity"></figure>
+<p class="reading"><b>Reading:</b> every model separates the two conditionals widely and in the right direction; none commits fully to 1. Fable&nbsp;5 comes closest (0.85 vs 0.05) and the spread widens with capability.</p>
+
+<h2><span class="no">2</span>Positive pairs, graded</h2>
+<p class="sub">Twelve metropolitan-France pairs whose measured association ranges +0.40 to +0.93 with distance. Each dot is one pair: measured association (x) against the association implied by the model&rsquo;s four elicited probabilities (y). The diagonal is perfect magnitude tracking, and the grey band is measurement uncertainty (median &plusmn;0.21 bootstrap CI on the measured association): a dot inside it is statistically indistinguishable from perfect. ρ is the rank correlation within these twelve pairs.</p>
+<figure id="mult"></figure>
+<p class="reading"><b>Reading:</b> all four models track strength, not just existence (ρ +0.55 to +0.78), and 4&ndash;7 of 12 dots per model sit within measurement uncertainty of perfect. The consistent miss is conservatism: dots fall below the diagonal &mdash; models rank pairs nearly as well as the data allows while undershooting absolute magnitude. With twelve pairs the tier ordering is noisy here; the gradient is cleanest in the overall chart below.</p>
+
+<h2><span class="no">3</span>Independent pairs (controls)</h2>
+<p class="sub">Eight pairs with no shared weather driver (French stations vs. aseasonal tropical ones). The right answer is P(B|A) = P(B|¬A): a conditional shift of zero &mdash; though shifts inside the grey zone (&le;0.10) are within our own measurement resolution for these pairs. Each dot is one pair&rsquo;s shift; the tick is the model&rsquo;s median; the dashed line is the pre-registered bar (0.075).</p>
+<figure id="ctrl"></figure>
+<p class="reading"><b>Reading:</b> Haiku&nbsp;4.5&rsquo;s median (0.090) crosses the bar &mdash; it invents associations. The three frontier models hug zero. Fable&nbsp;5&rsquo;s one outlier (0.44) is a name ambiguity, not sycophancy: it read &ldquo;Saint-Laurent&rdquo; &mdash; French Guiana in this dataset &mdash; as one of metropolitan France&rsquo;s many Saint-Laurents, and linked it to Lille accordingly.</p>
+
+<h2><span class="no">4</span>Overall: skill rises with capability</h2>
+<p class="sub">One summary number per model: rank correlation between implied and measured association across all 21 scored pairs (positives + controls + sanity; 0 = chance, below the cropped axis). The shaded band is the noise ceiling: an oracle that knew the true associations exactly would score ρ&nbsp;=&nbsp;0.94 [0.89&ndash;0.98] against our finite-panel measurements, so no forecaster can be expected to beat it. Opus&nbsp;5 and Fable&nbsp;5 reach ~93% of the ceiling and sit inside its confidence band; Haiku&nbsp;4.5 reaches 74%. X&nbsp;position is the model&rsquo;s Epoch Capabilities Index with its 90% CI.</p>
+<figure id="hero"></figure>
+
+<h2>Full metrics</h2>
+<table>
+<thead><tr><th>Model</th><th class="num">ECI</th><th class="num">Coherence ε</th><th class="num">Direction</th><th class="num">Control shift</th><th class="num">Rank ρ</th></tr></thead>
+<tbody>
+<tr><td>Claude Haiku 4.5</td><td class="num">143</td><td class="num">0.009</td><td class="num">13/13</td><td class="num fail">0.100 ✕</td><td class="num">+0.70</td></tr>
+<tr><td>Claude Sonnet 5</td><td class="num">156</td><td class="num">0.003</td><td class="num">13/13</td><td class="num">0.020</td><td class="num">+0.81</td></tr>
+<tr><td>Claude Opus 5</td><td class="num">162</td><td class="num">0.001</td><td class="num">13/13</td><td class="num">0.028</td><td class="num">+0.87</td></tr>
+<tr><td>Claude Fable 5</td><td class="num">162</td><td class="num">0.001</td><td class="num">13/13</td><td class="num">0.014</td><td class="num">+0.88</td></tr>
+</tbody>
+</table>
+<p class="note">Coherence ε: median violation of P(B) = P(B|A)P(A) + P(B|¬A)(1−P(A)), elicited in one prompt. Direction: sign of the conditional shift on 13 associated pairs, all p&nbsp;&lt;&nbsp;0.001 vs. chance. Control shift: median |P(B|A) − P(B|¬A)| on independent pairs; pre-registered bar 0.075. Rank ρ: Spearman, implied vs. measured association, 21 scored pairs; noise ceiling 0.94 [0.89&ndash;0.98], estimated by block-bootstrap re-measurement of the ground-truth panel (an oracle answering the point estimates, scored against 1000 resampled measurements; split-half reliability 0.83 is the pessimistic variant). Note the table&rsquo;s control-shift medians differ in the third decimal from the strip chart&rsquo;s ticks (per-response vs. per-pair medians).</p>
+<p class="note" style="margin-top:28px">Design: 27 pairs of ForecastBench DBnomics station-temperature questions, future-dated 30 days; ground truth is deseasonalized association from 33 resolution sets (2024&ndash;2026), block-bootstrap certified, every scored pair with a mechanism declared before elicitation. One prompt elicits P(A), P(B), P(B|A), P(B|¬A); five repetitions; 540/540 responses. Six unscored opposite-hemisphere probe pairs excluded from all metrics. ECI from epoch.ai model pages, retrieved 2026-08-20. Code, spec, and data: <a href="https://github.com/elsehow/llm-conditional-forecasting">elsehow/llm-conditional-forecasting</a> (private). Nick Merrill, 2026-08-20.</p>
+</main>
+<div id="tip"></div>
+<script>
+const COND = {"claude-haiku-4-5": {"sanity": {"pba": 0.65, "pbna": 0.22, "a": "Nantes Atlantique Airport", "b": "Poitiers\u2013Biard Airport"}, "pos": [{"x": 0.932, "y": 0.714, "a": "Strasbourg Airport", "b": "EuroAirport Basel Mulhouse Freiburg", "hw": 0.078}, {"x": 0.864, "y": 0.632, "a": "Troyes-Barberey Airport", "b": "Nancy \u2013 Ochey Air Base", "hw": 0.11}, {"x": 0.859, "y": 0.387, "a": "Nancy \u2013 Ochey Air Base", "b": "EuroAirport Basel Mulhouse Freiburg", "hw": 0.111}, {"x": 0.778, "y": 0.667, "a": "Strasbourg Airport", "b": "Troyes-Barberey Airport", "hw": 0.144}, {"x": 0.849, "y": 0.556, "a": "Rouen Airport", "b": "Orly", "hw": 0.122}, {"x": 0.676, "y": 0.365, "a": "Lyon\u2013Saint Exup\u00e9ry Airport", "b": "Toulouse\u2013Blagnac Airport", "hw": 0.188}, {"x": 0.59, "y": 0.278, "a": "Lyon\u2013Saint Exup\u00e9ry Airport", "b": "Orly", "hw": 0.206}, {"x": 0.564, "y": 0.429, "a": "Toulouse\u2013Blagnac Airport", "b": "Perpignan", "hw": 0.254}, {"x": 0.642, "y": 0.257, "a": "Alen\u00e7on", "b": "Clermont-Ferrand Auvergne Airport", "hw": 0.187}, {"x": 0.403, "y": 0.272, "a": "Rouen Airport", "b": "Mont-de-Marsan", "hw": 0.269}, {"x": 0.442, "y": 0.19, "a": "Brest Bretagne Airport", "b": "Ajaccio", "hw": 0.29}, {"x": 0.396, "y": 0.505, "a": "Nice", "b": "Marignane", "hw": 0.233}], "ctrl": [{"d": 0.35, "a": "Perpignan", "b": "Saint-Pierre"}, {"d": 0.23, "a": "Saint-Pierre", "b": "Brest Bretagne Airport"}, {"d": 0.1, "a": "La D\u00e9sirade", "b": "Embrun"}, {"d": 0.08, "a": "Ploumanac'h", "b": "La D\u00e9sirade"}, {"d": 0.0, "a": "Cayenne \u2013 F\u00e9lix \u00c9bou\u00e9 Airport", "b": "\u00cele de la Possession"}, {"d": 0.08, "a": "Roland Garros Airport", "b": "Saint Barth\u00e9lemy"}, {"d": 0.02, "a": "Cayenne \u2013 F\u00e9lix \u00c9bou\u00e9 Airport", "b": "Ploumanac'h"}, {"d": 0.4, "a": "Saint-Laurent", "b": "Lille Airport"}], "rho_pos": 0.62, "ctrl_med": 0.09, "pos_inband": 5}, "claude-sonnet-5": {"sanity": {"pba": 0.65, "pbna": 0.16, "a": "Nantes Atlantique Airport", "b": "Poitiers\u2013Biard Airport"}, "pos": [{"x": 0.932, "y": 0.662, "a": "Strasbourg Airport", "b": "EuroAirport Basel Mulhouse Freiburg", "hw": 0.078}, {"x": 0.864, "y": 0.529, "a": "Troyes-Barberey Airport", "b": "Nancy \u2013 Ochey Air Base", "hw": 0.11}, {"x": 0.859, "y": 0.415, "a": "Nancy \u2013 Ochey Air Base", "b": "EuroAirport Basel Mulhouse Freiburg", "hw": 0.111}, {"x": 0.778, "y": 0.508, "a": "Strasbourg Airport", "b": "Troyes-Barberey Airport", "hw": 0.144}, {"x": 0.849, "y": 0.451, "a": "Rouen Airport", "b": "Orly", "hw": 0.122}, {"x": 0.676, "y": 0.365, "a": "Lyon\u2013Saint Exup\u00e9ry Airport", "b": "Toulouse\u2013Blagnac Airport", "hw": 0.188}, {"x": 0.59, "y": 0.423, "a": "Lyon\u2013Saint Exup\u00e9ry Airport", "b": "Orly", "hw": 0.206}, {"x": 0.564, "y": 0.348, "a": "Toulouse\u2013Blagnac Airport", "b": "Perpignan", "hw": 0.254}, {"x": 0.642, "y": 0.286, "a": "Alen\u00e7on", "b": "Clermont-Ferrand Auvergne Airport", "hw": 0.187}, {"x": 0.403, "y": 0.308, "a": "Rouen Airport", "b": "Mont-de-Marsan", "hw": 0.269}, {"x": 0.442, "y": 0.157, "a": "Brest Bretagne Airport", "b": "Ajaccio", "hw": 0.29}, {"x": 0.396, "y": 0.522, "a": "Nice", "b": "Marignane", "hw": 0.233}], "ctrl": [{"d": 0.02, "a": "Perpignan", "b": "Saint-Pierre"}, {"d": 0.1, "a": "Saint-Pierre", "b": "Brest Bretagne Airport"}, {"d": 0.03, "a": "La D\u00e9sirade", "b": "Embrun"}, {"d": 0.0, "a": "Ploumanac'h", "b": "La D\u00e9sirade"}, {"d": 0.0, "a": "Cayenne \u2013 F\u00e9lix \u00c9bou\u00e9 Airport", "b": "\u00cele de la Possession"}, {"d": 0.02, "a": "Roland Garros Airport", "b": "Saint Barth\u00e9lemy"}, {"d": 0.01, "a": "Cayenne \u2013 F\u00e9lix \u00c9bou\u00e9 Airport", "b": "Ploumanac'h"}, {"d": 0.05, "a": "Saint-Laurent", "b": "Lille Airport"}], "rho_pos": 0.55, "ctrl_med": 0.02, "pos_inband": 5}, "claude-opus-5": {"sanity": {"pba": 0.7, "pbna": 0.1, "a": "Nantes Atlantique Airport", "b": "Poitiers\u2013Biard Airport"}, "pos": [{"x": 0.932, "y": 0.8, "a": "Strasbourg Airport", "b": "EuroAirport Basel Mulhouse Freiburg", "hw": 0.078}, {"x": 0.864, "y": 0.692, "a": "Troyes-Barberey Airport", "b": "Nancy \u2013 Ochey Air Base", "hw": 0.11}, {"x": 0.859, "y": 0.707, "a": "Nancy \u2013 Ochey Air Base", "b": "EuroAirport Basel Mulhouse Freiburg", "hw": 0.111}, {"x": 0.778, "y": 0.605, "a": "Strasbourg Airport", "b": "Troyes-Barberey Airport", "hw": 0.144}, {"x": 0.849, "y": 0.694, "a": "Rouen Airport", "b": "Orly", "hw": 0.122}, {"x": 0.676, "y": 0.385, "a": "Lyon\u2013Saint Exup\u00e9ry Airport", "b": "Toulouse\u2013Blagnac Airport", "hw": 0.188}, {"x": 0.59, "y": 0.451, "a": "Lyon\u2013Saint Exup\u00e9ry Airport", "b": "Orly", "hw": 0.206}, {"x": 0.564, "y": 0.491, "a": "Toulouse\u2013Blagnac Airport", "b": "Perpignan", "hw": 0.254}, {"x": 0.642, "y": 0.419, "a": "Alen\u00e7on", "b": "Clermont-Ferrand Auvergne Airport", "hw": 0.187}, {"x": 0.403, "y": 0.334, "a": "Rouen Airport", "b": "Mont-de-Marsan", "hw": 0.269}, {"x": 0.442, "y": 0.105, "a": "Brest Bretagne Airport", "b": "Ajaccio", "hw": 0.29}, {"x": 0.396, "y": 0.47, "a": "Nice", "b": "Marignane", "hw": 0.233}], "ctrl": [{"d": 0.04, "a": "Perpignan", "b": "Saint-Pierre"}, {"d": 0.04, "a": "Saint-Pierre", "b": "Brest Bretagne Airport"}, {"d": 0.02, "a": "La D\u00e9sirade", "b": "Embrun"}, {"d": 0.02, "a": "Ploumanac'h", "b": "La D\u00e9sirade"}, {"d": 0.0, "a": "Cayenne \u2013 F\u00e9lix \u00c9bou\u00e9 Airport", "b": "\u00cele de la Possession"}, {"d": 0.05, "a": "Roland Garros Airport", "b": "Saint Barth\u00e9lemy"}, {"d": 0.02, "a": "Cayenne \u2013 F\u00e9lix \u00c9bou\u00e9 Airport", "b": "Ploumanac'h"}, {"d": 0.05, "a": "Saint-Laurent", "b": "Lille Airport"}], "rho_pos": 0.78, "ctrl_med": 0.03, "pos_inband": 4}, "claude-fable-5": {"sanity": {"pba": 0.85, "pbna": 0.05, "a": "Nantes Atlantique Airport", "b": "Poitiers\u2013Biard Airport"}, "pos": [{"x": 0.932, "y": 0.812, "a": "Strasbourg Airport", "b": "EuroAirport Basel Mulhouse Freiburg", "hw": 0.078}, {"x": 0.864, "y": 0.756, "a": "Troyes-Barberey Airport", "b": "Nancy \u2013 Ochey Air Base", "hw": 0.11}, {"x": 0.859, "y": 0.699, "a": "Nancy \u2013 Ochey Air Base", "b": "EuroAirport Basel Mulhouse Freiburg", "hw": 0.111}, {"x": 0.778, "y": 0.679, "a": "Strasbourg Airport", "b": "Troyes-Barberey Airport", "hw": 0.144}, {"x": 0.849, "y": 0.812, "a": "Rouen Airport", "b": "Orly", "hw": 0.122}, {"x": 0.676, "y": 0.471, "a": "Lyon\u2013Saint Exup\u00e9ry Airport", "b": "Toulouse\u2013Blagnac Airport", "hw": 0.188}, {"x": 0.59, "y": 0.49, "a": "Lyon\u2013Saint Exup\u00e9ry Airport", "b": "Orly", "hw": 0.206}, {"x": 0.564, "y": 0.536, "a": "Toulouse\u2013Blagnac Airport", "b": "Perpignan", "hw": 0.254}, {"x": 0.642, "y": 0.451, "a": "Alen\u00e7on", "b": "Clermont-Ferrand Auvergne Airport", "hw": 0.187}, {"x": 0.403, "y": 0.423, "a": "Rouen Airport", "b": "Mont-de-Marsan", "hw": 0.269}, {"x": 0.442, "y": 0.13, "a": "Brest Bretagne Airport", "b": "Ajaccio", "hw": 0.29}, {"x": 0.396, "y": 0.574, "a": "Nice", "b": "Marignane", "hw": 0.233}], "ctrl": [{"d": 0.025, "a": "Perpignan", "b": "Saint-Pierre"}, {"d": 0.05, "a": "Saint-Pierre", "b": "Brest Bretagne Airport"}, {"d": 0.015, "a": "La D\u00e9sirade", "b": "Embrun"}, {"d": 0.01, "a": "Ploumanac'h", "b": "La D\u00e9sirade"}, {"d": 0.0, "a": "Cayenne \u2013 F\u00e9lix \u00c9bou\u00e9 Airport", "b": "\u00cele de la Possession"}, {"d": 0.02, "a": "Roland Garros Airport", "b": "Saint Barth\u00e9lemy"}, {"d": 0.0, "a": "Cayenne \u2013 F\u00e9lix \u00c9bou\u00e9 Airport", "b": "Ploumanac'h"}, {"d": 0.44, "a": "Saint-Laurent", "b": "Lille Airport"}], "rho_pos": 0.75, "ctrl_med": 0.018, "pos_inband": 7}};
+const MODELS = [
+ {id:"claude-haiku-4-5", label:"Haiku 4.5", eci:143, lo:139, hi:144, rho:0.70},
+ {id:"claude-sonnet-5",  label:"Sonnet 5",  eci:156, lo:153, hi:158, rho:0.81},
+ {id:"claude-opus-5",    label:"Opus 5",    eci:162, lo:159, hi:165, rho:0.87},
+ {id:"claude-fable-5",   label:"Fable 5",   eci:162, lo:160, hi:166, rho:0.88},
+];
+const tip=document.getElementById("tip");
+function showTip(e,h){tip.innerHTML=h;tip.style.display="block";
+ tip.style.left=Math.min(e.clientX+14,innerWidth-260)+"px";tip.style.top=(e.clientY+14)+"px";}
+function hideTip(){tip.style.display="none";}
+function hookTips(el,sel,fn){el.querySelectorAll(sel).forEach(c=>{
+ c.addEventListener("mousemove",e=>showTip(e,fn(c)));c.addEventListener("mouseleave",hideTip);});}
+
+(function sanity(){
+  const W=880,H=180,P={l:96,r:16,t:12,b:34};
+  const x=v=>P.l+v*(W-P.l-P.r);
+  let s='<svg viewBox="0 0 '+W+' '+H+'">';
+  for(const t of [0,0.25,0.5,0.75,1]){
+    s+='<line class="axis" x1="'+x(t)+'" x2="'+x(t)+'" y1="'+P.t+'" y2="'+(H-P.b)+'" stroke-width="1"/>'
+     +'<text x="'+x(t)+'" y="'+(H-P.b+16)+'" text-anchor="middle">'+t+'</text>';
+  }
+  s+='<text x="'+x(1)+'" y="'+(P.t-1)+'" text-anchor="end" visibility="hidden">.</text>';
+  MODELS.forEach((m,i)=>{
+    const d=COND[m.id].sanity, y=P.t+14+i*34;
+    s+='<text class="lbl" x="'+(P.l-10)+'" y="'+(y+4)+'" text-anchor="end">'+m.label+'</text>';
+    s+='<line x1="'+x(d.pbna)+'" x2="'+x(d.pba)+'" y1="'+y+'" y2="'+y+'" style="stroke:var(--blue)" stroke-width="1.5" opacity="0.4"/>';
+    s+='<circle class="sd" data-m="'+m.id+'" cx="'+x(d.pba)+'" cy="'+y+'" r="6" style="fill:var(--blue);stroke:var(--paper)" stroke-width="2"/>';
+    s+='<circle class="sd" data-m="'+m.id+'" cx="'+x(d.pbna)+'" cy="'+y+'" r="5" style="fill:var(--paper);stroke:var(--blue)" stroke-width="2"/>';
+  });
+  s+='<text x="'+((P.l+W-P.r)/2)+'" y="'+(H-4)+'" text-anchor="middle">conditional probability &#8594;</text></svg>';
+  const el=document.getElementById("sanity"); el.innerHTML=s;
+  hookTips(el,".sd",c=>{const d=COND[c.dataset.m].sanity;
+    return "<b>"+d.a+" × "+d.b+"</b><br>P(B|A) = "+d.pba.toFixed(2)+" · P(B|¬A) = "+d.pbna.toFixed(2);});
+})();
+
+(function multiples(){
+  const el=document.getElementById("mult");
+  const PW=205,PH=205,P={l:30,r:8,t:22,b:26},W=880,H=PH+8;
+  const x=v=>P.l+(v+0.05)/1.1*(PW-P.l-P.r), y=v=>PH-P.b-(v+0.05)/1.1*(PH-P.t-P.b);
+  let s='<svg viewBox="0 0 '+W+' '+H+'">';
+  MODELS.forEach((m,mi)=>{
+    const d=COND[m.id], ox=mi*(PW+18);
+    s+='<g transform="translate('+ox+',0)">';
+    s+='<rect class="frame" x="'+P.l+'" y="'+P.t+'" width="'+(PW-P.l-P.r)+'" height="'+(PH-P.t-P.b)+'" fill="none" stroke-width="1"/>';
+    s+='<clipPath id="clip'+mi+'"><rect x="'+P.l+'" y="'+P.t+'" width="'+(PW-P.l-P.r)+'" height="'+(PH-P.t-P.b)+'"/></clipPath>';
+    const BW=0.21;
+    s+='<polygon clip-path="url(#clip'+mi+')" points="'+x(-0.05)+','+y(-0.05+BW)+' '+x(1.05)+','+y(1.05+BW)+' '+x(1.05)+','+y(1.05-BW)+' '+x(-0.05)+','+y(-0.05-BW)+'" style="fill:var(--grid)" fill-opacity="0.45"/>';
+    s+='<line x1="'+x(-0.05)+'" y1="'+y(-0.05)+'" x2="'+x(1.05)+'" y2="'+y(1.05)+'" style="stroke:var(--grid)" stroke-width="1.5"/>';
+    s+='<text class="lbl" x="'+P.l+'" y="14">'+m.label+'</text><text x="'+(PW-P.r)+'" y="14" text-anchor="end">ρ +'+d.rho_pos.toFixed(2)+' · '+d.pos_inband+'/12</text>';
+    for(const t of [0,0.5,1]){ s+='<text x="'+x(t)+'" y="'+(PH-P.b+16)+'" text-anchor="middle">'+t+'</text>';
+      if(mi===0) s+='<text x="'+(P.l-6)+'" y="'+(y(t)+4)+'" text-anchor="end">'+t+'</text>'; }
+    d.pos.forEach((p,pi)=>{
+      s+='<circle class="sp" data-m="'+m.id+'" data-p="'+pi+'" cx="'+x(p.x)+'" cy="'+y(p.y)+'" r="4.5" style="fill:var(--blue);stroke:var(--paper)" fill-opacity="0.85" stroke-width="1.5"/>';
+    });
+    s+='</g>';
+  });
+  s+='</svg>'; el.innerHTML=s;
+  hookTips(el,".sp",c=>{const p=COND[c.dataset.m].pos[+c.dataset.p];
+    return "<b>"+p.a+" × "+p.b+"</b><br>measured +"+p.x.toFixed(2)+" · implied "+(p.y>=0?"+":"")+p.y.toFixed(2);});
+})();
+
+(function controls(){
+  const W=880,H=200,P={l:96,r:16,t:12,b:34},XMAX=0.5;
+  const x=v=>P.l+Math.min(v,XMAX)/XMAX*(W-P.l-P.r);
+  let s='<svg viewBox="0 0 '+W+' '+H+'">';
+  for(const t of [0,0.1,0.2,0.3,0.4,0.5]){
+    s+='<line class="axis" x1="'+x(t)+'" x2="'+x(t)+'" y1="'+P.t+'" y2="'+(H-P.b)+'" stroke-width="1"/>'
+     +'<text x="'+x(t)+'" y="'+(H-P.b+16)+'" text-anchor="middle">'+t+'</text>';
+  }
+  s+='<rect x="'+x(0)+'" y="'+P.t+'" width="'+(x(0.10)-x(0))+'" height="'+(H-P.b-P.t)+'" style="fill:var(--grid)" fill-opacity="0.75"/>';
+  s+='<text x="'+(x(0.10)+6)+'" y="'+(H-P.b-4)+'">&#8592; measurement resolution</text>';
+  s+='<line x1="'+x(0.075)+'" x2="'+x(0.075)+'" y1="'+P.t+'" y2="'+(H-P.b)+'" style="stroke:var(--ink2)" stroke-width="1" stroke-dasharray="5 4"/>'
+   +'<text x="'+(x(0.075)+5)+'" y="'+(P.t+9)+'">bar 0.075</text>';
+  MODELS.forEach((m,i)=>{
+    const d=COND[m.id], y=P.t+22+i*36;
+    s+='<text class="lbl" x="'+(P.l-10)+'" y="'+(y+4)+'" text-anchor="end">'+m.label+'</text>';
+    s+='<line x1="'+x(d.ctrl_med)+'" x2="'+x(d.ctrl_med)+'" y1="'+(y-9)+'" y2="'+(y+9)+'" style="stroke:var(--ink)" stroke-width="2"/>';
+    d.ctrl.forEach((c,ci)=>{
+      const jy=y+((ci%3)-1)*5;
+      s+='<circle class="sc" data-m="'+m.id+'" data-p="'+ci+'" cx="'+x(c.d)+'" cy="'+jy+'" r="4.5" style="fill:var(--orange);stroke:var(--paper)" fill-opacity="0.85" stroke-width="1.5"/>';
+    });
+  });
+  s+='<text x="'+((P.l+W-P.r)/2)+'" y="'+(H-4)+'" text-anchor="middle">conditional shift |P(B|A) − P(B|¬A)| &#8594;</text></svg>';
+  const el=document.getElementById("ctrl"); el.innerHTML=s;
+  hookTips(el,".sc",c=>{const p=COND[c.dataset.m].ctrl[+c.dataset.p];
+    return "<b>"+p.a+" × "+p.b+"</b><br>shift "+p.d.toFixed(3);});
+})();
+
+(function hero(){
+  const W=560,H=520,P={l:52,r:16,t:14,b:40};
+  const x=v=>P.l+(v-136)/(170-136)*(W-P.l-P.r), y=v=>H-P.b-(Math.max(v,0.5)-0.5)/0.5*(H-P.t-P.b);
+  const dodge=[[0,-16,"middle"],[0,-16,"middle"],[-14,14,"end"],[14,-4,"start"]];
+  let s='<svg viewBox="0 0 '+W+' '+H+'">';
+  for(const t of [0.5,0.6,0.7,0.8,0.9,1]){
+    s+='<line class="axis" x1="'+P.l+'" x2="'+(W-P.r)+'" y1="'+y(t)+'" y2="'+y(t)+'" stroke-width="1"/>'
+     +'<text x="'+(P.l-8)+'" y="'+(y(t)+4)+'" text-anchor="end">'+t.toFixed(1)+'</text>';
+  }
+  for(const t of [140,145,150,155,160,165,170]){ s+='<text x="'+x(t)+'" y="'+(H-P.b+18)+'" text-anchor="middle">'+t+'</text>'; }
+  s+='<text x="'+((P.l+W-P.r)/2)+'" y="'+(H-6)+'" text-anchor="middle">Epoch Capabilities Index (ECI) &#8594;</text>';
+  s+='<rect x="'+P.l+'" y="'+y(0.98)+'" width="'+(W-P.l-P.r)+'" height="'+(y(0.89)-y(0.98))+'" style="fill:var(--blue)" fill-opacity="0.08"/>';
+  s+='<line x1="'+P.l+'" x2="'+(W-P.r)+'" y1="'+y(0.94)+'" y2="'+y(0.94)+'" style="stroke:var(--ink2)" stroke-width="1" stroke-dasharray="5 4"/>';
+  s+='<text x="'+(P.l+6)+'" y="'+(y(0.94)+14)+'">noise ceiling 0.94 [0.89&#8211;0.98]</text>';
+  MODELS.forEach((m,i)=>{
+    const cx=x(m.eci), cy=y(m.rho);
+    s+='<line x1="'+x(m.lo)+'" x2="'+x(m.hi)+'" y1="'+cy+'" y2="'+cy+'" style="stroke:var(--blue)" stroke-width="1.5" opacity="0.35"/>';
+    s+='<circle class="hp" data-i="'+i+'" cx="'+cx+'" cy="'+cy+'" r="6" style="fill:var(--blue);stroke:var(--paper)" stroke-width="2"/>';
+    const d=dodge[i];
+    s+='<text class="lbl" x="'+(cx+d[0])+'" y="'+(cy+d[1])+'" text-anchor="'+d[2]+'">'+m.label+'</text>';
+  });
+  s+='</svg>';
+  const el=document.getElementById("hero"); el.innerHTML=s;
+  hookTips(el,".hp",c=>{const m=MODELS[+c.dataset.i];
+    return "<b>"+m.label+"</b><br>ECI "+m.eci+" ["+m.lo+"–"+m.hi+"]<br>rank ρ = +"+m.rho.toFixed(2);});
+})();
+</script>

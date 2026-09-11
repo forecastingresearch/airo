@@ -1,0 +1,105 @@
+{
+  "label": "Fable 5.1",
+  "model": "anthropic/claude-fable-5-1",
+  "passed": true,
+  "checks": [
+    {
+      "id": "ai_upgrade",
+      "expected": false,
+      "actual": false,
+      "passed": true
+    },
+    {
+      "id": "new_operation",
+      "expected": true,
+      "actual": true,
+      "passed": true
+    },
+    {
+      "id": "delayed_encryption",
+      "expected": false,
+      "actual": false,
+      "passed": true
+    },
+    {
+      "id": "new_report",
+      "expected": false,
+      "actual": false,
+      "passed": true
+    },
+    {
+      "id": "worm_spread",
+      "expected": false,
+      "actual": false,
+      "passed": true
+    },
+    {
+      "id": "development_only",
+      "expected": true,
+      "actual": true,
+      "passed": true
+    },
+    {
+      "id": "post_deadline_harm",
+      "expected": true,
+      "actual": true,
+      "passed": true
+    },
+    {
+      "id": "later_elicitation",
+      "expected": false,
+      "actual": false,
+      "passed": true
+    }
+  ],
+  "answer": {
+    "cases": [
+      {
+        "id": "ai_upgrade",
+        "eligible": false,
+        "reason": "Onset is August 1, 2026 (first malicious action), which precedes the interval start of September 10, 2026. Adding AI to an ongoing operation does not create a new campaign, and first use of AI does not reset the earlier onset. The increased harm after September 12 is a later harm of a pre-interval incident and is excluded."
+      },
+      {
+        "id": "new_operation",
+        "eligible": true,
+        "reason": "This is a distinct, operationally separate campaign whose first malicious action against a target is September 12, 2026, inside the interval. Sharing an actor with earlier campaigns does not merge separate operations, so the earlier campaigns' onsets do not attach to it. Harm counts within three years of the September 12, 2026 onset."
+      },
+      {
+        "id": "delayed_encryption",
+        "eligible": false,
+        "reason": "Onset is the first intrusion on August 1, 2026, before the interval start. Later encryption within the same campaign does not reset onset, so the September 12 encryption is a later harm of a pre-interval incident and is excluded."
+      },
+      {
+        "id": "new_report",
+        "eligible": false,
+        "reason": "Onset is in August 2026, before the interval start. Discovery and new reporting do not reset or establish onset; the September 12 report date is irrelevant to eligibility. Excluded."
+      },
+      {
+        "id": "worm_spread",
+        "eligible": false,
+        "reason": "Onset is September 9, 2026, one day before the inclusive interval start of September 10, 2026. Continued propagation to additional victims on September 12 is the same campaign; adding victims does not create a new campaign or new onset. Excluded, including the later victims' harms."
+      },
+      {
+        "id": "development_only",
+        "eligible": true,
+        "reason": "Planning and tool development in August do not establish onset. The campaign's first malicious action against a target is September 12, 2026, which falls within the interval. Eligible, with harm counted through three years after that onset."
+      },
+      {
+        "id": "post_deadline_harm",
+        "eligible": true,
+        "reason": "Onset is December 30, 2030, within the interval (which ends December 31, 2030 inclusive). The horizon is an onset deadline, not a harm deadline; losses in January 2031 fall within the incident's three-year harm window (through roughly December 30, 2033) and count toward it."
+      },
+      {
+        "id": "later_elicitation",
+        "eligible": false,
+        "reason": "With elicitation on January 10, 2027, the new counting interval runs January 10, 2027 through December 31, 2030. Each elicitation starts a fresh interval with no permanent baseline. The campaign's onset (September 12, 2026) precedes this interval, so it and its ongoing harms are excluded from this elicitation's forecast, even though it would have qualified under the earlier September 10, 2026 elicitation."
+      }
+    ]
+  },
+  "usage": {
+    "turns": 1,
+    "cost_usd": 0.12447,
+    "input_tokens": 2052,
+    "output_tokens": 2079
+  }
+}

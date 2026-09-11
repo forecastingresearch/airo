@@ -1,0 +1,105 @@
+{
+  "label": "GPT-6 Astra",
+  "model": "openai/responses/gpt-6-astra",
+  "passed": true,
+  "checks": [
+    {
+      "id": "ai_upgrade",
+      "expected": false,
+      "actual": false,
+      "passed": true
+    },
+    {
+      "id": "new_operation",
+      "expected": true,
+      "actual": true,
+      "passed": true
+    },
+    {
+      "id": "delayed_encryption",
+      "expected": false,
+      "actual": false,
+      "passed": true
+    },
+    {
+      "id": "new_report",
+      "expected": false,
+      "actual": false,
+      "passed": true
+    },
+    {
+      "id": "worm_spread",
+      "expected": false,
+      "actual": false,
+      "passed": true
+    },
+    {
+      "id": "development_only",
+      "expected": true,
+      "actual": true,
+      "passed": true
+    },
+    {
+      "id": "post_deadline_harm",
+      "expected": true,
+      "actual": true,
+      "passed": true
+    },
+    {
+      "id": "later_elicitation",
+      "expected": false,
+      "actual": false,
+      "passed": true
+    }
+  ],
+  "answer": {
+    "cases": [
+      {
+        "id": "ai_upgrade",
+        "eligible": false,
+        "reason": "The same campaign began August 1, 2026, before September 10 elicitation. Adding AI does not reset onset; its later harms are excluded."
+      },
+      {
+        "id": "new_operation",
+        "eligible": true,
+        "reason": "This operationally distinct campaign began with a malicious action on September 12, 2026, within the onset interval. The shared actor does not merge it with earlier campaigns; attributable harms within its first three years count."
+      },
+      {
+        "id": "delayed_encryption",
+        "eligible": false,
+        "reason": "The first intrusion establishes August 1, 2026 onset, before the interval. Later encryption in the same campaign does not reset onset, and later harms are excluded."
+      },
+      {
+        "id": "new_report",
+        "eligible": false,
+        "reason": "The campaign began in August 2026, before the interval. September reporting does not establish a new onset; its harms are excluded."
+      },
+      {
+        "id": "worm_spread",
+        "eligible": false,
+        "reason": "The campaign began September 9, 2026, before the interval. Continued propagation to additional victims does not create a new campaign or reset onset; later harms are excluded."
+      },
+      {
+        "id": "development_only",
+        "eligible": true,
+        "reason": "Planning and code development without action against targets do not establish onset. The distinct campaign's first malicious action on September 12, 2026 is within the interval; attributable harms within its first three years count."
+      },
+      {
+        "id": "post_deadline_harm",
+        "eligible": true,
+        "reason": "December 30, 2030 onset is within the interval ending December 31, 2030. January 2031 losses count because they fall within the campaign's first three years; the forecast deadline limits onset, not harm."
+      },
+      {
+        "id": "later_elicitation",
+        "eligible": false,
+        "reason": "This elicitation starts a new interval on January 10, 2027. The September 12, 2026 onset predates it; ongoing activity does not reset onset, and later harms are excluded."
+      }
+    ]
+  },
+  "usage": {
+    "turns": 1,
+    "cost_usd": 0.034892,
+    "input_tokens": 1088,
+    "output_tokens": 426
+  }
+}

@@ -1,0 +1,39 @@
+{
+  "target": "index.html",
+  "blobs": [
+    "GRAPH4",
+    "TIMELINE",
+    "GRAPH1",
+    "GRAPH2",
+    "DATABANK",
+    "GRAPH3",
+    "CONDITIONAL",
+    "CAPABILITY",
+    "AXES",
+    "OBSERVATIONAL",
+    "CAUSAL",
+    "METHOD"
+  ],
+  "chunks": [
+    "00-head.html",
+    "01-shell-open.html",
+    "10-mock-graph1.jsx",
+    "15-graph3-graph4-mock.jsx",
+    "19-live-timeline.jsx",
+    "20-live-graph1.jsx",
+    "30-live-graph2.jsx",
+    "40-graph3-graph4-charts.jsx",
+    "45-conditional-benches.jsx",
+    "50-live-databank.jsx",
+    "60-atoms.jsx",
+    "../shared/responsive.jsx",
+    "../shared/question-rail.jsx",
+    "70-modal.jsx",
+    "75-conditional.jsx",
+    "77-capability.jsx",
+    "78-axes.jsx",
+    "79-faq.jsx",
+    "80-app.jsx",
+    "90-shell-close.html"
+  ]
+}

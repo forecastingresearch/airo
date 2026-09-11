@@ -1,0 +1,672 @@
+{
+  "title": "Starter question set — Automated Catastrophic Risk Forecasting dashboard",
+  "provenance": {
+    "source": "XPT (Existential Risk Persuasion Tournament, FRI 2022)",
+    "repo": "https://github.com/forecastingresearch/xpt-lib @ 251acb5254448c9bdb4caa4b5011481c2c149aef",
+    "license": "MIT (c) 2023 Forecasting Research Institute",
+    "via": "xrisk-canaries data/xpt_seed_all.json (parsed from vendored questions/xpt/*.csv)",
+    "resolution_criteria": "XPT report Appendix 6: https://forecastingresearch.org/s/XPT.pdf",
+    "xpt_panel": "Per-horizon medians recomputed from the upstream individual panel data/forecasts_anon.csv (18 MB, 136,394 forecasts) @ 251acb5254448c9bdb4caa4b5011481c2c149aef, sha256 fbdab7cd0df0879ab82301dee0bbe48c76b7a26fb69eb7891777f19b81e7d9e6; not vendored in xrisk-canaries. Method is xrisk-canaries forecast/xpt_seed.py::compute_gaps, generalized from the longest horizon to every elicited horizon: median of each group's isCurrent own-belief rows. Cross-check: at each question's gap_year the recomputed super/expert/n_super/n_expert reproduce the values already in this file exactly (13/13, no mismatches)."
+  },
+  "notes": {
+    "primary_horizon": "2030 (re-forecast on a recurring schedule; the series over run-dates is Graph 1)",
+    "human_baselines": "super/expert fields are XPT 2022 medians (percent, or expected event counts for quantity questions) — reference lines for Graph 1; the September 2026 superforecaster round supersedes them",
+    "known_gap": "XPT has no cyber question; the cyber bottom-line (very large damages threshold, e.g. grid-down/$4T scale) must come from Ezra's 30-page questions document",
+    "severity_ladder": "Nested chains for Graph 2 (P(broader) must be >= P(narrower)): AI #3>#4; Nuclear #31>#5>#6; Total #9>#10; state bio #16>#18; non-state bio #15>#17. Chains are nested only WITHIN a cause class — do not splice bioweapon and pathogen questions into one monotone ladder.",
+    "xpt_horizons": "\"xpt\" holds the XPT 2022 group medians at EVERY elicited horizon (2024/2030/2050/2100 as applicable); the flat super/expert/gap_year fields are unchanged and still hold the gap_year (longest-horizon) values. Units follow value_kind: probability questions are percent, quantity questions are expected event counts (not plotted on Graph 1). Panel sizes n_super/n_expert are identical across a question's horizons — every respondent forecast all of them — so they are not repeated per year."
+  },
+  "questions": [
+    {
+      "id": "9. Total Catastrophic Risk",
+      "category": "broad",
+      "short": "Total catastrophic risk",
+      "text": "What is the overall probability of a global catastrophe where more than 10% of humans alive at the start of a 5-year period die by the end of that period by the end of 2030/2050/2100?",
+      "horizons": [
+        "2030",
+        "2050",
+        "2100"
+      ],
+      "super": 9.09,
+      "expert": 20.85,
+      "gap": 11.76,
+      "rel_gap": 78.6,
+      "gap_year": "2100",
+      "n_super": 87,
+      "n_expert": 69,
+      "value_kind": "probability",
+      "unit": "Probability",
+      "why": "headline dashboard number: P(>10% of humans die in a 5y period)",
+      "xpt": {
+        "2030": {
+          "super": 0.85,
+          "expert": 2.7
+        },
+        "2050": {
+          "super": 3.85,
+          "expert": 10.0
+        },
+        "2100": {
+          "super": 9.09,
+          "expert": 20.85
+        }
+      },
+      "xpt_source": "xpt-lib@251acb52 data/forecasts_anon.csv · setName \"9. Total Catastrophic Risk\" · multiYearReciprocal: answerText \"Probability\", questionName \"<year> (Your Beliefs)\", isCurrent=TRUE · group median. Question text + resolution: XPT report Appendix 6, https://forecastingresearch.org/s/XPT.pdf"
+    },
+    {
+      "id": "3. AI Catastrophic Risk",
+      "category": "AI",
+      "short": "AI catastrophic risk",
+      "text": "What is the probability that artificial intelligence will be the cause of death, within a 5-year period, for more than 10% of humans alive at the beginning of that period by the end of 2030/2050/2100?\n\nArtificial intelligence is defined here as ‘the development of machines capable of sophisticated (intelligent) information processing (Dafoe 2018, AI Governance: A Research Agenda; See pg 5 footnote 2 for more.)\nWe use the term “be the cause of death” to cover cases where AI is the direct or proximate cause of the deaths. For example, if a terminator-style robot powered by AI kills 10% of all humans alive at the time within a 5-year period, that will count for this question. Alternatively, if AI, operating without direct human intervention, causes the launch of nuclear weapons that kill 10% of all humans alive at the time, that will also count for the purposes of this question. And if that same incident does not kill 10% of all humans, but the subsequent nuclear winter does, that will also count for the purposes of this question.\nIf reasonable people disagree about whether this event has occurred, this question will be resolved via a panel of experts.",
+      "horizons": [
+        "2030",
+        "2050",
+        "2100"
+      ],
+      "super": 2.125,
+      "expert": 10.0,
+      "gap": 7.875,
+      "rel_gap": 129.9,
+      "gap_year": "2100",
+      "n_super": 88,
+      "n_expert": 75,
+      "value_kind": "probability",
+      "unit": "Probability",
+      "why": "AI bottom line: P(AI causes death of >10% of humans in a 5y period)",
+      "xpt": {
+        "2030": {
+          "super": 0.01,
+          "expert": 0.23
+        },
+        "2050": {
+          "super": 0.725,
+          "expert": 3.0
+        },
+        "2100": {
+          "super": 2.125,
+          "expert": 10.0
+        }
+      },
+      "xpt_source": "xpt-lib@251acb52 data/forecasts_anon.csv · setName \"3. AI Catastrophic Risk\" · multiYearReciprocal: answerText \"Probability\", questionName \"<year> (Your Beliefs)\", isCurrent=TRUE · group median. Question text + resolution: XPT report Appendix 6, https://forecastingresearch.org/s/XPT.pdf"
+    },
+    {
+      "id": "4. AI Extinction Risk",
+      "category": "AI",
+      "short": "AI extinction risk",
+      "text": "What is the probability that artificial intelligence will cause human extinction or reduce the global population below 5,000 by the end of 2030/2050/2100?\n\nArtificial intelligence is defined here as ‘the development of machines capable of sophisticated (intelligent) information processing (Dafoe 2018, AI Governance: A Research Agenda; See pg 5 footnote 2 for more.)\nAI would be considered to have \"caused\" extinction if it is the direct or proximate cause of the deaths. For example, if a terminator-style robot powered by AI kills all humans, that will count for this question. Alternatively, if AI, operating without direct human intervention, causes the launch of nuclear weapons that kill all humans, that will also count for the purposes of this question. And if that same incident does not kill all humans, but the subsequent nuclear winter does, that will also count for the purposes of this question.\nIf an extinction event (global population is reduced below 5,000) is caused by multiple sources including AI, it will count as an extinction event caused by AI.",
+      "horizons": [
+        "2030",
+        "2050",
+        "2100"
+      ],
+      "super": 0.375,
+      "expert": 3.0,
+      "gap": 2.625,
+      "rel_gap": 155.6,
+      "gap_year": "2100",
+      "n_super": 88,
+      "n_expert": 75,
+      "value_kind": "probability",
+      "unit": "Probability",
+      "why": "AI extinction: P(AI causes extinction or population <5,000)",
+      "xpt": {
+        "2030": {
+          "super": 0.0,
+          "expert": 0.02
+        },
+        "2050": {
+          "super": 0.03,
+          "expert": 1.0
+        },
+        "2100": {
+          "super": 0.375,
+          "expert": 3.0
+        }
+      },
+      "xpt_source": "xpt-lib@251acb52 data/forecasts_anon.csv · setName \"4. AI Extinction Risk\" · multiYearReciprocal: answerText \"Probability\", questionName \"<year> (Your Beliefs)\", isCurrent=TRUE · group median. Question text + resolution: XPT report Appendix 6, https://forecastingresearch.org/s/XPT.pdf"
+    },
+    {
+      "id": "1. Genetically Engineered Pathogen Risk",
+      "category": "Biorisk",
+      "short": "GE pathogen (>1% dead)",
+      "text": "What is the probability that a genetically-engineered pathogen will be the cause of death, within a 5-year period, for more than 1% of humans alive at the beginning of that period by the end of 2030/2050/2100?\n\nA pathogen is any microorganism (bacteria, viruses, etc.) that can cause diseases.\nFor the purposes of this question, an engineered pathogen is one produced via genetic modification or manipulation by humans. This may include the laboratory modification of pathogens that have previously been found in nature.\nIn order to resolve positively, the relevant 5-year period must end before the resolution date.\nIf reasonable people disagree about whether this event has occurred, this question will be resolved via a panel of experts.",
+      "horizons": [
+        "2030",
+        "2050",
+        "2100"
+      ],
+      "super": 4.0,
+      "expert": 10.5,
+      "gap": 6.5,
+      "rel_gap": 89.7,
+      "gap_year": "2100",
+      "n_super": 89,
+      "n_expert": 77,
+      "value_kind": "probability",
+      "unit": "Probability",
+      "why": "bio bottom line: P(GE pathogen kills >1% of humans in a 5y period)",
+      "xpt": {
+        "2030": {
+          "super": 0.25,
+          "expert": 1.0
+        },
+        "2050": {
+          "super": 1.5,
+          "expert": 5.0
+        },
+        "2100": {
+          "super": 4.0,
+          "expert": 10.5
+        }
+      },
+      "xpt_source": "xpt-lib@251acb52 data/forecasts_anon.csv · setName \"1. Genetically Engineered Pathogen Risk\" · multiYearReciprocal: answerText \"Probability\", questionName \"<year> (Your Beliefs)\", isCurrent=TRUE · group median. Question text + resolution: XPT report Appendix 6, https://forecastingresearch.org/s/XPT.pdf"
+    },
+    {
+      "id": "2. Non-Genetically Engineered Pathogen Risk",
+      "category": "Biorisk",
+      "short": "Natural pathogen (>1% dead)",
+      "text": "What is the probability that a non-genetically-engineered pathogen will be the cause of death, within a 5-year period, for more than 1% of humans alive at the beginning of that period by the end of 2030/2050/2100?\n\nA pathogen is any microorganism (bacteria, viruses, etc…) that can cause diseases.\nA naturally arising pathogen is any pathogen that was not produced via genetic modification or manipulation by humans. If there is a lab escape of a naturally arising pathogen that has not been genetically modified or manipulated (e.g. smallpox), this would count as a \"naturally arising pathogen\" for the purposes of this question. \nIn order to resolve positively, the relevant 5-year period must end before the resolution date.\nIf reasonable people disagree about whether this event has occurred, this question will be resolved via a panel of experts.",
+      "horizons": [
+        "2030",
+        "2050",
+        "2100"
+      ],
+      "super": 3.625,
+      "expert": 8.0,
+      "gap": 4.375,
+      "rel_gap": 75.3,
+      "gap_year": "2100",
+      "n_super": 88,
+      "n_expert": 76,
+      "value_kind": "probability",
+      "unit": "Probability",
+      "why": "natural-pathogen control: baseline pair for #1 (GE-vs-natural spread isolates the engineered component)",
+      "xpt": {
+        "2030": {
+          "super": 0.5,
+          "expert": 1.292
+        },
+        "2050": {
+          "super": 1.69,
+          "expert": 3.725
+        },
+        "2100": {
+          "super": 3.625,
+          "expert": 8.0
+        }
+      },
+      "xpt_source": "xpt-lib@251acb52 data/forecasts_anon.csv · setName \"2. Non-Genetically Engineered Pathogen Risk\" · multiYearReciprocal: answerText \"Probability\", questionName \"<year> (Your Beliefs)\", isCurrent=TRUE · group median. Question text + resolution: XPT report Appendix 6, https://forecastingresearch.org/s/XPT.pdf"
+    },
+    {
+      "id": "18. State Actor Bioweapon 100k Deaths",
+      "category": "Biorisk",
+      "short": "State bioweapon (≥100k)",
+      "text": "How many times will a state actor use biological weapons that involve a contagious agent be the cause of death for at least 100,000 people by the end of 2024/2030/2050?\n\n\"Contagious\" refers to biological agents that would spread person-to-person, as distinct from non-contagious biological agents such as anthrax.\n\"A biological agent…is a bacterium, virus, protozoan, parasite, fungus, chemical, or toxin that can be used purposefully as a weapon in bioterrorism or biological warfare.\" Wikipedia (https://en.wikipedia.org/wiki/Biological_agent)\nA state actor is any individual, group of individuals, or organization directly affiliated with a state government recognized by the United Nations or by at least one member state of the United Nations.\nA biological weapon, per Article I(1) of the Biological Weapons Convention, is defined as “microbial or other biological agents, or toxins [...] of types and in quantities that have no justification for prophylactic, protective or otherwise peaceful purposes.”\nThe use of a biological weapon, per Article I(2) of the Biological Weapons Convention, is defined as the malicious use of microbial or other biological agents/toxins (see Article I(1)), especially in the context of “armed conflict.”\nIf not clearly resolvable via credible news or governmental sources reporting such attacks (e.g. WHO, CDC), this question will be resolved by a panel of experts.",
+      "horizons": [
+        "2024",
+        "2030",
+        "2050"
+      ],
+      "super": 0.15,
+      "expert": 0.0,
+      "gap": -0.15,
+      "rel_gap": 200.0,
+      "gap_year": "2050",
+      "n_super": 35,
+      "n_expert": 20,
+      "value_kind": "quantity",
+      "unit": "Number of Events",
+      "why": "bio severity ladder: state-actor contagious bioweapon, >=100k deaths",
+      "xpt": {
+        "2024": {
+          "super": 0.0,
+          "expert": 0.0
+        },
+        "2030": {
+          "super": 0.002,
+          "expert": 0.0
+        },
+        "2050": {
+          "super": 0.15,
+          "expert": 0.0
+        }
+      },
+      "xpt_source": "xpt-lib@251acb52 data/forecasts_anon.csv · setName \"18. State Actor Bioweapon 100k Deaths\" · multiYearDistrib: answerText \"50th %\", questionName \"<year>\", isCurrent=TRUE · group median. Question text + resolution: XPT report Appendix 6, https://forecastingresearch.org/s/XPT.pdf",
+      "xpt_exceedance": {
+        "threshold": 1.0,
+        "unit": "probability that at least 1 event occurs by the horizon",
+        "2024": {
+          "super": {
+            "p": 0.05,
+            "censored": "upper",
+            "n": 35,
+            "n_bounded": 34
+          },
+          "expert": {
+            "p": 0.05,
+            "censored": "upper",
+            "n": 20,
+            "n_bounded": 20
+          }
+        },
+        "2030": {
+          "super": {
+            "p": 0.05,
+            "censored": "upper",
+            "n": 35,
+            "n_bounded": 32
+          },
+          "expert": {
+            "p": 0.05,
+            "censored": "upper",
+            "n": 20,
+            "n_bounded": 19
+          }
+        },
+        "2050": {
+          "super": {
+            "p": 0.05,
+            "censored": "upper",
+            "n": 35,
+            "n_bounded": 19
+          },
+          "expert": {
+            "p": 0.0917,
+            "censored": null,
+            "n": 20,
+            "n_bounded": 11
+          }
+        },
+        "source": "xpt-lib@251acb5254448c9bdb4caa4b5011481c2c149aef data/forecasts_anon.csv (sha256 fbdab7cd0df0879ab82301dee0bbe48c76b7a26fb69eb7891777f19b81e7d9e6) - setName '18. State Actor Bioweapon 100k Deaths', multiYearDistrib: answerText \"5th %\"..\"95th %\", questionName \"<year>\", isCurrent=TRUE. Per forecaster P(N >= 1) by linear interpolation of the elicited count CDF, then the group median; see redlines/xpt.py for the method and its censoring rule. Regenerate with code/xpt_build_exceedance.py --fetch --write."
+      }
+    },
+    {
+      "id": "17. Non-State Actor Bioweapon 100k Deaths",
+      "category": "Biorisk",
+      "short": "Non-state bioweapon (≥100k)",
+      "text": "How many times will a non-state actor use biological weapons that involve a contagious agent to kill at least 100,000 people by the end of 2024/2030/2050?\n\n\"Contagious\" refers to biological agents that would spread person-to-person, as distinct from non-contagious biological agents such as anthrax.\n\"A biological agent…is a bacterium, virus, protozoan, parasite, fungus, chemical, or toxin that can be used purposefully as a weapon in bioterrorism or biological warfare.\" Wikipedia (https://en.wikipedia.org/wiki/Biological_agent)\nA non-state actor is any individual, group of individuals, or organization not directly officially affiliated with any state government recognized by the United Nations or by at least one member state of the United Nations.\nA biological weapon, per Article I(1) of the Biological Weapons Convention (https://treaties.unoda.org/t/bwc), is defined as “microbial or other biological agents, or toxins [...] of types and in quantities that have no justification for prophylactic, protective or otherwise peaceful purposes.”\nIf not clearly resolvable via credible news or governmental sources reporting such attacks (e.g. WHO, CDC), this question will be resolved by a panel of experts.",
+      "horizons": [
+        "2024",
+        "2030",
+        "2050"
+      ],
+      "super": 0.037,
+      "expert": 0.001,
+      "gap": -0.036,
+      "rel_gap": 189.6,
+      "gap_year": "2050",
+      "n_super": 33,
+      "n_expert": 21,
+      "value_kind": "quantity",
+      "unit": "Number of Events",
+      "why": "bio severity ladder: non-state actor contagious bioweapon, >=100k deaths",
+      "xpt": {
+        "2024": {
+          "super": 0.0,
+          "expert": 0.0
+        },
+        "2030": {
+          "super": 0.001,
+          "expert": 0.0
+        },
+        "2050": {
+          "super": 0.037,
+          "expert": 0.001
+        }
+      },
+      "xpt_source": "xpt-lib@251acb52 data/forecasts_anon.csv · setName \"17. Non-State Actor Bioweapon 100k Deaths\" · multiYearDistrib: answerText \"50th %\", questionName \"<year>\", isCurrent=TRUE · group median. Question text + resolution: XPT report Appendix 6, https://forecastingresearch.org/s/XPT.pdf",
+      "xpt_exceedance": {
+        "threshold": 1.0,
+        "unit": "probability that at least 1 event occurs by the horizon",
+        "2024": {
+          "super": {
+            "p": 0.05,
+            "censored": "upper",
+            "n": 33,
+            "n_bounded": 33
+          },
+          "expert": {
+            "p": 0.05,
+            "censored": "upper",
+            "n": 21,
+            "n_bounded": 20
+          }
+        },
+        "2030": {
+          "super": {
+            "p": 0.05,
+            "censored": "upper",
+            "n": 33,
+            "n_bounded": 29
+          },
+          "expert": {
+            "p": 0.05,
+            "censored": "upper",
+            "n": 21,
+            "n_bounded": 18
+          }
+        },
+        "2050": {
+          "super": {
+            "p": 0.05,
+            "censored": "upper",
+            "n": 33,
+            "n_bounded": 21
+          },
+          "expert": {
+            "p": 0.05,
+            "censored": "upper",
+            "n": 21,
+            "n_bounded": 13
+          }
+        },
+        "source": "xpt-lib@251acb5254448c9bdb4caa4b5011481c2c149aef data/forecasts_anon.csv (sha256 fbdab7cd0df0879ab82301dee0bbe48c76b7a26fb69eb7891777f19b81e7d9e6) - setName '17. Non-State Actor Bioweapon 100k Deaths', multiYearDistrib: answerText \"5th %\"..\"95th %\", questionName \"<year>\", isCurrent=TRUE. Per forecaster P(N >= 1) by linear interpolation of the elicited count CDF, then the group median; see redlines/xpt.py for the method and its censoring rule. Regenerate with code/xpt_build_exceedance.py --fetch --write."
+      }
+    },
+    {
+      "id": "5. Nuclear Catastrophic Risk",
+      "category": "Nuclear",
+      "short": "Nuclear catastrophic risk",
+      "text": "What is the probability that one or more incidents involving nuclear weapons will be the cause of death, within a 5-year period, for more than 10% of humans alive at the beginning of that period by the end of 2030/2050/2100?\n\nWe use the term “be the cause of death of” to cover cases where nuclear weapons are the direct or proximate cause of the deaths. For example, if a country launches nuclear weapons that directly cause the death of 10% of all humans alive at the time within a 5-year period, that will count for this question. And if that same incident does not cause the death of 10% of all humans, but the subsequent nuclear winter does, that will also count for the purposes of this question.\nIf reasonable people disagree about whether this event has occurred, this question will be resolved via a panel of experts.",
+      "horizons": [
+        "2030",
+        "2050",
+        "2100"
+      ],
+      "super": 4.0,
+      "expert": 8.0,
+      "gap": 4.0,
+      "rel_gap": 66.7,
+      "gap_year": "2100",
+      "n_super": 88,
+      "n_expert": 74,
+      "value_kind": "probability",
+      "unit": "Probability",
+      "why": "nuclear bottom line: P(nuclear incidents kill >10% of humans in a 5y period)",
+      "xpt": {
+        "2030": {
+          "super": 0.5,
+          "expert": 1.114
+        },
+        "2050": {
+          "super": 1.825,
+          "expert": 4.0
+        },
+        "2100": {
+          "super": 4.0,
+          "expert": 8.0
+        }
+      },
+      "xpt_source": "xpt-lib@251acb52 data/forecasts_anon.csv · setName \"5. Nuclear Catastrophic Risk\" · multiYearReciprocal: answerText \"Probability\", questionName \"<year> (Your Beliefs)\", isCurrent=TRUE · group median. Question text + resolution: XPT report Appendix 6, https://forecastingresearch.org/s/XPT.pdf"
+    },
+    {
+      "id": "31. Nuclear Weapon Use",
+      "category": "Nuclear",
+      "short": "Nuclear use (≥1k deaths)",
+      "text": "What is the probability that the use of a nuclear weapon (in a single event) will cause the death of more than 1,000 people by the end of 2024/2030?\n\nDeaths include indirect deaths due to radiation poisoning, but not statistical or excess deaths, where the direct cause of the death is unclear, but there seems to be an increased average probability of death for a specific group.\nBy “use” of a nuclear weapon, we refer specifically to the intentional detonation of one or more nuclear warheads. The nuclear weapons testing, accidental detonations, or the use of radiological devices (e.g. dirty bombs, https://www.cfr.org/backgrounder/dirty-bombs) do not count for resolving this question. \nOther kinds of nuclear explosions or nuclear accidents unrelated to nuclear warheads, such as reactor meltdowns or accidents from nuclear physics experiments, would not resolve this question positively.\nThe testing of nuclear weapons, accidental detonations, or the use of radiological devices do not count for resolving this question (https://www.cfr.org/backgrounder/dirty-bombs).\nIf resolution is ambiguous, this question will be resolved by a panel of experts.",
+      "horizons": [
+        "2024",
+        "2030",
+        ""
+      ],
+      "super": 4.0,
+      "expert": 5.0,
+      "gap": 1.0,
+      "rel_gap": 22.2,
+      "gap_year": "2030",
+      "n_super": 37,
+      "n_expert": 21,
+      "value_kind": "probability",
+      "unit": "Probability",
+      "why": "nearest-term resolvable: P(single nuclear use kills >1,000) by 2030",
+      "xpt": {
+        "2024": {
+          "super": 1.5,
+          "expert": 3.0
+        },
+        "2030": {
+          "super": 4.0,
+          "expert": 5.0
+        }
+      },
+      "xpt_source": "xpt-lib@251acb52 data/forecasts_anon.csv · setName \"31. Nuclear Weapon Use\" · multiYearBinary: answerText \"Probability\", questionName \"<year>\", isCurrent=TRUE · group median. Question text + resolution: XPT report Appendix 6, https://forecastingresearch.org/s/XPT.pdf"
+    },
+    {
+      "id": "10. Total Extinction Risk",
+      "category": "broad",
+      "short": "Total extinction risk",
+      "text": "What is the overall probability of human extinction or a reduction in the global population below 5,000 by the end of 2030/2050/2100?",
+      "horizons": [
+        "2030",
+        "2050",
+        "2100"
+      ],
+      "super": 1.0,
+      "expert": 6.125,
+      "gap": 5.125,
+      "rel_gap": 143.9,
+      "gap_year": "2100",
+      "n_super": 87,
+      "n_expert": 70,
+      "value_kind": "probability",
+      "unit": "Probability",
+      "why": "severity ladder: extinction rung above #9 (total catastrophic)",
+      "xpt": {
+        "2030": {
+          "super": 0.01,
+          "expert": 0.275
+        },
+        "2050": {
+          "super": 0.3,
+          "expert": 2.5
+        },
+        "2100": {
+          "super": 1.0,
+          "expert": 6.125
+        }
+      },
+      "xpt_source": "xpt-lib@251acb52 data/forecasts_anon.csv · setName \"10. Total Extinction Risk\" · multiYearReciprocal: answerText \"Probability\", questionName \"<year> (Your Beliefs)\", isCurrent=TRUE · group median. Question text + resolution: XPT report Appendix 6, https://forecastingresearch.org/s/XPT.pdf"
+    },
+    {
+      "id": "6. Nuclear Extinction Risk",
+      "category": "Nuclear",
+      "short": "Nuclear extinction risk",
+      "text": "What is the probability that one or more incidents involving nuclear weapons will cause human extinction or reduce the global population below 5,000 by the end of 2030/2050/2100?\n\nNuclear weapons would be considered to have caused extinction either if they cause the death of all humans directly (e.g. via mass nuclear strikes) or if they cause the death of all humans via a nuclear winter effect.\nIf an extinction event (global population is reduced below 5,000) is caused by multiple sources including nuclear weapons, it will count as an extinction event caused by nuclear weapons.",
+      "horizons": [
+        "2030",
+        "2050",
+        "2100"
+      ],
+      "super": 0.074,
+      "expert": 0.34,
+      "gap": 0.266,
+      "rel_gap": 128.5,
+      "gap_year": "2100",
+      "n_super": 88,
+      "n_expert": 73,
+      "value_kind": "probability",
+      "unit": "Probability",
+      "why": "severity ladder: extinction rung above #5 (nuclear catastrophic)",
+      "xpt": {
+        "2030": {
+          "super": 0.001,
+          "expert": 0.01
+        },
+        "2050": {
+          "super": 0.01,
+          "expert": 0.1
+        },
+        "2100": {
+          "super": 0.074,
+          "expert": 0.34
+        }
+      },
+      "xpt_source": "xpt-lib@251acb52 data/forecasts_anon.csv · setName \"6. Nuclear Extinction Risk\" · multiYearReciprocal: answerText \"Probability\", questionName \"<year> (Your Beliefs)\", isCurrent=TRUE · group median. Question text + resolution: XPT report Appendix 6, https://forecastingresearch.org/s/XPT.pdf"
+    },
+    {
+      "id": "16. State Actor Bioweapon 1k Deaths",
+      "category": "Biorisk",
+      "short": "State bioweapon (≥1k)",
+      "text": "How many times will a state actor use biological weapons that involve a contagious agent be the cause of death for at least 1,000 people by the end of 2024/2030/2050?\n\n\"Contagious\" refers to biological agents that would spread person-to-person, as distinct from non-contagious biological agents such as anthrax.\n\"A biological agent…is a bacterium, virus, protozoan, parasite, fungus, chemical, or toxin that can be used purposefully as a weapon in bioterrorism or biological warfare.\" Wikipedia (https://en.wikipedia.org/wiki/Biological_agent)\nA state actor is any individual, group of individuals, or organization directly affiliated with a state government recognized by the United Nations or by at least one member state of the United Nations.\nA biological weapon, per Article I(1) of the Biological Weapons Convention, is defined as “microbial or other biological agents, or toxins [...] of types and in quantities that have no justification for prophylactic, protective or otherwise peaceful purposes.”\nThe use of a biological weapon, per Article I(2) of the Biological Weapons Convention, is defined as the malicious use of microbial or other biological agents/toxins (see Article I(1)), especially in the context of “armed conflict.”\nIf not clearly resolvable via credible news or governmental sources reporting such attacks (e.g. WHO, CDC), this question will be resolved by a panel of experts.",
+      "horizons": [
+        "2024",
+        "2030",
+        "2050"
+      ],
+      "super": 1.0,
+      "expert": 0.7,
+      "gap": -0.3,
+      "rel_gap": 35.3,
+      "gap_year": "2050",
+      "n_super": 33,
+      "n_expert": 25,
+      "value_kind": "quantity",
+      "unit": "Number of Events",
+      "why": "severity ladder: 1k rung below #18 (state bioweapon 100k)",
+      "xpt": {
+        "2024": {
+          "super": 0.0,
+          "expert": 0.0
+        },
+        "2030": {
+          "super": 0.024,
+          "expert": 0.0
+        },
+        "2050": {
+          "super": 1.0,
+          "expert": 0.7
+        }
+      },
+      "xpt_source": "xpt-lib@251acb52 data/forecasts_anon.csv · setName \"16. State Actor Bioweapon 1k Deaths\" · multiYearDistrib: answerText \"50th %\", questionName \"<year>\", isCurrent=TRUE · group median. Question text + resolution: XPT report Appendix 6, https://forecastingresearch.org/s/XPT.pdf",
+      "xpt_exceedance": {
+        "threshold": 1.0,
+        "unit": "probability that at least 1 event occurs by the horizon",
+        "2024": {
+          "super": {
+            "p": 0.05,
+            "censored": "upper",
+            "n": 33,
+            "n_bounded": 28
+          },
+          "expert": {
+            "p": 0.05,
+            "censored": "upper",
+            "n": 25,
+            "n_bounded": 18
+          }
+        },
+        "2030": {
+          "super": {
+            "p": 0.05,
+            "censored": "upper",
+            "n": 33,
+            "n_bounded": 21
+          },
+          "expert": {
+            "p": 0.15,
+            "censored": null,
+            "n": 25,
+            "n_bounded": 10
+          }
+        },
+        "2050": {
+          "super": {
+            "p": 0.5,
+            "censored": null,
+            "n": 33,
+            "n_bounded": 13
+          },
+          "expert": {
+            "p": 0.4205,
+            "censored": null,
+            "n": 25,
+            "n_bounded": 5
+          }
+        },
+        "source": "xpt-lib@251acb5254448c9bdb4caa4b5011481c2c149aef data/forecasts_anon.csv (sha256 fbdab7cd0df0879ab82301dee0bbe48c76b7a26fb69eb7891777f19b81e7d9e6) - setName '16. State Actor Bioweapon 1k Deaths', multiYearDistrib: answerText \"5th %\"..\"95th %\", questionName \"<year>\", isCurrent=TRUE. Per forecaster P(N >= 1) by linear interpolation of the elicited count CDF, then the group median; see redlines/xpt.py for the method and its censoring rule. Regenerate with code/xpt_build_exceedance.py --fetch --write."
+      }
+    },
+    {
+      "id": "15. Non-State Actor Bioweapon 1k Deaths",
+      "category": "Biorisk",
+      "short": "Non-state bioweapon (≥1k)",
+      "text": "How many times will a non-state actor using biological weapons that involve a contagious agent be the cause of death for at least 1,000 people by the end of 2024/2030/2050?\n\nA biological weapon is any weapon, equipment, or means of delivery designed to use biological agents for hostile purposes.\n\"A biological agent…is a bacterium, virus, protozoan, parasite, fungus, chemical, or toxin that can be used purposefully as a weapon in bioterrorism or biological warfare.\" Wikipedia (https://en.wikipedia.org/wiki/Biological_agent)\n\"Contagious\" refers to biological agents that would spread person-to-person, as distinct from non-contagious biological agents such as anthrax.\nA non-state actor is any individual, group of individuals, or organization not directly officially affiliated with any state government recognized by the United Nations or by at least one member state of the United Nations.\nIf not clearly resolvable via credible news or governmental sources reporting such attacks (e.g. WHO, CDC), this question will be resolved by a panel of experts.",
+      "horizons": [
+        "2024",
+        "2030",
+        "2050"
+      ],
+      "super": 1.0,
+      "expert": 2.0,
+      "gap": 1.0,
+      "rel_gap": 66.7,
+      "gap_year": "2050",
+      "n_super": 39,
+      "n_expert": 21,
+      "value_kind": "quantity",
+      "unit": "Number of Events",
+      "why": "severity ladder: 1k rung below #17 (non-state bioweapon 100k)",
+      "xpt": {
+        "2024": {
+          "super": 0.0,
+          "expert": 0.0
+        },
+        "2030": {
+          "super": 0.15,
+          "expert": 0.5
+        },
+        "2050": {
+          "super": 1.0,
+          "expert": 2.0
+        }
+      },
+      "xpt_source": "xpt-lib@251acb52 data/forecasts_anon.csv · setName \"15. Non-State Actor Bioweapon 1k Deaths\" · multiYearDistrib: answerText \"50th %\", questionName \"<year>\", isCurrent=TRUE · group median. Question text + resolution: XPT report Appendix 6, https://forecastingresearch.org/s/XPT.pdf",
+      "xpt_exceedance": {
+        "threshold": 1.0,
+        "unit": "probability that at least 1 event occurs by the horizon",
+        "2024": {
+          "super": {
+            "p": 0.05,
+            "censored": "upper",
+            "n": 39,
+            "n_bounded": 30
+          },
+          "expert": {
+            "p": 0.05,
+            "censored": "upper",
+            "n": 21,
+            "n_bounded": 14
+          }
+        },
+        "2030": {
+          "super": {
+            "p": 0.15,
+            "censored": null,
+            "n": 39,
+            "n_bounded": 22
+          },
+          "expert": {
+            "p": 0.25,
+            "censored": null,
+            "n": 21,
+            "n_bounded": 10
+          }
+        },
+        "2050": {
+          "super": {
+            "p": 0.5,
+            "censored": null,
+            "n": 39,
+            "n_bounded": 13
+          },
+          "expert": {
+            "p": 0.75,
+            "censored": null,
+            "n": 21,
+            "n_bounded": 6
+          }
+        },
+        "source": "xpt-lib@251acb5254448c9bdb4caa4b5011481c2c149aef data/forecasts_anon.csv (sha256 fbdab7cd0df0879ab82301dee0bbe48c76b7a26fb69eb7891777f19b81e7d9e6) - setName '15. Non-State Actor Bioweapon 1k Deaths', multiYearDistrib: answerText \"5th %\"..\"95th %\", questionName \"<year>\", isCurrent=TRUE. Per forecaster P(N >= 1) by linear interpolation of the elicited count CDF, then the group median; see redlines/xpt.py for the method and its censoring rule. Regenerate with code/xpt_build_exceedance.py --fetch --write."
+      }
+    }
+  ]
+}

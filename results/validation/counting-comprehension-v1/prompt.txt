@@ -1,0 +1,50 @@
+This is a comprehension test of stipulated AIRO counting rules, not a risk forecast. Do not estimate probabilities or search for real events. All examples stipulate the existing AI-involvement and other non-date eligibility criteria are met. Classify only campaign identity, onset eligibility and the harm window. Unless a case explicitly says otherwise, elicitation is September 10, 2026, and the target is incident onsets through December 31, 2030. Return every case exactly once. Explain each classification briefly.
+
+Cyber definition:
+* A set of malicious cyber operations sharing a common perpetrator (an individual, group, or coordinated set of actors) and a common campaign or method, directed at a target or set of related targets within a bounded, contiguous period.   
+  * Treat a campaign as a distinct, bounded operation, assessed by the continuity of its activity, targets and objectives. Sharing an actor or tools does not by itself merge separate operations. Adding victims, changing tools, adding AI, or receiving a new reporting label does not by itself create a new campaign from an ongoing operation.
+  * Campaign onset is its first malicious action against a target, such as an intrusion or fraudulent solicitation. Planning and tool development alone do not establish onset. Discovery, first reported loss, later encryption, or first use of AI does not reset an earlier onset within the same campaign.
+  * Qualifying AI contributions include (non-exhaustive): discovering or developing exploits or pathogen modifications; generating, adapting, or synthesizing malware or biological agents; conducting or scaling social engineering; autonomously selecting targets, propagating, or dispersing; and planning or orchestrating the operation. Routine, long-standing automation (e.g., conventional vulnerability scanners) does not qualify; the AI contribution must be non-trivial to the event's occurrence or scale.
+
+Shared incident dates:
+* Count only incidents whose onset falls within the specified counting interval, beginning on the elicitation date. All dates refer to UTC calendar dates, inclusive of the stated start and end dates.
+* For six- and twelve-month horizons, the interval ends that many calendar months after the elicitation date. For a fixed-year horizon, it ends on December 31 of the named year. The exact start and end dates are supplied with this forecast. Every later elicitation starts a new counting interval; there is no permanent project-start or calendar-year baseline.
+* Exclude incidents that began before the interval, including their later harms. New reporting, additional losses or later AI involvement does not by itself establish a new incident onset.
+* For each eligible incident, count attributable mortality, equivalent morbidity and economic damages within its first three years after onset, under the severity definitions above. Harm after the interval's end date can count if it falls within that incident's three-year harm window. The horizon is an onset deadline, not a deadline for all harm to occur.
+* These date rules apply to all four incident categories only; the separate large-scale-catastrophe and human-disempowerment questions retain their own date criteria.
+
+Cases:
+[
+  {
+    "id": "ai_upgrade",
+    "facts": "A fraud campaign began August 1, 2026. The same operation adds powerful AI on September 12, greatly increasing harm."
+  },
+  {
+    "id": "new_operation",
+    "facts": "An established group launches a distinct hospital ransomware operation whose first malicious action against a target is September 12, 2026. It is operationally separate from its earlier campaigns."
+  },
+  {
+    "id": "delayed_encryption",
+    "facts": "The campaign's first intrusion was August 1, 2026. Encryption occurs September 12 in the same campaign."
+  },
+  {
+    "id": "new_report",
+    "facts": "A September 12, 2026 report first reveals a campaign that began in August."
+  },
+  {
+    "id": "worm_spread",
+    "facts": "A worm campaign began September 9, 2026. It reaches additional victims September 12 through continued propagation of the same campaign."
+  },
+  {
+    "id": "development_only",
+    "facts": "Code was developed in August, but a distinct campaign's first malicious action against a target is September 12, 2026. Planning and development did not themselves act against targets."
+  },
+  {
+    "id": "post_deadline_harm",
+    "facts": "A qualifying campaign's onset is December 30, 2030. Its first losses occur in January 2031, within its first three years. Assess inclusion in the by-2030 onset forecast."
+  },
+  {
+    "id": "later_elicitation",
+    "facts": "For this case only, elicitation is January 10, 2027. The campaign began September 12, 2026 and is still ongoing. Assess inclusion in this new elicitation's by-2030 forecast."
+  }
+]

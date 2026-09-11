@@ -1,0 +1,531 @@
+{
+  "title": "Severity-ladder question set \u2014 same cause, every rung",
+  "provenance": {
+    "authored": "this project (2026-08-05), not XPT",
+    "rationale": "XPT has no complete severity ladder for any cause; these are written so every cause spans the full death axis and causes are comparable at equal severity. XPT questions remain as human-baseline anchor points (see `xpt_anchor` per cause in code/make_ladder_questions.py).",
+    "supersede": "Ezra's 30-page catastrophic-risk questions document, once final, should replace these definitions."
+  },
+  "notes": {
+    "cyber": "absent by design \u2014 per Jason (2026-08-03) cyber belongs on a DAMAGES ladder, not a deaths ladder; needs its own question set.",
+    "coherence": "within a cause, P must be non-increasing as the threshold rises; every adjacent pair is a checkable constraint with no resolution."
+  },
+  "causes": [
+    {
+      "key": "ai",
+      "label": "AI-enabled",
+      "color": "#33a8bd",
+      "xpt_anchor": {
+        "3. AI Catastrophic Risk": 820000000.0,
+        "4. AI Extinction Risk": 8200000000.0
+      }
+    },
+    {
+      "key": "bio",
+      "label": "Engineered / deliberate bio",
+      "color": "#a63d76",
+      "xpt_anchor": {
+        "18. State Actor Bioweapon 100k Deaths": 100000.0,
+        "1. Genetically Engineered Pathogen Risk": 82000000.0
+      }
+    },
+    {
+      "key": "nuclear",
+      "label": "Nuclear",
+      "color": "#a1801a",
+      "xpt_anchor": {
+        "31. Nuclear Weapon Use": 1000.0,
+        "5. Nuclear Catastrophic Risk": 820000000.0,
+        "6. Nuclear Extinction Risk": 8200000000.0
+      }
+    },
+    {
+      "key": "total",
+      "label": "All causes",
+      "color": "#3a4150",
+      "xpt_anchor": {
+        "9. Total Catastrophic Risk": 820000000.0,
+        "10. Total Extinction Risk": 8200000000.0
+      }
+    }
+  ],
+  "rungs": [
+    {
+      "deaths": 1000.0,
+      "rung": "\u22651k"
+    },
+    {
+      "deaths": 100000.0,
+      "rung": "\u2265100k"
+    },
+    {
+      "deaths": 1000000.0,
+      "rung": "\u22651M"
+    },
+    {
+      "deaths": 10000000.0,
+      "rung": "\u226510M"
+    },
+    {
+      "deaths": 100000000.0,
+      "rung": "\u2265100M"
+    },
+    {
+      "deaths": 1000000000.0,
+      "rung": "\u22651B"
+    },
+    {
+      "deaths": 8200000000.0,
+      "rung": "extinction"
+    }
+  ],
+  "questions": [
+    {
+      "id": "ladder:ai:\u22651k",
+      "cause": "ai",
+      "cause_label": "AI-enabled",
+      "color": "#33a8bd",
+      "deaths": 1000.0,
+      "rung": "\u22651k",
+      "category": "ladder",
+      "value_kind": "probability",
+      "horizons": [
+        "2030",
+        "2050",
+        "2100"
+      ],
+      "text": "What is the probability that an event materially caused or enabled by artificial intelligence (including AI-enabled bio, cyber, or infrastructure attacks, AI-driven conflict escalation, and loss of control over AI systems) will be the cause of death for at least 1,000 people worldwide, within any 5-year period, by the end of 2030 / 2050 / 2100?\n\nDeaths are counted as excess mortality directly attributable to the event or its immediate consequences, per credible reporting from governmental or international bodies (e.g. WHO, national governments, UN agencies). Indirect long-run deaths (economic knock-on effects, unrelated later conflict) do not count. The threshold is cumulative across a single causal event or closely linked chain of events, not summed over unrelated incidents."
+    },
+    {
+      "id": "ladder:ai:\u2265100k",
+      "cause": "ai",
+      "cause_label": "AI-enabled",
+      "color": "#33a8bd",
+      "deaths": 100000.0,
+      "rung": "\u2265100k",
+      "category": "ladder",
+      "value_kind": "probability",
+      "horizons": [
+        "2030",
+        "2050",
+        "2100"
+      ],
+      "text": "What is the probability that an event materially caused or enabled by artificial intelligence (including AI-enabled bio, cyber, or infrastructure attacks, AI-driven conflict escalation, and loss of control over AI systems) will be the cause of death for at least 100,000 people worldwide, within any 5-year period, by the end of 2030 / 2050 / 2100?\n\nDeaths are counted as excess mortality directly attributable to the event or its immediate consequences, per credible reporting from governmental or international bodies (e.g. WHO, national governments, UN agencies). Indirect long-run deaths (economic knock-on effects, unrelated later conflict) do not count. The threshold is cumulative across a single causal event or closely linked chain of events, not summed over unrelated incidents."
+    },
+    {
+      "id": "ladder:ai:\u22651M",
+      "cause": "ai",
+      "cause_label": "AI-enabled",
+      "color": "#33a8bd",
+      "deaths": 1000000.0,
+      "rung": "\u22651M",
+      "category": "ladder",
+      "value_kind": "probability",
+      "horizons": [
+        "2030",
+        "2050",
+        "2100"
+      ],
+      "text": "What is the probability that an event materially caused or enabled by artificial intelligence (including AI-enabled bio, cyber, or infrastructure attacks, AI-driven conflict escalation, and loss of control over AI systems) will be the cause of death for at least 1 million people worldwide, within any 5-year period, by the end of 2030 / 2050 / 2100?\n\nDeaths are counted as excess mortality directly attributable to the event or its immediate consequences, per credible reporting from governmental or international bodies (e.g. WHO, national governments, UN agencies). Indirect long-run deaths (economic knock-on effects, unrelated later conflict) do not count. The threshold is cumulative across a single causal event or closely linked chain of events, not summed over unrelated incidents."
+    },
+    {
+      "id": "ladder:ai:\u226510M",
+      "cause": "ai",
+      "cause_label": "AI-enabled",
+      "color": "#33a8bd",
+      "deaths": 10000000.0,
+      "rung": "\u226510M",
+      "category": "ladder",
+      "value_kind": "probability",
+      "horizons": [
+        "2030",
+        "2050",
+        "2100"
+      ],
+      "text": "What is the probability that an event materially caused or enabled by artificial intelligence (including AI-enabled bio, cyber, or infrastructure attacks, AI-driven conflict escalation, and loss of control over AI systems) will be the cause of death for at least 10 million people worldwide, within any 5-year period, by the end of 2030 / 2050 / 2100?\n\nDeaths are counted as excess mortality directly attributable to the event or its immediate consequences, per credible reporting from governmental or international bodies (e.g. WHO, national governments, UN agencies). Indirect long-run deaths (economic knock-on effects, unrelated later conflict) do not count. The threshold is cumulative across a single causal event or closely linked chain of events, not summed over unrelated incidents."
+    },
+    {
+      "id": "ladder:ai:\u2265100M",
+      "cause": "ai",
+      "cause_label": "AI-enabled",
+      "color": "#33a8bd",
+      "deaths": 100000000.0,
+      "rung": "\u2265100M",
+      "category": "ladder",
+      "value_kind": "probability",
+      "horizons": [
+        "2030",
+        "2050",
+        "2100"
+      ],
+      "text": "What is the probability that an event materially caused or enabled by artificial intelligence (including AI-enabled bio, cyber, or infrastructure attacks, AI-driven conflict escalation, and loss of control over AI systems) will be the cause of death for at least 100 million people worldwide, within any 5-year period, by the end of 2030 / 2050 / 2100?\n\nDeaths are counted as excess mortality directly attributable to the event or its immediate consequences, per credible reporting from governmental or international bodies (e.g. WHO, national governments, UN agencies). Indirect long-run deaths (economic knock-on effects, unrelated later conflict) do not count. The threshold is cumulative across a single causal event or closely linked chain of events, not summed over unrelated incidents."
+    },
+    {
+      "id": "ladder:ai:\u22651B",
+      "cause": "ai",
+      "cause_label": "AI-enabled",
+      "color": "#33a8bd",
+      "deaths": 1000000000.0,
+      "rung": "\u22651B",
+      "category": "ladder",
+      "value_kind": "probability",
+      "horizons": [
+        "2030",
+        "2050",
+        "2100"
+      ],
+      "text": "What is the probability that an event materially caused or enabled by artificial intelligence (including AI-enabled bio, cyber, or infrastructure attacks, AI-driven conflict escalation, and loss of control over AI systems) will be the cause of death for at least 1 billion people worldwide, within any 5-year period, by the end of 2030 / 2050 / 2100?\n\nDeaths are counted as excess mortality directly attributable to the event or its immediate consequences, per credible reporting from governmental or international bodies (e.g. WHO, national governments, UN agencies). Indirect long-run deaths (economic knock-on effects, unrelated later conflict) do not count. The threshold is cumulative across a single causal event or closely linked chain of events, not summed over unrelated incidents."
+    },
+    {
+      "id": "ladder:ai:extinction",
+      "cause": "ai",
+      "cause_label": "AI-enabled",
+      "color": "#33a8bd",
+      "deaths": 8200000000.0,
+      "rung": "extinction",
+      "category": "ladder",
+      "value_kind": "probability",
+      "horizons": [
+        "2030",
+        "2050",
+        "2100"
+      ],
+      "text": "What is the probability that an event materially caused or enabled by artificial intelligence (including AI-enabled bio, cyber, or infrastructure attacks, AI-driven conflict escalation, and loss of control over AI systems) will cause human extinction, or reduce the global human population below 5,000, by the end of 2030 / 2050 / 2100?"
+    },
+    {
+      "id": "ladder:bio:\u22651k",
+      "cause": "bio",
+      "cause_label": "Engineered / deliberate bio",
+      "color": "#a63d76",
+      "deaths": 1000.0,
+      "rung": "\u22651k",
+      "category": "ladder",
+      "value_kind": "probability",
+      "horizons": [
+        "2030",
+        "2050",
+        "2100"
+      ],
+      "text": "What is the probability that the deliberate release of a biological agent, or the release of a genetically engineered pathogen (whether deliberate or accidental) will be the cause of death for at least 1,000 people worldwide, within any 5-year period, by the end of 2030 / 2050 / 2100?\n\nDeaths are counted as excess mortality directly attributable to the event or its immediate consequences, per credible reporting from governmental or international bodies (e.g. WHO, national governments, UN agencies). Indirect long-run deaths (economic knock-on effects, unrelated later conflict) do not count. The threshold is cumulative across a single causal event or closely linked chain of events, not summed over unrelated incidents."
+    },
+    {
+      "id": "ladder:bio:\u2265100k",
+      "cause": "bio",
+      "cause_label": "Engineered / deliberate bio",
+      "color": "#a63d76",
+      "deaths": 100000.0,
+      "rung": "\u2265100k",
+      "category": "ladder",
+      "value_kind": "probability",
+      "horizons": [
+        "2030",
+        "2050",
+        "2100"
+      ],
+      "text": "What is the probability that the deliberate release of a biological agent, or the release of a genetically engineered pathogen (whether deliberate or accidental) will be the cause of death for at least 100,000 people worldwide, within any 5-year period, by the end of 2030 / 2050 / 2100?\n\nDeaths are counted as excess mortality directly attributable to the event or its immediate consequences, per credible reporting from governmental or international bodies (e.g. WHO, national governments, UN agencies). Indirect long-run deaths (economic knock-on effects, unrelated later conflict) do not count. The threshold is cumulative across a single causal event or closely linked chain of events, not summed over unrelated incidents."
+    },
+    {
+      "id": "ladder:bio:\u22651M",
+      "cause": "bio",
+      "cause_label": "Engineered / deliberate bio",
+      "color": "#a63d76",
+      "deaths": 1000000.0,
+      "rung": "\u22651M",
+      "category": "ladder",
+      "value_kind": "probability",
+      "horizons": [
+        "2030",
+        "2050",
+        "2100"
+      ],
+      "text": "What is the probability that the deliberate release of a biological agent, or the release of a genetically engineered pathogen (whether deliberate or accidental) will be the cause of death for at least 1 million people worldwide, within any 5-year period, by the end of 2030 / 2050 / 2100?\n\nDeaths are counted as excess mortality directly attributable to the event or its immediate consequences, per credible reporting from governmental or international bodies (e.g. WHO, national governments, UN agencies). Indirect long-run deaths (economic knock-on effects, unrelated later conflict) do not count. The threshold is cumulative across a single causal event or closely linked chain of events, not summed over unrelated incidents."
+    },
+    {
+      "id": "ladder:bio:\u226510M",
+      "cause": "bio",
+      "cause_label": "Engineered / deliberate bio",
+      "color": "#a63d76",
+      "deaths": 10000000.0,
+      "rung": "\u226510M",
+      "category": "ladder",
+      "value_kind": "probability",
+      "horizons": [
+        "2030",
+        "2050",
+        "2100"
+      ],
+      "text": "What is the probability that the deliberate release of a biological agent, or the release of a genetically engineered pathogen (whether deliberate or accidental) will be the cause of death for at least 10 million people worldwide, within any 5-year period, by the end of 2030 / 2050 / 2100?\n\nDeaths are counted as excess mortality directly attributable to the event or its immediate consequences, per credible reporting from governmental or international bodies (e.g. WHO, national governments, UN agencies). Indirect long-run deaths (economic knock-on effects, unrelated later conflict) do not count. The threshold is cumulative across a single causal event or closely linked chain of events, not summed over unrelated incidents."
+    },
+    {
+      "id": "ladder:bio:\u2265100M",
+      "cause": "bio",
+      "cause_label": "Engineered / deliberate bio",
+      "color": "#a63d76",
+      "deaths": 100000000.0,
+      "rung": "\u2265100M",
+      "category": "ladder",
+      "value_kind": "probability",
+      "horizons": [
+        "2030",
+        "2050",
+        "2100"
+      ],
+      "text": "What is the probability that the deliberate release of a biological agent, or the release of a genetically engineered pathogen (whether deliberate or accidental) will be the cause of death for at least 100 million people worldwide, within any 5-year period, by the end of 2030 / 2050 / 2100?\n\nDeaths are counted as excess mortality directly attributable to the event or its immediate consequences, per credible reporting from governmental or international bodies (e.g. WHO, national governments, UN agencies). Indirect long-run deaths (economic knock-on effects, unrelated later conflict) do not count. The threshold is cumulative across a single causal event or closely linked chain of events, not summed over unrelated incidents."
+    },
+    {
+      "id": "ladder:bio:\u22651B",
+      "cause": "bio",
+      "cause_label": "Engineered / deliberate bio",
+      "color": "#a63d76",
+      "deaths": 1000000000.0,
+      "rung": "\u22651B",
+      "category": "ladder",
+      "value_kind": "probability",
+      "horizons": [
+        "2030",
+        "2050",
+        "2100"
+      ],
+      "text": "What is the probability that the deliberate release of a biological agent, or the release of a genetically engineered pathogen (whether deliberate or accidental) will be the cause of death for at least 1 billion people worldwide, within any 5-year period, by the end of 2030 / 2050 / 2100?\n\nDeaths are counted as excess mortality directly attributable to the event or its immediate consequences, per credible reporting from governmental or international bodies (e.g. WHO, national governments, UN agencies). Indirect long-run deaths (economic knock-on effects, unrelated later conflict) do not count. The threshold is cumulative across a single causal event or closely linked chain of events, not summed over unrelated incidents."
+    },
+    {
+      "id": "ladder:bio:extinction",
+      "cause": "bio",
+      "cause_label": "Engineered / deliberate bio",
+      "color": "#a63d76",
+      "deaths": 8200000000.0,
+      "rung": "extinction",
+      "category": "ladder",
+      "value_kind": "probability",
+      "horizons": [
+        "2030",
+        "2050",
+        "2100"
+      ],
+      "text": "What is the probability that the deliberate release of a biological agent, or the release of a genetically engineered pathogen (whether deliberate or accidental) will cause human extinction, or reduce the global human population below 5,000, by the end of 2030 / 2050 / 2100?"
+    },
+    {
+      "id": "ladder:nuclear:\u22651k",
+      "cause": "nuclear",
+      "cause_label": "Nuclear",
+      "color": "#a1801a",
+      "deaths": 1000.0,
+      "rung": "\u22651k",
+      "category": "ladder",
+      "value_kind": "probability",
+      "horizons": [
+        "2030",
+        "2050",
+        "2100"
+      ],
+      "text": "What is the probability that the use of one or more nuclear weapons will be the cause of death for at least 1,000 people worldwide, within any 5-year period, by the end of 2030 / 2050 / 2100?\n\nDeaths are counted as excess mortality directly attributable to the event or its immediate consequences, per credible reporting from governmental or international bodies (e.g. WHO, national governments, UN agencies). Indirect long-run deaths (economic knock-on effects, unrelated later conflict) do not count. The threshold is cumulative across a single causal event or closely linked chain of events, not summed over unrelated incidents."
+    },
+    {
+      "id": "ladder:nuclear:\u2265100k",
+      "cause": "nuclear",
+      "cause_label": "Nuclear",
+      "color": "#a1801a",
+      "deaths": 100000.0,
+      "rung": "\u2265100k",
+      "category": "ladder",
+      "value_kind": "probability",
+      "horizons": [
+        "2030",
+        "2050",
+        "2100"
+      ],
+      "text": "What is the probability that the use of one or more nuclear weapons will be the cause of death for at least 100,000 people worldwide, within any 5-year period, by the end of 2030 / 2050 / 2100?\n\nDeaths are counted as excess mortality directly attributable to the event or its immediate consequences, per credible reporting from governmental or international bodies (e.g. WHO, national governments, UN agencies). Indirect long-run deaths (economic knock-on effects, unrelated later conflict) do not count. The threshold is cumulative across a single causal event or closely linked chain of events, not summed over unrelated incidents."
+    },
+    {
+      "id": "ladder:nuclear:\u22651M",
+      "cause": "nuclear",
+      "cause_label": "Nuclear",
+      "color": "#a1801a",
+      "deaths": 1000000.0,
+      "rung": "\u22651M",
+      "category": "ladder",
+      "value_kind": "probability",
+      "horizons": [
+        "2030",
+        "2050",
+        "2100"
+      ],
+      "text": "What is the probability that the use of one or more nuclear weapons will be the cause of death for at least 1 million people worldwide, within any 5-year period, by the end of 2030 / 2050 / 2100?\n\nDeaths are counted as excess mortality directly attributable to the event or its immediate consequences, per credible reporting from governmental or international bodies (e.g. WHO, national governments, UN agencies). Indirect long-run deaths (economic knock-on effects, unrelated later conflict) do not count. The threshold is cumulative across a single causal event or closely linked chain of events, not summed over unrelated incidents."
+    },
+    {
+      "id": "ladder:nuclear:\u226510M",
+      "cause": "nuclear",
+      "cause_label": "Nuclear",
+      "color": "#a1801a",
+      "deaths": 10000000.0,
+      "rung": "\u226510M",
+      "category": "ladder",
+      "value_kind": "probability",
+      "horizons": [
+        "2030",
+        "2050",
+        "2100"
+      ],
+      "text": "What is the probability that the use of one or more nuclear weapons will be the cause of death for at least 10 million people worldwide, within any 5-year period, by the end of 2030 / 2050 / 2100?\n\nDeaths are counted as excess mortality directly attributable to the event or its immediate consequences, per credible reporting from governmental or international bodies (e.g. WHO, national governments, UN agencies). Indirect long-run deaths (economic knock-on effects, unrelated later conflict) do not count. The threshold is cumulative across a single causal event or closely linked chain of events, not summed over unrelated incidents."
+    },
+    {
+      "id": "ladder:nuclear:\u2265100M",
+      "cause": "nuclear",
+      "cause_label": "Nuclear",
+      "color": "#a1801a",
+      "deaths": 100000000.0,
+      "rung": "\u2265100M",
+      "category": "ladder",
+      "value_kind": "probability",
+      "horizons": [
+        "2030",
+        "2050",
+        "2100"
+      ],
+      "text": "What is the probability that the use of one or more nuclear weapons will be the cause of death for at least 100 million people worldwide, within any 5-year period, by the end of 2030 / 2050 / 2100?\n\nDeaths are counted as excess mortality directly attributable to the event or its immediate consequences, per credible reporting from governmental or international bodies (e.g. WHO, national governments, UN agencies). Indirect long-run deaths (economic knock-on effects, unrelated later conflict) do not count. The threshold is cumulative across a single causal event or closely linked chain of events, not summed over unrelated incidents."
+    },
+    {
+      "id": "ladder:nuclear:\u22651B",
+      "cause": "nuclear",
+      "cause_label": "Nuclear",
+      "color": "#a1801a",
+      "deaths": 1000000000.0,
+      "rung": "\u22651B",
+      "category": "ladder",
+      "value_kind": "probability",
+      "horizons": [
+        "2030",
+        "2050",
+        "2100"
+      ],
+      "text": "What is the probability that the use of one or more nuclear weapons will be the cause of death for at least 1 billion people worldwide, within any 5-year period, by the end of 2030 / 2050 / 2100?\n\nDeaths are counted as excess mortality directly attributable to the event or its immediate consequences, per credible reporting from governmental or international bodies (e.g. WHO, national governments, UN agencies). Indirect long-run deaths (economic knock-on effects, unrelated later conflict) do not count. The threshold is cumulative across a single causal event or closely linked chain of events, not summed over unrelated incidents."
+    },
+    {
+      "id": "ladder:nuclear:extinction",
+      "cause": "nuclear",
+      "cause_label": "Nuclear",
+      "color": "#a1801a",
+      "deaths": 8200000000.0,
+      "rung": "extinction",
+      "category": "ladder",
+      "value_kind": "probability",
+      "horizons": [
+        "2030",
+        "2050",
+        "2100"
+      ],
+      "text": "What is the probability that the use of one or more nuclear weapons will cause human extinction, or reduce the global human population below 5,000, by the end of 2030 / 2050 / 2100?"
+    },
+    {
+      "id": "ladder:total:\u22651k",
+      "cause": "total",
+      "cause_label": "All causes",
+      "color": "#3a4150",
+      "deaths": 1000.0,
+      "rung": "\u22651k",
+      "category": "ladder",
+      "value_kind": "probability",
+      "horizons": [
+        "2030",
+        "2050",
+        "2100"
+      ],
+      "text": "What is the probability that any single global catastrophe, of any cause (natural or anthropogenic) will be the cause of death for at least 1,000 people worldwide, within any 5-year period, by the end of 2030 / 2050 / 2100?\n\nDeaths are counted as excess mortality directly attributable to the event or its immediate consequences, per credible reporting from governmental or international bodies (e.g. WHO, national governments, UN agencies). Indirect long-run deaths (economic knock-on effects, unrelated later conflict) do not count. The threshold is cumulative across a single causal event or closely linked chain of events, not summed over unrelated incidents."
+    },
+    {
+      "id": "ladder:total:\u2265100k",
+      "cause": "total",
+      "cause_label": "All causes",
+      "color": "#3a4150",
+      "deaths": 100000.0,
+      "rung": "\u2265100k",
+      "category": "ladder",
+      "value_kind": "probability",
+      "horizons": [
+        "2030",
+        "2050",
+        "2100"
+      ],
+      "text": "What is the probability that any single global catastrophe, of any cause (natural or anthropogenic) will be the cause of death for at least 100,000 people worldwide, within any 5-year period, by the end of 2030 / 2050 / 2100?\n\nDeaths are counted as excess mortality directly attributable to the event or its immediate consequences, per credible reporting from governmental or international bodies (e.g. WHO, national governments, UN agencies). Indirect long-run deaths (economic knock-on effects, unrelated later conflict) do not count. The threshold is cumulative across a single causal event or closely linked chain of events, not summed over unrelated incidents."
+    },
+    {
+      "id": "ladder:total:\u22651M",
+      "cause": "total",
+      "cause_label": "All causes",
+      "color": "#3a4150",
+      "deaths": 1000000.0,
+      "rung": "\u22651M",
+      "category": "ladder",
+      "value_kind": "probability",
+      "horizons": [
+        "2030",
+        "2050",
+        "2100"
+      ],
+      "text": "What is the probability that any single global catastrophe, of any cause (natural or anthropogenic) will be the cause of death for at least 1 million people worldwide, within any 5-year period, by the end of 2030 / 2050 / 2100?\n\nDeaths are counted as excess mortality directly attributable to the event or its immediate consequences, per credible reporting from governmental or international bodies (e.g. WHO, national governments, UN agencies). Indirect long-run deaths (economic knock-on effects, unrelated later conflict) do not count. The threshold is cumulative across a single causal event or closely linked chain of events, not summed over unrelated incidents."
+    },
+    {
+      "id": "ladder:total:\u226510M",
+      "cause": "total",
+      "cause_label": "All causes",
+      "color": "#3a4150",
+      "deaths": 10000000.0,
+      "rung": "\u226510M",
+      "category": "ladder",
+      "value_kind": "probability",
+      "horizons": [
+        "2030",
+        "2050",
+        "2100"
+      ],
+      "text": "What is the probability that any single global catastrophe, of any cause (natural or anthropogenic) will be the cause of death for at least 10 million people worldwide, within any 5-year period, by the end of 2030 / 2050 / 2100?\n\nDeaths are counted as excess mortality directly attributable to the event or its immediate consequences, per credible reporting from governmental or international bodies (e.g. WHO, national governments, UN agencies). Indirect long-run deaths (economic knock-on effects, unrelated later conflict) do not count. The threshold is cumulative across a single causal event or closely linked chain of events, not summed over unrelated incidents."
+    },
+    {
+      "id": "ladder:total:\u2265100M",
+      "cause": "total",
+      "cause_label": "All causes",
+      "color": "#3a4150",
+      "deaths": 100000000.0,
+      "rung": "\u2265100M",
+      "category": "ladder",
+      "value_kind": "probability",
+      "horizons": [
+        "2030",
+        "2050",
+        "2100"
+      ],
+      "text": "What is the probability that any single global catastrophe, of any cause (natural or anthropogenic) will be the cause of death for at least 100 million people worldwide, within any 5-year period, by the end of 2030 / 2050 / 2100?\n\nDeaths are counted as excess mortality directly attributable to the event or its immediate consequences, per credible reporting from governmental or international bodies (e.g. WHO, national governments, UN agencies). Indirect long-run deaths (economic knock-on effects, unrelated later conflict) do not count. The threshold is cumulative across a single causal event or closely linked chain of events, not summed over unrelated incidents."
+    },
+    {
+      "id": "ladder:total:\u22651B",
+      "cause": "total",
+      "cause_label": "All causes",
+      "color": "#3a4150",
+      "deaths": 1000000000.0,
+      "rung": "\u22651B",
+      "category": "ladder",
+      "value_kind": "probability",
+      "horizons": [
+        "2030",
+        "2050",
+        "2100"
+      ],
+      "text": "What is the probability that any single global catastrophe, of any cause (natural or anthropogenic) will be the cause of death for at least 1 billion people worldwide, within any 5-year period, by the end of 2030 / 2050 / 2100?\n\nDeaths are counted as excess mortality directly attributable to the event or its immediate consequences, per credible reporting from governmental or international bodies (e.g. WHO, national governments, UN agencies). Indirect long-run deaths (economic knock-on effects, unrelated later conflict) do not count. The threshold is cumulative across a single causal event or closely linked chain of events, not summed over unrelated incidents."
+    },
+    {
+      "id": "ladder:total:extinction",
+      "cause": "total",
+      "cause_label": "All causes",
+      "color": "#3a4150",
+      "deaths": 8200000000.0,
+      "rung": "extinction",
+      "category": "ladder",
+      "value_kind": "probability",
+      "horizons": [
+        "2030",
+        "2050",
+        "2100"
+      ],
+      "text": "What is the probability that any single global catastrophe, of any cause (natural or anthropogenic) will cause human extinction, or reduce the global human population below 5,000, by the end of 2030 / 2050 / 2100?"
+    }
+  ]
+}

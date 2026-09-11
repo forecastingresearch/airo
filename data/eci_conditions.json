@@ -1,0 +1,127 @@
+{
+ "title": "Frontier-ECI capability conditions (end of 2027), as the runner prepends them",
+ "slug": "eci",
+ "kind": "capability",
+ "protocol": "unified-joint-eci-v1",
+ "source": {
+  "panel": null,
+  "wave": "Frontier ECI at end of 2027 (metr_graph projection, CSV of 2026-08-21)",
+  "status": "no human panel answers these conditions; the levels are the p10/p50/p90 of the metr_graph ECI-tab projection at its defaults",
+  "documents": [
+   "data/eci_projection_2026-08-21.json",
+   "data/epoch_capabilities_index_2026-08-21.csv"
+  ],
+  "outcome_horizons": [],
+  "policy_probability_horizons": []
+ },
+ "generated_by": "code/make_eci_conditions.py",
+ "conditioning": {
+  "instruction": "For each condition below, assume that the stated level of AI capability is reached by December 31, 2027. Treat it as a fact you have learned about the world, not as an intervention: update your expectations about everything that would ordinarily accompany that level of capability -- investment, compute, algorithmic progress, deployment, and how governments and developers respond -- as you would upon learning it, and then forecast each question in that world. Do not hold other factors fixed where the stated level would change them.",
+  "unconditional_forecast": "forecast the world as you expect it to unfold, including whatever level of AI capability you expect to be reached by December 31, 2027.",
+  "definitions": "Definitions. ECI: the Epoch Capabilities Index, published by Epoch AI -- a single score summarising a model's results across dozens of benchmarks, fit with an item-response model so that scores stay comparable as benchmarks saturate and new ones are added. Higher is more capable; the scale has no ceiling. All scores here are on the scale as published by Epoch on 2026-08-21.\nFrontier ECI: the highest ECI score of any publicly released model from a US developer, as scored by Epoch.\nReference scores (best variant of each model): GPT-4 (Mar 2023) 126; Claude 3.5 Sonnet (Jun 2024) 130; o1 (Dec 2024) 143; o3 (Apr 2025) 147; GPT-5 (Aug 2025) 150; Gemini 3 Pro (Nov 2025) 153; GPT-5.4 Pro (Mar 2026) 159; GPT-5.5 Pro (Apr 2026) 162; Claude Fable 5 (Jun 2026) 162. The highest score of any released model as of 2026-08-21 is Claude Fable 5, 162.",
+  "horizon": "every condition is a level reached by December 31, 2027."
+ },
+ "reference": [
+  {
+   "model": "GPT-4",
+   "score": 126,
+   "release_date": "2023-03-14"
+  },
+  {
+   "model": "Claude 3.5 Sonnet",
+   "score": 130,
+   "release_date": "2024-06-20"
+  },
+  {
+   "model": "o1",
+   "score": 143,
+   "release_date": "2024-12-17"
+  },
+  {
+   "model": "o3",
+   "score": 147,
+   "release_date": "2025-04-16"
+  },
+  {
+   "model": "GPT-5",
+   "score": 150,
+   "release_date": "2025-08-07"
+  },
+  {
+   "model": "Gemini 3 Pro",
+   "score": 153,
+   "release_date": "2025-11-18"
+  },
+  {
+   "model": "GPT-5.4 Pro",
+   "score": 159,
+   "release_date": "2026-03-05"
+  },
+  {
+   "model": "GPT-5.5 Pro",
+   "score": 162,
+   "release_date": "2026-04-23"
+  },
+  {
+   "model": "Claude Fable 5",
+   "score": 162,
+   "release_date": "2026-06-09"
+  }
+ ],
+ "conditions": [
+  {
+   "id": "eci174",
+   "leap_id": null,
+   "label": "Frontier ECI 174 at end of 2027",
+   "policy": null,
+   "part": null,
+   "assume": "Assume that on December 31, 2027 the frontier ECI is approximately 174 (within about two points of it).",
+   "description": "That is about 12 points above the highest score as of 2026-08-21 (Claude Fable 5, 162).",
+   "projection": {
+    "percentile": 10,
+    "value": 173.8,
+    "target": "2027EOY",
+    "date": "2027-12-31",
+    "source": "data/eci_projection_2026-08-21.json"
+   }
+  },
+  {
+   "id": "eci186",
+   "leap_id": null,
+   "label": "Frontier ECI 186 at end of 2027",
+   "policy": null,
+   "part": null,
+   "assume": "Assume that on December 31, 2027 the frontier ECI is approximately 186 (within about two points of it).",
+   "description": "That is about 24 points above the highest score as of 2026-08-21 (Claude Fable 5, 162).",
+   "projection": {
+    "percentile": 50,
+    "value": 185.9,
+    "target": "2027EOY",
+    "date": "2027-12-31",
+    "source": "data/eci_projection_2026-08-21.json"
+   }
+  },
+  {
+   "id": "eci210",
+   "leap_id": null,
+   "label": "Frontier ECI 210 at end of 2027",
+   "policy": null,
+   "part": null,
+   "assume": "Assume that on December 31, 2027 the frontier ECI is approximately 210 (within about two points of it).",
+   "description": "That is about 48 points above the highest score as of 2026-08-21 (Claude Fable 5, 162).",
+   "projection": {
+    "percentile": 90,
+    "value": 209.8,
+    "target": "2027EOY",
+    "date": "2027-12-31",
+    "source": "data/eci_projection_2026-08-21.json"
+   }
+  }
+ ],
+ "notes": {
+  "levels": "p10 / p50 / p90 of the projection's 2027EOY row, rounded to the point; the condition is a point ('approximately X'), not a bound.",
+  "conditioning": "a fact learned about the world, not an exogenous intervention: the instruction is the opposite of LEAP's policy clause on purpose.",
+  "percentiles": "not shown to the model; it is given the reference ladder and judges the pace itself.",
+  "horizon": "the level is dated 2027-12-31; every horizon in the batch is elicited under it, and the pilot reports 2030."
+ }
+}

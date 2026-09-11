@@ -1,0 +1,440 @@
+{
+ "config": {
+  "scratchpad + news": {
+   "n": 578,
+   "base": 0.3166,
+   "brier": 0.1799,
+   "lo_n": 40,
+   "lo_pred": 0.0595,
+   "lo_obs": 0.0,
+   "models": 12
+  },
+  "scratchpad": {
+   "n": 578,
+   "base": 0.3166,
+   "brier": 0.1801,
+   "lo_n": 19,
+   "lo_pred": 0.0684,
+   "lo_obs": 0.0,
+   "models": 16
+  },
+  "zero shot": {
+   "n": 578,
+   "base": 0.3166,
+   "brier": 0.1779,
+   "lo_n": 79,
+   "lo_pred": 0.0439,
+   "lo_obs": 0.0,
+   "models": 17
+  }
+ },
+ "config_spread": 0.0022,
+ "horizons": {
+  "2024-07-21": {
+   "total": 1507,
+   "ge90d": 922,
+   "main": {
+    "7": 278,
+    "30": 279,
+    "90": 277,
+    "180": 276,
+    "365": 276
+   }
+  },
+  "2025-08-03": {
+   "total": 1442,
+   "ge90d": 849,
+   "main": {
+    "7": 283,
+    "30": 285,
+    "90": 289,
+    "180": 286,
+    "365": 204
+   }
+  },
+  "2025-11-23": {
+   "total": 1074,
+   "ge90d": 504,
+   "main": {
+    "7": 245,
+    "30": 241,
+    "90": 240,
+    "180": 240,
+    "365": 0
+   }
+  },
+  "2026-02-15": {
+   "total": 784,
+   "ge90d": 265,
+   "main": {
+    "7": 239,
+    "30": 242,
+    "90": 243,
+    "180": 0,
+    "365": 0
+   }
+  },
+  "2026-06-21": {
+   "total": 579,
+   "ge90d": 0,
+   "main": {
+    "7": 244,
+    "30": 246,
+    "90": 0,
+    "180": 0,
+    "365": 0
+   }
+  }
+ },
+ "anchors": {
+  "GPT-4.1-2025-04-14 (zero shot)": {
+   "rounds": {
+    "2025-08-03": {
+     "n": 1435,
+     "base": 0.3261,
+     "brier": 0.1679,
+     "lo_n": 499,
+     "lo_pred": 0.0185,
+     "lo_obs": 0.0421
+    },
+    "2025-11-23": {
+     "n": 1068,
+     "base": 0.4204,
+     "brier": 0.1993,
+     "lo_n": 371,
+     "lo_pred": 0.0228,
+     "lo_obs": 0.1294
+    },
+    "2026-02-15": {
+     "n": 781,
+     "base": 0.4379,
+     "brier": 0.1467,
+     "lo_n": 223,
+     "lo_pred": 0.0203,
+     "lo_obs": 0.0224
+    }
+   },
+   "swing": 0.0526
+  },
+  "GPT-5-Mini-2025-08-07 (zero shot)": {
+   "rounds": {
+    "2025-11-23": {
+     "n": 1077,
+     "base": 0.4169,
+     "brier": 0.1742,
+     "lo_n": 338,
+     "lo_pred": 0.0319,
+     "lo_obs": 0.0503
+    },
+    "2026-02-15": {
+     "n": 784,
+     "base": 0.4362,
+     "brier": 0.1466,
+     "lo_n": 243,
+     "lo_pred": 0.025,
+     "lo_obs": 0.0206
+    },
+    "2026-06-21": {
+     "n": 579,
+     "base": 0.3592,
+     "brier": 0.18,
+     "lo_n": 169,
+     "lo_pred": 0.0209,
+     "lo_obs": 0.0355
+    }
+   },
+   "swing": 0.0334
+  },
+  "GPT-5-Nano-2025-08-07 (zero shot)": {
+   "rounds": {
+    "2025-11-23": {
+     "n": 1074,
+     "base": 0.4171,
+     "brier": 0.1875,
+     "lo_n": 310,
+     "lo_pred": 0.0278,
+     "lo_obs": 0.1129
+    },
+    "2026-02-15": {
+     "n": 784,
+     "base": 0.4362,
+     "brier": 0.1809,
+     "lo_n": 224,
+     "lo_pred": 0.0191,
+     "lo_obs": 0.0714
+    },
+    "2026-06-21": {
+     "n": 578,
+     "base": 0.3599,
+     "brier": 0.2085,
+     "lo_n": 149,
+     "lo_pred": 0.0216,
+     "lo_obs": 0.0268
+    }
+   },
+   "swing": 0.0276
+  },
+  "Claude-Haiku-4-5-20251001 (zero shot)": {
+   "rounds": {
+    "2025-11-23": {
+     "n": 1074,
+     "base": 0.4162,
+     "brier": 0.1831,
+     "lo_n": 299,
+     "lo_pred": 0.0329,
+     "lo_obs": 0.087
+    },
+    "2026-02-15": {
+     "n": 784,
+     "base": 0.4362,
+     "brier": 0.1499,
+     "lo_n": 182,
+     "lo_pred": 0.0277,
+     "lo_obs": 0.0055
+    },
+    "2026-06-21": {
+     "n": 579,
+     "base": 0.3592,
+     "brier": 0.2079,
+     "lo_n": 143,
+     "lo_pred": 0.026,
+     "lo_obs": 0.042
+    }
+   },
+   "swing": 0.058
+  },
+  "Claude-Sonnet-4-5-20250929 (zero shot)": {
+   "rounds": {
+    "2025-11-23": {
+     "n": 1077,
+     "base": 0.4169,
+     "brier": 0.1677,
+     "lo_n": 299,
+     "lo_pred": 0.0276,
+     "lo_obs": 0.0301
+    },
+    "2026-02-15": {
+     "n": 784,
+     "base": 0.4362,
+     "brier": 0.1486,
+     "lo_n": 207,
+     "lo_pred": 0.0252,
+     "lo_obs": 0.0145
+    },
+    "2026-06-21": {
+     "n": 579,
+     "base": 0.3592,
+     "brier": 0.1739,
+     "lo_n": 146,
+     "lo_pred": 0.0222,
+     "lo_obs": 0.0274
+    }
+   },
+   "swing": 0.0253
+  },
+  "Claude-3-5-Sonnet-20240620 (zero shot)": {
+   "rounds": {
+    "2024-07-21": {
+     "n": 1508,
+     "base": 0.3137,
+     "brier": 0.1622,
+     "lo_n": 425,
+     "lo_pred": 0.0331,
+     "lo_obs": 0.0071
+    },
+    "2025-08-03": {
+     "n": 1442,
+     "base": 0.3245,
+     "brier": 0.1761,
+     "lo_n": 346,
+     "lo_pred": 0.0335,
+     "lo_obs": 0.0029
+    }
+   },
+   "swing": 0.0139
+  }
+ },
+ "round_effect": 0.0351,
+ "vintage": {
+  "2025-11-23": {
+   "older": {
+    "n": 1062,
+    "base": 0.42,
+    "brier": 0.181,
+    "lo_n": 304,
+    "lo_pred": 0.0293,
+    "lo_obs": 0.0592,
+    "models": [
+     "Claude-3-7-Sonnet-20250219 (zero shot)",
+     "GPT-4.1-2025-04-14 (zero shot)",
+     "Gemini-2.5-Flash (zero shot)",
+     "Qwen3-235B-A22B-Fp8-Tput (zero shot)"
+    ]
+   },
+   "frontier": {
+    "n": 978,
+    "base": 0.4335,
+    "brier": 0.1645,
+    "lo_n": 248,
+    "lo_pred": 0.0256,
+    "lo_obs": 0.0121,
+    "models": [
+     "Claude-Sonnet-4-5-20250929 (zero shot)",
+     "GPT-5.1-2025-11-13 (zero shot)",
+     "Gemini-3-Pro-Preview (zero shot)",
+     "Grok-4-1-Fast-Reasoning (zero shot)",
+     "Kimi-K2-Thinking (zero shot)"
+    ]
+   },
+   "gap": 0.0165,
+   "within_round_model_spread": 0.0593
+  },
+  "2026-02-15": {
+   "older": {
+    "n": 780,
+    "base": 0.4385,
+    "brier": 0.1443,
+    "lo_n": 216,
+    "lo_pred": 0.023,
+    "lo_obs": 0.0185,
+    "models": [
+     "Claude-Sonnet-4-20250514 (zero shot)",
+     "GPT-4.1-2025-04-14 (zero shot)",
+     "GPT-5-Nano-2025-08-07 (zero shot)",
+     "Gemini-2.5-Pro (zero shot)"
+    ]
+   },
+   "frontier": {
+    "n": 722,
+    "base": 0.4515,
+    "brier": 0.1391,
+    "lo_n": 216,
+    "lo_pred": 0.013,
+    "lo_obs": 0.0046,
+    "models": [
+     "Claude-Opus-4-6 (zero shot)",
+     "GPT-5.2-2025-12-11 (zero shot)",
+     "Gemini-3-Pro-Preview (zero shot)",
+     "Grok-4-1-Fast-Reasoning (zero shot)",
+     "Kimi-K2-Thinking (zero shot)"
+    ]
+   },
+   "gap": 0.0052,
+   "within_round_model_spread": 0.085
+  },
+  "2026-06-21": {
+   "older": {
+    "n": 578,
+    "base": 0.3599,
+    "brier": 0.1834,
+    "lo_n": 147,
+    "lo_pred": 0.0239,
+    "lo_obs": 0.0204,
+    "models": [
+     "Claude-Haiku-4-5-20251001 (zero shot)",
+     "Claude-Sonnet-4-5-20250929 (zero shot)",
+     "GPT-5-Mini-2025-08-07 (zero shot)",
+     "GPT-5-Nano-2025-08-07 (zero shot)"
+    ]
+   },
+   "frontier": {
+    "n": 483,
+    "base": 0.3499,
+    "brier": 0.1663,
+    "lo_n": 154,
+    "lo_pred": 0.018,
+    "lo_obs": 0.0,
+    "models": [
+     "Claude-Opus-4-8 (zero shot)",
+     "GPT-5.5-2026-04-23 (zero shot)",
+     "Gemini-3.1-Pro-Preview (zero shot)",
+     "Grok-4.3 (zero shot)",
+     "Kimi-K2.6 (zero shot)"
+    ]
+   },
+   "gap": 0.0171,
+   "within_round_model_spread": 0.0503
+  }
+ },
+ "family_pairs": {
+  "2026-06-21 Claude-Sonnet-4-5-20250929 (zero shot) -> Claude-Sonnet-4-6 (zero shot)": {
+   "old": {
+    "n": 579,
+    "base": 0.3592,
+    "brier": 0.1739,
+    "lo_n": 146,
+    "lo_pred": 0.0222,
+    "lo_obs": 0.0274
+   },
+   "new": {
+    "n": 579,
+    "base": 0.3592,
+    "brier": 0.1728,
+    "lo_n": 175,
+    "lo_pred": 0.0213,
+    "lo_obs": 0.0286
+   },
+   "gap": 0.0011
+  },
+  "2026-06-21 Claude-Opus-4-7 (zero shot) -> Claude-Opus-4-8 (zero shot)": {
+   "old": {
+    "n": 578,
+    "base": 0.3599,
+    "brier": 0.1772,
+    "lo_n": 179,
+    "lo_pred": 0.0244,
+    "lo_obs": 0.0279
+   },
+   "new": {
+    "n": 578,
+    "base": 0.3599,
+    "brier": 0.1888,
+    "lo_n": 177,
+    "lo_pred": 0.0236,
+    "lo_obs": 0.0395
+   },
+   "gap": -0.0116
+  },
+  "2026-06-21 Grok-4.20-0309-Reasoning (zero shot) -> Grok-4.3 (zero shot)": {
+   "old": {
+    "n": 534,
+    "base": 0.3483,
+    "brier": 0.1665,
+    "lo_n": 159,
+    "lo_pred": 0.0258,
+    "lo_obs": 0.0314
+   },
+   "new": {
+    "n": 534,
+    "base": 0.3483,
+    "brier": 0.1679,
+    "lo_n": 169,
+    "lo_pred": 0.0243,
+    "lo_obs": 0.0296
+   },
+   "gap": -0.0014
+  },
+  "2026-06-21 GPT-5.4-2026-03-05 (zero shot) -> GPT-5.5-2026-04-23 (zero shot)": {
+   "old": {
+    "n": 579,
+    "base": 0.3592,
+    "brier": 0.1969,
+    "lo_n": 174,
+    "lo_pred": 0.0317,
+    "lo_obs": 0.0402
+   },
+   "new": {
+    "n": 579,
+    "base": 0.3592,
+    "brier": 0.1738,
+    "lo_n": 178,
+    "lo_pred": 0.012,
+    "lo_obs": 0.0281
+   },
+   "gap": 0.0231
+  }
+ },
+ "family_pair_effect": 0.0028,
+ "vintage_effect": 0.0129,
+ "verdict": "Vintage is worth +0.0129 Brier; the round confound is 0.0351, 3x larger. Graph 3 stays on 2024-07-21."
+}

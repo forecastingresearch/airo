@@ -1,0 +1,1302 @@
+{
+  "preliminary": false,
+  "world": "combined",
+  "rho": 0.85,
+  "bandLabel": "1\u20139%",
+  "corpusLabel": "two-sim average (CivBench tail + Starsim pandemic)",
+  "base": 0.0527,
+  "domainMax": 0.9,
+  "nModels": 16,
+  "nQuestions": 20111,
+  "models": [
+    {
+      "key": "openai/gpt-3.5-turbo-0125",
+      "label": "GPT-3.5",
+      "eci": 114,
+      "color": "#a3a9b1",
+      "n": 1247,
+      "brier": 0.4791,
+      "bss": -8.671,
+      "meanPred": 0.5731,
+      "meanObs": 0.0527,
+      "sims": "civbench+starsim",
+      "pts": [
+        {
+          "pred": 0.0304,
+          "obs": 0.08077,
+          "n": 105
+        },
+        {
+          "pred": 0.05717,
+          "obs": 0.03073,
+          "n": 105
+        },
+        {
+          "pred": 0.12476,
+          "obs": 0.03057,
+          "n": 102
+        },
+        {
+          "pred": 0.24155,
+          "obs": 0.0508,
+          "n": 110
+        },
+        {
+          "pred": 0.52568,
+          "obs": 0.0408,
+          "n": 104
+        },
+        {
+          "pred": 0.85876,
+          "obs": 0.05081,
+          "n": 131
+        },
+        {
+          "pred": 0.95,
+          "obs": 0.04383,
+          "n": 137
+        },
+        {
+          "pred": 0.96669,
+          "obs": 0.0596,
+          "n": 151
+        },
+        {
+          "pred": 0.9894,
+          "obs": 0.09934,
+          "n": 151
+        },
+        {
+          "pred": 0.99,
+          "obs": 0.03974,
+          "n": 151
+        }
+      ],
+      "architecture": "undisclosed",
+      "excluded": false,
+      "inPanel": false
+    },
+    {
+      "key": "deepinfra/meta-llama/Llama-3.3-70B-Instruct-Turbo",
+      "label": "Llama-3.3-70B",
+      "eci": 127,
+      "color": "#a3a9b1",
+      "n": 1487,
+      "brier": 0.3153,
+      "bss": -5.754,
+      "meanPred": 0.5139,
+      "meanObs": 0.0496,
+      "sims": "civbench+starsim",
+      "pts": [
+        {
+          "pred": 0.06336,
+          "obs": 0.0,
+          "n": 191
+        },
+        {
+          "pred": 0.23339,
+          "obs": 0.04559,
+          "n": 131
+        },
+        {
+          "pred": 0.31879,
+          "obs": 0.00504,
+          "n": 179
+        },
+        {
+          "pred": 0.39885,
+          "obs": 0.06085,
+          "n": 127
+        },
+        {
+          "pred": 0.48605,
+          "obs": 0.06127,
+          "n": 103
+        },
+        {
+          "pred": 0.56137,
+          "obs": 0.05088,
+          "n": 115
+        },
+        {
+          "pred": 0.62196,
+          "obs": 0.03043,
+          "n": 161
+        },
+        {
+          "pred": 0.71615,
+          "obs": 0.07542,
+          "n": 137
+        },
+        {
+          "pred": 0.81605,
+          "obs": 0.05576,
+          "n": 170
+        },
+        {
+          "pred": 0.9253,
+          "obs": 0.111,
+          "n": 173
+        }
+      ],
+      "architecture": "dense",
+      "excluded": false,
+      "inPanel": false
+    },
+    {
+      "key": "openai/gpt-4o",
+      "label": "GPT-4o",
+      "eci": 129,
+      "color": "#a3a9b1",
+      "n": 1243,
+      "brier": 0.1928,
+      "bss": -2.883,
+      "meanPred": 0.3652,
+      "meanObs": 0.0528,
+      "sims": "civbench+starsim",
+      "pts": [
+        {
+          "pred": 0.03272,
+          "obs": 0.01014,
+          "n": 142
+        },
+        {
+          "pred": 0.09082,
+          "obs": 0.05093,
+          "n": 119
+        },
+        {
+          "pred": 0.12502,
+          "obs": 0.04394,
+          "n": 140
+        },
+        {
+          "pred": 0.19593,
+          "obs": 0.0,
+          "n": 120
+        },
+        {
+          "pred": 0.28824,
+          "obs": 0.03378,
+          "n": 118
+        },
+        {
+          "pred": 0.37034,
+          "obs": 0.01683,
+          "n": 126
+        },
+        {
+          "pred": 0.49205,
+          "obs": 0.05061,
+          "n": 104
+        },
+        {
+          "pred": 0.55384,
+          "obs": 0.06104,
+          "n": 124
+        },
+        {
+          "pred": 0.67992,
+          "obs": 0.08021,
+          "n": 123
+        },
+        {
+          "pred": 0.82632,
+          "obs": 0.18208,
+          "n": 127
+        }
+      ],
+      "architecture": "undisclosed",
+      "excluded": false,
+      "inPanel": false
+    },
+    {
+      "key": "deepinfra/deepseek-ai/DeepSeek-V3",
+      "label": "DeepSeek-V3",
+      "eci": 133,
+      "color": "#a3a9b1",
+      "n": 1489,
+      "brier": 0.4744,
+      "bss": -9.168,
+      "meanPred": 0.625,
+      "meanObs": 0.0496,
+      "sims": "civbench+starsim",
+      "pts": [
+        {
+          "pred": 0.07614,
+          "obs": 0.03047,
+          "n": 165
+        },
+        {
+          "pred": 0.19614,
+          "obs": 0.03033,
+          "n": 137
+        },
+        {
+          "pred": 0.32301,
+          "obs": 0.02045,
+          "n": 110
+        },
+        {
+          "pred": 0.47191,
+          "obs": 0.04066,
+          "n": 106
+        },
+        {
+          "pred": 0.59728,
+          "obs": 0.07134,
+          "n": 122
+        },
+        {
+          "pred": 0.78724,
+          "obs": 0.04079,
+          "n": 126
+        },
+        {
+          "pred": 0.88113,
+          "obs": 0.04075,
+          "n": 151
+        },
+        {
+          "pred": 0.94799,
+          "obs": 0.056,
+          "n": 175
+        },
+        {
+          "pred": 0.9817,
+          "obs": 0.08,
+          "n": 200
+        },
+        {
+          "pred": 0.99321,
+          "obs": 0.0854,
+          "n": 197
+        }
+      ],
+      "architecture": "moe",
+      "excluded": true,
+      "inPanel": false
+    },
+    {
+      "key": "openai/gpt-4.1-2025-04-14",
+      "label": "GPT-4.1",
+      "eci": 137,
+      "color": "#a3a9b1",
+      "n": 1249,
+      "brier": 0.2495,
+      "bss": -4.042,
+      "meanPred": 0.3663,
+      "meanObs": 0.0527,
+      "sims": "civbench+starsim",
+      "pts": [
+        {
+          "pred": 0.00879,
+          "obs": 0.04056,
+          "n": 112
+        },
+        {
+          "pred": 0.01222,
+          "obs": 0.0,
+          "n": 144
+        },
+        {
+          "pred": 0.04632,
+          "obs": 0.01017,
+          "n": 124
+        },
+        {
+          "pred": 0.09274,
+          "obs": 0.03062,
+          "n": 123
+        },
+        {
+          "pred": 0.16471,
+          "obs": 0.06751,
+          "n": 127
+        },
+        {
+          "pred": 0.32235,
+          "obs": 0.06768,
+          "n": 119
+        },
+        {
+          "pred": 0.52647,
+          "obs": 0.08779,
+          "n": 113
+        },
+        {
+          "pred": 0.68636,
+          "obs": 0.05024,
+          "n": 116
+        },
+        {
+          "pred": 0.83934,
+          "obs": 0.03656,
+          "n": 125
+        },
+        {
+          "pred": 0.9683,
+          "obs": 0.13615,
+          "n": 146
+        }
+      ],
+      "architecture": "undisclosed",
+      "excluded": false,
+      "inPanel": false
+    },
+    {
+      "key": "anthropic/claude-haiku-4-5-20251001",
+      "label": "Haiku 4.5",
+      "eci": 143,
+      "color": "#a3a9b1",
+      "n": 1491,
+      "brier": 0.1734,
+      "bss": -2.719,
+      "meanPred": 0.3118,
+      "meanObs": 0.0496,
+      "sims": "civbench+starsim",
+      "pts": [
+        {
+          "pred": 0.01494,
+          "obs": 0.00997,
+          "n": 186
+        },
+        {
+          "pred": 0.04582,
+          "obs": 0.03558,
+          "n": 148
+        },
+        {
+          "pred": 0.08296,
+          "obs": 0.01018,
+          "n": 170
+        },
+        {
+          "pred": 0.13468,
+          "obs": 0.04062,
+          "n": 153
+        },
+        {
+          "pred": 0.19183,
+          "obs": 0.04044,
+          "n": 157
+        },
+        {
+          "pred": 0.26124,
+          "obs": 0.04536,
+          "n": 171
+        },
+        {
+          "pred": 0.36121,
+          "obs": 0.05526,
+          "n": 151
+        },
+        {
+          "pred": 0.50127,
+          "obs": 0.0752,
+          "n": 133
+        },
+        {
+          "pred": 0.68097,
+          "obs": 0.0661,
+          "n": 117
+        },
+        {
+          "pred": 0.84579,
+          "obs": 0.11722,
+          "n": 105
+        }
+      ],
+      "architecture": "undisclosed",
+      "excluded": false,
+      "inPanel": false
+    },
+    {
+      "key": "anthropic/claude-sonnet-4-5-20250929",
+      "label": "Sonnet 4.5",
+      "eci": 147,
+      "color": "#a3a9b1",
+      "n": 1491,
+      "brier": 0.1101,
+      "bss": -1.361,
+      "meanPred": 0.2294,
+      "meanObs": 0.0496,
+      "sims": "civbench+starsim",
+      "pts": [
+        {
+          "pred": 0.00477,
+          "obs": 0.01015,
+          "n": 181
+        },
+        {
+          "pred": 0.02178,
+          "obs": 0.0,
+          "n": 169
+        },
+        {
+          "pred": 0.06003,
+          "obs": 0.05612,
+          "n": 135
+        },
+        {
+          "pred": 0.11386,
+          "obs": 0.06089,
+          "n": 141
+        },
+        {
+          "pred": 0.15949,
+          "obs": 0.01493,
+          "n": 173
+        },
+        {
+          "pred": 0.23208,
+          "obs": 0.07601,
+          "n": 135
+        },
+        {
+          "pred": 0.27981,
+          "obs": 0.06547,
+          "n": 163
+        },
+        {
+          "pred": 0.35061,
+          "obs": 0.06557,
+          "n": 145
+        },
+        {
+          "pred": 0.43693,
+          "obs": 0.08124,
+          "n": 133
+        },
+        {
+          "pred": 0.63645,
+          "obs": 0.06593,
+          "n": 116
+        }
+      ],
+      "architecture": "undisclosed",
+      "excluded": false,
+      "inPanel": false
+    },
+    {
+      "key": "openai/gpt-5-2025-08-07",
+      "label": "GPT-5",
+      "eci": 150,
+      "color": "#a3a9b1",
+      "n": 491,
+      "brier": 0.1392,
+      "bss": -1.369,
+      "meanPred": 0.2642,
+      "meanObs": 0.0631,
+      "sims": "civbench",
+      "pts": [
+        {
+          "pred": 0.0308,
+          "obs": 0.08,
+          "n": 50
+        },
+        {
+          "pred": 0.0698,
+          "obs": 0.06122,
+          "n": 49
+        },
+        {
+          "pred": 0.1149,
+          "obs": 0.04082,
+          "n": 49
+        },
+        {
+          "pred": 0.16429,
+          "obs": 0.10204,
+          "n": 49
+        },
+        {
+          "pred": 0.20551,
+          "obs": 0.08163,
+          "n": 49
+        },
+        {
+          "pred": 0.23959,
+          "obs": 0.06122,
+          "n": 49
+        },
+        {
+          "pred": 0.29673,
+          "obs": 0.06122,
+          "n": 49
+        },
+        {
+          "pred": 0.37245,
+          "obs": 0.06122,
+          "n": 49
+        },
+        {
+          "pred": 0.49347,
+          "obs": 0.04082,
+          "n": 49
+        },
+        {
+          "pred": 0.65959,
+          "obs": 0.04082,
+          "n": 49
+        }
+      ],
+      "architecture": "undisclosed",
+      "excluded": false,
+      "inPanel": false
+    },
+    {
+      "key": "xai/grok-4.20",
+      "label": "Grok 4.20",
+      "eci": 154,
+      "color": "#a3a9b1",
+      "n": 1491,
+      "brier": 0.0963,
+      "bss": -1.065,
+      "meanPred": 0.2169,
+      "meanObs": 0.0496,
+      "sims": "civbench+starsim",
+      "pts": [
+        {
+          "pred": 0.01462,
+          "obs": 0.0,
+          "n": 199
+        },
+        {
+          "pred": 0.03144,
+          "obs": 0.0,
+          "n": 187
+        },
+        {
+          "pred": 0.04992,
+          "obs": 0.02021,
+          "n": 159
+        },
+        {
+          "pred": 0.07666,
+          "obs": 0.0356,
+          "n": 151
+        },
+        {
+          "pred": 0.13129,
+          "obs": 0.00504,
+          "n": 157
+        },
+        {
+          "pred": 0.19958,
+          "obs": 0.07098,
+          "n": 120
+        },
+        {
+          "pred": 0.2613,
+          "obs": 0.04031,
+          "n": 139
+        },
+        {
+          "pred": 0.35222,
+          "obs": 0.13592,
+          "n": 129
+        },
+        {
+          "pred": 0.447,
+          "obs": 0.06576,
+          "n": 133
+        },
+        {
+          "pred": 0.60845,
+          "obs": 0.12214,
+          "n": 117
+        }
+      ],
+      "architecture": "undisclosed",
+      "excluded": false,
+      "inPanel": false
+    },
+    {
+      "key": "gemini/gemini-3.1-pro-preview",
+      "label": "Gemini 3.1 Pro",
+      "eci": 155,
+      "color": "#a3a9b1",
+      "n": 1486,
+      "brier": 0.0734,
+      "bss": -0.596,
+      "meanPred": 0.1529,
+      "meanObs": 0.0489,
+      "sims": "civbench+starsim",
+      "pts": [
+        {
+          "pred": 0.00093,
+          "obs": 0.0,
+          "n": 200
+        },
+        {
+          "pred": 0.00832,
+          "obs": 0.01024,
+          "n": 185
+        },
+        {
+          "pred": 0.02596,
+          "obs": 0.03078,
+          "n": 172
+        },
+        {
+          "pred": 0.05,
+          "obs": 0.03104,
+          "n": 110
+        },
+        {
+          "pred": 0.08951,
+          "obs": 0.06165,
+          "n": 122
+        },
+        {
+          "pred": 0.1147,
+          "obs": 0.06676,
+          "n": 110
+        },
+        {
+          "pred": 0.16403,
+          "obs": 0.0557,
+          "n": 135
+        },
+        {
+          "pred": 0.23153,
+          "obs": 0.04628,
+          "n": 136
+        },
+        {
+          "pred": 0.33734,
+          "obs": 0.06077,
+          "n": 156
+        },
+        {
+          "pred": 0.50937,
+          "obs": 0.12583,
+          "n": 160
+        }
+      ],
+      "architecture": "undisclosed",
+      "excluded": false,
+      "inPanel": false
+    },
+    {
+      "key": "anthropic/claude-opus-4-6",
+      "label": "Opus 4.6",
+      "eci": 156,
+      "color": "#a3a9b1",
+      "n": 1491,
+      "brier": 0.0877,
+      "bss": -0.881,
+      "meanPred": 0.2152,
+      "meanObs": 0.0496,
+      "sims": "civbench+starsim",
+      "pts": [
+        {
+          "pred": 0.01666,
+          "obs": 0.01013,
+          "n": 170
+        },
+        {
+          "pred": 0.04075,
+          "obs": 0.01016,
+          "n": 132
+        },
+        {
+          "pred": 0.07626,
+          "obs": 0.05094,
+          "n": 146
+        },
+        {
+          "pred": 0.13004,
+          "obs": 0.05118,
+          "n": 143
+        },
+        {
+          "pred": 0.18526,
+          "obs": 0.03051,
+          "n": 164
+        },
+        {
+          "pred": 0.24624,
+          "obs": 0.01523,
+          "n": 133
+        },
+        {
+          "pred": 0.29366,
+          "obs": 0.06074,
+          "n": 128
+        },
+        {
+          "pred": 0.33099,
+          "obs": 0.1115,
+          "n": 145
+        },
+        {
+          "pred": 0.37023,
+          "obs": 0.07508,
+          "n": 164
+        },
+        {
+          "pred": 0.46346,
+          "obs": 0.08052,
+          "n": 166
+        }
+      ],
+      "architecture": "undisclosed",
+      "excluded": false,
+      "inPanel": false
+    },
+    {
+      "key": "anthropic/claude-opus-4-8",
+      "label": "Opus 4.8",
+      "eci": 158,
+      "color": "#a3a9b1",
+      "n": 491,
+      "brier": 0.1419,
+      "bss": -1.414,
+      "meanPred": 0.2724,
+      "meanObs": 0.0631,
+      "sims": "civbench",
+      "pts": [
+        {
+          "pred": 0.0251,
+          "obs": 0.1,
+          "n": 50
+        },
+        {
+          "pred": 0.03939,
+          "obs": 0.04082,
+          "n": 49
+        },
+        {
+          "pred": 0.05143,
+          "obs": 0.02041,
+          "n": 49
+        },
+        {
+          "pred": 0.09551,
+          "obs": 0.08163,
+          "n": 49
+        },
+        {
+          "pred": 0.23408,
+          "obs": 0.04082,
+          "n": 49
+        },
+        {
+          "pred": 0.34633,
+          "obs": 0.06122,
+          "n": 49
+        },
+        {
+          "pred": 0.39857,
+          "obs": 0.06122,
+          "n": 49
+        },
+        {
+          "pred": 0.44449,
+          "obs": 0.06122,
+          "n": 49
+        },
+        {
+          "pred": 0.49449,
+          "obs": 0.10204,
+          "n": 49
+        },
+        {
+          "pred": 0.6,
+          "obs": 0.06122,
+          "n": 49
+        }
+      ],
+      "architecture": "undisclosed",
+      "excluded": false,
+      "inPanel": false
+    },
+    {
+      "key": "openai/gpt-5.5",
+      "label": "GPT-5.5",
+      "eci": 159,
+      "color": "#a3a9b1",
+      "n": 1491,
+      "brier": 0.0812,
+      "bss": -0.742,
+      "meanPred": 0.1814,
+      "meanObs": 0.0496,
+      "sims": "civbench+starsim",
+      "pts": [
+        {
+          "pred": 0.00044,
+          "obs": 0.0,
+          "n": 200
+        },
+        {
+          "pred": 0.0035,
+          "obs": 0.0,
+          "n": 200
+        },
+        {
+          "pred": 0.02081,
+          "obs": 0.0,
+          "n": 176
+        },
+        {
+          "pred": 0.05781,
+          "obs": 0.03553,
+          "n": 141
+        },
+        {
+          "pred": 0.10757,
+          "obs": 0.0,
+          "n": 141
+        },
+        {
+          "pred": 0.1803,
+          "obs": 0.05587,
+          "n": 129
+        },
+        {
+          "pred": 0.23777,
+          "obs": 0.10159,
+          "n": 122
+        },
+        {
+          "pred": 0.30014,
+          "obs": 0.14567,
+          "n": 135
+        },
+        {
+          "pred": 0.37422,
+          "obs": 0.05578,
+          "n": 127
+        },
+        {
+          "pred": 0.53371,
+          "obs": 0.10101,
+          "n": 120
+        }
+      ],
+      "architecture": "undisclosed",
+      "excluded": false,
+      "inPanel": false
+    },
+    {
+      "key": "anthropic/claude-fable-5",
+      "label": "Fable 5",
+      "eci": 161,
+      "color": "#a3a9b1",
+      "n": 491,
+      "brier": 0.1069,
+      "bss": -0.819,
+      "meanPred": 0.2147,
+      "meanObs": 0.0631,
+      "sims": "civbench",
+      "pts": [
+        {
+          "pred": 0.019,
+          "obs": 0.06,
+          "n": 50
+        },
+        {
+          "pred": 0.02653,
+          "obs": 0.06122,
+          "n": 49
+        },
+        {
+          "pred": 0.0351,
+          "obs": 0.04082,
+          "n": 49
+        },
+        {
+          "pred": 0.10122,
+          "obs": 0.06122,
+          "n": 49
+        },
+        {
+          "pred": 0.19122,
+          "obs": 0.06122,
+          "n": 49
+        },
+        {
+          "pred": 0.25878,
+          "obs": 0.06122,
+          "n": 49
+        },
+        {
+          "pred": 0.3,
+          "obs": 0.14286,
+          "n": 49
+        },
+        {
+          "pred": 0.3398,
+          "obs": 0.06122,
+          "n": 49
+        },
+        {
+          "pred": 0.38898,
+          "obs": 0.04082,
+          "n": 49
+        },
+        {
+          "pred": 0.49041,
+          "obs": 0.04082,
+          "n": 49
+        }
+      ],
+      "architecture": "undisclosed",
+      "excluded": false,
+      "inPanel": false
+    },
+    {
+      "key": "openai/gpt-5.6-sol",
+      "label": "GPT-5.6 Sol",
+      "eci": 162,
+      "color": "#a3a9b1",
+      "n": 1491,
+      "brier": 0.0949,
+      "bss": -1.035,
+      "meanPred": 0.1771,
+      "meanObs": 0.0496,
+      "sims": "civbench+starsim",
+      "pts": [
+        {
+          "pred": 0.0,
+          "obs": 0.0,
+          "n": 200
+        },
+        {
+          "pred": 4e-05,
+          "obs": 0.0,
+          "n": 200
+        },
+        {
+          "pred": 0.00127,
+          "obs": 0.0,
+          "n": 200
+        },
+        {
+          "pred": 0.02355,
+          "obs": 0.05542,
+          "n": 169
+        },
+        {
+          "pred": 0.07034,
+          "obs": 0.09161,
+          "n": 124
+        },
+        {
+          "pred": 0.12409,
+          "obs": 0.05569,
+          "n": 129
+        },
+        {
+          "pred": 0.19416,
+          "obs": 0.05533,
+          "n": 122
+        },
+        {
+          "pred": 0.28683,
+          "obs": 0.06535,
+          "n": 127
+        },
+        {
+          "pred": 0.43205,
+          "obs": 0.06567,
+          "n": 112
+        },
+        {
+          "pred": 0.64192,
+          "obs": 0.10688,
+          "n": 108
+        }
+      ],
+      "architecture": "undisclosed",
+      "excluded": false,
+      "inPanel": false
+    },
+    {
+      "key": "anthropic/claude-opus-5",
+      "label": "Opus 5",
+      "eci": 163,
+      "color": "#7a4fa3",
+      "n": 1491,
+      "brier": 0.0777,
+      "bss": -0.667,
+      "meanPred": 0.166,
+      "meanObs": 0.0496,
+      "sims": "civbench+starsim",
+      "pts": [
+        {
+          "pred": 0.00882,
+          "obs": 0.0,
+          "n": 194
+        },
+        {
+          "pred": 0.01839,
+          "obs": 0.0508,
+          "n": 131
+        },
+        {
+          "pred": 0.02049,
+          "obs": 0.01011,
+          "n": 163
+        },
+        {
+          "pred": 0.03231,
+          "obs": 0.01024,
+          "n": 148
+        },
+        {
+          "pred": 0.05474,
+          "obs": 0.01015,
+          "n": 181
+        },
+        {
+          "pred": 0.11532,
+          "obs": 0.03054,
+          "n": 174
+        },
+        {
+          "pred": 0.22186,
+          "obs": 0.09094,
+          "n": 145
+        },
+        {
+          "pred": 0.30493,
+          "obs": 0.12146,
+          "n": 123
+        },
+        {
+          "pred": 0.38526,
+          "obs": 0.09585,
+          "n": 119
+        },
+        {
+          "pred": 0.49943,
+          "obs": 0.07573,
+          "n": 113
+        }
+      ],
+      "architecture": "undisclosed",
+      "excluded": false,
+      "inPanel": true
+    }
+  ],
+  "scatter": [
+    {
+      "eci": 114,
+      "bss": -8.671,
+      "label": "GPT-3.5",
+      "color": "#a3a9b1",
+      "meanPred": 0.5731,
+      "meanObs": 0.0527,
+      "bssCiv": -2.203,
+      "bssStar": -18.099,
+      "architecture": "undisclosed",
+      "excluded": false,
+      "inPanel": false
+    },
+    {
+      "eci": 127,
+      "bss": -5.754,
+      "label": "Llama-3.3-70B",
+      "color": "#a3a9b1",
+      "meanPred": 0.5139,
+      "meanObs": 0.0496,
+      "bssCiv": -4.183,
+      "bssStar": -8.421,
+      "architecture": "dense",
+      "excluded": false,
+      "inPanel": false
+    },
+    {
+      "eci": 129,
+      "bss": -2.883,
+      "label": "GPT-4o",
+      "color": "#a3a9b1",
+      "meanPred": 0.3652,
+      "meanObs": 0.0528,
+      "bssCiv": -2.773,
+      "bssStar": -3.043,
+      "architecture": "undisclosed",
+      "excluded": false,
+      "inPanel": false
+    },
+    {
+      "eci": 133,
+      "bss": -9.168,
+      "label": "DeepSeek-V3",
+      "color": "#a3a9b1",
+      "meanPred": 0.625,
+      "meanObs": 0.0496,
+      "bssCiv": -4.578,
+      "bssStar": -16.977,
+      "architecture": "moe",
+      "excluded": true,
+      "inPanel": false
+    },
+    {
+      "eci": 137,
+      "bss": -4.042,
+      "label": "GPT-4.1",
+      "color": "#a3a9b1",
+      "meanPred": 0.3663,
+      "meanObs": 0.0527,
+      "bssCiv": -2.947,
+      "bssStar": -5.644,
+      "architecture": "undisclosed",
+      "excluded": false,
+      "inPanel": false
+    },
+    {
+      "eci": 143,
+      "bss": -2.719,
+      "label": "Haiku 4.5",
+      "color": "#a3a9b1",
+      "meanPred": 0.3118,
+      "meanObs": 0.0496,
+      "bssCiv": -3.56,
+      "bssStar": -1.285,
+      "architecture": "undisclosed",
+      "excluded": false,
+      "inPanel": false
+    },
+    {
+      "eci": 147,
+      "bss": -1.361,
+      "label": "Sonnet 4.5",
+      "color": "#a3a9b1",
+      "meanPred": 0.2294,
+      "meanObs": 0.0496,
+      "bssCiv": -1.583,
+      "bssStar": -0.981,
+      "architecture": "undisclosed",
+      "excluded": false,
+      "inPanel": false
+    },
+    {
+      "eci": 150,
+      "bss": -1.369,
+      "label": "GPT-5",
+      "color": "#a3a9b1",
+      "meanPred": 0.2642,
+      "meanObs": 0.0631,
+      "bssCiv": -1.369,
+      "bssStar": null,
+      "architecture": "undisclosed",
+      "excluded": false,
+      "inPanel": false
+    },
+    {
+      "eci": 154,
+      "bss": -1.065,
+      "label": "Grok 4.20",
+      "color": "#a3a9b1",
+      "meanPred": 0.2169,
+      "meanObs": 0.0496,
+      "bssCiv": -1.393,
+      "bssStar": -0.506,
+      "architecture": "undisclosed",
+      "excluded": false,
+      "inPanel": false
+    },
+    {
+      "eci": 155,
+      "bss": -0.596,
+      "label": "Gemini 3.1 Pro",
+      "color": "#a3a9b1",
+      "meanPred": 0.1529,
+      "meanObs": 0.0489,
+      "bssCiv": -0.563,
+      "bssStar": -0.65,
+      "architecture": "undisclosed",
+      "excluded": false,
+      "inPanel": false
+    },
+    {
+      "eci": 156,
+      "bss": -0.881,
+      "label": "Opus 4.6",
+      "color": "#a3a9b1",
+      "meanPred": 0.2152,
+      "meanObs": 0.0496,
+      "bssCiv": -0.708,
+      "bssStar": -1.176,
+      "architecture": "undisclosed",
+      "excluded": false,
+      "inPanel": false
+    },
+    {
+      "eci": 158,
+      "bss": -1.414,
+      "label": "Opus 4.8",
+      "color": "#a3a9b1",
+      "meanPred": 0.2724,
+      "meanObs": 0.0631,
+      "bssCiv": -1.414,
+      "bssStar": null,
+      "architecture": "undisclosed",
+      "excluded": false,
+      "inPanel": false
+    },
+    {
+      "eci": 159,
+      "bss": -0.742,
+      "label": "GPT-5.5",
+      "color": "#a3a9b1",
+      "meanPred": 0.1814,
+      "meanObs": 0.0496,
+      "bssCiv": -1.036,
+      "bssStar": -0.242,
+      "architecture": "undisclosed",
+      "excluded": false,
+      "inPanel": false
+    },
+    {
+      "eci": 161,
+      "bss": -0.819,
+      "label": "Fable 5",
+      "color": "#a3a9b1",
+      "meanPred": 0.2147,
+      "meanObs": 0.0631,
+      "bssCiv": -0.819,
+      "bssStar": null,
+      "architecture": "undisclosed",
+      "excluded": false,
+      "inPanel": false
+    },
+    {
+      "eci": 162,
+      "bss": -1.035,
+      "label": "GPT-5.6 Sol",
+      "color": "#a3a9b1",
+      "meanPred": 0.1771,
+      "meanObs": 0.0496,
+      "bssCiv": -1.613,
+      "bssStar": -0.048,
+      "architecture": "undisclosed",
+      "excluded": false,
+      "inPanel": false
+    },
+    {
+      "eci": 163,
+      "bss": -0.667,
+      "label": "Opus 5",
+      "color": "#7a4fa3",
+      "meanPred": 0.166,
+      "meanObs": 0.0496,
+      "bssCiv": -1.042,
+      "bssStar": -0.027,
+      "architecture": "undisclosed",
+      "excluded": false,
+      "inPanel": true
+    }
+  ],
+  "ensemble": null,
+  "rhoClean": 0.84,
+  "nModelsClean": 15,
+  "excludedArchitectures": [
+    "distilled",
+    "moe"
+  ]
+}

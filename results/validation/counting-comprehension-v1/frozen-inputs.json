@@ -1,0 +1,9 @@
+{
+  "code/run_unified.py": "a3489430f92581b74e4fdad99b2266d6265bf20329475f3a6b46582e7b4ae1b4",
+  "code/check_counting_comprehension.py": "e9420d61609f9f7408167874d7273cc81a86a848cf6d1a768a33bbef7608614d",
+  "data/autoarc_ladder.json": "024f5868d30e7511d9760734157aa7397087483d1d8524e7d5f81a826a048c8d",
+  "data/combined_conditions.json": "a288f578f7e66bc1af061383afe21054e919458a36f39f487b836509e9bfc5d4",
+  "data/axes_conditions.json": "65b9b36eff300357ff74ba9984c020a25aa2060375362ac3434da21efd9a72bc",
+  "data/paper_axes_conditions.json": "3ac42f0f2e5e4644453b97ee14aa973cf1c9ebd7ac9574e7599f70804efa2122",
+  "data/auto-arc/definitions-2026-09-10.md": "a1861da401681cc57bd7b52dee8a33dd5ef388ee715fc113e8e09511ef749ea5"
+}

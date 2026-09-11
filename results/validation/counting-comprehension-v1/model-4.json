@@ -1,0 +1,106 @@
+{
+  "label": "GPT-5.5 Pro",
+  "model": "openai/gpt-5.5-pro",
+  "passed": true,
+  "checks": [
+    {
+      "id": "ai_upgrade",
+      "expected": false,
+      "actual": false,
+      "passed": true
+    },
+    {
+      "id": "new_operation",
+      "expected": true,
+      "actual": true,
+      "passed": true
+    },
+    {
+      "id": "delayed_encryption",
+      "expected": false,
+      "actual": false,
+      "passed": true
+    },
+    {
+      "id": "new_report",
+      "expected": false,
+      "actual": false,
+      "passed": true
+    },
+    {
+      "id": "worm_spread",
+      "expected": false,
+      "actual": false,
+      "passed": true
+    },
+    {
+      "id": "development_only",
+      "expected": true,
+      "actual": true,
+      "passed": true
+    },
+    {
+      "id": "post_deadline_harm",
+      "expected": true,
+      "actual": true,
+      "passed": true
+    },
+    {
+      "id": "later_elicitation",
+      "expected": false,
+      "actual": false,
+      "passed": true
+    }
+  ],
+  "answer": {
+    "cases": [
+      {
+        "id": "ai_upgrade",
+        "eligible": false,
+        "reason": "Ineligible. The fraud campaign is the same bounded operation that began with malicious activity on 2026-08-01, before the 2026-09-10 elicitation/start date. Adding AI on 2026-09-12 increases harm but does not create a new campaign onset; later harms from this incident are excluded."
+      },
+      {
+        "id": "new_operation",
+        "eligible": true,
+        "reason": "Eligible. This is stipulated to be a distinct, operationally separate hospital ransomware campaign, and its first malicious action against a target is 2026-09-12, within the 2026-09-10 to 2030-12-31 onset interval. Count attributable harms within its first three years after onset."
+      },
+      {
+        "id": "delayed_encryption",
+        "eligible": false,
+        "reason": "Ineligible. The campaign onset was the first intrusion on 2026-08-01, before the counting interval. Later encryption on 2026-09-12 in the same campaign does not reset onset; later harms are excluded."
+      },
+      {
+        "id": "new_report",
+        "eligible": false,
+        "reason": "Ineligible. The report on 2026-09-12 merely reveals a campaign that began in August before the interval. Discovery or reporting does not reset onset; harms from the pre-interval campaign are excluded."
+      },
+      {
+        "id": "worm_spread",
+        "eligible": false,
+        "reason": "Ineligible. The worm campaign began on 2026-09-09, before the 2026-09-10 start date. Continued propagation to additional victims on 2026-09-12 is the same campaign and does not create a new onset."
+      },
+      {
+        "id": "development_only",
+        "eligible": true,
+        "reason": "Eligible. August code development was only planning/tool development and did not act against targets. The distinct campaign's first malicious action against a target was 2026-09-12, within the onset interval; count harms within its first three years after that onset."
+      },
+      {
+        "id": "post_deadline_harm",
+        "eligible": true,
+        "reason": "Eligible. The campaign onset is 2030-12-30, which is within the inclusive by-2030 onset interval ending 2030-12-31. Losses in January 2031 may count because harm after the interval end is included if within the incident's first three years after onset."
+      },
+      {
+        "id": "later_elicitation",
+        "eligible": false,
+        "reason": "Ineligible for this new elicitation. With elicitation on 2027-01-10, the new by-2030 onset interval starts 2027-01-10; this ongoing campaign's onset was 2026-09-12, before that interval. Ongoing activity does not create a new incident onset."
+      }
+    ]
+  },
+  "usage": {
+    "turns": 1,
+    "cost_usd": 0.36366,
+    "input_tokens": 1088,
+    "output_tokens": 1839,
+    "reasoning_tokens": 1257
+  }
+}

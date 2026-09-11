@@ -1,0 +1,101 @@
+{
+  "source": "https://metrgraph.streamlit.app/~/+/?tab=eci",
+  "retrieved_at": "2026-09-10T21:55:56.949Z",
+  "frontier": [
+    {
+      "date": "2024-02-29",
+      "score": 126.9,
+      "model": "Claude 3 Opus"
+    },
+    {
+      "date": "2024-04-09",
+      "score": 127.25,
+      "model": "GPT-4 Turbo (Apr 2024)"
+    },
+    {
+      "date": "2024-05-13",
+      "score": 128.98,
+      "model": "GPT-4o (May 2024)"
+    },
+    {
+      "date": "2024-06-20",
+      "score": 130,
+      "model": "Claude 3.5 Sonnet (Jun 2024)"
+    },
+    {
+      "date": "2024-09-12",
+      "score": 135.84,
+      "model": "o1-mini (high)"
+    },
+    {
+      "date": "2024-12-17",
+      "score": 141.9,
+      "model": "o1 (high)"
+    },
+    {
+      "date": "2025-03-31",
+      "score": 144.2,
+      "model": "Gemini 2.5 Pro Preview (Mar 2025)"
+    },
+    {
+      "date": "2025-04-16",
+      "score": 146.91,
+      "model": "o3 (high)"
+    },
+    {
+      "date": "2025-06-10",
+      "score": 147.46,
+      "model": "o3-pro"
+    },
+    {
+      "date": "2025-08-07",
+      "score": 150,
+      "model": "GPT-5 (low)"
+    },
+    {
+      "date": "2025-10-07",
+      "score": 150.3,
+      "model": "GPT-5 Pro"
+    },
+    {
+      "date": "2025-11-18",
+      "score": 152.94,
+      "model": "Gemini 3 Pro Preview"
+    },
+    {
+      "date": "2025-12-11",
+      "score": 155.3,
+      "model": "GPT-5.2 Pro"
+    },
+    {
+      "date": "2026-02-05",
+      "score": 156.4,
+      "model": "GPT-5.3 Codex (high)"
+    },
+    {
+      "date": "2026-03-05",
+      "score": 158.89,
+      "model": "GPT-5.4 Pro (xhigh)"
+    },
+    {
+      "date": "2026-04-23",
+      "score": 159.23,
+      "model": "GPT-5.5 (xhigh)"
+    },
+    {
+      "date": "2026-04-23",
+      "score": 162.03,
+      "model": "GPT-5.5 Pro (xhigh)"
+    },
+    {
+      "date": "2026-06-09",
+      "score": 162.9,
+      "model": "Claude Fable 5 (max)"
+    },
+    {
+      "date": "2026-09-03",
+      "score": 169.23,
+      "model": "GPT-6 Astra (high)"
+    }
+  ]
+}

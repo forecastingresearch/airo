@@ -1,0 +1,723 @@
+{
+ "what": "Per-panel aggregates (n and the median across panelists of each asked percentile) of the LEAP survey questions the dashboard and its condition sets refer to. Extracted from FRI's internal LEAP pull (data/leap/axes-2026-09-02.json, not published) by code/make_leap_reference.py; the internal file also holds the survey documents, the full answer distributions and further questions.",
+ "pulled": "2026-09-02",
+ "panels": [
+  "expert",
+  "public",
+  "superforecaster"
+ ],
+ "axes": {
+  "revenue": {
+   "survey": "Wave 11: AI Industry Economics",
+   "fielded": [
+    "2026-07-13",
+    "2026-08-11"
+   ],
+   "question_group": "Frontier AI Company Revenue (2)",
+   "dimension": null,
+   "what": "combined OpenAI + Anthropic annualized revenue run-rate, billions of 2026 USD",
+   "text": "Given that at least one of these companies exists as defined in 1.a., what will be their combined annualized revenue run-rate (in billions of 2026 USD) at the end of the following calendar years?",
+   "unit": {
+    "name": "usd (billion, revenue)",
+    "display": "USD ($ Billions, Revenue)",
+    "abbreviation": "$B",
+    "min": 0.0,
+    "max": 100000.0
+   },
+   "answers": {
+    "2026-12-31": {
+     "p10": {
+      "expert": {
+       "n": 198,
+       "median": 46.7
+      },
+      "public": {
+       "n": 632,
+       "median": 23.2
+      },
+      "superforecaster": {
+       "n": 53,
+       "median": 71.0
+      }
+     },
+     "p50": {
+      "expert": {
+       "n": 198,
+       "median": 70.0
+      },
+      "public": {
+       "n": 632,
+       "median": 43.4
+      },
+      "superforecaster": {
+       "n": 53,
+       "median": 90.0
+      }
+     },
+     "p90": {
+      "expert": {
+       "n": 198,
+       "median": 98.3
+      },
+      "public": {
+       "n": 632,
+       "median": 68.6
+      },
+      "superforecaster": {
+       "n": 53,
+       "median": 118.3
+      }
+     }
+    },
+    "2030-12-31": {
+     "p10": {
+      "expert": {
+       "n": 198,
+       "median": 85.0
+      },
+      "public": {
+       "n": 631,
+       "median": 43.0
+      },
+      "superforecaster": {
+       "n": 53,
+       "median": 150.0
+      }
+     },
+     "p50": {
+      "expert": {
+       "n": 198,
+       "median": 150.0
+      },
+      "public": {
+       "n": 631,
+       "median": 70.6
+      },
+      "superforecaster": {
+       "n": 53,
+       "median": 300.0
+      }
+     },
+     "p90": {
+      "expert": {
+       "n": 198,
+       "median": 225.0
+      },
+      "public": {
+       "n": 631,
+       "median": 98.0
+      },
+      "superforecaster": {
+       "n": 53,
+       "median": 498.9
+      }
+     }
+    },
+    "2040-12-31": {
+     "p10": {
+      "expert": {
+       "n": 197,
+       "median": 120.0
+      },
+      "public": {
+       "n": 628,
+       "median": 60.0
+      },
+      "superforecaster": {
+       "n": 53,
+       "median": 221.7
+      }
+     },
+     "p50": {
+      "expert": {
+       "n": 197,
+       "median": 300.0
+      },
+      "public": {
+       "n": 628,
+       "median": 98.9
+      },
+      "superforecaster": {
+       "n": 53,
+       "median": 770.0
+      }
+     },
+     "p90": {
+      "expert": {
+       "n": 197,
+       "median": 500.0
+      },
+      "public": {
+       "n": 628,
+       "median": 125.7
+      },
+      "superforecaster": {
+       "n": 53,
+       "median": 1300.0
+      }
+     }
+    }
+   }
+  },
+  "agi_year": {
+   "survey": "Wave 8: Timelines",
+   "fielded": [
+    "2026-04-20",
+    "2026-05-11"
+   ],
+   "question_group": "Expert Artificial General Intelligence (AGI) (2)",
+   "dimension": null,
+   "what": "the year Expert AGI first occurs, given it does before 2100",
+   "text": "Assume that more than 50% of LEAP panelists agree that AGI exists by the above definition before 2100. In what year do you expect this to first occur?",
+   "unit": {
+    "name": "year",
+    "display": "Year",
+    "abbreviation": null,
+    "min": 2025.0,
+    "max": 2100.0
+   },
+   "answers": {
+    "none": {
+     "p5": {
+      "expert": {
+       "n": 214,
+       "median": 2030.0
+      },
+      "public": {
+       "n": 606,
+       "median": 2032.0
+      },
+      "superforecaster": {
+       "n": 55,
+       "median": 2030.0
+      }
+     },
+     "p25": {
+      "expert": {
+       "n": 214,
+       "median": 2037.0
+      },
+      "public": {
+       "n": 606,
+       "median": 2043.0
+      },
+      "superforecaster": {
+       "n": 55,
+       "median": 2036.0
+      }
+     },
+     "p50": {
+      "expert": {
+       "n": 215,
+       "median": 2047.0
+      },
+      "public": {
+       "n": 606,
+       "median": 2055.0
+      },
+      "superforecaster": {
+       "n": 55,
+       "median": 2045.0
+      }
+     },
+     "p75": {
+      "expert": {
+       "n": 214,
+       "median": 2060.4
+      },
+      "public": {
+       "n": 606,
+       "median": 2074.9
+      },
+      "superforecaster": {
+       "n": 55,
+       "median": 2060.4
+      }
+     },
+     "p95": {
+      "expert": {
+       "n": 214,
+       "median": 2090.0
+      },
+      "public": {
+       "n": 606,
+       "median": 2090.0
+      },
+      "superforecaster": {
+       "n": 55,
+       "median": 2090.0
+      }
+     }
+    }
+   }
+  },
+  "agi_p": {
+   "survey": "Wave 8: Timelines",
+   "fielded": [
+    "2026-04-20",
+    "2026-05-11"
+   ],
+   "question_group": "Expert Artificial General Intelligence (AGI) (1)",
+   "dimension": null,
+   "what": "P(before 2100, >50% of the LEAP panel agrees Expert AGI exists)",
+   "text": "What is the probability that, before 2100, more than 50% of LEAP panelists will agree that AGI exists, and if it occurs, in what year do you expect this to first occur?",
+   "unit": {
+    "name": "probability",
+    "display": "Probability",
+    "abbreviation": null,
+    "min": 0.0,
+    "max": 100.0
+   },
+   "answers": {
+    "2099-12-31": {
+     "p50": {
+      "expert": {
+       "n": 216,
+       "median": 80.0
+      },
+      "public": {
+       "n": 607,
+       "median": 60.0
+      },
+      "superforecaster": {
+       "n": 55,
+       "median": 80.0
+      }
+     }
+    }
+   }
+  },
+  "eci_us": {
+   "survey": "Wave 5: Security and Geopolitics",
+   "fielded": [
+    "2026-01-12",
+    "2026-02-03"
+   ],
+   "question_group": "U.S. versus China Polarity",
+   "dimension": "United States",
+   "what": "the top-performing American AI system's score on the Epoch Capabilities Index",
+   "text": "What scores will the top-performing American AI system and top-performing Chinese AI system have on the Epoch Capabilities Index at the following resolution dates (Dec 31, 2026, Dec 31, 2030, and Dec 31, 2040)?\n",
+   "unit": {
+    "name": "epoch capabilities index",
+    "display": "Epoch Capabilities Index",
+    "abbreviation": "ECI",
+    "min": 0.0,
+    "max": null
+   },
+   "answers": {
+    "2026-12-31": {
+     "p25": {
+      "expert": {
+       "n": 240,
+       "median": 160.0
+      },
+      "public": {
+       "n": 698,
+       "median": 155.8
+      },
+      "superforecaster": {
+       "n": 55,
+       "median": 161.0
+      }
+     },
+     "p50": {
+      "expert": {
+       "n": 240,
+       "median": 165.0
+      },
+      "public": {
+       "n": 698,
+       "median": 160.6
+      },
+      "superforecaster": {
+       "n": 55,
+       "median": 169.0
+      }
+     },
+     "p75": {
+      "expert": {
+       "n": 240,
+       "median": 172.4
+      },
+      "public": {
+       "n": 698,
+       "median": 168.0
+      },
+      "superforecaster": {
+       "n": 55,
+       "median": 176.0
+      }
+     }
+    },
+    "2030-12-31": {
+     "p25": {
+      "expert": {
+       "n": 240,
+       "median": 175.0
+      },
+      "public": {
+       "n": 701,
+       "median": 161.5
+      },
+      "superforecaster": {
+       "n": 55,
+       "median": 185.0
+      }
+     },
+     "p50": {
+      "expert": {
+       "n": 240,
+       "median": 190.0
+      },
+      "public": {
+       "n": 701,
+       "median": 170.0
+      },
+      "superforecaster": {
+       "n": 55,
+       "median": 205.0
+      }
+     },
+     "p75": {
+      "expert": {
+       "n": 240,
+       "median": 202.4
+      },
+      "public": {
+       "n": 701,
+       "median": 176.8
+      },
+      "superforecaster": {
+       "n": 55,
+       "median": 240.0
+      }
+     }
+    },
+    "2040-12-31": {
+     "p25": {
+      "expert": {
+       "n": 240,
+       "median": 200.0
+      },
+      "public": {
+       "n": 702,
+       "median": 170.0
+      },
+      "superforecaster": {
+       "n": 55,
+       "median": 225.0
+      }
+     },
+     "p50": {
+      "expert": {
+       "n": 240,
+       "median": 240.0
+      },
+      "public": {
+       "n": 702,
+       "median": 180.0
+      },
+      "superforecaster": {
+       "n": 55,
+       "median": 310.0
+      }
+     },
+     "p75": {
+      "expert": {
+       "n": 240,
+       "median": 280.0
+      },
+      "public": {
+       "n": 702,
+       "median": 190.0
+      },
+      "superforecaster": {
+       "n": 55,
+       "median": 400.0
+      }
+     }
+    }
+   }
+  },
+  "gdp": {
+   "survey": "Wave 6: Economic Effects",
+   "fielded": [
+    "2026-02-09",
+    "2026-03-03"
+   ],
+   "question_group": "Change in Gross Domestic Product",
+   "dimension": null,
+   "what": "annualized change in US real GDP, percent",
+   "text": "What will be the annualized change, in percent, in the real Gross Domestic Product (GDP) of the U.S. between the following years?",
+   "unit": {
+    "name": "percentage point",
+    "display": "Percentage Points",
+    "abbreviation": "pp",
+    "min": -100.0,
+    "max": null
+   },
+   "answers": {
+    "2030-01-01": {
+     "p10": {
+      "expert": {
+       "n": 232,
+       "median": 0.6
+      },
+      "public": {
+       "n": 712,
+       "median": 0.5
+      },
+      "superforecaster": {
+       "n": 54,
+       "median": 1.0
+      }
+     },
+     "p50": {
+      "expert": {
+       "n": 232,
+       "median": 2.7
+      },
+      "public": {
+       "n": 712,
+       "median": 2.5
+      },
+      "superforecaster": {
+       "n": 54,
+       "median": 2.5
+      }
+     },
+     "p90": {
+      "expert": {
+       "n": 232,
+       "median": 5.3
+      },
+      "public": {
+       "n": 712,
+       "median": 5.2
+      },
+      "superforecaster": {
+       "n": 54,
+       "median": 4.305
+      }
+     }
+    },
+    "2050-01-01": {
+     "p10": {
+      "expert": {
+       "n": 232,
+       "median": 0.895
+      },
+      "public": {
+       "n": 712,
+       "median": 0.7
+      },
+      "superforecaster": {
+       "n": 54,
+       "median": 0.8
+      }
+     },
+     "p50": {
+      "expert": {
+       "n": 232,
+       "median": 3.0
+      },
+      "public": {
+       "n": 712,
+       "median": 3.0
+      },
+      "superforecaster": {
+       "n": 54,
+       "median": 2.5
+      }
+     },
+     "p90": {
+      "expert": {
+       "n": 232,
+       "median": 6.105
+      },
+      "public": {
+       "n": 712,
+       "median": 5.805
+      },
+      "superforecaster": {
+       "n": 54,
+       "median": 5.0
+      }
+     }
+    }
+   }
+  },
+  "lfpr": {
+   "survey": "Wave 6: Economic Effects",
+   "fielded": [
+    "2026-02-09",
+    "2026-03-03"
+   ],
+   "question_group": "Labor Force Participation Rate",
+   "dimension": null,
+   "what": "US labor force participation rate at the beginning of the year, percent",
+   "text": "What will be the labor force participation rate in the U.S. at the beginning of the following years?",
+   "unit": {
+    "name": "percent",
+    "display": "Percent (%)",
+    "abbreviation": "%",
+    "min": 0.0,
+    "max": 100.0
+   },
+   "answers": {
+    "2030-01-01": {
+     "p10": {
+      "expert": {
+       "n": 231,
+       "median": 57.5
+      },
+      "public": {
+       "n": 706,
+       "median": 58.0
+      },
+      "superforecaster": {
+       "n": 54,
+       "median": 58.0
+      }
+     },
+     "p50": {
+      "expert": {
+       "n": 231,
+       "median": 61.5
+      },
+      "public": {
+       "n": 706,
+       "median": 62.0
+      },
+      "superforecaster": {
+       "n": 54,
+       "median": 62.0
+      }
+     },
+     "p90": {
+      "expert": {
+       "n": 231,
+       "median": 65.35
+      },
+      "public": {
+       "n": 706,
+       "median": 65.55
+      },
+      "superforecaster": {
+       "n": 54,
+       "median": 65.1
+      }
+     }
+    },
+    "2050-01-01": {
+     "p10": {
+      "expert": {
+       "n": 231,
+       "median": 54.0
+      },
+      "public": {
+       "n": 706,
+       "median": 57.0
+      },
+      "superforecaster": {
+       "n": 54,
+       "median": 55.0
+      }
+     },
+     "p50": {
+      "expert": {
+       "n": 231,
+       "median": 59.0
+      },
+      "public": {
+       "n": 706,
+       "median": 60.5
+      },
+      "superforecaster": {
+       "n": 54,
+       "median": 60.0
+      }
+     },
+     "p90": {
+      "expert": {
+       "n": 231,
+       "median": 64.35
+      },
+      "public": {
+       "n": 706,
+       "median": 64.35
+      },
+      "superforecaster": {
+       "n": 54,
+       "median": 66.0
+      }
+     }
+    }
+   }
+  },
+  "metr": {
+   "survey": "Wave 8: Timelines",
+   "fielded": [
+    "2026-04-20",
+    "2026-05-11"
+   ],
+   "question_group": "80%, 8-Hour Task Horizon (1)",
+   "dimension": null,
+   "what": "longest METR 80% time horizon listed on 2026-12-31, hours",
+   "text": "What will be the longest METR 80% time horizon listed for an AI model on December 31, 2026?",
+   "unit": {
+    "name": "hours",
+    "display": "Hours",
+    "abbreviation": "hrs",
+    "min": 0.0,
+    "max": null
+   },
+   "answers": {
+    "2026-12-31": {
+     "p25": {
+      "expert": {
+       "n": 211,
+       "median": 2.2
+      },
+      "public": {
+       "n": 603,
+       "median": 1.6
+      },
+      "superforecaster": {
+       "n": 54,
+       "median": 2.1
+      }
+     },
+     "p50": {
+      "expert": {
+       "n": 211,
+       "median": 3.5
+      },
+      "public": {
+       "n": 603,
+       "median": 2.8
+      },
+      "superforecaster": {
+       "n": 54,
+       "median": 3.5
+      }
+     },
+     "p75": {
+      "expert": {
+       "n": 211,
+       "median": 5.5
+      },
+      "public": {
+       "n": 603,
+       "median": 4.0
+      },
+      "superforecaster": {
+       "n": 54,
+       "median": 5.4999
+      }
+     }
+    }
+   }
+  }
+ }
+}

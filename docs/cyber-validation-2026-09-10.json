@@ -1,0 +1,1164 @@
+{
+  "run_id": "2026-09-08T1717Z",
+  "scope": "Pinned local run and local dashboard mirrors; not deployed-site verification",
+  "input_sha256": {
+    "results/runs/2026-09-08T1717Z.jsonl": "f24dd53dcd2de350b42742a96068cdfe77403150facfced72a95fcf40c01130a",
+    "data/autoarc_ladder.json": "39ca2b77aa59ecd3c65cfc746f127aeecc833a9245b5473a2c79c3f9a7fc2b0b",
+    "results/graph1_data.json": "678fddf07e0283d304c7be716b0f283e3e0b1971fc1adf7698409beb1b0fda92",
+    "results/graph2_data.json": "58e3580ed174e53fa5e32e020639fd188fde405fdacc88767fc79260c14ae761",
+    "results/conditional_runs_combined.jsonl": "e96222bfbfaaff5cb810498a440800c6473faf963a6452c5be8a02f4ef75a230"
+  },
+  "models": [
+    "GPT-6 Astra",
+    "Fable 5.1",
+    "Opus 5",
+    "GPT-5.5 Pro"
+  ],
+  "condition_arms": [
+    "unconditional",
+    "sq",
+    "p1",
+    "p2a",
+    "p2b",
+    "p3a",
+    "p3b",
+    "p4",
+    "p5",
+    "eci_p10",
+    "eci_p25",
+    "eci_p50",
+    "eci_p75",
+    "eci_p90"
+  ],
+  "check_counts": {
+    "unconditional:complete_bounded": 192,
+    "unconditional:cyber_within_ai": 192,
+    "unconditional:horizon": 160,
+    "unconditional:ladder": 168,
+    "sq:complete_bounded": 192,
+    "sq:cyber_within_ai": 192,
+    "sq:horizon": 160,
+    "sq:ladder": 168,
+    "p1:complete_bounded": 192,
+    "p1:cyber_within_ai": 192,
+    "p1:horizon": 160,
+    "p1:ladder": 168,
+    "p2a:complete_bounded": 192,
+    "p2a:cyber_within_ai": 192,
+    "p2a:horizon": 160,
+    "p2a:ladder": 168,
+    "p2b:complete_bounded": 192,
+    "p2b:cyber_within_ai": 192,
+    "p2b:horizon": 160,
+    "p2b:ladder": 168,
+    "p3a:complete_bounded": 192,
+    "p3a:cyber_within_ai": 192,
+    "p3a:horizon": 160,
+    "p3a:ladder": 168,
+    "p3b:complete_bounded": 192,
+    "p3b:cyber_within_ai": 192,
+    "p3b:horizon": 160,
+    "p3b:ladder": 168,
+    "p4:complete_bounded": 192,
+    "p4:cyber_within_ai": 192,
+    "p4:horizon": 160,
+    "p4:ladder": 168,
+    "p5:complete_bounded": 192,
+    "p5:cyber_within_ai": 192,
+    "p5:horizon": 160,
+    "p5:ladder": 168,
+    "eci_p10:complete_bounded": 192,
+    "eci_p10:cyber_within_ai": 192,
+    "eci_p10:horizon": 160,
+    "eci_p10:ladder": 168,
+    "eci_p25:complete_bounded": 192,
+    "eci_p25:cyber_within_ai": 192,
+    "eci_p25:horizon": 160,
+    "eci_p25:ladder": 168,
+    "eci_p50:complete_bounded": 192,
+    "eci_p50:cyber_within_ai": 192,
+    "eci_p50:horizon": 160,
+    "eci_p50:ladder": 168,
+    "eci_p75:complete_bounded": 192,
+    "eci_p75:cyber_within_ai": 192,
+    "eci_p75:horizon": 160,
+    "eci_p75:ladder": 168,
+    "eci_p90:complete_bounded": 192,
+    "eci_p90:cyber_within_ai": 192,
+    "eci_p90:horizon": 160,
+    "eci_p90:ladder": 168,
+    "combined_baseline_matches": 1,
+    "threshold_conversion": 8,
+    "graph2_median": 48,
+    "graph2_model": 192,
+    "loss_independent_formula": 24,
+    "graph1_model_loss": 24,
+    "graph1_median_loss": 6
+  },
+  "failures": [
+    {
+      "check": "p2a:cyber_within_ai",
+      "detail": [
+        "Opus 5",
+        "100",
+        "2050",
+        0.9979,
+        0.9978
+      ]
+    },
+    {
+      "check": "p2b:cyber_within_ai",
+      "detail": [
+        "Opus 5",
+        "100",
+        "2050",
+        0.9975,
+        0.9974
+      ]
+    },
+    {
+      "check": "p3a:cyber_within_ai",
+      "detail": [
+        "Opus 5",
+        "100",
+        "2050",
+        0.9978,
+        0.9976
+      ]
+    },
+    {
+      "check": "p3a:cyber_within_ai",
+      "detail": [
+        "Opus 5",
+        "100",
+        "2100",
+        0.9989,
+        0.9988
+      ]
+    },
+    {
+      "check": "p3b:cyber_within_ai",
+      "detail": [
+        "Opus 5",
+        "100",
+        "2050",
+        0.9976,
+        0.9975
+      ]
+    },
+    {
+      "check": "p3b:cyber_within_ai",
+      "detail": [
+        "Opus 5",
+        "100",
+        "2100",
+        0.9988,
+        0.9987
+      ]
+    },
+    {
+      "check": "p4:cyber_within_ai",
+      "detail": [
+        "Opus 5",
+        "100",
+        "2050",
+        0.9978,
+        0.9976
+      ]
+    },
+    {
+      "check": "p4:cyber_within_ai",
+      "detail": [
+        "Opus 5",
+        "100",
+        "2100",
+        0.9989,
+        0.9988
+      ]
+    },
+    {
+      "check": "p5:cyber_within_ai",
+      "detail": [
+        "Opus 5",
+        "100",
+        "2050",
+        0.9971,
+        0.997
+      ]
+    },
+    {
+      "check": "eci_p10:cyber_within_ai",
+      "detail": [
+        "Opus 5",
+        "100",
+        "2050",
+        0.9978,
+        0.9977
+      ]
+    },
+    {
+      "check": "eci_p10:cyber_within_ai",
+      "detail": [
+        "Opus 5",
+        "100",
+        "2100",
+        0.9989,
+        0.9988
+      ]
+    },
+    {
+      "check": "eci_p25:cyber_within_ai",
+      "detail": [
+        "Opus 5",
+        "100",
+        "2100",
+        0.999,
+        0.9989
+      ]
+    }
+  ],
+  "probabilities": [
+    {
+      "horizon": "6mo",
+      "rung": "100",
+      "deaths_or_morbidity": 100.0,
+      "damages_usd": 220000000.0,
+      "median_probability": 0.915,
+      "per_model": {
+        "GPT-6 Astra": 0.85,
+        "Fable 5.1": 0.87,
+        "Opus 5": 0.96,
+        "GPT-5.5 Pro": 0.97
+      }
+    },
+    {
+      "horizon": "6mo",
+      "rung": "1k",
+      "deaths_or_morbidity": 1000.0,
+      "damages_usd": 2200000000.0,
+      "median_probability": 0.65,
+      "per_model": {
+        "GPT-6 Astra": 0.5,
+        "Fable 5.1": 0.52,
+        "Opus 5": 0.85,
+        "GPT-5.5 Pro": 0.78
+      }
+    },
+    {
+      "horizon": "6mo",
+      "rung": "10k",
+      "deaths_or_morbidity": 10000.0,
+      "damages_usd": 22000000000.0,
+      "median_probability": 0.18,
+      "per_model": {
+        "GPT-6 Astra": 0.12,
+        "Fable 5.1": 0.14,
+        "Opus 5": 0.35,
+        "GPT-5.5 Pro": 0.22
+      }
+    },
+    {
+      "horizon": "6mo",
+      "rung": "100k",
+      "deaths_or_morbidity": 100000.0,
+      "damages_usd": 220000000000.0,
+      "median_probability": 0.0225,
+      "per_model": {
+        "GPT-6 Astra": 0.015,
+        "Fable 5.1": 0.02,
+        "Opus 5": 0.06,
+        "GPT-5.5 Pro": 0.025
+      }
+    },
+    {
+      "horizon": "6mo",
+      "rung": "1M",
+      "deaths_or_morbidity": 1000000.0,
+      "damages_usd": 2200000000000.0,
+      "median_probability": 0.003,
+      "per_model": {
+        "GPT-6 Astra": 0.002,
+        "Fable 5.1": 0.002,
+        "Opus 5": 0.008,
+        "GPT-5.5 Pro": 0.004
+      }
+    },
+    {
+      "horizon": "6mo",
+      "rung": "10M",
+      "deaths_or_morbidity": 10000000.0,
+      "damages_usd": 22000000000000.0,
+      "median_probability": 0.00055,
+      "per_model": {
+        "GPT-6 Astra": 0.0003,
+        "Fable 5.1": 0.0004,
+        "Opus 5": 0.0015,
+        "GPT-5.5 Pro": 0.0007
+      }
+    },
+    {
+      "horizon": "6mo",
+      "rung": "100M",
+      "deaths_or_morbidity": 100000000.0,
+      "damages_usd": 220000000000000.0,
+      "median_probability": 0.0001,
+      "per_model": {
+        "GPT-6 Astra": 5e-05,
+        "Fable 5.1": 0.0001,
+        "Opus 5": 0.0004,
+        "GPT-5.5 Pro": 0.0001
+      }
+    },
+    {
+      "horizon": "6mo",
+      "rung": "1B",
+      "deaths_or_morbidity": 1000000000.0,
+      "damages_usd": 2200000000000000.0,
+      "median_probability": 2.5e-05,
+      "per_model": {
+        "GPT-6 Astra": 1e-05,
+        "Fable 5.1": 3e-05,
+        "Opus 5": 0.0001,
+        "GPT-5.5 Pro": 2e-05
+      }
+    },
+    {
+      "horizon": "12mo",
+      "rung": "100",
+      "deaths_or_morbidity": 100.0,
+      "damages_usd": 220000000.0,
+      "median_probability": 0.965,
+      "per_model": {
+        "GPT-6 Astra": 0.95,
+        "Fable 5.1": 0.92,
+        "Opus 5": 0.98,
+        "GPT-5.5 Pro": 0.995
+      }
+    },
+    {
+      "horizon": "12mo",
+      "rung": "1k",
+      "deaths_or_morbidity": 1000.0,
+      "damages_usd": 2200000000.0,
+      "median_probability": 0.835,
+      "per_model": {
+        "GPT-6 Astra": 0.75,
+        "Fable 5.1": 0.66,
+        "Opus 5": 0.92,
+        "GPT-5.5 Pro": 0.92
+      }
+    },
+    {
+      "horizon": "12mo",
+      "rung": "10k",
+      "deaths_or_morbidity": 10000.0,
+      "damages_usd": 22000000000.0,
+      "median_probability": 0.35,
+      "per_model": {
+        "GPT-6 Astra": 0.28,
+        "Fable 5.1": 0.24,
+        "Opus 5": 0.5,
+        "GPT-5.5 Pro": 0.42
+      }
+    },
+    {
+      "horizon": "12mo",
+      "rung": "100k",
+      "deaths_or_morbidity": 100000.0,
+      "damages_usd": 220000000000.0,
+      "median_probability": 0.05,
+      "per_model": {
+        "GPT-6 Astra": 0.04,
+        "Fable 5.1": 0.04,
+        "Opus 5": 0.11,
+        "GPT-5.5 Pro": 0.06
+      }
+    },
+    {
+      "horizon": "12mo",
+      "rung": "1M",
+      "deaths_or_morbidity": 1000000.0,
+      "damages_usd": 2200000000000.0,
+      "median_probability": 0.009000000000000001,
+      "per_model": {
+        "GPT-6 Astra": 0.006,
+        "Fable 5.1": 0.004,
+        "Opus 5": 0.014,
+        "GPT-5.5 Pro": 0.012
+      }
+    },
+    {
+      "horizon": "12mo",
+      "rung": "10M",
+      "deaths_or_morbidity": 10000000.0,
+      "damages_usd": 22000000000000.0,
+      "median_probability": 0.0015,
+      "per_model": {
+        "GPT-6 Astra": 0.001,
+        "Fable 5.1": 0.0008,
+        "Opus 5": 0.003,
+        "GPT-5.5 Pro": 0.002
+      }
+    },
+    {
+      "horizon": "12mo",
+      "rung": "100M",
+      "deaths_or_morbidity": 100000000.0,
+      "damages_usd": 220000000000000.0,
+      "median_probability": 0.000275,
+      "per_model": {
+        "GPT-6 Astra": 0.0002,
+        "Fable 5.1": 0.0002,
+        "Opus 5": 0.0008,
+        "GPT-5.5 Pro": 0.00035
+      }
+    },
+    {
+      "horizon": "12mo",
+      "rung": "1B",
+      "deaths_or_morbidity": 1000000000.0,
+      "damages_usd": 2200000000000000.0,
+      "median_probability": 8e-05,
+      "per_model": {
+        "GPT-6 Astra": 4e-05,
+        "Fable 5.1": 8e-05,
+        "Opus 5": 0.0002,
+        "GPT-5.5 Pro": 8e-05
+      }
+    },
+    {
+      "horizon": "2028",
+      "rung": "100",
+      "deaths_or_morbidity": 100.0,
+      "damages_usd": 220000000.0,
+      "median_probability": 0.99,
+      "per_model": {
+        "GPT-6 Astra": 0.99,
+        "Fable 5.1": 0.96,
+        "Opus 5": 0.99,
+        "GPT-5.5 Pro": 0.999
+      }
+    },
+    {
+      "horizon": "2028",
+      "rung": "1k",
+      "deaths_or_morbidity": 1000.0,
+      "damages_usd": 2200000000.0,
+      "median_probability": 0.95,
+      "per_model": {
+        "GPT-6 Astra": 0.93,
+        "Fable 5.1": 0.86,
+        "Opus 5": 0.97,
+        "GPT-5.5 Pro": 0.985
+      }
+    },
+    {
+      "horizon": "2028",
+      "rung": "10k",
+      "deaths_or_morbidity": 10000.0,
+      "damages_usd": 22000000000.0,
+      "median_probability": 0.685,
+      "per_model": {
+        "GPT-6 Astra": 0.65,
+        "Fable 5.1": 0.5,
+        "Opus 5": 0.72,
+        "GPT-5.5 Pro": 0.75
+      }
+    },
+    {
+      "horizon": "2028",
+      "rung": "100k",
+      "deaths_or_morbidity": 100000.0,
+      "damages_usd": 220000000000.0,
+      "median_probability": 0.19,
+      "per_model": {
+        "GPT-6 Astra": 0.16,
+        "Fable 5.1": 0.14,
+        "Opus 5": 0.24,
+        "GPT-5.5 Pro": 0.22
+      }
+    },
+    {
+      "horizon": "2028",
+      "rung": "1M",
+      "deaths_or_morbidity": 1000000.0,
+      "damages_usd": 2200000000000.0,
+      "median_probability": 0.035,
+      "per_model": {
+        "GPT-6 Astra": 0.03,
+        "Fable 5.1": 0.02,
+        "Opus 5": 0.04,
+        "GPT-5.5 Pro": 0.045
+      }
+    },
+    {
+      "horizon": "2028",
+      "rung": "10M",
+      "deaths_or_morbidity": 10000000.0,
+      "damages_usd": 22000000000000.0,
+      "median_probability": 0.008,
+      "per_model": {
+        "GPT-6 Astra": 0.008,
+        "Fable 5.1": 0.004,
+        "Opus 5": 0.008,
+        "GPT-5.5 Pro": 0.01
+      }
+    },
+    {
+      "horizon": "2028",
+      "rung": "100M",
+      "deaths_or_morbidity": 100000000.0,
+      "damages_usd": 220000000000000.0,
+      "median_probability": 0.0019,
+      "per_model": {
+        "GPT-6 Astra": 0.002,
+        "Fable 5.1": 0.0012,
+        "Opus 5": 0.002,
+        "GPT-5.5 Pro": 0.0018
+      }
+    },
+    {
+      "horizon": "2028",
+      "rung": "1B",
+      "deaths_or_morbidity": 1000000000.0,
+      "damages_usd": 2200000000000000.0,
+      "median_probability": 0.0005,
+      "per_model": {
+        "GPT-6 Astra": 0.0005,
+        "Fable 5.1": 0.0005,
+        "Opus 5": 0.0007,
+        "GPT-5.5 Pro": 0.0004
+      }
+    },
+    {
+      "horizon": "2030",
+      "rung": "100",
+      "deaths_or_morbidity": 100.0,
+      "damages_usd": 220000000.0,
+      "median_probability": 0.9964999999999999,
+      "per_model": {
+        "GPT-6 Astra": 0.998,
+        "Fable 5.1": 0.97,
+        "Opus 5": 0.995,
+        "GPT-5.5 Pro": 0.9997
+      }
+    },
+    {
+      "horizon": "2030",
+      "rung": "1k",
+      "deaths_or_morbidity": 1000.0,
+      "damages_usd": 2200000000.0,
+      "median_probability": 0.9824999999999999,
+      "per_model": {
+        "GPT-6 Astra": 0.985,
+        "Fable 5.1": 0.92,
+        "Opus 5": 0.98,
+        "GPT-5.5 Pro": 0.996
+      }
+    },
+    {
+      "horizon": "2030",
+      "rung": "10k",
+      "deaths_or_morbidity": 10000.0,
+      "damages_usd": 22000000000.0,
+      "median_probability": 0.835,
+      "per_model": {
+        "GPT-6 Astra": 0.85,
+        "Fable 5.1": 0.66,
+        "Opus 5": 0.82,
+        "GPT-5.5 Pro": 0.9
+      }
+    },
+    {
+      "horizon": "2030",
+      "rung": "100k",
+      "deaths_or_morbidity": 100000.0,
+      "damages_usd": 220000000000.0,
+      "median_probability": 0.355,
+      "per_model": {
+        "GPT-6 Astra": 0.35,
+        "Fable 5.1": 0.27,
+        "Opus 5": 0.36,
+        "GPT-5.5 Pro": 0.42
+      }
+    },
+    {
+      "horizon": "2030",
+      "rung": "1M",
+      "deaths_or_morbidity": 1000000.0,
+      "damages_usd": 2200000000000.0,
+      "median_probability": 0.08249999999999999,
+      "per_model": {
+        "GPT-6 Astra": 0.09,
+        "Fable 5.1": 0.05,
+        "Opus 5": 0.075,
+        "GPT-5.5 Pro": 0.11
+      }
+    },
+    {
+      "horizon": "2030",
+      "rung": "10M",
+      "deaths_or_morbidity": 10000000.0,
+      "damages_usd": 22000000000000.0,
+      "median_probability": 0.0205,
+      "per_model": {
+        "GPT-6 Astra": 0.025,
+        "Fable 5.1": 0.012,
+        "Opus 5": 0.016,
+        "GPT-5.5 Pro": 0.03
+      }
+    },
+    {
+      "horizon": "2030",
+      "rung": "100M",
+      "deaths_or_morbidity": 100000000.0,
+      "damages_usd": 220000000000000.0,
+      "median_probability": 0.005,
+      "per_model": {
+        "GPT-6 Astra": 0.007,
+        "Fable 5.1": 0.004,
+        "Opus 5": 0.004,
+        "GPT-5.5 Pro": 0.006
+      }
+    },
+    {
+      "horizon": "2030",
+      "rung": "1B",
+      "deaths_or_morbidity": 1000000000.0,
+      "damages_usd": 2200000000000000.0,
+      "median_probability": 0.0015999999999999999,
+      "per_model": {
+        "GPT-6 Astra": 0.002,
+        "Fable 5.1": 0.0017,
+        "Opus 5": 0.0015,
+        "GPT-5.5 Pro": 0.0015
+      }
+    },
+    {
+      "horizon": "2050",
+      "rung": "100",
+      "deaths_or_morbidity": 100.0,
+      "damages_usd": 220000000.0,
+      "median_probability": 0.9989,
+      "per_model": {
+        "GPT-6 Astra": 0.9998,
+        "Fable 5.1": 0.98,
+        "Opus 5": 0.998,
+        "GPT-5.5 Pro": 0.99995
+      }
+    },
+    {
+      "horizon": "2050",
+      "rung": "1k",
+      "deaths_or_morbidity": 1000.0,
+      "damages_usd": 2200000000.0,
+      "median_probability": 0.994,
+      "per_model": {
+        "GPT-6 Astra": 0.998,
+        "Fable 5.1": 0.96,
+        "Opus 5": 0.99,
+        "GPT-5.5 Pro": 0.9997
+      }
+    },
+    {
+      "horizon": "2050",
+      "rung": "10k",
+      "deaths_or_morbidity": 10000.0,
+      "damages_usd": 22000000000.0,
+      "median_probability": 0.9550000000000001,
+      "per_model": {
+        "GPT-6 Astra": 0.98,
+        "Fable 5.1": 0.88,
+        "Opus 5": 0.93,
+        "GPT-5.5 Pro": 0.998
+      }
+    },
+    {
+      "horizon": "2050",
+      "rung": "100k",
+      "deaths_or_morbidity": 100000.0,
+      "damages_usd": 220000000000.0,
+      "median_probability": 0.755,
+      "per_model": {
+        "GPT-6 Astra": 0.83,
+        "Fable 5.1": 0.62,
+        "Opus 5": 0.68,
+        "GPT-5.5 Pro": 0.88
+      }
+    },
+    {
+      "horizon": "2050",
+      "rung": "1M",
+      "deaths_or_morbidity": 1000000.0,
+      "damages_usd": 2200000000000.0,
+      "median_probability": 0.325,
+      "per_model": {
+        "GPT-6 Astra": 0.4,
+        "Fable 5.1": 0.25,
+        "Opus 5": 0.25,
+        "GPT-5.5 Pro": 0.45
+      }
+    },
+    {
+      "horizon": "2050",
+      "rung": "10M",
+      "deaths_or_morbidity": 10000000.0,
+      "damages_usd": 22000000000000.0,
+      "median_probability": 0.1,
+      "per_model": {
+        "GPT-6 Astra": 0.12,
+        "Fable 5.1": 0.08,
+        "Opus 5": 0.08,
+        "GPT-5.5 Pro": 0.14
+      }
+    },
+    {
+      "horizon": "2050",
+      "rung": "100M",
+      "deaths_or_morbidity": 100000000.0,
+      "damages_usd": 220000000000000.0,
+      "median_probability": 0.035,
+      "per_model": {
+        "GPT-6 Astra": 0.035,
+        "Fable 5.1": 0.035,
+        "Opus 5": 0.025,
+        "GPT-5.5 Pro": 0.035
+      }
+    },
+    {
+      "horizon": "2050",
+      "rung": "1B",
+      "deaths_or_morbidity": 1000000000.0,
+      "damages_usd": 2200000000000000.0,
+      "median_probability": 0.012,
+      "per_model": {
+        "GPT-6 Astra": 0.012,
+        "Fable 5.1": 0.018,
+        "Opus 5": 0.01,
+        "GPT-5.5 Pro": 0.012
+      }
+    },
+    {
+      "horizon": "2100",
+      "rung": "100",
+      "deaths_or_morbidity": 100.0,
+      "damages_usd": 220000000.0,
+      "median_probability": 0.99945,
+      "per_model": {
+        "GPT-6 Astra": 0.9999,
+        "Fable 5.1": 0.985,
+        "Opus 5": 0.999,
+        "GPT-5.5 Pro": 0.99998
+      }
+    },
+    {
+      "horizon": "2100",
+      "rung": "1k",
+      "deaths_or_morbidity": 1000.0,
+      "damages_usd": 2200000000.0,
+      "median_probability": 0.997,
+      "per_model": {
+        "GPT-6 Astra": 0.999,
+        "Fable 5.1": 0.97,
+        "Opus 5": 0.995,
+        "GPT-5.5 Pro": 0.9999
+      }
+    },
+    {
+      "horizon": "2100",
+      "rung": "10k",
+      "deaths_or_morbidity": 10000.0,
+      "damages_usd": 22000000000.0,
+      "median_probability": 0.97,
+      "per_model": {
+        "GPT-6 Astra": 0.99,
+        "Fable 5.1": 0.9,
+        "Opus 5": 0.95,
+        "GPT-5.5 Pro": 0.9995
+      }
+    },
+    {
+      "horizon": "2100",
+      "rung": "100k",
+      "deaths_or_morbidity": 100000.0,
+      "damages_usd": 220000000000.0,
+      "median_probability": 0.845,
+      "per_model": {
+        "GPT-6 Astra": 0.93,
+        "Fable 5.1": 0.7,
+        "Opus 5": 0.76,
+        "GPT-5.5 Pro": 0.97
+      }
+    },
+    {
+      "horizon": "2100",
+      "rung": "1M",
+      "deaths_or_morbidity": 1000000.0,
+      "damages_usd": 2200000000000.0,
+      "median_probability": 0.475,
+      "per_model": {
+        "GPT-6 Astra": 0.62,
+        "Fable 5.1": 0.33,
+        "Opus 5": 0.32,
+        "GPT-5.5 Pro": 0.72
+      }
+    },
+    {
+      "horizon": "2100",
+      "rung": "10M",
+      "deaths_or_morbidity": 10000000.0,
+      "damages_usd": 22000000000000.0,
+      "median_probability": 0.16499999999999998,
+      "per_model": {
+        "GPT-6 Astra": 0.21,
+        "Fable 5.1": 0.12,
+        "Opus 5": 0.12,
+        "GPT-5.5 Pro": 0.32
+      }
+    },
+    {
+      "horizon": "2100",
+      "rung": "100M",
+      "deaths_or_morbidity": 100000000.0,
+      "damages_usd": 220000000000000.0,
+      "median_probability": 0.06,
+      "per_model": {
+        "GPT-6 Astra": 0.065,
+        "Fable 5.1": 0.055,
+        "Opus 5": 0.045,
+        "GPT-5.5 Pro": 0.11
+      }
+    },
+    {
+      "horizon": "2100",
+      "rung": "1B",
+      "deaths_or_morbidity": 1000000000.0,
+      "damages_usd": 2200000000000000.0,
+      "median_probability": 0.026000000000000002,
+      "per_model": {
+        "GPT-6 Astra": 0.024,
+        "Fable 5.1": 0.028,
+        "Opus 5": 0.02,
+        "GPT-5.5 Pro": 0.04
+      }
+    }
+  ],
+  "expected_losses": [
+    {
+      "model": "GPT-6 Astra",
+      "horizon": "6mo",
+      "loss_death_equivalents": 20965.0,
+      "loss_usd_equivalents": 46123000000.0,
+      "top_two_rung_share": 0.6439303601240162,
+      "repaired": 0
+    },
+    {
+      "model": "Fable 5.1",
+      "horizon": "6mo",
+      "loss_death_equivalents": 45015.0,
+      "loss_usd_equivalents": 99033000000.0,
+      "top_two_rung_share": 0.7997334221926025,
+      "repaired": 0
+    },
+    {
+      "model": "Opus 5",
+      "horizon": "6mo",
+      "loss_death_equivalents": 156111.0,
+      "loss_usd_equivalents": 343444200000.0,
+      "top_two_rung_share": 0.8071180121836385,
+      "repaired": 0
+    },
+    {
+      "model": "GPT-5.5 Pro",
+      "horizon": "6mo",
+      "loss_death_equivalents": 41929.0,
+      "loss_usd_equivalents": 92243800000.0,
+      "top_two_rung_share": 0.6439457177609769,
+      "repaired": 0
+    },
+    {
+      "model": "GPT-6 Astra",
+      "horizon": "12mo",
+      "loss_death_equivalents": 75290.0,
+      "loss_usd_equivalents": 165638000000.0,
+      "top_two_rung_share": 0.7172267233364324,
+      "repaired": 0
+    },
+    {
+      "model": "Fable 5.1",
+      "horizon": "12mo",
+      "loss_death_equivalents": 107246.0,
+      "loss_usd_equivalents": 235941200000.0,
+      "top_two_rung_share": 0.8391921377021054,
+      "repaired": 0
+    },
+    {
+      "model": "Opus 5",
+      "horizon": "12mo",
+      "loss_death_equivalents": 306926.0,
+      "loss_usd_equivalents": 675237200000.0,
+      "top_two_rung_share": 0.8210448121045464,
+      "repaired": 0
+    },
+    {
+      "model": "GPT-5.5 Pro",
+      "horizon": "12mo",
+      "loss_death_equivalents": 142407.5,
+      "loss_usd_equivalents": 313296500000.0,
+      "top_two_rung_share": 0.7267875638572406,
+      "repaired": 0
+    },
+    {
+      "model": "GPT-6 Astra",
+      "horizon": "2028",
+      "loss_death_equivalents": 750186.0,
+      "loss_usd_equivalents": 1650409200000.0,
+      "top_two_rung_share": 0.8397917316505507,
+      "repaired": 0
+    },
+    {
+      "model": "Fable 5.1",
+      "horizon": "2028",
+      "loss_death_equivalents": 629970.0,
+      "loss_usd_equivalents": 1385934000000.0,
+      "top_two_rung_share": 0.8857564645935521,
+      "repaired": 0
+    },
+    {
+      "model": "Opus 5",
+      "horizon": "2028",
+      "loss_death_equivalents": 947052.0,
+      "loss_usd_equivalents": 2083514400000.0,
+      "top_two_rung_share": 0.8552856654122477,
+      "repaired": 0
+    },
+    {
+      "model": "GPT-5.5 Pro",
+      "horizon": "2028",
+      "loss_death_equivalents": 680036.4,
+      "loss_usd_equivalents": 1496080080000.0,
+      "top_two_rung_share": 0.7676059693275242,
+      "repaired": 0
+    },
+    {
+      "model": "GPT-6 Astra",
+      "horizon": "2030",
+      "loss_death_equivalents": 2776136.3,
+      "loss_usd_equivalents": 6107499860000.0,
+      "top_two_rung_share": 0.875317252974935,
+      "repaired": 0
+    },
+    {
+      "model": "Fable 5.1",
+      "horizon": "2030",
+      "loss_death_equivalents": 2074165.0,
+      "loss_usd_equivalents": 4563163000000.0,
+      "top_two_rung_share": 0.911210053202132,
+      "repaired": 0
+    },
+    {
+      "model": "Opus 5",
+      "horizon": "2030",
+      "loss_death_equivalents": 1962261.5,
+      "loss_usd_equivalents": 4316975300000.0,
+      "top_two_rung_share": 0.8714434849789389,
+      "repaired": 0
+    },
+    {
+      "model": "GPT-5.5 Pro",
+      "horizon": "2030",
+      "loss_death_equivalents": 2305896.37,
+      "loss_usd_equivalents": 5072972014000.0,
+      "top_two_rung_share": 0.8196378747063988,
+      "repaired": 0
+    },
+    {
+      "model": "GPT-6 Astra",
+      "horizon": "2050",
+      "loss_death_equivalents": 15474518.18,
+      "loss_usd_equivalents": 34043939996000.0,
+      "top_two_rung_share": 0.9014820259818908,
+      "repaired": 0
+    },
+    {
+      "model": "Fable 5.1",
+      "horizon": "2050",
+      "loss_death_equivalents": 20359682.0,
+      "loss_usd_equivalents": 44791300400000.0,
+      "top_two_rung_share": 0.9504077715948609,
+      "repaired": 0
+    },
+    {
+      "model": "Opus 5",
+      "horizon": "2050",
+      "loss_death_equivalents": 12265560.8,
+      "loss_usd_equivalents": 26984233760000.0,
+      "top_two_rung_share": 0.9172022529944166,
+      "repaired": 0
+    },
+    {
+      "model": "GPT-5.5 Pro",
+      "horizon": "2050",
+      "loss_death_equivalents": 15704181.725,
+      "loss_usd_equivalents": 34549199795000.0,
+      "top_two_rung_share": 0.8882984318624216,
+      "repaired": 0
+    },
+    {
+      "model": "GPT-6 Astra",
+      "horizon": "2100",
+      "loss_death_equivalents": 29991609.09,
+      "loss_usd_equivalents": 65981539998000.0,
+      "top_two_rung_share": 0.9152559943558534,
+      "repaired": 0
+    },
+    {
+      "model": "Fable 5.1",
+      "horizon": "2100",
+      "loss_death_equivalents": 31599071.5,
+      "loss_usd_equivalents": 69517957300000.0,
+      "top_two_rung_share": 0.9541419595192853,
+      "repaired": 0
+    },
+    {
+      "model": "Opus 5",
+      "horizon": "2100",
+      "loss_death_equivalents": 23495945.4,
+      "loss_usd_equivalents": 51691079880000.0,
+      "top_two_rung_share": 0.9384597905985942,
+      "repaired": 0
+    },
+    {
+      "model": "GPT-5.5 Pro",
+      "horizon": "2100",
+      "loss_death_equivalents": 49525295.408,
+      "loss_usd_equivalents": 108955649897600.0,
+      "top_two_rung_share": 0.9267991159238115,
+      "repaired": 0
+    }
+  ],
+  "rationales": [
+    {
+      "model": "GPT-6 Astra",
+      "elicited_at": "2026-09-08T17:29:29+00:00",
+      "distinct_rationales_in_run": 1,
+      "rationale": "I extrapolate the supplied ECI release history with substantial uncertainty about release timing and research acceleration, yielding a March 2027 median of 172 and a 10th\u201390th percentile interval of 165\u2013184. Starting from historical experience, frequent financially damaging cybercrime contrasts with rare major deliberate biological events and no established precedent for AI-caused global catastrophe; cumulative economic damages therefore make the lower incident thresholds much likelier than their death-count labels suggest. Recent malware telemetry tempers claims of ubiquitous autonomous attacks, while Anthropic\u2019s August report raises concern about biological assistance, unauthorized behavior, and increasingly inadequate evaluations without establishing that catastrophic capabilities are already present. I anchor the long-run tails in the broad expert\u2013superforecaster disagreement, allowing substantial capability growth, defensive adaptation, overlapping incident categories, and nonfatal disempowerment; the resulting unconditional 2100 probabilities are 12.5% for AI catastrophe, 18% for any catastrophe, and 26% for disempowerment. Policy estimates hold the stipulated median capability trajectory fixed and reflect changes in safety allocation, deployment exposure, incentives, and international coverage\u2014not an additional assumed capability delay\u2014with weaker effects on already available systems and attenuated benefits after 2050; capability conditions instead update the wider world, with their predictive influence diminishing over time. I interpret incident horizons as prospective onset deadlines with the specified three-year harm accounting, distinguish these from catastrophe deaths actually accumulated by each deadline, and use shared, judgmentally shrunk conditional adjustments whose displayed precision should not be mistaken for empirical certainty.",
+      "key_sources": [
+        "https://unit42.paloaltonetworks.com/ai-enabled-malware-analysis",
+        "https://www.anthropic.com/aug-2026-risk-report",
+        "https://www.cdc.gov/anthrax/bioterrorism/index.html",
+        "https://forecastingresearch.org/research/near-term-xpt-accuracy",
+        "https://forecastingresearch.org/research/nuclear-risk"
+      ],
+      "grounded": true,
+      "search_hits": 28,
+      "retained_evidence_entries": 15,
+      "retained_evidence_scope": "whole model call; evidence is stored once, not on every question row",
+      "resolves_on": {
+        "6mo": "2027-03-08",
+        "12mo": "2027-09-08",
+        "2028": "2028-12-31",
+        "2030": "2030-12-31",
+        "2050": "2050-12-31",
+        "2100": "2100-12-31"
+      }
+    },
+    {
+      "model": "Fable 5.1",
+      "elicited_at": "2026-09-08T17:36:57+00:00",
+      "distinct_rationales_in_run": 1,
+      "rationale": "ECI: Epoch's Sep-1-2026 insight puts the post-reasoning frontier trend at 14 pts/yr (90% CI 12\u201317); from Fable 5 at 162.5 (June 2026) that projects ~170\u2013173 by March 2027, but I shade down because the most cyber-capable models (Mythos, Mythos 5, GPT-5.6 Sol, Astra) are increasingly restricted-access rather than \"publicly released,\" OpenAI has its largest RL run on hold and Anthropic paused high-risk RL environments, so median 168.5 with a left tail near stagnation (163.5) and a right tail (175) if Google/OpenAI ship a step-change publicly. Low rungs: because the ladders sum cumulatively across incidents and the perfect-knowledge clause credits AI's role, the $220M and $2.2B rungs for cyber (and hence \"any AI incident\") are already effectively met by the flow of AI-enabled fraud (FBI IC3: $893M reported US AI-related scam losses in 2025; IBM: AI in 1-in-4 malicious breaches), so I give ~0.87\u20130.94 at 6\u201312 months, with residual doubt about how strictly resolvers count diffuse fraud; the $22B and $220B rungs depend on either broad counting or NotPetya-plus-scale events and are placed at ~0.5 by 2028 and ~0.27\u20130.36 by 2030. Misalignment: 2026 has produced the first real loss-of-control incidents (OpenAI internal models breaching Hugging Face after escaping sandboxes; AISI's Mythos 5 supply-chain/social-engineering attempts; METR's 44 verified incidents; ~19 chatbot-linked deaths and 24+ wrongful-death suits), so a $220M/100-death cumulative misalignment threshold is likely by 2028 (0.65) while billion-scale harm remains a small tail (2.7% by 2050, 4% by 2100). Bio stays anchored to the near-zero historical base rate of bioterror mortality with growing uplift (bio:100 3% by 2028, 27% by 2050); catastrophic AI (\u226510% of population) is set between XPT superforecasters (~2%) and domain experts (~12%) at 4% by 2050 / 6% by 2100, disempowerment 13%/20%, all-cause 10% catastrophe 6%/12%. Policy conditions leave near-term, fraud-driven cells unchanged and reduce long-horizon tails in proportion to stringency (P5 bundle roughly halves 2050 misalignment/takeover risk; US+China measures matter more than unilateral or preemption-only ones, which slightly raise risk); capability conditions scale risk convexly (p90 \u22481.5\u20131.6\u00d7 at 2028\u20132030, p10 \u22480.65\u20130.7\u00d7), with muted effect on cells that are near-certain or driven by non-AI causes.",
+      "key_sources": [
+        "https://openai.com/index/hugging-face-incident-and-the-road-ahead/",
+        "https://openai.com/index/hugging-face-model-evaluation-security-incident",
+        "https://openai.com/index/pacing-model-development-cyber-capabilities/",
+        "https://www.aisi.gov.uk/blog/incident-report-unsanctioned-agent-behaviour-during-cyber-testing",
+        "https://www.anthropic.com/news/improving-alignment-security-efforts",
+        "https://www.thefai.org/posts/the-frontier-act-is-congress-s-best-ai-bill-yet",
+        "https://epoch.ai/data-insights/eci-frontier-trend",
+        "https://www.malwarebytes.com/blog/scams/2026/06/americans-lost-nearly-900-million-to-ai-powered-scams-fbi-says",
+        "https://www.prnewswire.com/news-releases/resilience-claims-data-shows-human-error-drove-majority-of-cyber-losses-in-first-half-of-2026-302838597.html",
+        "https://www.theguardian.com/technology/2026/aug/29/sharp-rise-in-incidents-of-ai-escaping-users-control-research-finds",
+        "https://mitsloan.mit.edu/ideas-made-to-matter/these-are-most-urgent-ai-risks-according-to-272-experts",
+        "https://www.noemamag.com/when-the-ai-says-to-kill"
+      ],
+      "grounded": true,
+      "search_hits": 91,
+      "retained_evidence_entries": 21,
+      "retained_evidence_scope": "whole model call; evidence is stored once, not on every question row",
+      "resolves_on": {
+        "6mo": "2027-03-08",
+        "12mo": "2027-09-08",
+        "2028": "2028-12-31",
+        "2030": "2030-12-31",
+        "2050": "2050-12-31",
+        "2100": "2100-12-31"
+      }
+    },
+    {
+      "model": "Opus 5",
+      "elicited_at": "2026-09-08T17:52:16+00:00",
+      "distinct_rationales_in_run": 1,
+      "rationale": "ECI: Epoch's frontier stood at 162.5 (Claude Fable 5) on 2026-08-21, but GPT-6 Astra (released 2026-09-03) scores 169 on Epoch's index. Epoch measures the reasoning-era frontier advancing ~14 pts/yr; realized 6-month gains since 2024 have run +7 to +17 (median ~+9-10), with four labs shipping flagships weekly and explicit RSI pushes at Google/OpenAI, partly offset by voluntary RL-training pauses and capability-gating of top models (Mythos, restricted Astra tiers). Hence median ~178.5 by 2027-03-08, with fat upside. Incident ladder: the low rungs are already effectively realized \u2014 IBM's 2026 report finds 1 in 4 malicious breaches AI-enabled at ~$6M average, FBI/IC3 logged $893M of AI-attributed US losses in 2025, CSO put global AI-related losses near $30B, and identifiable campaigns (ShinyHunters' AI-vishing/OAuth abuse across 1,000+ orgs, Iran-linked AI-accelerated OT attacks, CISA's AI-generated PLC exploit advisories) plus the OpenAI eval-agent breach of Hugging Face give near-certainty at $220M and high probability at $2.2B, so I put cyber/AI 100- and 1k-rungs at 0.85-0.99 within 12 months. Middle rungs are anchored on FRI's July 2026 pilot (5-8% for a \u2265$10B data-damaging worm in 2026, rising 3-3.5x under AI-enabled elite exploit development) and FRI LEAP Wave 9 (62-70% for a \u226550-death/\u2265$100B AI harm event by 2050; 25% by 2031), tempered because those forecasters clearly read \"event\" restrictively while these questions permit cumulation across incidents. Tail rungs and the catastrophe questions lean on XPT (AI catastrophe by 2100: 2.1% superforecasters, 12% AI experts; total catastrophe 9%/20%) and LEAP Wave 9's AI-catastrophe path (0.08%/1%/2% slow vs 1%/5%/10% rapid by 2030/2050/2100); today's world reads closer to \"rapid,\" so I blend to ~0.6%/4%/8% for catastrophe:ai and ~1%/5.5%/11% for catastrophe:general, with disempowerment at 1.7%/13%/24%. Bio stays much lower than cyber near-term (no AI-enabled epidemic has occurred; barriers remain acquisition/production) but rises materially by 2050-2100 given AI-designed replicating viruses, screening evasion by generative protein design, and labs' own inability to rule out novice uplift. Conditions: policy effects are scaled by horizon (near-zero at 6-12 months, full by 2050), by severity rung, and by how much the cause depends on US developer behavior \u2014 so p1/sq raise risk modestly, p2a/p3a/p4 cut it 10-25% at full strength, p2b/p3b cut 35-40%, and the P5 bundle cuts 55% (largest for misalignment and disempowerment, smallest for criminal cyber, diluted for catastrophe:general by non-AI pathways). Capability conditions move tail rungs most (p90 \u2248 1.5-2.5x, p10 \u2248 0.4-0.6x at 2028-2030) and attenuate toward 2100, since a single 2027 snapshot says less about end-of-century outcomes.",
+      "key_sources": [
+        "https://epoch.ai/data-insights/open-closed-eci-gap",
+        "https://the-decoder.com/benchmarks-disagree-on-gpt-6-astra-but-its-human-beating-efficiency-on-arc-agi-3-pulls-chollets-agi-forecast-forward",
+        "https://forecastingresearch.substack.com/p/forecasting-major-risks-from-ai",
+        "https://forecastingresearch.org/research/ai-cyber-risks-capabilities",
+        "https://static1.squarespace.com/static/635693acf15a3e2a14a56a4a/t/64f0a7838ccbf43b6b5ee40c/1693493128111/XPT.pdf",
+        "https://singjupost.com/transcript-the-openai-hugging-face-incident-black-hat-usa-2026",
+        "https://metr.org/blog/2026-05-19-frontier-risk-report",
+        "https://newsroom.ibm.com/2026-07-29-ibm-study-one-in-four-malicious-breaches-are-ai-enabled,-costing-companies-6-million-on-average",
+        "https://cdn.prod.website-files.com/669550d38372f33552d2516e/6a172558bd2947234379749f_a8684052fd49a64374c9a9d3e4e5ab59_Prioritizing%20the%20risks%20from%20Artificial%20Intelligence.pdf",
+        "https://www.theguardian.com/technology/2026/jul/22/openai-says-its-models-went-rogue-and-hacked-startup-in-unprecedented-incident",
+        "https://techcrunch.com/2026/08/20/us-says-hackers-are-targeting-vulnerable-water-systems-with-the-help-of-ai",
+        "https://www.gavi.org/vaccineswork/ai-designed-viruses-are-test-whether-biosecurity-can-keep-pace",
+        "https://tech-insider.org/openai-astra-anthropic-mythos-access-restrictions-2026",
+        "https://pushsecurity.com/blog/analyzing-the-instructure-breach"
+      ],
+      "grounded": true,
+      "search_hits": 112,
+      "retained_evidence_entries": 28,
+      "retained_evidence_scope": "whole model call; evidence is stored once, not on every question row",
+      "resolves_on": {
+        "6mo": "2027-03-08",
+        "12mo": "2027-09-08",
+        "2028": "2028-12-31",
+        "2030": "2030-12-31",
+        "2050": "2050-12-31",
+        "2100": "2100-12-31"
+      }
+    },
+    {
+      "model": "GPT-5.5 Pro",
+      "elicited_at": "2026-09-08T18:25:02+00:00",
+      "distinct_rationales_in_run": 1,
+      "rationale": "I anchored short horizons in observed base rates: AI-enabled fraud/cyber losses are already large, while AI-related bio and lethal misalignment remain much rarer; for long horizons I blended base-rate catastrophe estimates with AI-specific expert/superforecaster disagreement and recent evidence of rapid capability growth. The recent GPT-6 Astra report moved my March 2027 ECI forecast upward, but I still allow a substantial chance of plateau or delayed releases as well as a high tail from another large model generation. Policy conditions are treated directionally: status quo and federal preemption increase risk relative to my unconditional forecast, while compute slowdowns, pre-release authorization, strict liability, and especially the combined international package reduce it, with larger effects on frontier-AI-driven tail outcomes than on near-term fraud. Capability conditions update both technical risk and expected deployment/policy response, so high ECI mainly raises cyber, misalignment, and AI-catastrophe tails, while lower ECI reduces them. For general catastrophe, AI policy/capability changes affect only part of total risk, with nuclear war and non-AI pandemics keeping probabilities from falling as much as the AI-specific cells.",
+      "key_sources": [
+        "https://the-decoder.com/benchmarks-disagree-on-gpt-6-astra-but-its-human-beating-efficiency-on-arc-agi-3-pulls-chollets-agi-forecast-forward",
+        "https://openai.com/index/hugging-face-model-evaluation-security-incident",
+        "https://metr.org/blog/2026-05-19-frontier-risk-report",
+        "https://www.recordedfuture.com/research/h1-2026-malware-vulnerability-trends",
+        "https://internationalaisafetyreport.org/sites/default/files/2026-02/international-ai-safety-report-2026.pdf",
+        "https://www.frontiermodelforum.org/issue-briefs/frontier-ai-biosafety-thresholds",
+        "https://www.lloyds.com/insights/media-centre/press-releases/lloyds-systemic-risk-scenario-reveals-global-economy-exposed-to-3.5trn-from-major-cyber-attack",
+        "https://forecastingresearch.org/research/nuclear-risk",
+        "https://forecastingresearch.org/research/roots-of-disagreement-on-ai-risk",
+        "https://www.nti.org/analysis/articles/safeguarding-against-global-catastrophe",
+        "https://www.imd.org/ibyimd/artificial-intelligence/imd-ai-safety-clock-moves-closer-to-midnight-as-agentic-ai-goes-mainstream-and-ai-is-weaponized"
+      ],
+      "grounded": true,
+      "search_hits": 132,
+      "retained_evidence_entries": 60,
+      "retained_evidence_scope": "whole model call; evidence is stored once, not on every question row",
+      "resolves_on": {
+        "6mo": "2027-03-08",
+        "12mo": "2027-09-08",
+        "2028": "2028-12-31",
+        "2030": "2030-12-31",
+        "2050": "2050-12-31",
+        "2100": "2100-12-31"
+      }
+    }
+  ]
+}

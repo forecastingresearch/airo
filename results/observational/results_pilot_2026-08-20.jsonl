@@ -1,0 +1,12 @@
+{"pair_id": "pair-09", "model": "claude-haiku-4-5", "rep": 0, "due_date": "2026-08-20", "res_date": "2026-09-19", "p_a": 0.35, "p_b": 0.35, "p_b_given_a": 0.65, "p_b_given_not_a": 0.3}
+{"pair_id": "pair-09", "model": "claude-sonnet-5", "rep": 0, "due_date": "2026-08-20", "res_date": "2026-09-19", "p_a": 0.32, "p_b": 0.32, "p_b_given_a": 0.78, "p_b_given_not_a": 0.19}
+{"pair_id": "pair-09", "model": "claude-opus-5", "rep": 0, "due_date": "2026-08-20", "res_date": "2026-09-19", "p_a": 0.22, "p_b": 0.23, "p_b_given_a": 0.85, "p_b_given_not_a": 0.055}
+{"pair_id": "pair-09", "model": "claude-fable-5", "rep": 0, "due_date": "2026-08-20", "res_date": "2026-09-19", "p_a": 0.22, "p_b": 0.22, "p_b_given_a": 0.88, "p_b_given_not_a": 0.04}
+{"pair_id": "pair-21", "model": "claude-haiku-4-5", "rep": 0, "due_date": "2026-08-20", "res_date": "2026-09-19", "p_a": 0.46, "p_b": 0.46, "p_b_given_a": 0.65, "p_b_given_not_a": 0.3}
+{"pair_id": "pair-21", "model": "claude-sonnet-5", "rep": 0, "due_date": "2026-08-20", "res_date": "2026-09-19", "p_a": 0.28, "p_b": 0.5, "p_b_given_a": 0.5, "p_b_given_not_a": 0.5}
+{"pair_id": "pair-21", "model": "claude-opus-5", "rep": 0, "due_date": "2026-08-20", "res_date": "2026-09-19", "p_a": 0.27, "p_b": 0.55, "p_b_given_a": 0.56, "p_b_given_not_a": 0.545}
+{"pair_id": "pair-21", "model": "claude-fable-5", "rep": 0, "due_date": "2026-08-20", "res_date": "2026-09-19", "p_a": 0.18, "p_b": 0.55, "p_b_given_a": 0.56, "p_b_given_not_a": 0.55}
+{"pair_id": "pair-01", "model": "claude-haiku-4-5", "rep": 0, "due_date": "2026-08-20", "res_date": "2026-09-19", "p_a": 0.35, "p_b": 0.38, "p_b_given_a": 0.5, "p_b_given_not_a": 0.32}
+{"pair_id": "pair-01", "model": "claude-sonnet-5", "rep": 0, "due_date": "2026-08-20", "res_date": "2026-09-19", "p_a": 0.35, "p_b": 0.65, "p_b_given_a": 0.67, "p_b_given_not_a": 0.63}
+{"pair_id": "pair-01", "model": "claude-opus-5", "rep": 0, "due_date": "2026-08-20", "res_date": "2026-09-19", "p_a": 0.25, "p_b": 0.47, "p_b_given_a": 0.5, "p_b_given_not_a": 0.46}
+{"pair_id": "pair-01", "model": "claude-fable-5", "rep": 0, "due_date": "2026-08-20", "res_date": "2026-09-19", "p_a": 0.17, "p_b": 0.62, "p_b_given_a": 0.63, "p_b_given_not_a": 0.62}

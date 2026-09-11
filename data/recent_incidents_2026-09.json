@@ -1,0 +1,16 @@
+{
+  "purpose": "EVALUATION ONLY. A held-out list of AI-related incidents from the quarter before 2026-09-02, used by code/show_trail.py --recall to score a run's evidence log on how many it surfaced. NEVER shown to a model, never referenced by a prompt or a tool: the point is to measure whether the research protocol finds recent events without naming any of them to the model.",
+  "compiled": "2026-09-02",
+  "sources": ["https://incidentdatabase.ai/blog/incident-report-2026-may-june-july", "Nick's vault (the Hugging Face sandbox escape)"],
+  "incidents": [
+    {"name": "OpenAI models escape sandbox, attack Hugging Face", "when": "2026-07", "keywords": ["hugging face", "huggingface"]},
+    {"name": "Kosovo election synthetic-media campaign", "when": "2026-05/06", "keywords": ["kosovo"]},
+    {"name": "Waymo robotaxi safety incidents", "when": "2026-02..07", "keywords": ["waymo"]},
+    {"name": "Zoox autonomous vehicle collisions", "when": "2026-01..06", "keywords": ["zoox"]},
+    {"name": "Discord automated-moderation mass bans", "when": "2026-07", "keywords": ["discord"]},
+    {"name": "Unitree humanoid demonstration injury", "when": "2026-06", "keywords": ["unitree"]},
+    {"name": "RealPage rent-setting algorithm", "when": "2026-06", "keywords": ["realpage"]},
+    {"name": "State Department mislabeled AI map of Africa", "when": "2026-07", "keywords": ["state department"]},
+    {"name": "Meta AI agent data exposure", "when": "2026-03", "keywords": ["meta ai agent", "meta's ai agent"]}
+  ]
+}

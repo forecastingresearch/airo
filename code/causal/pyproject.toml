@@ -1,0 +1,25 @@
+[project]
+name = "iclr-2026"
+version = "0.1.0"
+description = "ICLR 2026 analyses for ForecastBench-Sim. Currently: the StarSim causal-conditional benchmark run across the ECI-ranked model roster via OpenRouter."
+requires-python = ">=3.11"
+dependencies = [
+    # ForecastBench-Sim (sibling checkout; see [tool.uv.sources]). pandemic_world
+    # supplies the StarSim runner + situation-report builder used to mine ground
+    # truth; fbsim-core is its base package.
+    "fbsim-core",
+    "pandemic-world",
+    "starsim==3.3.4",  # version the ground truth was mined with (fbsim uv.lock @ 65204aa)
+    "litellm>=1.80,<1.82",
+    "numpy",
+    "scipy",
+    "python-dotenv",
+    "httpx",
+]
+
+[tool.uv]
+package = false
+
+[tool.uv.sources]
+fbsim-core = { path = "../forecastbench-sim/packages/fbsim-core", editable = true }
+pandemic-world = { path = "../forecastbench-sim/worlds/pandemic", editable = true }

@@ -1,0 +1,79 @@
+{
+  "title": "Joint elicitation and coherence (docs/coherence-experiment.md)",
+  "ladder": {
+    "controlRuns": [
+      "2026-08-05T1743Z",
+      "2026-08-10T1806Z"
+    ],
+    "control": {
+      "ladders": 117,
+      "coherentLadders": 63,
+      "pairs": 690,
+      "violatingPairs": 68,
+      "crossRun": "2026-08-10T1806Z",
+      "crossViolations": 14,
+      "crossPairs": 312
+    },
+    "arms": {
+      "b": {
+        "ladders": 60,
+        "coherentLadders": 60,
+        "pairs": 360,
+        "violatingPairs": 0,
+        "crossViolations": 2,
+        "crossPairs": 315,
+        "fisherP": 8.593518392307658e-13
+      },
+      "c": {
+        "ladders": 57,
+        "coherentLadders": 57,
+        "pairs": 342,
+        "violatingPairs": 0,
+        "crossViolations": 4,
+        "crossPairs": 294,
+        "fisherP": 2.3365106949216653e-12
+      },
+      "b-all": {
+        "ladders": 60,
+        "coherentLadders": 60,
+        "pairs": 360,
+        "violatingPairs": 0,
+        "crossViolations": 0,
+        "crossPairs": 315,
+        "fisherP": 8.593518392307658e-13
+      }
+    }
+  },
+  "chain": {
+    "file": "results/experiments/chain_eval_v2.jsonl",
+    "sep": {
+      "chains": 60,
+      "coherentChains": 25,
+      "pairs": 360,
+      "violatingPairs": 42,
+      "brier": 0.28628071666666666
+    },
+    "joint": {
+      "chains": 60,
+      "coherentChains": 60,
+      "pairs": 360,
+      "violatingPairs": 0,
+      "brier": 0.2565486357142857
+    },
+    "cells": 420,
+    "models": [
+      "Fable 5",
+      "GPT-5.5",
+      "Gemini 3.1 Pro",
+      "Grok 4.20",
+      "Opus 4.8"
+    ],
+    "byChain": {
+      "n": 60,
+      "jointBetter": 34,
+      "jointWorse": 19,
+      "medianDelta": -0.007321428571428576,
+      "wilcoxonP": 0.010119232385194889
+    }
+  }
+}

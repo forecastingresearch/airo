@@ -1,0 +1,1450 @@
+{
+  "bare": {
+    "pts": [
+      {
+        "pred": 0.0019,
+        "obs": 0.0,
+        "n": 311,
+        "lo95": 0.0,
+        "hi95": 0.0122
+      },
+      {
+        "pred": 0.0087,
+        "obs": 0.0064,
+        "n": 311,
+        "lo95": 0.0018,
+        "hi95": 0.0231
+      },
+      {
+        "pred": 0.0368,
+        "obs": 0.09,
+        "n": 311,
+        "lo95": 0.063,
+        "hi95": 0.127
+      },
+      {
+        "pred": 0.1733,
+        "obs": 0.2508,
+        "n": 311,
+        "lo95": 0.2059,
+        "hi95": 0.3018
+      },
+      {
+        "pred": 0.4103,
+        "obs": 0.4419,
+        "n": 310,
+        "lo95": 0.3877,
+        "hi95": 0.4976
+      },
+      {
+        "pred": 0.4958,
+        "obs": 0.5016,
+        "n": 311,
+        "lo95": 0.4464,
+        "hi95": 0.5568
+      },
+      {
+        "pred": 0.5106,
+        "obs": 0.5531,
+        "n": 311,
+        "lo95": 0.4975,
+        "hi95": 0.6073
+      },
+      {
+        "pred": 0.5349,
+        "obs": 0.5723,
+        "n": 311,
+        "lo95": 0.5168,
+        "hi95": 0.6261
+      },
+      {
+        "pred": 0.6259,
+        "obs": 0.5627,
+        "n": 311,
+        "lo95": 0.5071,
+        "hi95": 0.6167
+      },
+      {
+        "pred": 0.8554,
+        "obs": 0.8489,
+        "n": 311,
+        "lo95": 0.8048,
+        "hi95": 0.8844
+      }
+    ],
+    "n": 3109,
+    "brier": 0.1647,
+    "resolution": 0.0724,
+    "base": 0.3828,
+    "lo": {
+      "n": 971,
+      "pred": 0.0187,
+      "obs": 0.0422
+    },
+    "split": {
+      "dataset": {
+        "n": 2605,
+        "brier": 0.1524,
+        "lo": {
+          "n": 820,
+          "pred": 0.0142,
+          "obs": 0.0098
+        }
+      },
+      "market": {
+        "n": 504,
+        "brier": 0.2281,
+        "lo": {
+          "n": 151,
+          "pred": 0.0431,
+          "obs": 0.2185
+        }
+      }
+    },
+    "vsMarket": {
+      "n": 504,
+      "brier": 0.2281,
+      "market": 0.1152,
+      "edge": -0.113,
+      "corr": 0.454,
+      "medianGap": 0.157
+    },
+    "models": [
+      "Claude-Opus-4-8",
+      "GPT-5.5-2026-04-23",
+      "Gemini-3.1-Pro-Preview",
+      "Grok-4.20-0309-Reasoning"
+    ],
+    "rounds": [
+      "2026-04-26",
+      "2026-05-10",
+      "2026-05-24",
+      "2026-06-07",
+      "2026-06-21"
+    ],
+    "absent": [
+      "Fable 5"
+    ],
+    "minModels": 2
+  },
+  "tools": {
+    "pts": [
+      {
+        "pred": 0.0096,
+        "obs": 0.0014,
+        "n": 714,
+        "lo95": 0.0002,
+        "hi95": 0.0079
+      },
+      {
+        "pred": 0.015,
+        "obs": 0.007,
+        "n": 714,
+        "lo95": 0.003,
+        "hi95": 0.0163
+      },
+      {
+        "pred": 0.0425,
+        "obs": 0.0154,
+        "n": 714,
+        "lo95": 0.0086,
+        "hi95": 0.0274
+      },
+      {
+        "pred": 0.1484,
+        "obs": 0.119,
+        "n": 714,
+        "lo95": 0.0973,
+        "hi95": 0.1449
+      },
+      {
+        "pred": 0.3467,
+        "obs": 0.4202,
+        "n": 714,
+        "lo95": 0.3845,
+        "hi95": 0.4567
+      },
+      {
+        "pred": 0.4692,
+        "obs": 0.5189,
+        "n": 715,
+        "lo95": 0.4823,
+        "hi95": 0.5553
+      },
+      {
+        "pred": 0.5165,
+        "obs": 0.563,
+        "n": 714,
+        "lo95": 0.5264,
+        "hi95": 0.599
+      },
+      {
+        "pred": 0.5521,
+        "obs": 0.6485,
+        "n": 714,
+        "lo95": 0.6127,
+        "hi95": 0.6826
+      },
+      {
+        "pred": 0.6784,
+        "obs": 0.7619,
+        "n": 714,
+        "lo95": 0.7293,
+        "hi95": 0.7917
+      },
+      {
+        "pred": 0.9298,
+        "obs": 0.965,
+        "n": 714,
+        "lo95": 0.9488,
+        "hi95": 0.9762
+      }
+    ],
+    "n": 7141,
+    "brier": 0.1329,
+    "resolution": 0.1093,
+    "base": 0.402,
+    "lo": {
+      "n": 2288,
+      "pred": 0.0263,
+      "obs": 0.0127
+    },
+    "split": {
+      "dataset": {
+        "n": 6137,
+        "brier": 0.1376,
+        "lo": {
+          "n": 1933,
+          "pred": 0.0249,
+          "obs": 0.0098
+        }
+      },
+      "market": {
+        "n": 1004,
+        "brier": 0.1043,
+        "lo": {
+          "n": 355,
+          "pred": 0.034,
+          "obs": 0.0282
+        }
+      }
+    },
+    "vsMarket": {
+      "n": 1004,
+      "brier": 0.1043,
+      "market": 0.1038,
+      "edge": -0.0005,
+      "corr": 0.947,
+      "medianGap": 0.024
+    },
+    "entries": [
+      "Gemini",
+      "Grok 4.20 (Beta, A)",
+      "Grok 4.20 (Beta, B)",
+      "Grok 4.20 (Beta, C)",
+      "Grok 4.20 (Beta, D)",
+      "Grok 4.20 (Preview)"
+    ],
+    "rounds": [
+      "2025-10-26",
+      "2026-03-29",
+      "2026-04-12",
+      "2026-04-26",
+      "2026-05-24",
+      "2026-06-21",
+      "2026-07-05",
+      "2026-07-19"
+    ]
+  },
+  "panel": {
+    "pts": [
+      {
+        "pred": 0.0046,
+        "obs": 0.0011,
+        "n": 3591,
+        "lo95": 0.0004,
+        "hi95": 0.0029
+      },
+      {
+        "pred": 0.0241,
+        "obs": 0.0114,
+        "n": 3590,
+        "lo95": 0.0084,
+        "hi95": 0.0155
+      },
+      {
+        "pred": 0.081,
+        "obs": 0.0498,
+        "n": 3591,
+        "lo95": 0.0432,
+        "hi95": 0.0575
+      },
+      {
+        "pred": 0.2656,
+        "obs": 0.2027,
+        "n": 3591,
+        "lo95": 0.1899,
+        "hi95": 0.2162
+      },
+      {
+        "pred": 0.4677,
+        "obs": 0.4202,
+        "n": 3591,
+        "lo95": 0.4042,
+        "hi95": 0.4364
+      },
+      {
+        "pred": 0.5117,
+        "obs": 0.5783,
+        "n": 3590,
+        "lo95": 0.562,
+        "hi95": 0.5943
+      },
+      {
+        "pred": 0.5347,
+        "obs": 0.489,
+        "n": 3591,
+        "lo95": 0.4727,
+        "hi95": 0.5054
+      },
+      {
+        "pred": 0.5643,
+        "obs": 0.5661,
+        "n": 3591,
+        "lo95": 0.5499,
+        "hi95": 0.5823
+      },
+      {
+        "pred": 0.6278,
+        "obs": 0.5524,
+        "n": 3590,
+        "lo95": 0.5361,
+        "hi95": 0.5686
+      },
+      {
+        "pred": 0.8532,
+        "obs": 0.878,
+        "n": 3591,
+        "lo95": 0.8669,
+        "hi95": 0.8883
+      }
+    ],
+    "n": 35907,
+    "brier": 0.1574,
+    "resolution": 0.0785,
+    "base": 0.3749,
+    "lo": {
+      "n": 9594,
+      "pred": 0.0267,
+      "obs": 0.0158
+    },
+    "split": {
+      "dataset": {
+        "n": 32726,
+        "brier": 0.1575,
+        "lo": {
+          "n": 8504,
+          "pred": 0.0249,
+          "obs": 0.0073
+        }
+      },
+      "market": {
+        "n": 3181,
+        "brier": 0.1565,
+        "lo": {
+          "n": 1090,
+          "pred": 0.0408,
+          "obs": 0.0826
+        }
+      }
+    },
+    "vsMarket": {
+      "n": 3179,
+      "brier": 0.1564,
+      "market": 0.0771,
+      "edge": -0.0793,
+      "corr": 0.547,
+      "medianGap": 0.11
+    },
+    "k": 4,
+    "minMembers": 3,
+    "eciVintage": "2026-07-07",
+    "rounds": [
+      {
+        "round": "2024-07-21",
+        "n": 1508,
+        "members": [
+          {
+            "model": "Claude-3-5-Sonnet-20240620 (zero shot)",
+            "eci": 134.0
+          },
+          {
+            "model": "Gemini-1.5-Pro (zero shot)",
+            "eci": 133.0
+          },
+          {
+            "model": "Gemini-1.5-Flash (zero shot)",
+            "eci": 130.0
+          },
+          {
+            "model": "GPT-4o (zero shot)",
+            "eci": 129.0
+          }
+        ]
+      },
+      {
+        "round": "2025-03-02",
+        "n": 1535,
+        "members": [
+          {
+            "model": "Claude-3-7-Sonnet-20250219 (zero shot)",
+            "eci": 142.0
+          },
+          {
+            "model": "DeepSeek-R1 (scratchpad)",
+            "eci": 142.0
+          },
+          {
+            "model": "O3-Mini-2025-01-31 (zero shot)",
+            "eci": 141.0
+          },
+          {
+            "model": "GPT-4.5-Preview-2025-02-27 (zero shot)",
+            "eci": 138.0
+          }
+        ]
+      },
+      {
+        "round": "2025-03-16",
+        "n": 1542,
+        "members": [
+          {
+            "model": "Claude-3-7-Sonnet-20250219 (zero shot)",
+            "eci": 142.0
+          },
+          {
+            "model": "GPT-4.5-Preview-2025-02-27 (zero shot)",
+            "eci": 138.0
+          },
+          {
+            "model": "DeepSeek-V3 (zero shot)",
+            "eci": 137.0
+          },
+          {
+            "model": "Claude-3-5-Sonnet-20240620 (zero shot)",
+            "eci": 134.0
+          }
+        ]
+      },
+      {
+        "round": "2025-03-30",
+        "n": 1542,
+        "members": [
+          {
+            "model": "Claude-3-7-Sonnet-20250219 (zero shot)",
+            "eci": 142.0
+          },
+          {
+            "model": "DeepSeek-R1 (scratchpad)",
+            "eci": 142.0
+          },
+          {
+            "model": "O3-Mini-2025-01-31 (zero shot)",
+            "eci": 141.0
+          },
+          {
+            "model": "DeepSeek-V3 (zero shot)",
+            "eci": 137.0
+          }
+        ]
+      },
+      {
+        "round": "2025-04-13",
+        "n": 1522,
+        "members": [
+          {
+            "model": "Claude-3-7-Sonnet-20250219 (zero shot)",
+            "eci": 142.0
+          },
+          {
+            "model": "DeepSeek-R1 (scratchpad)",
+            "eci": 142.0
+          },
+          {
+            "model": "O3-Mini-2025-01-31 (zero shot)",
+            "eci": 141.0
+          },
+          {
+            "model": "DeepSeek-V3 (zero shot)",
+            "eci": 137.0
+          }
+        ]
+      },
+      {
+        "round": "2025-04-27",
+        "n": 1560,
+        "members": [
+          {
+            "model": "O3-2025-04-16 (zero shot)",
+            "eci": 147.0
+          },
+          {
+            "model": "Claude-3-7-Sonnet-20250219 (zero shot)",
+            "eci": 142.0
+          },
+          {
+            "model": "DeepSeek-R1 (scratchpad)",
+            "eci": 142.0
+          },
+          {
+            "model": "O3-Mini-2025-01-31 (zero shot)",
+            "eci": 141.0
+          }
+        ]
+      },
+      {
+        "round": "2025-05-11",
+        "n": 1531,
+        "members": [
+          {
+            "model": "O4-Mini-2025-04-16 (zero shot)",
+            "eci": 146.0
+          },
+          {
+            "model": "Claude-3-7-Sonnet-20250219 (zero shot)",
+            "eci": 142.0
+          },
+          {
+            "model": "Qwen3-235B-A22B-Fp8-Tput (scratchpad)",
+            "eci": 140.0
+          },
+          {
+            "model": "GPT-4.1-2025-04-14 (zero shot)",
+            "eci": 137.0
+          }
+        ]
+      },
+      {
+        "round": "2025-05-25",
+        "n": 1507,
+        "members": [
+          {
+            "model": "O4-Mini-2025-04-16 (zero shot)",
+            "eci": 146.0
+          },
+          {
+            "model": "Claude-3-7-Sonnet-20250219 (zero shot)",
+            "eci": 142.0
+          },
+          {
+            "model": "Qwen3-235B-A22B-Fp8-Tput (scratchpad)",
+            "eci": 140.0
+          },
+          {
+            "model": "GPT-4.1-2025-04-14 (zero shot)",
+            "eci": 137.0
+          }
+        ]
+      },
+      {
+        "round": "2025-06-08",
+        "n": 1504,
+        "members": [
+          {
+            "model": "Qwen3-235B-A22B-Fp8-Tput (scratchpad)",
+            "eci": 140.0
+          },
+          {
+            "model": "Claude-3-5-Sonnet-20240620 (zero shot)",
+            "eci": 134.0
+          },
+          {
+            "model": "GPT-4o-2024-05-13 (zero shot)",
+            "eci": 129.0
+          },
+          {
+            "model": "GPT-4-Turbo-2024-04-09 (zero shot)",
+            "eci": 128.0
+          }
+        ]
+      },
+      {
+        "round": "2025-06-22",
+        "n": 1527,
+        "members": [
+          {
+            "model": "Qwen3-235B-A22B-Fp8-Tput (scratchpad)",
+            "eci": 140.0
+          },
+          {
+            "model": "Claude-3-5-Sonnet-20240620 (zero shot)",
+            "eci": 134.0
+          },
+          {
+            "model": "GPT-4o-2024-05-13 (zero shot)",
+            "eci": 129.0
+          },
+          {
+            "model": "GPT-4-Turbo-2024-04-09 (zero shot)",
+            "eci": 128.0
+          }
+        ]
+      },
+      {
+        "round": "2025-08-03",
+        "n": 1442,
+        "members": [
+          {
+            "model": "O4-Mini-2025-04-16 (zero shot)",
+            "eci": 146.0
+          },
+          {
+            "model": "Claude-Opus-4-20250514 (scratchpad)",
+            "eci": 143.0
+          },
+          {
+            "model": "Claude-Sonnet-4-20250514 (scratchpad)",
+            "eci": 142.0
+          },
+          {
+            "model": "Kimi-K2-Instruct (zero shot)",
+            "eci": 141.0
+          }
+        ]
+      },
+      {
+        "round": "2025-08-17",
+        "n": 1217,
+        "members": [
+          {
+            "model": "O4-Mini-2025-04-16 (zero shot)",
+            "eci": 146.0
+          },
+          {
+            "model": "Kimi-K2-Instruct (zero shot)",
+            "eci": 141.0
+          },
+          {
+            "model": "Qwen3-235B-A22B-Fp8-Tput (scratchpad)",
+            "eci": 140.0
+          },
+          {
+            "model": "GPT-4.1-2025-04-14 (zero shot)",
+            "eci": 137.0
+          }
+        ]
+      },
+      {
+        "round": "2025-08-31",
+        "n": 1217,
+        "members": [
+          {
+            "model": "GPT-5-2025-08-07 (zero shot)",
+            "eci": 150.0
+          },
+          {
+            "model": "GPT-5-Mini-2025-08-07 (zero shot)",
+            "eci": 146.0
+          },
+          {
+            "model": "Gemini-2.5-Pro (zero shot)",
+            "eci": 146.0
+          },
+          {
+            "model": "Claude-Opus-4-1-20250805 (zero shot)",
+            "eci": 144.0
+          }
+        ]
+      },
+      {
+        "round": "2025-10-26",
+        "n": 1089,
+        "members": [
+          {
+            "model": "GPT-5-2025-08-07 (zero shot)",
+            "eci": 150.0
+          },
+          {
+            "model": "Claude-Sonnet-4-5-20250929 (zero shot)",
+            "eci": 147.0
+          },
+          {
+            "model": "Grok-4-0709 (zero shot)",
+            "eci": 147.0
+          },
+          {
+            "model": "O3-2025-04-16 (zero shot)",
+            "eci": 147.0
+          }
+        ]
+      },
+      {
+        "round": "2025-11-09",
+        "n": 1076,
+        "members": [
+          {
+            "model": "GPT-5-2025-08-07 (zero shot)",
+            "eci": 150.0
+          },
+          {
+            "model": "Claude-Sonnet-4-5-20250929 (zero shot)",
+            "eci": 147.0
+          },
+          {
+            "model": "Grok-4-0709 (zero shot)",
+            "eci": 147.0
+          },
+          {
+            "model": "O3-2025-04-16 (zero shot)",
+            "eci": 147.0
+          }
+        ]
+      },
+      {
+        "round": "2025-11-23",
+        "n": 1077,
+        "members": [
+          {
+            "model": "Gemini-3-Pro-Preview (zero shot)",
+            "eci": 153.0
+          },
+          {
+            "model": "GPT-5.1-2025-11-13 (zero shot)",
+            "eci": 150.0
+          },
+          {
+            "model": "Claude-Sonnet-4-5-20250929 (zero shot)",
+            "eci": 147.0
+          },
+          {
+            "model": "Grok-4-0709 (zero shot)",
+            "eci": 147.0
+          }
+        ]
+      },
+      {
+        "round": "2025-12-07",
+        "n": 1066,
+        "members": [
+          {
+            "model": "Gemini-3-Pro-Preview (zero shot)",
+            "eci": 153.0
+          },
+          {
+            "model": "Claude-Opus-4-5-20251101 (zero shot)",
+            "eci": 150.0
+          },
+          {
+            "model": "GPT-5.1-2025-11-13 (zero shot)",
+            "eci": 150.0
+          },
+          {
+            "model": "Claude-Sonnet-4-5-20250929 (zero shot)",
+            "eci": 147.0
+          }
+        ]
+      },
+      {
+        "round": "2025-12-21",
+        "n": 1081,
+        "members": [
+          {
+            "model": "Gemini-3-Pro-Preview (zero shot)",
+            "eci": 153.0
+          },
+          {
+            "model": "Claude-Opus-4-5-20251101 (zero shot)",
+            "eci": 150.0
+          },
+          {
+            "model": "GPT-5.1-2025-11-13 (zero shot)",
+            "eci": 150.0
+          },
+          {
+            "model": "Claude-Sonnet-4-5-20250929 (zero shot)",
+            "eci": 147.0
+          }
+        ]
+      },
+      {
+        "round": "2026-01-04",
+        "n": 1018,
+        "members": [
+          {
+            "model": "Gemini-3-Pro-Preview (zero shot)",
+            "eci": 153.0
+          },
+          {
+            "model": "Claude-Opus-4-5-20251101 (zero shot)",
+            "eci": 150.0
+          },
+          {
+            "model": "GPT-5.1-2025-11-13 (zero shot)",
+            "eci": 150.0
+          },
+          {
+            "model": "Claude-Sonnet-4-5-20250929 (zero shot)",
+            "eci": 147.0
+          }
+        ]
+      },
+      {
+        "round": "2026-01-18",
+        "n": 1034,
+        "members": [
+          {
+            "model": "GPT-5.2-2025-12-11 (zero shot)",
+            "eci": 154.0
+          },
+          {
+            "model": "Gemini-3-Pro-Preview (zero shot)",
+            "eci": 153.0
+          },
+          {
+            "model": "Gemini-3-Flash-Preview (zero shot)",
+            "eci": 151.0
+          },
+          {
+            "model": "Claude-Opus-4-5-20251101 (zero shot)",
+            "eci": 150.0
+          }
+        ]
+      },
+      {
+        "round": "2026-02-01",
+        "n": 1012,
+        "members": [
+          {
+            "model": "GPT-5.2-2025-12-11 (zero shot)",
+            "eci": 154.0
+          },
+          {
+            "model": "Gemini-3-Pro-Preview (zero shot)",
+            "eci": 153.0
+          },
+          {
+            "model": "Gemini-3-Flash-Preview (zero shot)",
+            "eci": 151.0
+          },
+          {
+            "model": "GPT-5.1-2025-11-13 (zero shot)",
+            "eci": 150.0
+          }
+        ]
+      },
+      {
+        "round": "2026-02-15",
+        "n": 784,
+        "members": [
+          {
+            "model": "Claude-Opus-4-6 (zero shot)",
+            "eci": 156.0
+          },
+          {
+            "model": "GPT-5.2-2025-12-11 (zero shot)",
+            "eci": 154.0
+          },
+          {
+            "model": "Gemini-3-Pro-Preview (zero shot)",
+            "eci": 153.0
+          },
+          {
+            "model": "Gemini-3-Flash-Preview (zero shot)",
+            "eci": 151.0
+          }
+        ]
+      },
+      {
+        "round": "2026-03-01",
+        "n": 850,
+        "members": [
+          {
+            "model": "Claude-Opus-4-6 (zero shot)",
+            "eci": 156.0
+          },
+          {
+            "model": "Gemini-3.1-Pro-Preview (zero shot)",
+            "eci": 155.0
+          },
+          {
+            "model": "GPT-5.2-2025-12-11 (zero shot)",
+            "eci": 154.0
+          },
+          {
+            "model": "Claude-Sonnet-4-6 (zero shot)",
+            "eci": 153.0
+          }
+        ]
+      },
+      {
+        "round": "2026-03-15",
+        "n": 874,
+        "members": [
+          {
+            "model": "Claude-Opus-4-6 (zero shot)",
+            "eci": 156.0
+          },
+          {
+            "model": "Gemini-3.1-Pro-Preview (zero shot)",
+            "eci": 155.0
+          },
+          {
+            "model": "GPT-5.2-2025-12-11 (zero shot)",
+            "eci": 154.0
+          },
+          {
+            "model": "Claude-Sonnet-4-6 (zero shot)",
+            "eci": 153.0
+          }
+        ]
+      },
+      {
+        "round": "2026-03-29",
+        "n": 864,
+        "members": [
+          {
+            "model": "Claude-Opus-4-6 (zero shot)",
+            "eci": 156.0
+          },
+          {
+            "model": "GPT-5.4-2026-03-05 (zero shot)",
+            "eci": 156.0
+          },
+          {
+            "model": "Gemini-3.1-Pro-Preview (zero shot)",
+            "eci": 155.0
+          },
+          {
+            "model": "GPT-5.2-2025-12-11 (zero shot)",
+            "eci": 154.0
+          }
+        ]
+      },
+      {
+        "round": "2026-04-12",
+        "n": 803,
+        "members": [
+          {
+            "model": "Claude-Opus-4-6 (zero shot)",
+            "eci": 156.0
+          },
+          {
+            "model": "GPT-5.4-2026-03-05 (zero shot)",
+            "eci": 156.0
+          },
+          {
+            "model": "Gemini-3.1-Pro-Preview (zero shot)",
+            "eci": 155.0
+          },
+          {
+            "model": "GPT-5.2-2025-12-11 (zero shot)",
+            "eci": 154.0
+          }
+        ]
+      },
+      {
+        "round": "2026-04-26",
+        "n": 833,
+        "members": [
+          {
+            "model": "Claude-Opus-4-6 (zero shot)",
+            "eci": 156.0
+          },
+          {
+            "model": "GPT-5.4-2026-03-05 (zero shot)",
+            "eci": 156.0
+          },
+          {
+            "model": "Gemini-3.1-Pro-Preview (zero shot)",
+            "eci": 155.0
+          },
+          {
+            "model": "GPT-5.2-2025-12-11 (zero shot)",
+            "eci": 154.0
+          }
+        ]
+      },
+      {
+        "round": "2026-05-10",
+        "n": 770,
+        "members": [
+          {
+            "model": "GPT-5.4-2026-03-05 (zero shot)",
+            "eci": 156.0
+          },
+          {
+            "model": "Gemini-3.1-Pro-Preview (zero shot)",
+            "eci": 155.0
+          },
+          {
+            "model": "GPT-5.2-2025-12-11 (zero shot)",
+            "eci": 154.0
+          },
+          {
+            "model": "Grok-4.20-0309-Non-Reasoning (zero shot)",
+            "eci": 154.0
+          }
+        ]
+      },
+      {
+        "round": "2026-05-24",
+        "n": 591,
+        "members": [
+          {
+            "model": "GPT-5.5-2026-04-23 (zero shot)",
+            "eci": 159.0
+          },
+          {
+            "model": "Claude-Opus-4-7 (zero shot)",
+            "eci": 156.0
+          },
+          {
+            "model": "GPT-5.4-2026-03-05 (zero shot)",
+            "eci": 156.0
+          },
+          {
+            "model": "Gemini-3.1-Pro-Preview (zero shot)",
+            "eci": 155.0
+          }
+        ]
+      },
+      {
+        "round": "2026-06-07",
+        "n": 583,
+        "members": [
+          {
+            "model": "GPT-5.5-2026-04-23 (zero shot)",
+            "eci": 159.0
+          },
+          {
+            "model": "Claude-Opus-4-8 (zero shot)",
+            "eci": 158.0
+          },
+          {
+            "model": "Claude-Opus-4-7 (zero shot)",
+            "eci": 156.0
+          },
+          {
+            "model": "GPT-5.4-2026-03-05 (zero shot)",
+            "eci": 156.0
+          }
+        ]
+      },
+      {
+        "round": "2026-06-21",
+        "n": 579,
+        "members": [
+          {
+            "model": "GPT-5.5-2026-04-23 (zero shot)",
+            "eci": 159.0
+          },
+          {
+            "model": "Claude-Opus-4-8 (zero shot)",
+            "eci": 158.0
+          },
+          {
+            "model": "Claude-Opus-4-7 (zero shot)",
+            "eci": 156.0
+          },
+          {
+            "model": "GPT-5.4-2026-03-05 (zero shot)",
+            "eci": 156.0
+          }
+        ]
+      },
+      {
+        "round": "2026-07-05",
+        "n": 486,
+        "members": [
+          {
+            "model": "gpt-5.5-2026-04-23",
+            "eci": 159.0
+          },
+          {
+            "model": "claude-opus-4-8-1024",
+            "eci": 158.0
+          },
+          {
+            "model": "claude-opus-4-7-1024",
+            "eci": 156.0
+          },
+          {
+            "model": "gpt-5.4-2026-03-05",
+            "eci": 156.0
+          }
+        ]
+      },
+      {
+        "round": "2026-07-19",
+        "n": 283,
+        "members": [
+          {
+            "model": "gpt-5.5-2026-04-23",
+            "eci": 159.0
+          },
+          {
+            "model": "claude-opus-4-8-1024",
+            "eci": 158.0
+          },
+          {
+            "model": "claude-opus-4-7-1024",
+            "eci": 156.0
+          },
+          {
+            "model": "gpt-5.4-2026-03-05",
+            "eci": 156.0
+          }
+        ]
+      }
+    ],
+    "unmatched": [
+      "GLM-4.5-Air-FP8 (zero shot)",
+      "Gemini-2.0-Flash-Lite-001 (zero shot)",
+      "Gemini-2.5-Flash-Preview-04-17 (zero shot)",
+      "Gemini-2.5-Pro-Preview-03-25 (zero shot)",
+      "Grok-4-1-Fast-Reasoning (zero shot)",
+      "Grok-beta (zero shot)",
+      "Llama-4-Maverick-17B-128E-Instruct-FP8 (scratchpad)",
+      "Llama-4-Scout-17B-16E-Instruct (zero shot)",
+      "Meta-Llama-3.1-405B-Instruct-Turbo (zero shot)",
+      "Mistral-Large-2407 (zero shot)",
+      "Mistral-Large-2411 (zero shot)",
+      "Mixtral-8x22B-Instruct-V0.1 (zero shot)",
+      "Mixtral-8x7B-Instruct-V0.1 (zero shot)",
+      "QwQ-32B-Preview (scratchpad)",
+      "Qwen1.5-110B-Chat (zero shot)",
+      "claude-sonnet-5-adaptive-thinking-16000",
+      "minimax-m3-adaptive-thinking-12000"
+    ]
+  },
+  "sup": {
+    "pts": [
+      {
+        "pred": 0.0,
+        "obs": 0.0,
+        "n": 58,
+        "lo95": 0.0,
+        "hi95": 0.0621
+      },
+      {
+        "pred": 0.0,
+        "obs": 0.0,
+        "n": 58,
+        "lo95": 0.0,
+        "hi95": 0.0621
+      },
+      {
+        "pred": 0.0058,
+        "obs": 0.0,
+        "n": 57,
+        "lo95": 0.0,
+        "hi95": 0.0631
+      },
+      {
+        "pred": 0.0287,
+        "obs": 0.0,
+        "n": 58,
+        "lo95": 0.0,
+        "hi95": 0.0621
+      },
+      {
+        "pred": 0.2197,
+        "obs": 0.1207,
+        "n": 58,
+        "lo95": 0.0597,
+        "hi95": 0.2288
+      },
+      {
+        "pred": 0.4489,
+        "obs": 0.3621,
+        "n": 58,
+        "lo95": 0.2505,
+        "hi95": 0.4907
+      },
+      {
+        "pred": 0.4997,
+        "obs": 0.4828,
+        "n": 58,
+        "lo95": 0.3593,
+        "hi95": 0.6084
+      },
+      {
+        "pred": 0.5134,
+        "obs": 0.5789,
+        "n": 57,
+        "lo95": 0.4498,
+        "hi95": 0.6981
+      },
+      {
+        "pred": 0.5485,
+        "obs": 0.6724,
+        "n": 58,
+        "lo95": 0.5442,
+        "hi95": 0.7792
+      },
+      {
+        "pred": 0.8201,
+        "obs": 0.9483,
+        "n": 58,
+        "lo95": 0.8586,
+        "hi95": 0.9823
+      }
+    ],
+    "n": 578,
+    "brier": 0.1184,
+    "resolution": 0.1064,
+    "base": 0.3166,
+    "lo": {
+      "n": 235,
+      "pred": 0.0099,
+      "obs": 0.0
+    },
+    "split": {
+      "dataset": {
+        "n": 521,
+        "brier": 0.1223,
+        "lo": {
+          "n": 204,
+          "pred": 0.0091,
+          "obs": 0.0
+        }
+      },
+      "market": {
+        "n": 57,
+        "brier": 0.083,
+        "lo": {
+          "n": 31,
+          "pred": 0.0145,
+          "obs": 0.0
+        }
+      }
+    },
+    "vsMarket": {
+      "n": 57,
+      "brier": 0.083,
+      "market": 0.1003,
+      "edge": 0.0173,
+      "corr": 0.959,
+      "medianGap": 0.039
+    },
+    "round": "2024-07-21"
+  },
+  "perModel": {
+    "Claude-Opus-4-8": {
+      "dataset": {
+        "n": 969,
+        "brier": 0.1859,
+        "lo": {
+          "n": 280,
+          "pred": 0.021,
+          "obs": 0.0143
+        }
+      },
+      "market": {
+        "n": 193,
+        "brier": 0.2343,
+        "lo": {
+          "n": 75,
+          "pred": 0.0369,
+          "obs": 0.2
+        }
+      },
+      "n": 1162
+    },
+    "GPT-5.5-2026-04-23": {
+      "dataset": {
+        "n": 1458,
+        "brier": 0.1619,
+        "lo": {
+          "n": 457,
+          "pred": 0.0076,
+          "obs": 0.0109
+        }
+      },
+      "market": {
+        "n": 295,
+        "brier": 0.2127,
+        "lo": {
+          "n": 86,
+          "pred": 0.0403,
+          "obs": 0.2093
+        }
+      },
+      "n": 1753
+    },
+    "Gemini-3.1-Pro-Preview": {
+      "dataset": {
+        "n": 5721,
+        "brier": 0.1511,
+        "lo": {
+          "n": 1862,
+          "pred": 0.0088,
+          "obs": 0.014
+        }
+      },
+      "market": {
+        "n": 1027,
+        "brier": 0.2462,
+        "lo": {
+          "n": 413,
+          "pred": 0.0248,
+          "obs": 0.2446
+        }
+      },
+      "n": 6748
+    },
+    "Grok-4.20-0309-Reasoning": {
+      "dataset": {
+        "n": 2605,
+        "brier": 0.1541,
+        "lo": {
+          "n": 746,
+          "pred": 0.0189,
+          "obs": 0.0054
+        }
+      },
+      "market": {
+        "n": 504,
+        "brier": 0.2389,
+        "lo": {
+          "n": 107,
+          "pred": 0.0453,
+          "obs": 0.2056
+        }
+      },
+      "n": 3109
+    },
+    "pooled": {
+      "dataset": {
+        "n": 10753,
+        "brier": 0.1564,
+        "lo": {
+          "n": 3345,
+          "pred": 0.0119,
+          "obs": 0.0117
+        }
+      },
+      "market": {
+        "n": 2019,
+        "brier": 0.2384,
+        "lo": {
+          "n": 681,
+          "pred": 0.0313,
+          "obs": 0.2291
+        }
+      },
+      "n": 12772
+    }
+  },
+  "grokControl": [
+    {
+      "round": "2026-03-29",
+      "entry": "Grok 4.20 (Beta, A)",
+      "n": 126,
+      "bare": {
+        "brier": 0.2653,
+        "lo": {
+          "n": 22,
+          "pred": 0.0421,
+          "obs": 0.3182
+        }
+      },
+      "tools": {
+        "brier": 0.1381,
+        "lo": {
+          "n": 34,
+          "pred": 0.0345,
+          "obs": 0.0
+        }
+      }
+    },
+    {
+      "round": "2026-03-29",
+      "entry": "Grok 4.20 (Beta, B)",
+      "n": 126,
+      "bare": {
+        "brier": 0.2653,
+        "lo": {
+          "n": 22,
+          "pred": 0.0421,
+          "obs": 0.3182
+        }
+      },
+      "tools": {
+        "brier": 0.135,
+        "lo": {
+          "n": 34,
+          "pred": 0.0418,
+          "obs": 0.0
+        }
+      }
+    },
+    {
+      "round": "2026-04-12",
+      "entry": "Grok 4.20 (Beta, D)",
+      "n": 119,
+      "bare": {
+        "brier": 0.2354,
+        "lo": {
+          "n": 22,
+          "pred": 0.0543,
+          "obs": 0.1818
+        }
+      },
+      "tools": {
+        "brier": 0.0915,
+        "lo": {
+          "n": 35,
+          "pred": 0.0394,
+          "obs": 0.0286
+        }
+      }
+    },
+    {
+      "round": "2026-04-12",
+      "entry": "Grok 4.20 (Beta, C)",
+      "n": 119,
+      "bare": {
+        "brier": 0.2354,
+        "lo": {
+          "n": 22,
+          "pred": 0.0543,
+          "obs": 0.1818
+        }
+      },
+      "tools": {
+        "brier": 0.0915,
+        "lo": {
+          "n": 35,
+          "pred": 0.0394,
+          "obs": 0.0286
+        }
+      }
+    }
+  ],
+  "horizons": {
+    "bare": {
+      "ge90d": 354,
+      "total": 3109
+    },
+    "tools": {
+      "ge90d": 1786,
+      "total": 7141
+    },
+    "panel": {
+      "ge90d": 17013,
+      "total": 35907
+    },
+    "sup": {
+      "ge90d": 358,
+      "total": 578
+    }
+  },
+  "provenance": {
+    "dataset": "ForecastBench (Karger et al., ICLR 2025)",
+    "license": "CC BY-SA 4.0",
+    "superCaveat": "Superforecasters answered inside a long survey, under time pressure \u2014 a point the FRI team raises about its own data, so we raise it first. Their round is 2024, and no later round has a human arm.",
+    "crossRound": "The three series come from different rounds and question sets. A fixed model swings 0.035 Brier between rounds, so distances here are not all skill. See code/graph3_comparability.py.",
+    "toolsNote": "Tournament entries are full systems \u2014 retrieval, scaffolding, possibly ensembling \u2014 submitted by the model makers. They are the closest public analogue to this dashboard's own pipeline, whose grounding is agentic web search (Tavily): iterative search + page reads."
+  }
+}

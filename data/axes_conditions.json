@@ -1,0 +1,884 @@
+{
+ "title": "Axis conditions for the dashboard -- combined OpenAI + Anthropic run-rate (LEAP Wave 11), the year of Expert AGI (LEAP Wave 8) and the frontier ECI six months from the run date -- as the runner prepends them",
+ "slug": "axes",
+ "kind": "revenue or AGI-timing or capability",
+ "protocol": "unified-joint-axes-v3",
+ "horizons": [
+  "2030",
+  "2050",
+  "2100"
+ ],
+ "source": {
+  "panel": "LEAP",
+  "wave": "Wave 11: AI Industry Economics; Wave 8: Timelines",
+  "status": "LEAP answers pulled 2026-09-02 from the FRI warehouse (BigQuery fri-data-warehouse (FRI data-warehouse, dbt dimensional model))",
+  "documents": [
+   "data/eci_trend_2026-08-21.json",
+   "data/epoch_capabilities_index_2026-08-21.csv",
+   "data/leap/axes-2026-09-02.json"
+  ],
+  "outcome_horizons": [],
+  "policy_probability_horizons": [],
+  "leap": {
+   "file": "data/leap/axes-2026-09-02.json",
+   "sha256": "d650aa8e3e2d100bcc59f301396336db9b36b70660ff4834f695e6416398787d"
+  }
+ },
+ "generated_by": "code/make_axis_conditions.py",
+ "elicits": [
+  {
+   "key": "revenue_forecast",
+   "group": "revenue",
+   "fields": [
+    "p10",
+    "p50",
+    "p90"
+   ],
+   "percentiles": {
+    "p10": 10,
+    "p50": 50,
+    "p90": 90
+   },
+   "target_date": "2030-12-31",
+   "target_months": null,
+   "text": "Forecast the combined annualized revenue run-rate of OpenAI and Anthropic at the end of 2030, in billions of 2026 USD, as defined above (given that at least one of them exists as an independent company). Give your 10th, 50th and 90th percentiles as revenue_forecast (p10, p50, p90; numbers in billions, with p10 <= p50 <= p90).",
+   "minimum": 0,
+   "maximum": 100000
+  },
+  {
+   "key": "agi_forecast",
+   "group": "agi",
+   "fields": [
+    "p_before_2100",
+    "p5",
+    "p25",
+    "p50",
+    "p75",
+    "p95"
+   ],
+   "percentiles": {
+    "p5": 5,
+    "p25": 25,
+    "p50": 50,
+    "p75": 75,
+    "p95": 95
+   },
+   "target_date": null,
+   "target_months": null,
+   "text": "Forecast Expert AGI as defined above: the probability that, before 2100, more than 50% of the LEAP panel agrees that it exists (p_before_2100, a probability in [0,1]); and, assuming it does occur before 2100, the year it first occurs -- your 5th, 25th, 50th, 75th and 95th percentiles (p5, p25, p50, p75, p95; calendar years, with p5 <= p25 <= p50 <= p75 <= p95). Give all six as agi_forecast.",
+   "minimum": 2026,
+   "maximum": 2100,
+   "monotone": [
+    "p5",
+    "p25",
+    "p50",
+    "p75",
+    "p95"
+   ],
+   "bounds": {
+    "p_before_2100": [
+     0,
+     1
+    ]
+   }
+  },
+  {
+   "key": "eci_forecast",
+   "group": "eci",
+   "fields": [
+    "p10",
+    "p25",
+    "p50",
+    "p75",
+    "p90"
+   ],
+   "percentiles": {
+    "p10": 10,
+    "p25": 25,
+    "p50": 50,
+    "p75": 75,
+    "p90": 90
+   },
+   "target_date": null,
+   "target_months": 6,
+   "text": "Forecast the frontier ECI on {target_date}, on the scale above. Give your 10th, 25th, 50th, 75th and 90th percentiles as eci_forecast (p10, p25, p50, p75, p90; numbers, with p10 <= p25 <= p50 <= p75 <= p90): your 50th percentile is the value you think the frontier is equally likely to end up above or below, your 25th and 75th bracket the middle half of your distribution, and your 10th and 90th bracket the middle four-fifths.",
+   "minimum": 0,
+   "maximum": 1000
+  }
+ ],
+ "conditioning": {
+  "instruction": "Every condition stands alone: a condition in one section is never combined with a condition in another section. Each section states what its conditions assume about the quantities the other sections are about.",
+  "unconditional_forecast": "forecast the world as you expect it to unfold, including whatever frontier-AI revenue, AI-capability level and Expert-AGI timing you expect.",
+  "definitions": "Definitions. Each section below defines the quantity its conditions are levels of, in the words of the survey question it mirrors.",
+  "horizon": "each condition is a level of one quantity at the date its section states."
+ },
+ "groups": [
+  {
+   "key": "revenue",
+   "kind": "revenue",
+   "heading": "REVENUE CONDITIONS",
+   "instruction": "For each condition below, assume that the combined annualized revenue run-rate of OpenAI and Anthropic at the end of 2030, in billions of 2026 USD takes the stated value. Treat it as a fact you have learned about the world, not as an intervention: update your expectations about everything that would ordinarily accompany it -- AI capability, investment, compute, deployment, and how governments and developers respond -- as you would upon learning it, and then forecast each question in that world. Do not hold other factors fixed where the stated value would change them.",
+   "assumption": "No condition on any other quantity applies here: for the quantities the other sections are about, assume whatever you expect, as in your unconditional forecast.",
+   "definitions": "Wave 11: AI Industry Economics (fielded 2026-07-13 to 2026-08-11), question \"Frontier AI Company Revenue (2)\", asks: Given that at least one of these companies exists as defined in 1.a., what will be their combined annualized revenue run-rate (in billions of 2026 USD) at the end of the following calendar years?\n\nBackground: Revenue at frontier AI companies has grown rapidly over the last few years. AI Digest’s [AI 2025 Forecasting Survey](https://ai2025.org/) [asked](https://theaidigest.org/ai2025-analysis-may#7-what-will-be-the-sum-of-openai-anthropic-and-xais-publicly-reported-annualized-revenues-by-december-31st-2025-in-usd-billions) forecasters to predict the combined annualized revenue of OpenAI, Anthropic and xAI by the end of 2025; the median forecast was $16 billion, but the [resolved](https://theaidigest.org/2025-forecast-results#ais-prominence-underestimated-revenue-and-overestimated-public-perception) value ended up being more than $30 billion. Growth has continued into 2026, and revenue is now one of the most closely watched indicators of whether frontier AI is generating real economic returns or whether high valuations are disconnected from underlying unit economics. Note that we exclude xAI from our version. \nA note on the revenue metric: both companies headline an \"annualized revenue run-rate\" rather than audited Generally Accepted Accounting Principles (GAAP) figures, but they compute it differently. This question uses each company's headline run-rate as reported; see resolution criteria for part b for details.\n\nResolution Criteria: \n- This question will resolve using the most recently publicly reported annualized revenue run-rate for each of OpenAI and Anthropic as of December 31 of each resolution year, as that company reports it, as disclosed by the companies themselves via statements or official/company-leadership social media, or reported by reputable financial media (e.g. Bloomberg, Reuters, The Wall Street Journal, The Information). Figures are taken as headline-reported. FRI will not normalize for differences in annualization convention or accounting basis (e.g., gross vs. net) between the companies. Where a company materially restates its revenue definition, FRI will convene a panel of qualified experts to determine a comparable figure.\n- If no reliable figure has been published within 12 months of a resolution date or if there is substantial variance among similarly reliable sources, FRI will convene a panel of qualified experts to estimate the figure using available evidence.\n- If either company ceases to exist as an independent company  (per definition in 1.a.), the resolution value will include only the remaining company. If one of these companies acquires the other, the resolution will be its annualized revenue run-rate.\n\nThe companion question (1.a.) defines \"exists as an independent company\": Resolution Criteria: “Exists as an independent company” means that it has not failed, been acquired by another entity, or been nationalized. 1. Failure. The company has been dissolved or liquidated or has filed for, or been placed into, liquidation proceedings (e.g., Chapter 7 of the U.S. Bankruptcy Code or equivalent). Also includes cases where the company has permanently ceased its principal business operations. A reorganization under Chapter 11 (or equivalent) does not count as failure so long as the company emerges or proceedings are ongoing on the resolution date. 2. Acquisition / loss of independence. Generally applies when a new entity obtains greater than 50% of voting securities. This might include mergers where the company is not the surviving entity or where a new entity obtains the contractual right to appoint a majority of the board. An IPO would not automatically constitute ceasing to exist as an independent company. An IPO would only trigger this condition if it led to a single entity acquiring greater than 50% of voting securities/contractual right to appoint a majority of the board. 3. Nationalization. Includes acquisition (by the above definition) by a government. Also includes cases where a government has placed the company into conservatorship, receivership, or equivalent state control (e.g., Fannie Mae/AIG). Golden shares, Defense Production Act orders, security agreements, or board observers would not count as nationalization. Changes in corporate form, renaming, or internal restructuring does not affect resolution, provided a clear successor entity continues the company's principal business independently. If OpenAI and Anthropic merge with each other, they will still “exist as an independent company” for purposes of this question.",
+   "horizon": "every condition is a level of the run-rate at the end of 2030 (December 31, 2030).",
+   "source": {
+    "panel": "LEAP",
+    "wave": "Wave 11: AI Industry Economics",
+    "status": "fielded 2026-07-13 to 2026-08-11; panel answers pulled 2026-09-02 from the FRI warehouse",
+    "documents": [
+     "data/leap/axes-2026-09-02.json"
+    ],
+    "question_group": "Frontier AI Company Revenue (2)",
+    "question_group_id": "f3c29cfd69bd05124dd9c3022bbe394d536a3d78c3e91b4378d2ffac838e703d",
+    "unit": {
+     "name": "usd (billion, revenue)",
+     "display": "USD ($ Billions, Revenue)",
+     "abbreviation": "$B",
+     "min": 0.0,
+     "max": 100000.0
+    }
+   },
+   "authored": [
+    "instruction",
+    "assumption",
+    "horizon"
+   ]
+  },
+  {
+   "key": "agi",
+   "kind": "AGI-timing",
+   "heading": "AGI-TIMING CONDITIONS",
+   "instruction": "For each condition below, assume that the year in which more than 50% of the LEAP panel first agrees that Expert AGI, as defined above, exists takes the stated value. Treat it as a fact you have learned about the world, not as an intervention: update your expectations about everything that would ordinarily accompany it -- capability progress before and after that year, investment, compute, deployment, and how governments and developers respond -- as you would upon learning it, and then forecast each question in that world. Do not hold other factors fixed where the stated value would change them.",
+   "assumption": "No condition on any other quantity applies here: for the quantities the other sections are about, assume whatever you expect, as in your unconditional forecast.",
+   "definitions": "Wave 8: Timelines (fielded 2026-04-20 to 2026-05-11) asks, first: What is the probability that, before 2100, more than 50% of LEAP panelists will agree that AGI exists, and if it occurs, in what year do you expect this to first occur? And then: Assume that more than 50% of LEAP panelists agree that AGI exists by the above definition before 2100. In what year do you expect this to first occur?\n\nBackground: Experts agree that knowing when AI will be able to perform on the same level as humans in most or all fields is important, but there is much less consensus on how to define an AI that reaches that milestone. Here, we offer one potential definition of AGI focused on AI systems’ ability to replace all but the best humans at nearly all non-physical tasks that generate economic value and are paid for in today’s labor market.\n\nResolution Criteria: Ground Truth. FRI - LEAP Panel\n\n- “Professional employee” refers to a trained or experienced worker. To satisfy this question’s criteria, a system must perform at or above the level of the 90th percentile of such human workers in 2025, across all sectors. To qualify, the system should be able to replace individual human employees with the same level of support and supervision required for a 90th percentile human in the occupation in 2025.\n- “Economically useful non-physical occupation” refers to work for which there is a paying market and where the worker’s value-add is dominated by cognitive rather than physical skills.\n    - These occupations are dominated by analytical and creative tasks such as reasoning, planning, learning new information, communication, and decision-making.\n    - For the purposes of this question, roles that are in-scope include: doctors and nurses, lawyers and legal aids, project managers, and AI/robotics researchers.\n    - Roles that are out-of-scope include construction laborers, police officers, factory line workers, professional athletes, and electricians.\n    - You should consider these roles as they existed at the end of 2025, even if you expect future versions of them to involve human-AI interaction to a much greater degree than they do currently.\n    - To satisfy this question’s criteria, a system must outperform the 90th percentile 2025 human on at least 90% of the non-physical tasks associated with the role.\n- The system must be commercially available, general, and no more than 5x as costly as equivalent human labor.\n    - A system is considered “commercially available” if it can be purchased or licensed by firms or individuals (or is freely available), rather than being restricted to internal research use.\n    - The system must be general - i.e., a single system that can reach the required level of performance across all relevant occupations.\n    - To qualify, the AI's inference cost for replacing the labor of a given human professional must be within 5x of the equivalent human labor cost. For example, the AI inference cost necessary to replace a human’s yearly output must be no more than 5x their salary.\n- This question will be resolved by FRI surveying the LEAP panel, or another expert panel with similar representation as LEAP.\n    - We will ask them the following question and include the same definitions as provided above: “Imagine occupations as they were in 2025, focused on those whose economic value-add was primarily non-physical. Thinking of today’s AI systems, is there a commercially available system that could have performed as well or better than the 90th percentile professional employee in those 2025 occupations at no more than 5x the cost?” \n    - The LEAP panel estimate is computed by weighting the four expert categories (computer science, AI industry, economics, policy) equally, and then adjusting for demographic characteristics within each category. If the LEAP panel is not available by the resolution date, FRI will recruit a similar expert panel to resolve the question.",
+   "horizon": "every condition is the year Expert AGI first occurs.",
+   "source": {
+    "panel": "LEAP",
+    "wave": "Wave 8: Timelines",
+    "status": "fielded 2026-04-20 to 2026-05-11; panel answers pulled 2026-09-02 from the FRI warehouse",
+    "documents": [
+     "data/leap/axes-2026-09-02.json"
+    ],
+    "question_group": "Expert Artificial General Intelligence (AGI) (2)",
+    "question_group_id": "65f274b224c9fbc78ee0e31915ef938acca4537d524c7b5def1ed996f5875398",
+    "unit": {
+     "name": "year",
+     "display": "Year",
+     "abbreviation": null,
+     "min": 2025.0,
+     "max": 2100.0
+    }
+   },
+   "authored": [
+    "instruction",
+    "assumption",
+    "horizon"
+   ]
+  },
+  {
+   "key": "eci",
+   "kind": "capability",
+   "heading": "CAPABILITY CONDITIONS",
+   "instruction": "For each condition below, assume that the frontier ECI on {target_date} takes the stated value. Treat it as a fact you have learned about the world, not as an intervention: update your expectations about everything that would ordinarily accompany it -- investment, compute, algorithmic progress, deployment, and how governments and developers respond -- as you would upon learning it, and then forecast each question in that world. Do not hold other factors fixed where the stated value would change them.",
+   "assumption": "No condition on any other quantity applies here: for the quantities the other sections are about, assume whatever you expect, as in your unconditional forecast.",
+   "definitions": "Definitions. ECI: the Epoch Capabilities Index, published by Epoch AI -- a single score summarising a model's results across dozens of benchmarks, fit with an item-response model so that scores stay comparable as benchmarks saturate and new ones are added. Higher is more capable; the scale has no ceiling. All scores here are on the scale as published by Epoch on 2026-08-21.\nFrontier ECI: the highest ECI score of any publicly released model from a US developer, as scored by Epoch.\n\nFrontier ECI history -- every release by a US developer that set a new high, best variant per model, from GPT-4 on (Epoch's index of 2026-08-21, 200 models scored):\n  2023-03-14   125.8  GPT-4 (Mar 2023)\n  2024-01-25   125.9  GPT-4 Turbo Preview (January 2024)\n  2024-02-29   126.7  Claude 3 Opus\n  2024-04-09   127.3  GPT-4 Turbo (Apr 2024)\n  2024-06-20   130.0  Claude 3.5 Sonnet (Jun 2024)\n  2024-09-12   135.7  o1-preview\n  2024-09-12   136.5  o1-mini (high)\n  2024-12-17   142.6  o1 (medium)\n  2025-03-31   144.5  Gemini 2.5 Pro Preview (Mar 2025)\n  2025-04-16   146.3  o4-mini (medium)\n  2025-04-16   147.0  o3 (medium)\n  2025-06-10   147.4  o3-pro\n  2025-08-07   150.0  GPT-5 (high)\n  2025-10-07   150.3  GPT-5 Pro\n  2025-11-18   153.1  Gemini 3 Pro Preview\n  2025-12-11   153.3  GPT-5.2 (high)\n  2025-12-11   155.1  GPT-5.2 Pro\n  2026-02-05   155.6  GPT-5.3 Codex (high)\n  2026-03-05   156.5  GPT-5.4 (high)\n  2026-03-05   158.6  GPT-5.4 Pro (xhigh)\n  2026-04-23   158.7  GPT-5.5 (medium)\n  2026-04-23   161.7  GPT-5.5 Pro (xhigh)\n  2026-06-09   162.5  Claude Fable 5 (high)\nAs of 2026-08-21 no released model has scored above Claude Fable 5 (high), 162.5 (2026-06-09).",
+   "horizon": "every condition is a level of the frontier ECI on {target_date}.",
+   "source": {
+    "panel": null,
+    "wave": "Frontier ECI 6 months from the run date, at fixed levels off the trend",
+    "status": "no human panel; the model's own eci_forecast is compared to the trend at the run's target date",
+    "documents": [
+     "data/epoch_capabilities_index_2026-08-21.csv",
+     "data/eci_trend_2026-08-21.json"
+    ]
+   },
+   "authored": [
+    "instruction",
+    "assumption",
+    "horizon"
+   ]
+  }
+ ],
+ "history": [
+  {
+   "date": "2023-03-14",
+   "score": 125.8,
+   "model": "GPT-4 (Mar 2023)"
+  },
+  {
+   "date": "2024-01-25",
+   "score": 125.9,
+   "model": "GPT-4 Turbo Preview (January 2024)"
+  },
+  {
+   "date": "2024-02-29",
+   "score": 126.7,
+   "model": "Claude 3 Opus"
+  },
+  {
+   "date": "2024-04-09",
+   "score": 127.3,
+   "model": "GPT-4 Turbo (Apr 2024)"
+  },
+  {
+   "date": "2024-06-20",
+   "score": 130.0,
+   "model": "Claude 3.5 Sonnet (Jun 2024)"
+  },
+  {
+   "date": "2024-09-12",
+   "score": 135.7,
+   "model": "o1-preview"
+  },
+  {
+   "date": "2024-09-12",
+   "score": 136.5,
+   "model": "o1-mini (high)"
+  },
+  {
+   "date": "2024-12-17",
+   "score": 142.6,
+   "model": "o1 (medium)"
+  },
+  {
+   "date": "2025-03-31",
+   "score": 144.5,
+   "model": "Gemini 2.5 Pro Preview (Mar 2025)"
+  },
+  {
+   "date": "2025-04-16",
+   "score": 146.3,
+   "model": "o4-mini (medium)"
+  },
+  {
+   "date": "2025-04-16",
+   "score": 147.0,
+   "model": "o3 (medium)"
+  },
+  {
+   "date": "2025-06-10",
+   "score": 147.4,
+   "model": "o3-pro"
+  },
+  {
+   "date": "2025-08-07",
+   "score": 150.0,
+   "model": "GPT-5 (high)"
+  },
+  {
+   "date": "2025-10-07",
+   "score": 150.3,
+   "model": "GPT-5 Pro"
+  },
+  {
+   "date": "2025-11-18",
+   "score": 153.1,
+   "model": "Gemini 3 Pro Preview"
+  },
+  {
+   "date": "2025-12-11",
+   "score": 153.3,
+   "model": "GPT-5.2 (high)"
+  },
+  {
+   "date": "2025-12-11",
+   "score": 155.1,
+   "model": "GPT-5.2 Pro"
+  },
+  {
+   "date": "2026-02-05",
+   "score": 155.6,
+   "model": "GPT-5.3 Codex (high)"
+  },
+  {
+   "date": "2026-03-05",
+   "score": 156.5,
+   "model": "GPT-5.4 (high)"
+  },
+  {
+   "date": "2026-03-05",
+   "score": 158.6,
+   "model": "GPT-5.4 Pro (xhigh)"
+  },
+  {
+   "date": "2026-04-23",
+   "score": 158.7,
+   "model": "GPT-5.5 (medium)"
+  },
+  {
+   "date": "2026-04-23",
+   "score": 161.7,
+   "model": "GPT-5.5 Pro (xhigh)"
+  },
+  {
+   "date": "2026-06-09",
+   "score": 162.5,
+   "model": "Claude Fable 5 (high)"
+  }
+ ],
+ "trend": null,
+ "conditions": [
+  {
+   "id": "revenue75",
+   "leap_id": null,
+   "label": "Combined OpenAI + Anthropic run-rate at end of 2030 ≈ $75B (2026 USD)",
+   "policy": null,
+   "part": null,
+   "value": 75,
+   "unit": "$B (2026 USD)",
+   "assume": "Assume that at the end of 2030 the combined annualized revenue run-rate of OpenAI and Anthropic, as defined above, is approximately $75 billion in 2026 USD (within about ten percent of it).",
+   "description": "",
+   "group": "revenue",
+   "chart": {
+    "from": "one step below p10, same log step"
+   }
+  },
+  {
+   "id": "revenue150",
+   "leap_id": null,
+   "label": "Combined OpenAI + Anthropic run-rate at end of 2030 ≈ $150B (2026 USD)",
+   "policy": null,
+   "part": null,
+   "value": 150,
+   "unit": "$B (2026 USD)",
+   "assume": "Assume that at the end of 2030 the combined annualized revenue run-rate of OpenAI and Anthropic, as defined above, is approximately $150 billion in 2026 USD (within about ten percent of it).",
+   "description": "",
+   "group": "revenue",
+   "chart": {
+    "from": "LEAP superforecaster median p10 (n=53)"
+   }
+  },
+  {
+   "id": "revenue300",
+   "leap_id": null,
+   "label": "Combined OpenAI + Anthropic run-rate at end of 2030 ≈ $300B (2026 USD)",
+   "policy": null,
+   "part": null,
+   "value": 300,
+   "unit": "$B (2026 USD)",
+   "assume": "Assume that at the end of 2030 the combined annualized revenue run-rate of OpenAI and Anthropic, as defined above, is approximately $300 billion in 2026 USD (within about ten percent of it).",
+   "description": "",
+   "group": "revenue",
+   "chart": {
+    "from": "LEAP superforecaster median p50 (n=53)"
+   }
+  },
+  {
+   "id": "revenue500",
+   "leap_id": null,
+   "label": "Combined OpenAI + Anthropic run-rate at end of 2030 ≈ $500B (2026 USD)",
+   "policy": null,
+   "part": null,
+   "value": 500,
+   "unit": "$B (2026 USD)",
+   "assume": "Assume that at the end of 2030 the combined annualized revenue run-rate of OpenAI and Anthropic, as defined above, is approximately $500 billion in 2026 USD (within about ten percent of it).",
+   "description": "",
+   "group": "revenue",
+   "chart": {
+    "from": "LEAP superforecaster median p90 (n=53)"
+   }
+  },
+  {
+   "id": "revenue830",
+   "leap_id": null,
+   "label": "Combined OpenAI + Anthropic run-rate at end of 2030 ≈ $830B (2026 USD)",
+   "policy": null,
+   "part": null,
+   "value": 830,
+   "unit": "$B (2026 USD)",
+   "assume": "Assume that at the end of 2030 the combined annualized revenue run-rate of OpenAI and Anthropic, as defined above, is approximately $830 billion in 2026 USD (within about ten percent of it).",
+   "description": "",
+   "group": "revenue",
+   "chart": {
+    "from": "one step above p90, same log step"
+   }
+  },
+  {
+   "id": "agi2030",
+   "leap_id": null,
+   "label": "Expert AGI first occurs in 2030",
+   "policy": null,
+   "part": null,
+   "value": 2030,
+   "unit": "year",
+   "assume": "Assume that 2030 is the first year in which more than 50% of the LEAP panel agrees that Expert AGI, as defined above, exists (within about a year of it).",
+   "description": "",
+   "group": "agi",
+   "chart": {
+    "from": "LEAP superforecaster median p5 (n=55)"
+   }
+  },
+  {
+   "id": "agi2036",
+   "leap_id": null,
+   "label": "Expert AGI first occurs in 2036",
+   "policy": null,
+   "part": null,
+   "value": 2036,
+   "unit": "year",
+   "assume": "Assume that 2036 is the first year in which more than 50% of the LEAP panel agrees that Expert AGI, as defined above, exists (within about a year of it).",
+   "description": "",
+   "group": "agi",
+   "chart": {
+    "from": "LEAP superforecaster median p25 (n=55)"
+   }
+  },
+  {
+   "id": "agi2045",
+   "leap_id": null,
+   "label": "Expert AGI first occurs in 2045",
+   "policy": null,
+   "part": null,
+   "value": 2045,
+   "unit": "year",
+   "assume": "Assume that 2045 is the first year in which more than 50% of the LEAP panel agrees that Expert AGI, as defined above, exists (within about a year of it).",
+   "description": "",
+   "group": "agi",
+   "chart": {
+    "from": "LEAP superforecaster median p50 (n=55)"
+   }
+  },
+  {
+   "id": "agi2060",
+   "leap_id": null,
+   "label": "Expert AGI first occurs in 2060",
+   "policy": null,
+   "part": null,
+   "value": 2060,
+   "unit": "year",
+   "assume": "Assume that 2060 is the first year in which more than 50% of the LEAP panel agrees that Expert AGI, as defined above, exists (within about a year of it).",
+   "description": "",
+   "group": "agi",
+   "chart": {
+    "from": "LEAP superforecaster median p75 (n=55)"
+   }
+  },
+  {
+   "id": "agi2090",
+   "leap_id": null,
+   "label": "Expert AGI first occurs in 2090",
+   "policy": null,
+   "part": null,
+   "value": 2090,
+   "unit": "year",
+   "assume": "Assume that 2090 is the first year in which more than 50% of the LEAP panel agrees that Expert AGI, as defined above, exists (within about a year of it).",
+   "description": "",
+   "group": "agi",
+   "chart": {
+    "from": "LEAP superforecaster median p95 (n=55)"
+   }
+  },
+  {
+   "id": "eci162",
+   "leap_id": null,
+   "label": "Frontier ECI on {target_date} ≈ 162",
+   "policy": null,
+   "part": null,
+   "value": 162,
+   "unit": "ECI points",
+   "assume": "Assume that on {target_date} the frontier ECI is approximately 162 (within about two points of it).",
+   "description": "",
+   "group": "eci",
+   "chart": {
+    "from": "the frontier stalls at its fitted level"
+   }
+  },
+  {
+   "id": "eci168",
+   "leap_id": null,
+   "label": "Frontier ECI on {target_date} ≈ 168",
+   "policy": null,
+   "part": null,
+   "value": 168,
+   "unit": "ECI points",
+   "assume": "Assume that on {target_date} the frontier ECI is approximately 168 (within about two points of it).",
+   "description": "",
+   "group": "eci",
+   "chart": {
+    "from": "0.5x the fitted pace (15.3 pts/yr) from the anchor to the target"
+   }
+  },
+  {
+   "id": "eci173",
+   "leap_id": null,
+   "label": "Frontier ECI on {target_date} ≈ 173",
+   "policy": null,
+   "part": null,
+   "value": 173,
+   "unit": "ECI points",
+   "assume": "Assume that on {target_date} the frontier ECI is approximately 173 (within about two points of it).",
+   "description": "",
+   "group": "eci",
+   "chart": {
+    "from": "1x the fitted pace (15.3 pts/yr) from the anchor to the target"
+   }
+  },
+  {
+   "id": "eci179",
+   "leap_id": null,
+   "label": "Frontier ECI on {target_date} ≈ 179",
+   "policy": null,
+   "part": null,
+   "value": 179,
+   "unit": "ECI points",
+   "assume": "Assume that on {target_date} the frontier ECI is approximately 179 (within about two points of it).",
+   "description": "",
+   "group": "eci",
+   "chart": {
+    "from": "1.5x the fitted pace (15.3 pts/yr) from the anchor to the target"
+   }
+  },
+  {
+   "id": "eci185",
+   "leap_id": null,
+   "label": "Frontier ECI on {target_date} ≈ 185",
+   "policy": null,
+   "part": null,
+   "value": 185,
+   "unit": "ECI points",
+   "assume": "Assume that on {target_date} the frontier ECI is approximately 185 (within about two points of it).",
+   "description": "",
+   "group": "eci",
+   "chart": {
+    "from": "2x the fitted pace (15.3 pts/yr) from the anchor to the target"
+   }
+  },
+  {
+   "id": "eci196",
+   "leap_id": null,
+   "label": "Frontier ECI on {target_date} ≈ 196",
+   "policy": null,
+   "part": null,
+   "value": 196,
+   "unit": "ECI points",
+   "assume": "Assume that on {target_date} the frontier ECI is approximately 196 (within about two points of it).",
+   "description": "",
+   "group": "eci",
+   "chart": {
+    "from": "3x the fitted pace (15.3 pts/yr) from the anchor to the target"
+   }
+  }
+ ],
+ "reference": {
+  "revenue": {
+   "panel": "superforecaster",
+   "at": "2030-12-31",
+   "percentiles": [
+    10,
+    50,
+    90
+   ],
+   "answers": {
+    "10": {
+     "expert": {
+      "n": 198,
+      "median": 85.0,
+      "q10": 23.5,
+      "q25": 50.0,
+      "q75": 150.0,
+      "q90": 221.7
+     },
+     "fri": {
+      "n": 11,
+      "median": 71.7,
+      "q10": 20.0,
+      "q25": 50.0,
+      "q75": 154.0,
+      "q90": 160.1
+     },
+     "public": {
+      "n": 631,
+      "median": 43.0,
+      "q10": 6.699999999999999,
+      "q25": 20.3,
+      "q75": 95.0,
+      "q90": 181.7
+     },
+     "superforecaster": {
+      "n": 53,
+      "median": 150.0,
+      "q10": 50.0,
+      "q25": 95.0,
+      "q75": 250.0,
+      "q90": 400.0
+     }
+    },
+    "50": {
+     "expert": {
+      "n": 198,
+      "median": 150.0,
+      "q10": 59.4,
+      "q25": 87.2,
+      "q75": 350.0,
+      "q90": 650.0
+     },
+     "fri": {
+      "n": 11,
+      "median": 157.5,
+      "q10": 93.5,
+      "q25": 100.0,
+      "q75": 241.7,
+      "q90": 250.0
+     },
+     "public": {
+      "n": 631,
+      "median": 70.6,
+      "q10": 30.7,
+      "q25": 45.0,
+      "q75": 150.0,
+      "q90": 350.0
+     },
+     "superforecaster": {
+      "n": 53,
+      "median": 300.0,
+      "q10": 120.0,
+      "q25": 180.0,
+      "q75": 500.0,
+      "q90": 800.0
+     }
+    },
+    "90": {
+     "expert": {
+      "n": 198,
+      "median": 225.0,
+      "q10": 85.1,
+      "q25": 120.0,
+      "q75": 600.0,
+      "q90": 2000.0
+     },
+     "fri": {
+      "n": 11,
+      "median": 260.4,
+      "q10": 125.0,
+      "q25": 128.3,
+      "q75": 318.6,
+      "q90": 500.0
+     },
+     "public": {
+      "n": 631,
+      "median": 98.0,
+      "q10": 50.0,
+      "q25": 68.3,
+      "q75": 208.3,
+      "q90": 500.0
+     },
+     "superforecaster": {
+      "n": 53,
+      "median": 498.9,
+      "q10": 190.0,
+      "q25": 300.0,
+      "q75": 758.3,
+      "q90": 1400.0
+     }
+    }
+   }
+  },
+  "agi": {
+   "panel": "superforecaster",
+   "at": "none",
+   "percentiles": [
+    5,
+    25,
+    50,
+    75,
+    95
+   ],
+   "answers": {
+    "5": {
+     "expert": {
+      "n": 214,
+      "median": 2030.0,
+      "q10": 2026.0,
+      "q25": 2028.0,
+      "q75": 2035.0,
+      "q90": 2045.0
+     },
+     "public": {
+      "n": 606,
+      "median": 2032.0,
+      "q10": 2026.0,
+      "q25": 2029.3,
+      "q75": 2042.0,
+      "q90": 2060.0
+     },
+     "superforecaster": {
+      "n": 55,
+      "median": 2030.0,
+      "q10": 2027.0,
+      "q25": 2028.0,
+      "q75": 2035.0,
+      "q90": 2040.0
+     }
+    },
+    "25": {
+     "expert": {
+      "n": 214,
+      "median": 2037.0,
+      "q10": 2029.3,
+      "q25": 2032.0,
+      "q75": 2045.0,
+      "q90": 2060.0
+     },
+     "public": {
+      "n": 606,
+      "median": 2043.0,
+      "q10": 2030.8,
+      "q25": 2036.0,
+      "q75": 2055.0,
+      "q90": 2075.0
+     },
+     "superforecaster": {
+      "n": 55,
+      "median": 2036.0,
+      "q10": 2029.0,
+      "q25": 2032.1,
+      "q75": 2048.0,
+      "q90": 2060.0
+     }
+    },
+    "50": {
+     "expert": {
+      "n": 215,
+      "median": 2047.0,
+      "q10": 2031.6,
+      "q25": 2037.6,
+      "q75": 2060.0,
+      "q90": 2078.6
+     },
+     "public": {
+      "n": 606,
+      "median": 2055.0,
+      "q10": 2038.0,
+      "q25": 2046.3,
+      "q75": 2071.0,
+      "q90": 2088.0
+     },
+     "superforecaster": {
+      "n": 55,
+      "median": 2045.0,
+      "q10": 2032.0,
+      "q25": 2038.0,
+      "q75": 2063.0,
+      "q90": 2080.8
+     }
+    },
+    "75": {
+     "expert": {
+      "n": 214,
+      "median": 2060.4,
+      "q10": 2038.0,
+      "q25": 2045.0,
+      "q75": 2080.0,
+      "q90": 2090.0
+     },
+     "public": {
+      "n": 606,
+      "median": 2074.9,
+      "q10": 2045.0,
+      "q25": 2060.0,
+      "q75": 2085.0,
+      "q90": 2095.0
+     },
+     "superforecaster": {
+      "n": 55,
+      "median": 2060.4,
+      "q10": 2038.0,
+      "q25": 2048.0,
+      "q75": 2080.0,
+      "q90": 2095.0
+     }
+    },
+    "95": {
+     "expert": {
+      "n": 214,
+      "median": 2090.0,
+      "q10": 2050.0,
+      "q25": 2063.5,
+      "q75": 2100.0,
+      "q90": 2100.0
+     },
+     "public": {
+      "n": 606,
+      "median": 2090.0,
+      "q10": 2059.7,
+      "q25": 2075.0,
+      "q75": 2100.0,
+      "q90": 2100.0
+     },
+     "superforecaster": {
+      "n": 55,
+      "median": 2090.0,
+      "q10": 2045.0,
+      "q25": 2067.0,
+      "q75": 2100.0,
+      "q90": 2100.0
+     }
+    }
+   },
+   "p_before_2100": {
+    "expert": {
+     "n": 216,
+     "median": 80.0,
+     "q10": 25.0,
+     "q25": 60.0,
+     "q75": 90.0,
+     "q90": 97.0
+    },
+    "public": {
+     "n": 607,
+     "median": 60.0,
+     "q10": 10.0,
+     "q25": 30.0,
+     "q75": 80.0,
+     "q90": 90.0
+    },
+    "superforecaster": {
+     "n": 55,
+     "median": 80.0,
+     "q10": 30.0,
+     "q25": 55.0,
+     "q75": 95.0,
+     "q90": 97.0
+    }
+   }
+  },
+  "eci": {
+   "trend": "data/eci_trend_2026-08-21.json",
+   "anchor": {
+    "model": "Claude Fable 5 (high)",
+    "date": "2026-06-09",
+    "score": 162.49
+   },
+   "fitted_at_anchor": 162.06,
+   "pts_per_year": 15.3,
+   "pts_per_year_ci80": [
+    7.6,
+    30.6
+   ],
+   "reference_run_date": "2026-09-04",
+   "reference_target_date": "2027-03-04",
+   "years_anchor_to_target": 0.734,
+   "pace_multiples": [
+    0,
+    0.5,
+    1,
+    1.5,
+    2,
+    3
+   ],
+   "trend_at_reference_target": {
+    "date": "2027-03-04",
+    "p25": 169.8,
+    "p50": 173.4,
+    "p75": 178.4
+   }
+  }
+ },
+ "notes": {
+  "design": "Ezra + Nick, 2026-09-02: risk conditional on fixed levels of an x-axis quantity, one axis at a time, at the 2030/2050/2100 horizons only; the model first forecasts each quantity itself in LEAP's own percentiles.",
+  "levels": "fixed in this file (the same every week); LEAP axes from the superforecasters' aggregate percentiles, extended one step each way; the ECI axis from the trend's pace. See the module docstring.",
+  "conditioning": "a fact learned about the world, not an exogenous intervention -- the ECI sets' clause, one per axis.",
+  "target": "the ECI target date is run date + 6 months, filled by run_unified.resolve_set; its levels were computed for 2026-09-04 and are held until the reference moves.",
+  "cost": "35 questions x 3 horizons = 105 cells x 17 keys = 1785 probabilities per call."
+ }
+}

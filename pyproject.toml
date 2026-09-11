@@ -1,0 +1,37 @@
+[project]
+name = "redlines"
+version = "0.1.0"
+description = "Automated Catastrophic Risk Forecasting — dashboard data pipeline"
+requires-python = ">=3.11"
+license = {file = "LICENSE"}
+# The build stage (python3 -m redlines build) is stdlib-only by design:
+# rebuilding every dashboard blob must never need API keys or third-party deps.
+dependencies = []
+
+[project.optional-dependencies]
+paper = [
+    "matplotlib>=3.9",
+]
+# Eliciting NEW forecasts (code/run_unified.py, code/run_ladder_joint.py) needs a
+# provider client; nothing else in the repo does. redlines/llm.py imports litellm
+# inside the call, so this extra is only required to RUN a forecast — importing
+# the module, running the tests, and rebuilding the dashboard all work without it.
+acquire = [
+    # >=1.96: maps reasoning_effort "max" to Anthropic adaptive thinking and
+    # "xhigh" to OpenAI reasoning.effort (redlines/llm.py LITELLM_MIN).
+    "litellm>=1.96",
+]
+# Running the test suite: pytest, plus openpyxl for the question-set generator
+# tests (tests/test_autoarc_generator.py reads the Auto-ARC workbook).
+test = [
+    "pytest>=8",
+    "openpyxl>=3.1",
+]
+
+[tool.pytest.ini_options]
+# Only tests/ is a test suite; archive/ and the vendored code/causal/ carry
+# files pytest would otherwise try to collect.
+testpaths = ["tests"]
+
+[tool.setuptools]
+packages = ["redlines", "redlines.views", "redlines.paper"]

@@ -1,0 +1,2 @@
+model,eci,n,brier,brier_climatology,bss,mean_pred,mean_obs,ece
+openai/gpt-4o,None,40,0.2745,0.026309510126280626,-9.433489589218972,0.4525,0.025,0.4275

@@ -1,0 +1,192 @@
+{
+  "capturedAt": "2026-09-10T23:28:53.234Z",
+  "source": "Local assembled AIRO dashboard (index.html)",
+  "sourceSha256": "399fd5e2e5ec7c1f11673b63ee36932d7f8f73229d309e0ce5040fc68b94c3f2",
+  "viewport": {
+    "width": 1000,
+    "height": 1800
+  },
+  "deviceScaleFactor": 3,
+  "forecastHorizon": "2030",
+  "timelineSnapshots": [
+    {
+      "date": "2026-09-02",
+      "instrumentVersion": "legacy",
+      "instrumentInfo": {
+        "version": "airo-incidents-prospective-v1",
+        "available": false,
+        "runDate": null,
+        "countingWindows": {},
+        "change": "Incident counting rules changed: only incidents beginning on or after the elicitation date qualify. The entire joint forecast series starts anew because the questions are elicited together. Earlier forecasts remain in the download under their original recorded version or as unversioned legacy rows. Current charts require all four panel models on the same elicitation date.",
+        "windowChange": "Incident onset starts advance with each elicitation date, including for fixed-year deadlines. Changes across runs therefore reflect changing intervals as well as revised beliefs.",
+        "archiveUrl": "redlines-data.zip"
+      },
+      "label": "Sep 2",
+      "runs": [
+        "2026-09-02T2022Z"
+      ],
+      "n": 12,
+      "calls": 4,
+      "draws": 1,
+      "protocols": [
+        "unified-joint-combined-v2"
+      ],
+      "panel": [
+        "eci_topk"
+      ]
+    },
+    {
+      "date": "2026-09-04",
+      "instrumentVersion": "legacy",
+      "instrumentInfo": {
+        "version": "airo-incidents-prospective-v1",
+        "available": false,
+        "runDate": null,
+        "countingWindows": {},
+        "change": "Incident counting rules changed: only incidents beginning on or after the elicitation date qualify. The entire joint forecast series starts anew because the questions are elicited together. Earlier forecasts remain in the download under their original recorded version or as unversioned legacy rows. Current charts require all four panel models on the same elicitation date.",
+        "windowChange": "Incident onset starts advance with each elicitation date, including for fixed-year deadlines. Changes across runs therefore reflect changing intervals as well as revised beliefs.",
+        "archiveUrl": "redlines-data.zip"
+      },
+      "label": "Sep 4",
+      "runs": [
+        "2026-09-04T1200Z"
+      ],
+      "n": 12,
+      "calls": 4,
+      "draws": 1,
+      "protocols": [
+        "unified-joint-combined-v4"
+      ],
+      "panel": [
+        "eci_topk"
+      ]
+    },
+    {
+      "date": "2026-09-08",
+      "instrumentVersion": "legacy",
+      "instrumentInfo": {
+        "version": "airo-incidents-prospective-v1",
+        "available": false,
+        "runDate": null,
+        "countingWindows": {},
+        "change": "Incident counting rules changed: only incidents beginning on or after the elicitation date qualify. The entire joint forecast series starts anew because the questions are elicited together. Earlier forecasts remain in the download under their original recorded version or as unversioned legacy rows. Current charts require all four panel models on the same elicitation date.",
+        "windowChange": "Incident onset starts advance with each elicitation date, including for fixed-year deadlines. Changes across runs therefore reflect changing intervals as well as revised beliefs.",
+        "archiveUrl": "redlines-data.zip"
+      },
+      "label": "Sep 8",
+      "runs": [
+        "2026-09-08T1717Z"
+      ],
+      "n": 12,
+      "calls": 4,
+      "draws": 1,
+      "protocols": [
+        "unified-joint-combined-v4"
+      ],
+      "panel": [
+        "eci_topk"
+      ]
+    },
+    {
+      "date": "2026-09-10",
+      "instrumentVersion": "airo-incidents-prospective-v1",
+      "instrumentInfo": {
+        "version": "airo-incidents-prospective-v1",
+        "available": true,
+        "runDate": "2026-09-10",
+        "countingWindows": {
+          "2028": [
+            {
+              "start": "2026-09-10",
+              "end": "2028-12-31",
+              "timezone": "UTC",
+              "harm_years": 3
+            }
+          ],
+          "2030": [
+            {
+              "start": "2026-09-10",
+              "end": "2030-12-31",
+              "timezone": "UTC",
+              "harm_years": 3
+            }
+          ],
+          "2050": [
+            {
+              "start": "2026-09-10",
+              "end": "2050-12-31",
+              "timezone": "UTC",
+              "harm_years": 3
+            }
+          ],
+          "2100": [
+            {
+              "start": "2026-09-10",
+              "end": "2100-12-31",
+              "timezone": "UTC",
+              "harm_years": 3
+            }
+          ],
+          "6mo": [
+            {
+              "start": "2026-09-10",
+              "end": "2027-03-10",
+              "timezone": "UTC",
+              "harm_years": 3
+            }
+          ],
+          "12mo": [
+            {
+              "start": "2026-09-10",
+              "end": "2027-09-10",
+              "timezone": "UTC",
+              "harm_years": 3
+            }
+          ]
+        },
+        "change": "Incident counting rules changed: only incidents beginning on or after the elicitation date qualify. The entire joint forecast series starts anew because the questions are elicited together. Earlier forecasts remain in the download under their original recorded version or as unversioned legacy rows. Current charts require all four panel models on the same elicitation date.",
+        "windowChange": "Incident onset starts advance with each elicitation date, including for fixed-year deadlines. Changes across runs therefore reflect changing intervals as well as revised beliefs.",
+        "archiveUrl": "redlines-data.zip"
+      },
+      "label": "Sep 10",
+      "runs": [
+        "2026-09-10T2141Z"
+      ],
+      "n": 140,
+      "calls": 4,
+      "draws": 1,
+      "protocols": [
+        "unified-joint-combined-v5"
+      ],
+      "panel": [
+        "eci_topk"
+      ]
+    }
+  ],
+  "capabilityTarget": "2027-03-10",
+  "capabilityRuns": [
+    "2026-09-10T2141Z"
+  ],
+  "files": [
+    {
+      "file": "forecast-history.png",
+      "clip": {
+        "x": 28,
+        "y": 281.25,
+        "width": 944,
+        "height": 598.25
+      },
+      "sha256": "cb340cb31039b2a09c0f55207df25dfc7593808789bef8233ffa260a7d836f1a"
+    },
+    {
+      "file": "frontier-capability.png",
+      "clip": {
+        "x": 28,
+        "y": 454.5,
+        "width": 944,
+        "height": 506.5
+      },
+      "sha256": "7dfe9a501f0fbb84466f8f43e45f83e6dc037eba5cf03e9d20138c30105278b9"
+    }
+  ]
+}

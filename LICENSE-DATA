@@ -1,0 +1,33 @@
+AIRO — Automated AI Risk Outlook: data, documentation and figures
+Copyright (c) 2026 Forecasting Research Institute
+
+The code in this repository is MIT-licensed (see LICENSE). This file covers
+everything else.
+
+1. DATA, DOCUMENTATION AND FIGURES — Creative Commons Attribution 4.0
+   International (CC BY 4.0)
+
+   The question sets and condition sets under `data/`, the forecasts,
+   rationales, run logs and derived tables under `results/`, the documents
+   under `docs/`, and the figures under `paper/` are licensed under
+   CC BY 4.0: https://creativecommons.org/licenses/by/4.0/
+   Attribution: "AIRO (Automated AI Risk Outlook), Forecasting Research
+   Institute, https://airo.forecastingresearch.org".
+
+2. THIRD-PARTY MATERIAL — not covered by the licenses above
+
+   - `code/causal/` is a frozen copy of the Starsim causal bench's generating
+     code from forecastingresearch/forecastbench-sim and carries that
+     project's license (GPL-3.0). It is a record of how the locked dataset
+     was produced, not part of the build.
+   - `data/epoch_capabilities_index_*.csv` and `data/live_metr_eci_frontier.json`
+     are snapshots of Epoch AI's Epoch Capabilities Index, used under Epoch's
+     terms (https://epoch.ai).
+   - The page is set in Season Sans (Displaay Type Foundry), which FRI
+     licenses for web embedding on its own sites. The foundry's license
+     forbids redistribution, so the font files are not in this repository
+     (`web/fonts/` is ignored); the live site self-hosts them and a clone
+     renders with the fallback font stack.
+   - The `evidence` fields of the raw run logs under `results/` quote text
+     from third-party web pages retrieved during forecasting; that text
+     remains its publishers' and is reproduced here as a research record.

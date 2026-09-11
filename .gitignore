@@ -1,0 +1,50 @@
+# secrets
+.env
+.env.sw?
+.env~
+.local/google-docs/
+
+# Regenerated deterministically from forecastbench-sim (see README/reproduce)
+data/lowprob_questions.json
+# eval outputs / scratch
+data/reports/
+data/results/
+__pycache__/
+*.pyc
+.DS_Store
+
+# eval run artifacts (heavy / regenerated); keep metrics csv + plots
+results/reports/
+results/eval_*.json
+results/checkpoint*.json
+results/eval_*/checkpoint*.json
+
+results/graph4_data.json
+
+results/pandemic/corpus.json
+results/pandemic/*.log
+
+# uv writes this; the pipeline is stdlib-only and does not depend on it.
+uv.lock
+
+# Derived: the download behind the page button, rebuilt by `redlines build --views csv`
+results/forecasts.csv
+results/rationales.csv
+results/redlines-data.zip
+
+# paper figure previews (PNG); the PDFs are tracked
+paper/fig/*.png
+
+# private working notes and agent scratch
+private/
+.claude/
+
+# internal: the LEAP survey documents and the raw panel-answer pull. The
+# tracked derivations (data/leap_policies.json, data/leap_reference.json,
+# data/*axes_conditions.json) are what the pipeline reads.
+data/leap/
+
+# Season Sans (Displaay Type Foundry): licensed to FRI for web embedding on
+# its own sites, not for redistribution. The live site self-hosts the files;
+# a clone renders with the fallback stack in web/demo/00-head.html.
+web/fonts/

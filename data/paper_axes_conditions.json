@@ -1,0 +1,691 @@
+{
+ "title": "Axis conditions for the paper -- US real-GDP growth and labor-force participation (LEAP Wave 6) and the longest METR 80% time horizon (LEAP Wave 8) -- as the runner prepends them",
+ "slug": "paperaxes",
+ "kind": "growth or labor-force or task-horizon",
+ "protocol": "unified-joint-paperaxes-v3",
+ "horizons": [
+  "2030",
+  "2050",
+  "2100"
+ ],
+ "source": {
+  "panel": "LEAP",
+  "wave": "Wave 6: Economic Effects; Wave 8: Timelines",
+  "status": "LEAP answers pulled 2026-09-02 from the FRI warehouse (BigQuery fri-data-warehouse (FRI data-warehouse, dbt dimensional model))",
+  "documents": [
+   "data/leap/axes-2026-09-02.json"
+  ],
+  "outcome_horizons": [],
+  "policy_probability_horizons": [],
+  "leap": {
+   "file": "data/leap/axes-2026-09-02.json",
+   "sha256": "d650aa8e3e2d100bcc59f301396336db9b36b70660ff4834f695e6416398787d"
+  }
+ },
+ "generated_by": "code/make_axis_conditions.py",
+ "elicits": [
+  {
+   "key": "gdp_forecast",
+   "group": "gdp",
+   "fields": [
+    "p10",
+    "p50",
+    "p90"
+   ],
+   "percentiles": {
+    "p10": 10,
+    "p50": 50,
+    "p90": 90
+   },
+   "target_date": "2030-01-01",
+   "target_months": null,
+   "text": "Forecast the annualized change, in percent, in US real GDP between 2025 and 2030, as defined above. Give your 10th, 50th and 90th percentiles as gdp_forecast (p10, p50, p90; percent per year, with p10 <= p50 <= p90).",
+   "minimum": -100,
+   "maximum": 100
+  },
+  {
+   "key": "lfpr_forecast",
+   "group": "lfpr",
+   "fields": [
+    "p10",
+    "p50",
+    "p90"
+   ],
+   "percentiles": {
+    "p10": 10,
+    "p50": 50,
+    "p90": 90
+   },
+   "target_date": "2030-01-01",
+   "target_months": null,
+   "text": "Forecast the US labor force participation rate at the beginning of 2030, in percent, as defined above. Give your 10th, 50th and 90th percentiles as lfpr_forecast (p10, p50, p90; percent, with p10 <= p50 <= p90).",
+   "minimum": 0,
+   "maximum": 100
+  },
+  {
+   "key": "metr_forecast",
+   "group": "metr",
+   "fields": [
+    "p25",
+    "p50",
+    "p75"
+   ],
+   "percentiles": {
+    "p25": 25,
+    "p50": 50,
+    "p75": 75
+   },
+   "target_date": "2026-12-31",
+   "target_months": null,
+   "text": "Forecast the longest METR 80% time horizon listed for an AI model on December 31, 2026, in hours, as defined above. Give your 25th, 50th and 75th percentiles as metr_forecast (p25, p50, p75; hours, with p25 <= p50 <= p75).",
+   "minimum": 0,
+   "maximum": 100000
+  }
+ ],
+ "conditioning": {
+  "instruction": "Every condition stands alone: a condition in one section is never combined with a condition in another section. Each section states what its conditions assume about the quantities the other sections are about.",
+  "unconditional_forecast": "forecast the world as you expect it to unfold, including whatever growth, labor-market and AI-capability outcomes you expect.",
+  "definitions": "Definitions. Each section below defines the quantity its conditions are levels of, in the words of the survey question it mirrors.",
+  "horizon": "each condition is a level of one quantity at the date its section states."
+ },
+ "groups": [
+  {
+   "key": "gdp",
+   "kind": "growth",
+   "heading": "GROWTH CONDITIONS",
+   "instruction": "For each condition below, assume that the annualized change in US real GDP between 2025 and 2030 takes the stated value. Treat it as a fact you have learned about the world, not as an intervention: update your expectations about everything that would ordinarily accompany it -- AI capability and adoption, investment, productivity, employment, and how governments respond -- as you would upon learning it, and then forecast each question in that world. Do not hold other factors fixed where the stated value would change them.",
+   "assumption": "No condition on any other quantity applies here: for the quantities the other sections are about, assume whatever you expect, as in your unconditional forecast.",
+   "definitions": "Wave 6: Economic Effects (fielded 2026-02-09 to 2026-03-03), question \"Change in Gross Domestic Product\", asks: What will be the annualized change, in percent, in the real Gross Domestic Product (GDP) of the U.S. between the following years?\n\nBackground: Gross Domestic Product (GDP) measures the total value of goods and services a country produces in a given period of time. Real GDP is the GDP after adjusting for inflation—how much the value of money has decreased during that period—so it captures changes in actual output rather than just price changes.\nHere we ask you to estimate the annualized change in the real GDP. We can understand annualization with an example.\n1. The GDP in the U.S. increased by 2.5% between 2021 and 2022, and by 2.9% between 2022 and 2023.\n2. That means that the total change in the real GDP of the U.S. between 2021–2023 was an increase of approximately 5.47%: (100% + 2.5%) * (100% + 2.9%) - 100% = 5.47%.\n3. Here you should submit 2.70% as the corresponding annualized change, because constant growth at this rate for two years would lead to the same total growth of 5.47%: (100% + 2.70%)2 - 100% = 5.47%.\nIn this question, annualized change can be calculated by the formula\n(real GDP in 2030 / real GDP in 2025)1/5 - 100%\nfor the first question, and equivalently for the second question.\nIf you believe the question becomes invalid—for example, if human economic activity ceases—please enter -100% for the corresponding percentile and explain your reasoning below.\n\nResolution Body: U.S. Bureau of Economic Analysis, FRI\nResolution Criteria: Ground Truth\n- The question will resolve using the annualized percent change in real Gross Domestic Product for the United States between the relevant years, calculated using the U.S. Bureau of Economic Analysis’s reported values for the relevant years. In other words, using the first resolution period as an example:\n    - (real GDP in 2030 / real GDP in 2025)1/5 - 100%\n- The primary data source will be BEA Table 1.1.6: Real Gross Domestic Product.\n- The resolved value will be the latest published estimate available as of 31 December 2031 and 31 December 2051.",
+   "horizon": "every condition is an annualized growth rate over 2025-2030.",
+   "source": {
+    "panel": "LEAP",
+    "wave": "Wave 6: Economic Effects",
+    "status": "fielded 2026-02-09 to 2026-03-03; panel answers pulled 2026-09-02 from the FRI warehouse",
+    "documents": [
+     "data/leap/axes-2026-09-02.json"
+    ],
+    "question_group": "Change in Gross Domestic Product",
+    "question_group_id": "01bf53f904a18bf464efc13adabfa1a5c42cacd5ec8d2b9510c2af6dc1a47214",
+    "unit": {
+     "name": "percentage point",
+     "display": "Percentage Points",
+     "abbreviation": "pp",
+     "min": -100.0,
+     "max": null
+    }
+   },
+   "authored": [
+    "instruction",
+    "assumption",
+    "horizon"
+   ]
+  },
+  {
+   "key": "lfpr",
+   "kind": "labor-force",
+   "heading": "LABOR-FORCE CONDITIONS",
+   "instruction": "For each condition below, assume that the US labor force participation rate at the beginning of 2030 takes the stated value. Treat it as a fact you have learned about the world, not as an intervention: update your expectations about everything that would ordinarily accompany it -- AI capability and adoption, automation, wages, demographics, and how governments respond -- as you would upon learning it, and then forecast each question in that world. Do not hold other factors fixed where the stated value would change them.",
+   "assumption": "No condition on any other quantity applies here: for the quantities the other sections are about, assume whatever you expect, as in your unconditional forecast.",
+   "definitions": "Wave 6: Economic Effects (fielded 2026-02-09 to 2026-03-03), question \"Labor Force Participation Rate\", asks: What will be the labor force participation rate in the U.S. at the beginning of the following years?\n\nBackground: The labor force participation rate measures the share of the working-age population that is either employed or actively seeking employment. This question asks about the level of U.S. labor force participation at specific points in time, using official U.S. labor market statistics. Artificial intelligence may influence labor force participation through changes in labor demand, job task composition, and incentives to enter or exit the labor force.\n\nResolution Body: U.S. Bureau of Labor Statistics (BLS)\nResolution Criteria: Ground Truth\n- The question will resolve using the labor force participation rate for the civilian noninstitutional population (ages 16 and over) in the United States, as reported by the U.S. Bureau of Labor Statistics (BLS).\n- The primary data source will be [BLS series LNS11300000](https://data.bls.gov/timeseries/LNS11300000).\n- For each target date, the resolved value will be the seasonally adjusted monthly labor force participation rate corresponding to:\n    - January 2030 (for “the beginning of 2030”), and\n    - January 2050 (for “the beginning of 2050”).",
+   "horizon": "every condition is a participation rate in January 2030.",
+   "source": {
+    "panel": "LEAP",
+    "wave": "Wave 6: Economic Effects",
+    "status": "fielded 2026-02-09 to 2026-03-03; panel answers pulled 2026-09-02 from the FRI warehouse",
+    "documents": [
+     "data/leap/axes-2026-09-02.json"
+    ],
+    "question_group": "Labor Force Participation Rate",
+    "question_group_id": "1c374c3c4178f3b6935f9878215c0e9cd1931700b0d3de27d78b971ba4cce4b9",
+    "unit": {
+     "name": "percent",
+     "display": "Percent (%)",
+     "abbreviation": "%",
+     "min": 0.0,
+     "max": 100.0
+    }
+   },
+   "authored": [
+    "instruction",
+    "assumption",
+    "horizon"
+   ]
+  },
+  {
+   "key": "metr",
+   "kind": "task-horizon",
+   "heading": "TASK-HORIZON CONDITIONS",
+   "instruction": "For each condition below, assume that the longest METR 80% time horizon listed for an AI model on December 31, 2026 takes the stated value. Treat it as a fact you have learned about the world, not as an intervention: update your expectations about everything that would ordinarily accompany it -- capability more broadly, investment, compute, deployment, and how governments and developers respond -- as you would upon learning it, and then forecast each question in that world. Do not hold other factors fixed where the stated value would change them.",
+   "assumption": "No condition on any other quantity applies here: for the quantities the other sections are about, assume whatever you expect, as in your unconditional forecast.",
+   "definitions": "Wave 8: Timelines (fielded 2026-04-20 to 2026-05-11), question \"80%, 8-Hour Task Horizon (1)\", asks: What will be the longest METR 80% time horizon listed for an AI model on December 31, 2026?\n\nBackground: Benchmark scores are often difficult to interpret in “real productivity” terms. Large percentage-point gains can often come from small improvements on routine tasks that don’t materially impact performance on multi-hour, multi-step tasks. \n\nMETR’s [task-completion time horizons](https://metr.org/time-horizons/) aim to capture AI productivity more practically by measuring the amount of time human experts take to complete tasks an AI model can complete with a given reliability. A model’s 50% “time horizon” is t hours if it is expected to complete 50% of tasks that took human experts t hours (on average). For example, if a model can successfully complete 50% of the software engineering tasks that took human experts 1 hour, the model’s “50% time horizon” is 1 hour. Likewise, if a model can complete 80% of the tasks which took human experts 15 minutes, its 80% time horizon is 15 minutes.\n\nFor details of how this calculation is performed, see [this paper](https://arxiv.org/pdf/2503.14499) or [this summary](https://metr.org/time-horizons/).\n\nResolution Criteria: Ground Truth\n- Part a) of this question will be resolved by FRI staff on December 31, 2026. We will consult the METR [Task-Completion Time Horizon measurements page](https://metr.org/time-horizons/) and record the longest 80% time horizon using the current methodology.\n- Part b) of this question will resolve positively when a publicly released AI model is shown on the METR [Task-Completion Time Horizon measurements page](https://metr.org/time-horizons/) to have completed a task with a length of 8 hours or more with an 80% success rate using the methodology.\n- METR may  update their methodology over time. We will default to their “current” methodology at time of resolution as long as we judge the measure to have the same intent. When in doubt, we will convene a panel of at least five relevant experts not in the LEAP panel to determine which methodology to use to maintain the original intent. If a measure ceases to exist, the panel will identify an equivalent and apply it, norming scores as necessary to match the original units.",
+   "horizon": "every condition is a time horizon listed on December 31, 2026.",
+   "source": {
+    "panel": "LEAP",
+    "wave": "Wave 8: Timelines",
+    "status": "fielded 2026-04-20 to 2026-05-11; panel answers pulled 2026-09-02 from the FRI warehouse",
+    "documents": [
+     "data/leap/axes-2026-09-02.json"
+    ],
+    "question_group": "80%, 8-Hour Task Horizon (1)",
+    "question_group_id": "50e0ef39d87567fb8e570c1ee3f48952bc24b6b42705057600aa781c44f5f9c1",
+    "unit": {
+     "name": "hours",
+     "display": "Hours",
+     "abbreviation": "hrs",
+     "min": 0.0,
+     "max": null
+    }
+   },
+   "authored": [
+    "instruction",
+    "assumption",
+    "horizon"
+   ]
+  }
+ ],
+ "history": null,
+ "trend": null,
+ "conditions": [
+  {
+   "id": "gdpm0p5",
+   "leap_id": null,
+   "label": "US real GDP growth 2025-2030 ≈ -0.5% per year",
+   "policy": null,
+   "part": null,
+   "value": -0.5,
+   "unit": "% per year",
+   "assume": "Assume that the annualized change in US real GDP between 2025 and 2030, as defined above, is approximately -0.5% (within about 0.2 percentage points of it).",
+   "description": "",
+   "group": "gdp",
+   "chart": {
+    "from": "one step below p10, same linear step"
+   }
+  },
+  {
+   "id": "gdp1",
+   "leap_id": null,
+   "label": "US real GDP growth 2025-2030 ≈ 1.0% per year",
+   "policy": null,
+   "part": null,
+   "value": 1.0,
+   "unit": "% per year",
+   "assume": "Assume that the annualized change in US real GDP between 2025 and 2030, as defined above, is approximately 1.0% (within about 0.2 percentage points of it).",
+   "description": "",
+   "group": "gdp",
+   "chart": {
+    "from": "LEAP superforecaster median p10 (n=54)"
+   }
+  },
+  {
+   "id": "gdp2p5",
+   "leap_id": null,
+   "label": "US real GDP growth 2025-2030 ≈ 2.5% per year",
+   "policy": null,
+   "part": null,
+   "value": 2.5,
+   "unit": "% per year",
+   "assume": "Assume that the annualized change in US real GDP between 2025 and 2030, as defined above, is approximately 2.5% (within about 0.2 percentage points of it).",
+   "description": "",
+   "group": "gdp",
+   "chart": {
+    "from": "LEAP superforecaster median p50 (n=54)"
+   }
+  },
+  {
+   "id": "gdp4p3",
+   "leap_id": null,
+   "label": "US real GDP growth 2025-2030 ≈ 4.3% per year",
+   "policy": null,
+   "part": null,
+   "value": 4.3,
+   "unit": "% per year",
+   "assume": "Assume that the annualized change in US real GDP between 2025 and 2030, as defined above, is approximately 4.3% (within about 0.2 percentage points of it).",
+   "description": "",
+   "group": "gdp",
+   "chart": {
+    "from": "LEAP superforecaster median p90 (n=54)"
+   }
+  },
+  {
+   "id": "gdp6p1",
+   "leap_id": null,
+   "label": "US real GDP growth 2025-2030 ≈ 6.1% per year",
+   "policy": null,
+   "part": null,
+   "value": 6.1,
+   "unit": "% per year",
+   "assume": "Assume that the annualized change in US real GDP between 2025 and 2030, as defined above, is approximately 6.1% (within about 0.2 percentage points of it).",
+   "description": "",
+   "group": "gdp",
+   "chart": {
+    "from": "one step above p90, same linear step"
+   }
+  },
+  {
+   "id": "lfpr54",
+   "leap_id": null,
+   "label": "US labor force participation, January 2030 ≈ 54.0%",
+   "policy": null,
+   "part": null,
+   "value": 54.0,
+   "unit": "%",
+   "assume": "Assume that the US labor force participation rate at the beginning of 2030, as defined above, is approximately 54.0% (within about half a percentage point of it).",
+   "description": "",
+   "group": "lfpr",
+   "chart": {
+    "from": "one step below p10, same linear step"
+   }
+  },
+  {
+   "id": "lfpr58",
+   "leap_id": null,
+   "label": "US labor force participation, January 2030 ≈ 58.0%",
+   "policy": null,
+   "part": null,
+   "value": 58.0,
+   "unit": "%",
+   "assume": "Assume that the US labor force participation rate at the beginning of 2030, as defined above, is approximately 58.0% (within about half a percentage point of it).",
+   "description": "",
+   "group": "lfpr",
+   "chart": {
+    "from": "LEAP superforecaster median p10 (n=54)"
+   }
+  },
+  {
+   "id": "lfpr62",
+   "leap_id": null,
+   "label": "US labor force participation, January 2030 ≈ 62.0%",
+   "policy": null,
+   "part": null,
+   "value": 62.0,
+   "unit": "%",
+   "assume": "Assume that the US labor force participation rate at the beginning of 2030, as defined above, is approximately 62.0% (within about half a percentage point of it).",
+   "description": "",
+   "group": "lfpr",
+   "chart": {
+    "from": "LEAP superforecaster median p50 (n=54)"
+   }
+  },
+  {
+   "id": "lfpr65p1",
+   "leap_id": null,
+   "label": "US labor force participation, January 2030 ≈ 65.1%",
+   "policy": null,
+   "part": null,
+   "value": 65.1,
+   "unit": "%",
+   "assume": "Assume that the US labor force participation rate at the beginning of 2030, as defined above, is approximately 65.1% (within about half a percentage point of it).",
+   "description": "",
+   "group": "lfpr",
+   "chart": {
+    "from": "LEAP superforecaster median p90 (n=54)"
+   }
+  },
+  {
+   "id": "lfpr68p2",
+   "leap_id": null,
+   "label": "US labor force participation, January 2030 ≈ 68.2%",
+   "policy": null,
+   "part": null,
+   "value": 68.2,
+   "unit": "%",
+   "assume": "Assume that the US labor force participation rate at the beginning of 2030, as defined above, is approximately 68.2% (within about half a percentage point of it).",
+   "description": "",
+   "group": "lfpr",
+   "chart": {
+    "from": "one step above p90, same linear step"
+   }
+  },
+  {
+   "id": "metr1p3",
+   "leap_id": null,
+   "label": "Longest METR 80% time horizon on 2026-12-31 ≈ 1.3 hours",
+   "policy": null,
+   "part": null,
+   "value": 1.3,
+   "unit": "hours",
+   "assume": "Assume that on December 31, 2026 the longest METR 80% time horizon listed for an AI model, as defined above, is approximately 1.3 hours (within about ten percent of it).",
+   "description": "",
+   "group": "metr",
+   "chart": {
+    "from": "one step below p25, same log step"
+   }
+  },
+  {
+   "id": "metr2p1",
+   "leap_id": null,
+   "label": "Longest METR 80% time horizon on 2026-12-31 ≈ 2.1 hours",
+   "policy": null,
+   "part": null,
+   "value": 2.1,
+   "unit": "hours",
+   "assume": "Assume that on December 31, 2026 the longest METR 80% time horizon listed for an AI model, as defined above, is approximately 2.1 hours (within about ten percent of it).",
+   "description": "",
+   "group": "metr",
+   "chart": {
+    "from": "LEAP superforecaster median p25 (n=54)"
+   }
+  },
+  {
+   "id": "metr3p5",
+   "leap_id": null,
+   "label": "Longest METR 80% time horizon on 2026-12-31 ≈ 3.5 hours",
+   "policy": null,
+   "part": null,
+   "value": 3.5,
+   "unit": "hours",
+   "assume": "Assume that on December 31, 2026 the longest METR 80% time horizon listed for an AI model, as defined above, is approximately 3.5 hours (within about ten percent of it).",
+   "description": "",
+   "group": "metr",
+   "chart": {
+    "from": "LEAP superforecaster median p50 (n=54)"
+   }
+  },
+  {
+   "id": "metr5p5",
+   "leap_id": null,
+   "label": "Longest METR 80% time horizon on 2026-12-31 ≈ 5.5 hours",
+   "policy": null,
+   "part": null,
+   "value": 5.5,
+   "unit": "hours",
+   "assume": "Assume that on December 31, 2026 the longest METR 80% time horizon listed for an AI model, as defined above, is approximately 5.5 hours (within about ten percent of it).",
+   "description": "",
+   "group": "metr",
+   "chart": {
+    "from": "LEAP superforecaster median p75 (n=54)"
+   }
+  },
+  {
+   "id": "metr8p6",
+   "leap_id": null,
+   "label": "Longest METR 80% time horizon on 2026-12-31 ≈ 8.6 hours",
+   "policy": null,
+   "part": null,
+   "value": 8.6,
+   "unit": "hours",
+   "assume": "Assume that on December 31, 2026 the longest METR 80% time horizon listed for an AI model, as defined above, is approximately 8.6 hours (within about ten percent of it).",
+   "description": "",
+   "group": "metr",
+   "chart": {
+    "from": "one step above p75, same log step"
+   }
+  }
+ ],
+ "reference": {
+  "gdp": {
+   "panel": "superforecaster",
+   "at": "2030-01-01",
+   "percentiles": [
+    10,
+    50,
+    90
+   ],
+   "answers": {
+    "10": {
+     "expert": {
+      "n": 232,
+      "median": 0.6,
+      "q10": -1.105,
+      "q25": -0.4049999999999998,
+      "q75": 1.2,
+      "q90": 2.0
+     },
+     "public": {
+      "n": 712,
+      "median": 0.5,
+      "q10": -1.105,
+      "q25": -0.605,
+      "q75": 1.5,
+      "q90": 2.8
+     },
+     "superforecaster": {
+      "n": 54,
+      "median": 1.0,
+      "q10": -0.7,
+      "q25": 0.0,
+      "q75": 1.5,
+      "q90": 1.8
+     }
+    },
+    "50": {
+     "expert": {
+      "n": 232,
+      "median": 2.7,
+      "q10": 2.0,
+      "q25": 2.3,
+      "q75": 3.2,
+      "q90": 4.6
+     },
+     "public": {
+      "n": 712,
+      "median": 2.5,
+      "q10": 1.8,
+      "q25": 2.0,
+      "q75": 3.0,
+      "q90": 5.0
+     },
+     "superforecaster": {
+      "n": 54,
+      "median": 2.5,
+      "q10": 2.0,
+      "q25": 2.3,
+      "q75": 2.8,
+      "q90": 3.0
+     }
+    },
+    "90": {
+     "expert": {
+      "n": 232,
+      "median": 5.3,
+      "q10": 3.2,
+      "q25": 4.105,
+      "q75": 6.5,
+      "q90": 9.3
+     },
+     "public": {
+      "n": 712,
+      "median": 5.2,
+      "q10": 2.9,
+      "q25": 3.6,
+      "q75": 6.105,
+      "q90": 8.905
+     },
+     "superforecaster": {
+      "n": 54,
+      "median": 4.305,
+      "q10": 3.0,
+      "q25": 3.4,
+      "q75": 5.25,
+      "q90": 6.0
+     }
+    }
+   }
+  },
+  "lfpr": {
+   "panel": "superforecaster",
+   "at": "2030-01-01",
+   "percentiles": [
+    10,
+    50,
+    90
+   ],
+   "answers": {
+    "10": {
+     "expert": {
+      "n": 231,
+      "median": 57.5,
+      "q10": 49.1,
+      "q25": 55.0,
+      "q75": 59.25,
+      "q90": 60.650000000000006
+     },
+     "public": {
+      "n": 706,
+      "median": 58.0,
+      "q10": 45.650000000000006,
+      "q25": 55.650000000000006,
+      "q75": 60.0,
+      "q90": 61.0
+     },
+     "superforecaster": {
+      "n": 54,
+      "median": 58.0,
+      "q10": 56.3,
+      "q25": 57.150000000000006,
+      "q75": 60.0,
+      "q90": 60.65
+     }
+    },
+    "50": {
+     "expert": {
+      "n": 231,
+      "median": 61.5,
+      "q10": 56.9,
+      "q25": 60.0,
+      "q75": 62.5,
+      "q90": 63.3
+     },
+     "public": {
+      "n": 706,
+      "median": 62.0,
+      "q10": 55.0,
+      "q25": 60.5,
+      "q75": 63.0,
+      "q90": 64.0
+     },
+     "superforecaster": {
+      "n": 54,
+      "median": 62.0,
+      "q10": 60.0,
+      "q25": 61.0,
+      "q75": 62.5,
+      "q90": 63.0
+     }
+    },
+    "90": {
+     "expert": {
+      "n": 231,
+      "median": 65.35,
+      "q10": 62.0,
+      "q25": 63.4,
+      "q75": 67.2,
+      "q90": 69.35
+     },
+     "public": {
+      "n": 706,
+      "median": 65.55,
+      "q10": 60.0,
+      "q25": 63.5,
+      "q75": 67.35,
+      "q90": 68.35
+     },
+     "superforecaster": {
+      "n": 54,
+      "median": 65.1,
+      "q10": 62.6,
+      "q25": 63.5,
+      "q75": 66.35,
+      "q90": 67.35
+     }
+    }
+   }
+  },
+  "metr": {
+   "panel": "superforecaster",
+   "at": "2026-12-31",
+   "percentiles": [
+    25,
+    50,
+    75
+   ],
+   "answers": {
+    "25": {
+     "expert": {
+      "n": 211,
+      "median": 2.2,
+      "q10": 1.1,
+      "q25": 1.8,
+      "q75": 3.0000999999999998,
+      "q90": 4.5001
+     },
+     "public": {
+      "n": 603,
+      "median": 1.6,
+      "q10": 0.5001,
+      "q25": 1.0,
+      "q75": 2.5000999999999998,
+      "q90": 4.6
+     },
+     "superforecaster": {
+      "n": 54,
+      "median": 2.1,
+      "q10": 1.7,
+      "q25": 1.8,
+      "q75": 3.0,
+      "q90": 4.2
+     }
+    },
+    "50": {
+     "expert": {
+      "n": 211,
+      "median": 3.5,
+      "q10": 2.0,
+      "q25": 2.7,
+      "q75": 5.0,
+      "q90": 8.0
+     },
+     "public": {
+      "n": 603,
+      "median": 2.8,
+      "q10": 1.6,
+      "q25": 2.0,
+      "q75": 4.0,
+      "q90": 8.0
+     },
+     "superforecaster": {
+      "n": 54,
+      "median": 3.5,
+      "q10": 2.5,
+      "q25": 3.0,
+      "q75": 4.8,
+      "q90": 6.3
+     }
+    },
+    "75": {
+     "expert": {
+      "n": 211,
+      "median": 5.5,
+      "q10": 3.2,
+      "q25": 4.0,
+      "q75": 8.0,
+      "q90": 15.0
+     },
+     "public": {
+      "n": 603,
+      "median": 4.0,
+      "q10": 2.0,
+      "q25": 2.9999000000000002,
+      "q75": 6.4999,
+      "q90": 12.0
+     },
+     "superforecaster": {
+      "n": 54,
+      "median": 5.4999,
+      "q10": 3.25,
+      "q25": 4.0,
+      "q75": 7.0,
+      "q90": 11.0
+     }
+    }
+   }
+  }
+ },
+ "notes": {
+  "design": "Ezra + Nick, 2026-09-02: risk conditional on fixed levels of an x-axis quantity, one axis at a time, at the 2030/2050/2100 horizons only; the model first forecasts each quantity itself in LEAP's own percentiles.",
+  "levels": "fixed in this file (the same every week); LEAP axes from the superforecasters' aggregate percentiles, extended one step each way; the ECI axis from the trend's pace. See the module docstring.",
+  "conditioning": "a fact learned about the world, not an exogenous intervention -- the ECI sets' clause, one per axis.",
+  "target": "every date is fixed by the LEAP question.",
+  "cost": "35 questions x 3 horizons = 105 cells x 16 keys = 1680 probabilities per call."
+ }
+}

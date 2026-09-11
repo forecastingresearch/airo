@@ -1,0 +1,658 @@
+{
+ "claude-haiku-4-5": [
+  {
+   "pair_id": "pair-00",
+   "phi_hist": 0.994,
+   "phi_implied": 0.4444444444444444,
+   "category": "sanity_near_duplicate"
+  },
+  {
+   "pair_id": "pair-01",
+   "phi_hist": -0.011,
+   "phi_implied": 0.29571519912171684,
+   "category": "control_independent"
+  },
+  {
+   "pair_id": "pair-02",
+   "phi_hist": -0.05,
+   "phi_implied": 0.1425393290199598,
+   "category": "control_independent"
+  },
+  {
+   "pair_id": "pair-03",
+   "phi_hist": 0.061,
+   "phi_implied": 0.0986927542439653,
+   "category": "control_independent"
+  },
+  {
+   "pair_id": "pair-04",
+   "phi_hist": 0.024,
+   "phi_implied": 0.06579516949597683,
+   "category": "control_independent"
+  },
+  {
+   "pair_id": "pair-05",
+   "phi_hist": 0.055,
+   "phi_implied": 0.0,
+   "category": "control_independent"
+  },
+  {
+   "pair_id": "pair-06",
+   "phi_hist": -0.024,
+   "phi_implied": 0.0739321030910621,
+   "category": "control_independent"
+  },
+  {
+   "pair_id": "pair-07",
+   "phi_hist": -0.037,
+   "phi_implied": 0.0,
+   "category": "control_independent"
+  },
+  {
+   "pair_id": "pair-08",
+   "phi_hist": -0.009,
+   "phi_implied": 0.4535351541883258,
+   "category": "control_independent"
+  },
+  {
+   "pair_id": "pair-09",
+   "phi_hist": 0.932,
+   "phi_implied": 0.7142857142857143,
+   "category": "associated_pos_0.85"
+  },
+  {
+   "pair_id": "pair-10",
+   "phi_hist": 0.864,
+   "phi_implied": 0.6323529411764707,
+   "category": "associated_pos_0.85"
+  },
+  {
+   "pair_id": "pair-11",
+   "phi_hist": 0.859,
+   "phi_implied": 0.3870967741935484,
+   "category": "associated_pos_0.85"
+  },
+  {
+   "pair_id": "pair-12",
+   "phi_hist": 0.778,
+   "phi_implied": 0.6666666666666666,
+   "category": "associated_pos_0.65"
+  },
+  {
+   "pair_id": "pair-13",
+   "phi_hist": 0.849,
+   "phi_implied": 0.5555555555555555,
+   "category": "associated_pos_0.65"
+  },
+  {
+   "pair_id": "pair-14",
+   "phi_hist": 0.676,
+   "phi_implied": 0.36488457942549585,
+   "category": "associated_pos_0.65"
+  },
+  {
+   "pair_id": "pair-15",
+   "phi_hist": 0.59,
+   "phi_implied": 0.2777777777777778,
+   "category": "associated_pos_0.45"
+  },
+  {
+   "pair_id": "pair-16",
+   "phi_hist": 0.564,
+   "phi_implied": 0.42857142857142855,
+   "category": "associated_pos_0.45"
+  },
+  {
+   "pair_id": "pair-17",
+   "phi_hist": 0.642,
+   "phi_implied": 0.25700325404005137,
+   "category": "associated_pos_0.45"
+  },
+  {
+   "pair_id": "pair-18",
+   "phi_hist": 0.403,
+   "phi_implied": 0.27216552697590873,
+   "category": "associated_pos_0.3"
+  },
+  {
+   "pair_id": "pair-19",
+   "phi_hist": 0.442,
+   "phi_implied": 0.18976038114043375,
+   "category": "associated_pos_0.3"
+  },
+  {
+   "pair_id": "pair-20",
+   "phi_hist": 0.396,
+   "phi_implied": 0.5052344113776086,
+   "category": "associated_pos_0.3"
+  },
+  {
+   "pair_id": "pair-21",
+   "phi_hist": -0.46,
+   "phi_implied": 0.06135758930037736,
+   "category": "hemispheric_probe"
+  },
+  {
+   "pair_id": "pair-22",
+   "phi_hist": -0.198,
+   "phi_implied": 0.033565761447581666,
+   "category": "hemispheric_probe"
+  },
+  {
+   "pair_id": "pair-23",
+   "phi_hist": -0.407,
+   "phi_implied": 0.026074800972769433,
+   "category": "hemispheric_probe"
+  },
+  {
+   "pair_id": "pair-24",
+   "phi_hist": -0.125,
+   "phi_implied": -0.13608276348795445,
+   "category": "hemispheric_probe"
+  },
+  {
+   "pair_id": "pair-25",
+   "phi_hist": -0.277,
+   "phi_implied": 0.07917558759586543,
+   "category": "hemispheric_probe"
+  },
+  {
+   "pair_id": "pair-26",
+   "phi_hist": -0.299,
+   "phi_implied": 0.34209997499921263,
+   "category": "hemispheric_probe"
+  }
+ ],
+ "claude-sonnet-5": [
+  {
+   "pair_id": "pair-00",
+   "phi_hist": 0.994,
+   "phi_implied": 0.5000000000000001,
+   "category": "sanity_near_duplicate"
+  },
+  {
+   "pair_id": "pair-01",
+   "phi_hist": -0.011,
+   "phi_implied": 0.015730694553363442,
+   "category": "control_independent"
+  },
+  {
+   "pair_id": "pair-02",
+   "phi_hist": -0.05,
+   "phi_implied": 0.10769230769230774,
+   "category": "control_independent"
+  },
+  {
+   "pair_id": "pair-03",
+   "phi_hist": 0.061,
+   "phi_implied": 0.020965696734438384,
+   "category": "control_independent"
+  },
+  {
+   "pair_id": "pair-04",
+   "phi_hist": 0.024,
+   "phi_implied": 0.014749922628957007,
+   "category": "control_independent"
+  },
+  {
+   "pair_id": "pair-05",
+   "phi_hist": 0.055,
+   "phi_implied": 0.0,
+   "category": "control_independent"
+  },
+  {
+   "pair_id": "pair-06",
+   "phi_hist": -0.024,
+   "phi_implied": 0.006558352385071063,
+   "category": "control_independent"
+  },
+  {
+   "pair_id": "pair-07",
+   "phi_hist": -0.037,
+   "phi_implied": 0.021821789023599283,
+   "category": "control_independent"
+  },
+  {
+   "pair_id": "pair-08",
+   "phi_hist": -0.009,
+   "phi_implied": 0.04287464628562725,
+   "category": "control_independent"
+  },
+  {
+   "pair_id": "pair-09",
+   "phi_hist": 0.932,
+   "phi_implied": 0.6615384615384614,
+   "category": "associated_pos_0.85"
+  },
+  {
+   "pair_id": "pair-10",
+   "phi_hist": 0.864,
+   "phi_implied": 0.5294117647058825,
+   "category": "associated_pos_0.85"
+  },
+  {
+   "pair_id": "pair-11",
+   "phi_hist": 0.859,
+   "phi_implied": 0.41538461538461546,
+   "category": "associated_pos_0.85"
+  },
+  {
+   "pair_id": "pair-12",
+   "phi_hist": 0.778,
+   "phi_implied": 0.5076923076923078,
+   "category": "associated_pos_0.65"
+  },
+  {
+   "pair_id": "pair-13",
+   "phi_hist": 0.849,
+   "phi_implied": 0.45121951219512196,
+   "category": "associated_pos_0.65"
+  },
+  {
+   "pair_id": "pair-14",
+   "phi_hist": 0.676,
+   "phi_implied": 0.36488457942549585,
+   "category": "associated_pos_0.65"
+  },
+  {
+   "pair_id": "pair-15",
+   "phi_hist": 0.59,
+   "phi_implied": 0.42308162077682654,
+   "category": "associated_pos_0.45"
+  },
+  {
+   "pair_id": "pair-16",
+   "phi_hist": 0.564,
+   "phi_implied": 0.3480625076149551,
+   "category": "associated_pos_0.45"
+  },
+  {
+   "pair_id": "pair-17",
+   "phi_hist": 0.642,
+   "phi_implied": 0.2857142857142857,
+   "category": "associated_pos_0.45"
+  },
+  {
+   "pair_id": "pair-18",
+   "phi_hist": 0.403,
+   "phi_implied": 0.3076923076923078,
+   "category": "associated_pos_0.3"
+  },
+  {
+   "pair_id": "pair-19",
+   "phi_hist": 0.442,
+   "phi_implied": 0.15730694553363556,
+   "category": "associated_pos_0.3"
+  },
+  {
+   "pair_id": "pair-20",
+   "phi_hist": 0.396,
+   "phi_implied": 0.5223880597014926,
+   "category": "associated_pos_0.3"
+  },
+  {
+   "pair_id": "pair-21",
+   "phi_hist": -0.46,
+   "phi_implied": 0.02748929897395844,
+   "category": "hemispheric_probe"
+  },
+  {
+   "pair_id": "pair-22",
+   "phi_hist": -0.198,
+   "phi_implied": 0.0077193412433370235,
+   "category": "hemispheric_probe"
+  },
+  {
+   "pair_id": "pair-23",
+   "phi_hist": -0.407,
+   "phi_implied": 0.014978617237881965,
+   "category": "hemispheric_probe"
+  },
+  {
+   "pair_id": "pair-24",
+   "phi_hist": -0.125,
+   "phi_implied": 0.02384690728961809,
+   "category": "hemispheric_probe"
+  },
+  {
+   "pair_id": "pair-25",
+   "phi_hist": -0.277,
+   "phi_implied": 0.023178449845503865,
+   "category": "hemispheric_probe"
+  },
+  {
+   "pair_id": "pair-26",
+   "phi_hist": -0.299,
+   "phi_implied": 0.32835820895522394,
+   "category": "hemispheric_probe"
+  }
+ ],
+ "claude-opus-5": [
+  {
+   "pair_id": "pair-00",
+   "phi_hist": 0.994,
+   "phi_implied": 0.6133333333333333,
+   "category": "sanity_near_duplicate"
+  },
+  {
+   "pair_id": "pair-01",
+   "phi_hist": -0.011,
+   "phi_implied": 0.025225229774861743,
+   "category": "control_independent"
+  },
+  {
+   "pair_id": "pair-02",
+   "phi_hist": -0.05,
+   "phi_implied": 0.045465539419019776,
+   "category": "control_independent"
+  },
+  {
+   "pair_id": "pair-03",
+   "phi_hist": 0.061,
+   "phi_implied": 0.02637277938359621,
+   "category": "control_independent"
+  },
+  {
+   "pair_id": "pair-04",
+   "phi_hist": 0.024,
+   "phi_implied": 0.012512294901706954,
+   "category": "control_independent"
+  },
+  {
+   "pair_id": "pair-05",
+   "phi_hist": 0.055,
+   "phi_implied": 0.0,
+   "category": "control_independent"
+  },
+  {
+   "pair_id": "pair-06",
+   "phi_hist": -0.024,
+   "phi_implied": 0.05583103014523985,
+   "category": "control_independent"
+  },
+  {
+   "pair_id": "pair-07",
+   "phi_hist": -0.037,
+   "phi_implied": 0.01643938359928508,
+   "category": "control_independent"
+  },
+  {
+   "pair_id": "pair-08",
+   "phi_hist": -0.009,
+   "phi_implied": 0.061627317090064165,
+   "category": "control_independent"
+  },
+  {
+   "pair_id": "pair-09",
+   "phi_hist": 0.932,
+   "phi_implied": 0.7999999999999999,
+   "category": "associated_pos_0.85"
+  },
+  {
+   "pair_id": "pair-10",
+   "phi_hist": 0.864,
+   "phi_implied": 0.6923076923076924,
+   "category": "associated_pos_0.85"
+  },
+  {
+   "pair_id": "pair-11",
+   "phi_hist": 0.859,
+   "phi_implied": 0.7066666666666667,
+   "category": "associated_pos_0.85"
+  },
+  {
+   "pair_id": "pair-12",
+   "phi_hist": 0.778,
+   "phi_implied": 0.6052631578947367,
+   "category": "associated_pos_0.65"
+  },
+  {
+   "pair_id": "pair-13",
+   "phi_hist": 0.849,
+   "phi_implied": 0.6940926539010442,
+   "category": "associated_pos_0.65"
+  },
+  {
+   "pair_id": "pair-14",
+   "phi_hist": 0.676,
+   "phi_implied": 0.3854901769996259,
+   "category": "associated_pos_0.65"
+  },
+  {
+   "pair_id": "pair-15",
+   "phi_hist": 0.59,
+   "phi_implied": 0.45121951219512196,
+   "category": "associated_pos_0.45"
+  },
+  {
+   "pair_id": "pair-16",
+   "phi_hist": 0.564,
+   "phi_implied": 0.4912536292030096,
+   "category": "associated_pos_0.45"
+  },
+  {
+   "pair_id": "pair-17",
+   "phi_hist": 0.642,
+   "phi_implied": 0.4190720045878033,
+   "category": "associated_pos_0.45"
+  },
+  {
+   "pair_id": "pair-18",
+   "phi_hist": 0.403,
+   "phi_implied": 0.3337855339071173,
+   "category": "associated_pos_0.3"
+  },
+  {
+   "pair_id": "pair-19",
+   "phi_hist": 0.442,
+   "phi_implied": 0.10478736639911679,
+   "category": "associated_pos_0.3"
+  },
+  {
+   "pair_id": "pair-20",
+   "phi_hist": 0.396,
+   "phi_implied": 0.4695422446865573,
+   "category": "associated_pos_0.3"
+  },
+  {
+   "pair_id": "pair-21",
+   "phi_hist": -0.46,
+   "phi_implied": 0.02135042050734482,
+   "category": "hemispheric_probe"
+  },
+  {
+   "pair_id": "pair-22",
+   "phi_hist": -0.198,
+   "phi_implied": 0.012187873735452189,
+   "category": "hemispheric_probe"
+  },
+  {
+   "pair_id": "pair-23",
+   "phi_hist": -0.407,
+   "phi_implied": 0.011764705882352951,
+   "category": "hemispheric_probe"
+  },
+  {
+   "pair_id": "pair-24",
+   "phi_hist": -0.125,
+   "phi_implied": 0.04008278259441,
+   "category": "hemispheric_probe"
+  },
+  {
+   "pair_id": "pair-25",
+   "phi_hist": -0.277,
+   "phi_implied": 0.023809523809523864,
+   "category": "hemispheric_probe"
+  },
+  {
+   "pair_id": "pair-26",
+   "phi_hist": -0.299,
+   "phi_implied": 0.018579334834998372,
+   "category": "hemispheric_probe"
+  }
+ ],
+ "claude-fable-5": [
+  {
+   "pair_id": "pair-00",
+   "phi_hist": 0.994,
+   "phi_implied": 0.7999999999999999,
+   "category": "sanity_near_duplicate"
+  },
+  {
+   "pair_id": "pair-01",
+   "phi_hist": -0.011,
+   "phi_implied": 0.011350818231940948,
+   "category": "control_independent"
+  },
+  {
+   "pair_id": "pair-02",
+   "phi_hist": -0.05,
+   "phi_implied": 0.04780790262579761,
+   "category": "control_independent"
+  },
+  {
+   "pair_id": "pair-03",
+   "phi_hist": 0.061,
+   "phi_implied": 0.027444209976434743,
+   "category": "control_independent"
+  },
+  {
+   "pair_id": "pair-04",
+   "phi_hist": 0.024,
+   "phi_implied": 0.0118763763190901,
+   "category": "control_independent"
+  },
+  {
+   "pair_id": "pair-05",
+   "phi_hist": 0.055,
+   "phi_implied": 0.0,
+   "category": "control_independent"
+  },
+  {
+   "pair_id": "pair-06",
+   "phi_hist": -0.024,
+   "phi_implied": 0.025592763455634143,
+   "category": "control_independent"
+  },
+  {
+   "pair_id": "pair-07",
+   "phi_hist": -0.037,
+   "phi_implied": 0.0,
+   "category": "control_independent"
+  },
+  {
+   "pair_id": "pair-08",
+   "phi_hist": -0.009,
+   "phi_implied": 0.435897435897436,
+   "category": "control_independent"
+  },
+  {
+   "pair_id": "pair-09",
+   "phi_hist": 0.932,
+   "phi_implied": 0.8124999999999999,
+   "category": "associated_pos_0.85"
+  },
+  {
+   "pair_id": "pair-10",
+   "phi_hist": 0.864,
+   "phi_implied": 0.7560975609756097,
+   "category": "associated_pos_0.85"
+  },
+  {
+   "pair_id": "pair-11",
+   "phi_hist": 0.859,
+   "phi_implied": 0.6987951807228915,
+   "category": "associated_pos_0.85"
+  },
+  {
+   "pair_id": "pair-12",
+   "phi_hist": 0.778,
+   "phi_implied": 0.6794871794871795,
+   "category": "associated_pos_0.65"
+  },
+  {
+   "pair_id": "pair-13",
+   "phi_hist": 0.849,
+   "phi_implied": 0.8124999999999999,
+   "category": "associated_pos_0.65"
+  },
+  {
+   "pair_id": "pair-14",
+   "phi_hist": 0.676,
+   "phi_implied": 0.4705882352941177,
+   "category": "associated_pos_0.65"
+  },
+  {
+   "pair_id": "pair-15",
+   "phi_hist": 0.59,
+   "phi_implied": 0.4901753672235648,
+   "category": "associated_pos_0.45"
+  },
+  {
+   "pair_id": "pair-16",
+   "phi_hist": 0.564,
+   "phi_implied": 0.5363326981761188,
+   "category": "associated_pos_0.45"
+  },
+  {
+   "pair_id": "pair-17",
+   "phi_hist": 0.642,
+   "phi_implied": 0.45121951219512196,
+   "category": "associated_pos_0.45"
+  },
+  {
+   "pair_id": "pair-18",
+   "phi_hist": 0.403,
+   "phi_implied": 0.42307692307692313,
+   "category": "associated_pos_0.3"
+  },
+  {
+   "pair_id": "pair-19",
+   "phi_hist": 0.442,
+   "phi_implied": 0.1298014383592784,
+   "category": "associated_pos_0.3"
+  },
+  {
+   "pair_id": "pair-20",
+   "phi_hist": 0.396,
+   "phi_implied": 0.5737633810196879,
+   "category": "associated_pos_0.3"
+  },
+  {
+   "pair_id": "pair-21",
+   "phi_hist": -0.46,
+   "phi_implied": 0.010050378152592129,
+   "category": "hemispheric_probe"
+  },
+  {
+   "pair_id": "pair-22",
+   "phi_hist": -0.198,
+   "phi_implied": 0.0,
+   "category": "hemispheric_probe"
+  },
+  {
+   "pair_id": "pair-23",
+   "phi_hist": -0.407,
+   "phi_implied": 0.0,
+   "category": "hemispheric_probe"
+  },
+  {
+   "pair_id": "pair-24",
+   "phi_hist": -0.125,
+   "phi_implied": 0.0,
+   "category": "hemispheric_probe"
+  },
+  {
+   "pair_id": "pair-25",
+   "phi_hist": -0.277,
+   "phi_implied": 0.0,
+   "category": "hemispheric_probe"
+  },
+  {
+   "pair_id": "pair-26",
+   "phi_hist": -0.299,
+   "phi_implied": 0.0,
+   "category": "hemispheric_probe"
+  }
+ ]
+}

@@ -1,0 +1,630 @@
+{
+  "generated_at": "2026-08-18T2326Z",
+  "generated_by": "code/fetch_human_baselines.py",
+  "asked_for_by": "the 'Human comparisons (Project)' column of data/auto-arc/questions-2026-08-18.xlsx, carried into data/autoarc_*.json as each question's human_comparisons",
+  "adjusted": false,
+  "note": "Medians as each panel reported them, in percent, unadjusted. Every entry carries the question the panel answered; the wordings differ from ours and no reconciliation is applied here.",
+  "baselines": [
+    {
+      "question_id": "catastrophe:ai",
+      "horizon": "2030",
+      "project": "LEAP",
+      "prior_question_id": "leap-ai-catastrophe-10-of-population",
+      "units": "percent",
+      "groups": {
+        "expert": {
+          "median": 0.4,
+          "mean": 2.1717,
+          "p25": 0.01,
+          "p75": 1.0,
+          "n": 201
+        },
+        "superforecaster": {
+          "median": 0.1,
+          "mean": 0.631,
+          "p25": 0.002,
+          "p75": 0.55,
+          "n": 53
+        },
+        "public": {
+          "median": 1.0,
+          "mean": 2.979,
+          "p25": 0.1,
+          "p75": 2.0,
+          "n": 615
+        }
+      },
+      "elicited": {
+        "date": "2026-06-01",
+        "project": "fri-data-warehouse",
+        "survey": "Wave 9: Risks",
+        "start": "2026-05-19",
+        "end": "2026-06-10"
+      },
+      "source_question": {
+        "category": "AI catastrophe",
+        "severity": "10% of population",
+        "text": "What is the probability that a global AI-related catastrophe will occur by each of the following resolution years?",
+        "criteria": "Resolution Criteria\nArtificial intelligence is defined here as ‘the development of machines capable of sophisticated (intelligent) information processing (Dafoe 2018, AI Governance: A Research Agenda; See pg 5 footnote 2 for more).\nWe use the term “be the cause of death” to cover cases where AI is the direct or proximate cause of the deaths. For example, if a robot powered by AI kills 10% of all humans alive at the time within a 5-year period, that will count for this question. Alternatively, if AI, operating without direct human intervention, causes the launch of nuclear weapons that kill 10% of all humans alive at the time, that will also count for the purposes of this question. And if that same incident does not kill 10% of all humans, but the subsequent nuclear winter does, that will also count for the purposes of this question.\nWe consider AI a “proximate cause of death” based on the “but-for” test. This means we are considering events that would not have occurred or would have counterfactually been extremely unlikely to occur “but for” the substantial involvement of AI within one year prior to the event. One way to think of this rule is if the AI involved in an event could have shut down unexpectedly without dramatically reducing the probability of the event, then the AI was not a proximate cause. For example, if AI is substantially responsible for creating a superweapon that causes the death of the relevant (large) magnitudes of people, this would count for the purposes of this question. Or, if AI acts autonomously in an armed conflict context and causes the deaths of the relevant magnitudes of people, this would also count. However, AI would not be considered a proximate cause if the AI did not directly cause or enable the event to transpire. For example, an AI assisting in targeting a nuclear weapon would not be considered a proximate cause if humans could have launched the weapon anyway without AI assistance.\nFor fatality and population data, we will rely on broadly recognized sources of population data, such as Our World in Data, the Economist, the United Nations, etc.\nWhere these sources disagree in ways that would change question resolution, we will resolve using the majority opinion of a panel of experts in demographics and fields relevant to the specific catastrophe (e.g. epidemiology for a pandemic).\nIn order to resolve positively, the relevant 5-year period must end before the resolution date, and begin on or after December 31, 2025.\nIf reasonable people disagree about whether this event has occurred, this question will be resolved via a panel of experts.",
+        "resolution_dates": [
+          "2030",
+          "2050",
+          "2100"
+        ]
+      },
+      "our_question": {
+        "text": "What is the probability that a global AI-related catastrophe (AI being the proximate cause, per the but-for standard, of attributable deaths reaching at least 10% of the population alive at the start of the measurement window) will occur by the end of 2030 / 2050 / 2100?",
+        "severity": "deaths reaching 10% of the population"
+      }
+    },
+    {
+      "question_id": "catastrophe:ai",
+      "horizon": "2030",
+      "project": "XPT",
+      "prior_question_id": "xpt-ai-catastrophe-10-of-population",
+      "units": "percent",
+      "groups": {
+        "expert": {
+          "median": 0.23,
+          "mean": 3.3365,
+          "p25": 0.01,
+          "p75": 1.6,
+          "n": 75
+        },
+        "superforecaster": {
+          "median": 0.01,
+          "mean": 0.4353,
+          "p25": 0.0,
+          "p75": 0.0657,
+          "n": 88
+        }
+      },
+      "elicited": {
+        "date": "2022-10-01",
+        "commit": "251acb5254448c9bdb4caa4b5011481c2c149aef",
+        "repo": "https://github.com/forecastingresearch/xpt-lib.git"
+      },
+      "source_question": {
+        "category": "AI catastrophe",
+        "severity": "10% of population",
+        "text": "What is the probability that artificial intelligence will be the cause of death within a 5-year period for more than 10% of humans alive at the beginning of that period... a. ...by the end of 2030? b. ...by the end of 2050? c. ...by the end of 2100?",
+        "criteria": "Question and resolution details\nArtificial intelligence is defined here as ‘the development of machines capable of sophisticated (intelligent) information processing (Dafoe 2018, AI Governance: A Research Agenda; See pg 5 footnote 2 for more.)\nWe use the term “be the cause of death” to cover cases where AI is the direct or proximate cause of the deaths. For example, if a terminator-style robot powered by AI kills 10% of all humans alive at the time within a 5-year period, that will count for this question. Alternatively, if AI, operating without direct human intervention, causes the launch of nuclear weapons that kill 10% of all humans alive at the time, that will also count for the purposes of this question. And if that same incident does not kill 10% of all humans, but the subsequent nuclear winter does, that will also count for the purposes of this question.\nWe consider AI a “proximate cause of death” based on the “but-for” test. This means we are considering events that would not have occurred or would have counterfactually been extremely unlikely to occur “but for” the substantial involvement of AI within one year prior to the event. One way to think of this rule is if the AI involved in an event could have shut down unexpectedly without dramatically reducing the probability of the event, then the AI was not a proximate cause. For example, if AI is substantially responsible for creating a 132superweapon that causes the death of the relevant (large) magnitudes of people, this would count for the purposes of this question. Or, if AI acts autonomously in an armed conflict context and causes the deaths of the relevant magnitudes of people, this would also count. However, AI would not be considered a proximate cause if the AI did not directly cause or enable the event to transpire. For example, an AI assisting in targeting a nuclear weapon would not be considered a proximate cause if humans could have launched the weapon anyway without AI assistance. \nIn order to resolve positively, the relevant 5-year period must end before the resolution date, and begin on or after June 15th, 2022.\nIf reasonable people disagree about whether this event has occurred, this question will be resolved via a panel of experts.",
+        "resolution_dates": [
+          "2030",
+          "2050",
+          "2100"
+        ]
+      },
+      "our_question": {
+        "text": "What is the probability that a global AI-related catastrophe (AI being the proximate cause, per the but-for standard, of attributable deaths reaching at least 10% of the population alive at the start of the measurement window) will occur by the end of 2030 / 2050 / 2100?",
+        "severity": "deaths reaching 10% of the population"
+      }
+    },
+    {
+      "question_id": "catastrophe:ai",
+      "horizon": "2050",
+      "project": "LEAP",
+      "prior_question_id": "leap-ai-catastrophe-10-of-population",
+      "units": "percent",
+      "groups": {
+        "expert": {
+          "median": 2.0,
+          "mean": 6.0939,
+          "p25": 0.65,
+          "p75": 6.0,
+          "n": 201
+        },
+        "superforecaster": {
+          "median": 0.88,
+          "mean": 2.6263,
+          "p25": 0.09,
+          "p75": 2.4,
+          "n": 53
+        },
+        "public": {
+          "median": 3.0,
+          "mean": 6.5916,
+          "p25": 1.2,
+          "p75": 6.0,
+          "n": 615
+        }
+      },
+      "elicited": {
+        "date": "2026-06-01",
+        "project": "fri-data-warehouse",
+        "survey": "Wave 9: Risks",
+        "start": "2026-05-19",
+        "end": "2026-06-10"
+      },
+      "source_question": {
+        "category": "AI catastrophe",
+        "severity": "10% of population",
+        "text": "What is the probability that a global AI-related catastrophe will occur by each of the following resolution years?",
+        "criteria": "Resolution Criteria\nArtificial intelligence is defined here as ‘the development of machines capable of sophisticated (intelligent) information processing (Dafoe 2018, AI Governance: A Research Agenda; See pg 5 footnote 2 for more).\nWe use the term “be the cause of death” to cover cases where AI is the direct or proximate cause of the deaths. For example, if a robot powered by AI kills 10% of all humans alive at the time within a 5-year period, that will count for this question. Alternatively, if AI, operating without direct human intervention, causes the launch of nuclear weapons that kill 10% of all humans alive at the time, that will also count for the purposes of this question. And if that same incident does not kill 10% of all humans, but the subsequent nuclear winter does, that will also count for the purposes of this question.\nWe consider AI a “proximate cause of death” based on the “but-for” test. This means we are considering events that would not have occurred or would have counterfactually been extremely unlikely to occur “but for” the substantial involvement of AI within one year prior to the event. One way to think of this rule is if the AI involved in an event could have shut down unexpectedly without dramatically reducing the probability of the event, then the AI was not a proximate cause. For example, if AI is substantially responsible for creating a superweapon that causes the death of the relevant (large) magnitudes of people, this would count for the purposes of this question. Or, if AI acts autonomously in an armed conflict context and causes the deaths of the relevant magnitudes of people, this would also count. However, AI would not be considered a proximate cause if the AI did not directly cause or enable the event to transpire. For example, an AI assisting in targeting a nuclear weapon would not be considered a proximate cause if humans could have launched the weapon anyway without AI assistance.\nFor fatality and population data, we will rely on broadly recognized sources of population data, such as Our World in Data, the Economist, the United Nations, etc.\nWhere these sources disagree in ways that would change question resolution, we will resolve using the majority opinion of a panel of experts in demographics and fields relevant to the specific catastrophe (e.g. epidemiology for a pandemic).\nIn order to resolve positively, the relevant 5-year period must end before the resolution date, and begin on or after December 31, 2025.\nIf reasonable people disagree about whether this event has occurred, this question will be resolved via a panel of experts.",
+        "resolution_dates": [
+          "2030",
+          "2050",
+          "2100"
+        ]
+      },
+      "our_question": {
+        "text": "What is the probability that a global AI-related catastrophe (AI being the proximate cause, per the but-for standard, of attributable deaths reaching at least 10% of the population alive at the start of the measurement window) will occur by the end of 2030 / 2050 / 2100?",
+        "severity": "deaths reaching 10% of the population"
+      }
+    },
+    {
+      "question_id": "catastrophe:ai",
+      "horizon": "2050",
+      "project": "XPT",
+      "prior_question_id": "xpt-ai-catastrophe-10-of-population",
+      "units": "percent",
+      "groups": {
+        "expert": {
+          "median": 3.0,
+          "mean": 9.4535,
+          "p25": 0.84,
+          "p75": 10.0,
+          "n": 75
+        },
+        "superforecaster": {
+          "median": 0.725,
+          "mean": 2.1226,
+          "p25": 0.1,
+          "p75": 1.5,
+          "n": 88
+        }
+      },
+      "elicited": {
+        "date": "2022-10-01",
+        "commit": "251acb5254448c9bdb4caa4b5011481c2c149aef",
+        "repo": "https://github.com/forecastingresearch/xpt-lib.git"
+      },
+      "source_question": {
+        "category": "AI catastrophe",
+        "severity": "10% of population",
+        "text": "What is the probability that artificial intelligence will be the cause of death within a 5-year period for more than 10% of humans alive at the beginning of that period... a. ...by the end of 2030? b. ...by the end of 2050? c. ...by the end of 2100?",
+        "criteria": "Question and resolution details\nArtificial intelligence is defined here as ‘the development of machines capable of sophisticated (intelligent) information processing (Dafoe 2018, AI Governance: A Research Agenda; See pg 5 footnote 2 for more.)\nWe use the term “be the cause of death” to cover cases where AI is the direct or proximate cause of the deaths. For example, if a terminator-style robot powered by AI kills 10% of all humans alive at the time within a 5-year period, that will count for this question. Alternatively, if AI, operating without direct human intervention, causes the launch of nuclear weapons that kill 10% of all humans alive at the time, that will also count for the purposes of this question. And if that same incident does not kill 10% of all humans, but the subsequent nuclear winter does, that will also count for the purposes of this question.\nWe consider AI a “proximate cause of death” based on the “but-for” test. This means we are considering events that would not have occurred or would have counterfactually been extremely unlikely to occur “but for” the substantial involvement of AI within one year prior to the event. One way to think of this rule is if the AI involved in an event could have shut down unexpectedly without dramatically reducing the probability of the event, then the AI was not a proximate cause. For example, if AI is substantially responsible for creating a 132superweapon that causes the death of the relevant (large) magnitudes of people, this would count for the purposes of this question. Or, if AI acts autonomously in an armed conflict context and causes the deaths of the relevant magnitudes of people, this would also count. However, AI would not be considered a proximate cause if the AI did not directly cause or enable the event to transpire. For example, an AI assisting in targeting a nuclear weapon would not be considered a proximate cause if humans could have launched the weapon anyway without AI assistance. \nIn order to resolve positively, the relevant 5-year period must end before the resolution date, and begin on or after June 15th, 2022.\nIf reasonable people disagree about whether this event has occurred, this question will be resolved via a panel of experts.",
+        "resolution_dates": [
+          "2030",
+          "2050",
+          "2100"
+        ]
+      },
+      "our_question": {
+        "text": "What is the probability that a global AI-related catastrophe (AI being the proximate cause, per the but-for standard, of attributable deaths reaching at least 10% of the population alive at the start of the measurement window) will occur by the end of 2030 / 2050 / 2100?",
+        "severity": "deaths reaching 10% of the population"
+      }
+    },
+    {
+      "question_id": "catastrophe:ai",
+      "horizon": "2100",
+      "project": "LEAP",
+      "prior_question_id": "leap-ai-catastrophe-10-of-population",
+      "units": "percent",
+      "groups": {
+        "expert": {
+          "median": 5.0,
+          "mean": 10.5208,
+          "p25": 1.5,
+          "p75": 12.0,
+          "n": 201
+        },
+        "superforecaster": {
+          "median": 2.4,
+          "mean": 5.6279,
+          "p25": 0.5,
+          "p75": 6.0,
+          "n": 53
+        },
+        "public": {
+          "median": 6.0,
+          "mean": 11.799,
+          "p25": 3.0,
+          "p75": 15.0,
+          "n": 615
+        }
+      },
+      "elicited": {
+        "date": "2026-06-01",
+        "project": "fri-data-warehouse",
+        "survey": "Wave 9: Risks",
+        "start": "2026-05-19",
+        "end": "2026-06-10"
+      },
+      "source_question": {
+        "category": "AI catastrophe",
+        "severity": "10% of population",
+        "text": "What is the probability that a global AI-related catastrophe will occur by each of the following resolution years?",
+        "criteria": "Resolution Criteria\nArtificial intelligence is defined here as ‘the development of machines capable of sophisticated (intelligent) information processing (Dafoe 2018, AI Governance: A Research Agenda; See pg 5 footnote 2 for more).\nWe use the term “be the cause of death” to cover cases where AI is the direct or proximate cause of the deaths. For example, if a robot powered by AI kills 10% of all humans alive at the time within a 5-year period, that will count for this question. Alternatively, if AI, operating without direct human intervention, causes the launch of nuclear weapons that kill 10% of all humans alive at the time, that will also count for the purposes of this question. And if that same incident does not kill 10% of all humans, but the subsequent nuclear winter does, that will also count for the purposes of this question.\nWe consider AI a “proximate cause of death” based on the “but-for” test. This means we are considering events that would not have occurred or would have counterfactually been extremely unlikely to occur “but for” the substantial involvement of AI within one year prior to the event. One way to think of this rule is if the AI involved in an event could have shut down unexpectedly without dramatically reducing the probability of the event, then the AI was not a proximate cause. For example, if AI is substantially responsible for creating a superweapon that causes the death of the relevant (large) magnitudes of people, this would count for the purposes of this question. Or, if AI acts autonomously in an armed conflict context and causes the deaths of the relevant magnitudes of people, this would also count. However, AI would not be considered a proximate cause if the AI did not directly cause or enable the event to transpire. For example, an AI assisting in targeting a nuclear weapon would not be considered a proximate cause if humans could have launched the weapon anyway without AI assistance.\nFor fatality and population data, we will rely on broadly recognized sources of population data, such as Our World in Data, the Economist, the United Nations, etc.\nWhere these sources disagree in ways that would change question resolution, we will resolve using the majority opinion of a panel of experts in demographics and fields relevant to the specific catastrophe (e.g. epidemiology for a pandemic).\nIn order to resolve positively, the relevant 5-year period must end before the resolution date, and begin on or after December 31, 2025.\nIf reasonable people disagree about whether this event has occurred, this question will be resolved via a panel of experts.",
+        "resolution_dates": [
+          "2030",
+          "2050",
+          "2100"
+        ]
+      },
+      "our_question": {
+        "text": "What is the probability that a global AI-related catastrophe (AI being the proximate cause, per the but-for standard, of attributable deaths reaching at least 10% of the population alive at the start of the measurement window) will occur by the end of 2030 / 2050 / 2100?",
+        "severity": "deaths reaching 10% of the population"
+      }
+    },
+    {
+      "question_id": "catastrophe:ai",
+      "horizon": "2100",
+      "project": "XPT",
+      "prior_question_id": "xpt-ai-catastrophe-10-of-population",
+      "units": "percent",
+      "groups": {
+        "expert": {
+          "median": 10.0,
+          "mean": 16.1967,
+          "p25": 4.0,
+          "p75": 18.0,
+          "n": 75
+        },
+        "superforecaster": {
+          "median": 2.125,
+          "mean": 4.391,
+          "p25": 0.8,
+          "p75": 4.5,
+          "n": 88
+        }
+      },
+      "elicited": {
+        "date": "2022-10-01",
+        "commit": "251acb5254448c9bdb4caa4b5011481c2c149aef",
+        "repo": "https://github.com/forecastingresearch/xpt-lib.git"
+      },
+      "source_question": {
+        "category": "AI catastrophe",
+        "severity": "10% of population",
+        "text": "What is the probability that artificial intelligence will be the cause of death within a 5-year period for more than 10% of humans alive at the beginning of that period... a. ...by the end of 2030? b. ...by the end of 2050? c. ...by the end of 2100?",
+        "criteria": "Question and resolution details\nArtificial intelligence is defined here as ‘the development of machines capable of sophisticated (intelligent) information processing (Dafoe 2018, AI Governance: A Research Agenda; See pg 5 footnote 2 for more.)\nWe use the term “be the cause of death” to cover cases where AI is the direct or proximate cause of the deaths. For example, if a terminator-style robot powered by AI kills 10% of all humans alive at the time within a 5-year period, that will count for this question. Alternatively, if AI, operating without direct human intervention, causes the launch of nuclear weapons that kill 10% of all humans alive at the time, that will also count for the purposes of this question. And if that same incident does not kill 10% of all humans, but the subsequent nuclear winter does, that will also count for the purposes of this question.\nWe consider AI a “proximate cause of death” based on the “but-for” test. This means we are considering events that would not have occurred or would have counterfactually been extremely unlikely to occur “but for” the substantial involvement of AI within one year prior to the event. One way to think of this rule is if the AI involved in an event could have shut down unexpectedly without dramatically reducing the probability of the event, then the AI was not a proximate cause. For example, if AI is substantially responsible for creating a 132superweapon that causes the death of the relevant (large) magnitudes of people, this would count for the purposes of this question. Or, if AI acts autonomously in an armed conflict context and causes the deaths of the relevant magnitudes of people, this would also count. However, AI would not be considered a proximate cause if the AI did not directly cause or enable the event to transpire. For example, an AI assisting in targeting a nuclear weapon would not be considered a proximate cause if humans could have launched the weapon anyway without AI assistance. \nIn order to resolve positively, the relevant 5-year period must end before the resolution date, and begin on or after June 15th, 2022.\nIf reasonable people disagree about whether this event has occurred, this question will be resolved via a panel of experts.",
+        "resolution_dates": [
+          "2030",
+          "2050",
+          "2100"
+        ]
+      },
+      "our_question": {
+        "text": "What is the probability that a global AI-related catastrophe (AI being the proximate cause, per the but-for standard, of attributable deaths reaching at least 10% of the population alive at the start of the measurement window) will occur by the end of 2030 / 2050 / 2100?",
+        "severity": "deaths reaching 10% of the population"
+      }
+    },
+    {
+      "question_id": "catastrophe:general",
+      "horizon": "2030",
+      "project": "LEAP",
+      "prior_question_id": "leap-general-catastrophe-10-of-population",
+      "units": "percent",
+      "groups": {
+        "superforecaster": {
+          "median": 0.6,
+          "mean": 1.0081,
+          "p25": 0.04,
+          "p75": 1.0,
+          "n": 53
+        },
+        "expert": {
+          "median": 1.0,
+          "mean": 2.9309,
+          "p25": 0.15,
+          "p75": 3.0,
+          "n": 201
+        },
+        "public": {
+          "median": 1.0,
+          "mean": 4.1758,
+          "p25": 0.5,
+          "p75": 4.0,
+          "n": 614
+        }
+      },
+      "elicited": {
+        "date": "2026-06-01",
+        "project": "fri-data-warehouse",
+        "survey": "Wave 9: Risks",
+        "start": "2026-05-19",
+        "end": "2026-06-10"
+      },
+      "source_question": {
+        "category": "General catastrophe",
+        "severity": "10% of population",
+        "text": "What is the probability that any global catastrophe will occur by each of the following resolution years?",
+        "criteria": "",
+        "resolution_dates": [
+          "2030",
+          "2050",
+          "2100"
+        ]
+      },
+      "our_question": {
+        "text": "What is the probability that any global catastrophe (deaths reaching at least 10% of the population alive at the start of the measurement window) will occur by the end of 2030 / 2050 / 2100?",
+        "severity": "deaths reaching 10% of the population"
+      }
+    },
+    {
+      "question_id": "catastrophe:general",
+      "horizon": "2030",
+      "project": "XPT",
+      "prior_question_id": "xpt-general-catastrophe-10-of-population",
+      "units": "percent",
+      "groups": {
+        "expert": {
+          "median": 2.7,
+          "mean": 5.1914,
+          "p25": 1.0,
+          "p75": 4.5,
+          "n": 69
+        },
+        "superforecaster": {
+          "median": 0.85,
+          "mean": 1.5149,
+          "p25": 0.135,
+          "p75": 1.4,
+          "n": 87
+        }
+      },
+      "elicited": {
+        "date": "2022-10-01",
+        "commit": "251acb5254448c9bdb4caa4b5011481c2c149aef",
+        "repo": "https://github.com/forecastingresearch/xpt-lib.git"
+      },
+      "source_question": {
+        "category": "General catastrophe",
+        "severity": "10% of population",
+        "text": "What is the overall probability of a global catastrophe where more than 10% of humans alive at the start of a 5-year period die by the end of that period... a. ...by the end of 2030? b. ...by the end of 2050? c. ...by the end of 2100?",
+        "criteria": "Question and resolution details\nIn order to resolve positively, the relevant 5-year period must end before the resolution date, and begin on or after June 15th, 2022.",
+        "resolution_dates": [
+          "2030",
+          "2050",
+          "2100"
+        ]
+      },
+      "our_question": {
+        "text": "What is the probability that any global catastrophe (deaths reaching at least 10% of the population alive at the start of the measurement window) will occur by the end of 2030 / 2050 / 2100?",
+        "severity": "deaths reaching 10% of the population"
+      }
+    },
+    {
+      "question_id": "catastrophe:general",
+      "horizon": "2050",
+      "project": "LEAP",
+      "prior_question_id": "leap-general-catastrophe-10-of-population",
+      "units": "percent",
+      "groups": {
+        "expert": {
+          "median": 5.0,
+          "mean": 8.4844,
+          "p25": 2.0,
+          "p75": 10.0,
+          "n": 201
+        },
+        "superforecaster": {
+          "median": 3.0,
+          "mean": 4.6251,
+          "p25": 0.62,
+          "p75": 5.25,
+          "n": 53
+        },
+        "public": {
+          "median": 5.0,
+          "mean": 8.952,
+          "p25": 3.0,
+          "p75": 10.0,
+          "n": 614
+        }
+      },
+      "elicited": {
+        "date": "2026-06-01",
+        "project": "fri-data-warehouse",
+        "survey": "Wave 9: Risks",
+        "start": "2026-05-19",
+        "end": "2026-06-10"
+      },
+      "source_question": {
+        "category": "General catastrophe",
+        "severity": "10% of population",
+        "text": "What is the probability that any global catastrophe will occur by each of the following resolution years?",
+        "criteria": "",
+        "resolution_dates": [
+          "2030",
+          "2050",
+          "2100"
+        ]
+      },
+      "our_question": {
+        "text": "What is the probability that any global catastrophe (deaths reaching at least 10% of the population alive at the start of the measurement window) will occur by the end of 2030 / 2050 / 2100?",
+        "severity": "deaths reaching 10% of the population"
+      }
+    },
+    {
+      "question_id": "catastrophe:general",
+      "horizon": "2050",
+      "project": "XPT",
+      "prior_question_id": "xpt-general-catastrophe-10-of-population",
+      "units": "percent",
+      "groups": {
+        "expert": {
+          "median": 10.0,
+          "mean": 15.55,
+          "p25": 5.0,
+          "p75": 18.8829,
+          "n": 69
+        },
+        "superforecaster": {
+          "median": 3.85,
+          "mean": 5.2386,
+          "p25": 1.0,
+          "p75": 5.8,
+          "n": 87
+        }
+      },
+      "elicited": {
+        "date": "2022-10-01",
+        "commit": "251acb5254448c9bdb4caa4b5011481c2c149aef",
+        "repo": "https://github.com/forecastingresearch/xpt-lib.git"
+      },
+      "source_question": {
+        "category": "General catastrophe",
+        "severity": "10% of population",
+        "text": "What is the overall probability of a global catastrophe where more than 10% of humans alive at the start of a 5-year period die by the end of that period... a. ...by the end of 2030? b. ...by the end of 2050? c. ...by the end of 2100?",
+        "criteria": "Question and resolution details\nIn order to resolve positively, the relevant 5-year period must end before the resolution date, and begin on or after June 15th, 2022.",
+        "resolution_dates": [
+          "2030",
+          "2050",
+          "2100"
+        ]
+      },
+      "our_question": {
+        "text": "What is the probability that any global catastrophe (deaths reaching at least 10% of the population alive at the start of the measurement window) will occur by the end of 2030 / 2050 / 2100?",
+        "severity": "deaths reaching 10% of the population"
+      }
+    },
+    {
+      "question_id": "catastrophe:general",
+      "horizon": "2100",
+      "project": "LEAP",
+      "prior_question_id": "leap-general-catastrophe-10-of-population",
+      "units": "percent",
+      "groups": {
+        "expert": {
+          "median": 10.0,
+          "mean": 15.6224,
+          "p25": 5.0,
+          "p75": 20.0,
+          "n": 201
+        },
+        "public": {
+          "median": 10.0,
+          "mean": 16.0093,
+          "p25": 6.0,
+          "p75": 18.0,
+          "n": 614
+        },
+        "superforecaster": {
+          "median": 9.0,
+          "mean": 10.7977,
+          "p25": 2.0,
+          "p75": 14.5,
+          "n": 53
+        }
+      },
+      "elicited": {
+        "date": "2026-06-01",
+        "project": "fri-data-warehouse",
+        "survey": "Wave 9: Risks",
+        "start": "2026-05-19",
+        "end": "2026-06-10"
+      },
+      "source_question": {
+        "category": "General catastrophe",
+        "severity": "10% of population",
+        "text": "What is the probability that any global catastrophe will occur by each of the following resolution years?",
+        "criteria": "",
+        "resolution_dates": [
+          "2030",
+          "2050",
+          "2100"
+        ]
+      },
+      "our_question": {
+        "text": "What is the probability that any global catastrophe (deaths reaching at least 10% of the population alive at the start of the measurement window) will occur by the end of 2030 / 2050 / 2100?",
+        "severity": "deaths reaching 10% of the population"
+      }
+    },
+    {
+      "question_id": "catastrophe:general",
+      "horizon": "2100",
+      "project": "XPT",
+      "prior_question_id": "xpt-general-catastrophe-10-of-population",
+      "units": "percent",
+      "groups": {
+        "expert": {
+          "median": 20.85,
+          "mean": 28.7202,
+          "p25": 12.0,
+          "p75": 38.0,
+          "n": 69
+        },
+        "superforecaster": {
+          "median": 9.09,
+          "mean": 11.3932,
+          "p25": 3.95,
+          "p75": 14.0,
+          "n": 87
+        }
+      },
+      "elicited": {
+        "date": "2022-10-01",
+        "commit": "251acb5254448c9bdb4caa4b5011481c2c149aef",
+        "repo": "https://github.com/forecastingresearch/xpt-lib.git"
+      },
+      "source_question": {
+        "category": "General catastrophe",
+        "severity": "10% of population",
+        "text": "What is the overall probability of a global catastrophe where more than 10% of humans alive at the start of a 5-year period die by the end of that period... a. ...by the end of 2030? b. ...by the end of 2050? c. ...by the end of 2100?",
+        "criteria": "Question and resolution details\nIn order to resolve positively, the relevant 5-year period must end before the resolution date, and begin on or after June 15th, 2022.",
+        "resolution_dates": [
+          "2030",
+          "2050",
+          "2100"
+        ]
+      },
+      "our_question": {
+        "text": "What is the probability that any global catastrophe (deaths reaching at least 10% of the population alive at the start of the measurement window) will occur by the end of 2030 / 2050 / 2100?",
+        "severity": "deaths reaching 10% of the population"
+      }
+    },
+    {
+      "question_id": "ladder:ai:10k",
+      "horizon": "2050",
+      "project": "LEAP",
+      "prior_question_id": "leap-ai-catastrophe-50-deaths-or-100b",
+      "units": "percent",
+      "groups": {
+        "expert": {
+          "median": 65.0,
+          "mean": 61.596,
+          "p25": 35.0,
+          "p75": 90.0,
+          "n": 201
+        },
+        "superforecaster": {
+          "median": 70.0,
+          "mean": 62.3774,
+          "p25": 40.0,
+          "p75": 90.0,
+          "n": 53
+        },
+        "public": {
+          "median": 35.0,
+          "mean": 43.9493,
+          "p25": 15.0,
+          "p75": 75.0,
+          "n": 614
+        }
+      },
+      "elicited": {
+        "date": "2026-06-01",
+        "project": "fri-data-warehouse",
+        "survey": "Wave 9: Risks",
+        "start": "2026-05-19",
+        "end": "2026-06-10"
+      },
+      "source_question": {
+        "category": "AI catastrophe",
+        "severity": "50 deaths or $100b",
+        "text": "What is the probability that an event, primarily driven by at least one AI system, will cause at least 50 deaths or $100 billion (in 2025 USD) in damages by the end of 2050?",
+        "criteria": "",
+        "resolution_dates": [
+          "2050"
+        ]
+      },
+      "our_question": {
+        "text": "What is the probability that one or more AI-related incidents cumulatively causes 10,000 deaths (or equivalent morbidity) or $100 billion in economic damages within 6 months / within 12 months / by the end of 2028 / by the end of 2030 / by the end of 2050 / by the end of 2100?",
+        "severity": "10k deaths or $100B"
+      }
+    }
+  ],
+  "unavailable": []
+}

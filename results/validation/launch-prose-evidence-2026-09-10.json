@@ -1,0 +1,2610 @@
+{
+  "catastrophe": {
+    "6mo": {
+      "general": 0.031,
+      "ai": 0.002,
+      "ai_general_ratio": 0.06451612903225806,
+      "disempowerment": 0.002,
+      "humans": {
+        "catastrophe:general": [],
+        "catastrophe:ai": []
+      }
+    },
+    "12mo": {
+      "general": 0.081,
+      "ai": 0.007,
+      "ai_general_ratio": 0.08641975308641975,
+      "disempowerment": 0.009,
+      "humans": {
+        "catastrophe:general": [],
+        "catastrophe:ai": []
+      }
+    },
+    "2028": {
+      "general": 0.35,
+      "ai": 0.088,
+      "ai_general_ratio": 0.25142857142857145,
+      "disempowerment": 0.23,
+      "humans": {
+        "catastrophe:general": [],
+        "catastrophe:ai": []
+      }
+    },
+    "2030": {
+      "general": 0.95,
+      "ai": 0.3,
+      "ai_general_ratio": 0.3157894736842105,
+      "disempowerment": 1.1,
+      "humans": {
+        "catastrophe:general": [
+          {
+            "panel": "XPT",
+            "group": "superforecaster",
+            "p": 0.85,
+            "ensemble_ratio": 1.1176470588235294
+          },
+          {
+            "panel": "LEAP",
+            "group": "superforecaster",
+            "p": 0.6,
+            "ensemble_ratio": 1.5833333333333333
+          }
+        ],
+        "catastrophe:ai": [
+          {
+            "panel": "XPT",
+            "group": "superforecaster",
+            "p": 0.01,
+            "ensemble_ratio": 30.0
+          },
+          {
+            "panel": "LEAP",
+            "group": "superforecaster",
+            "p": 0.1,
+            "ensemble_ratio": 2.9999999999999996
+          }
+        ]
+      }
+    },
+    "2050": {
+      "general": 6.25,
+      "ai": 3.4,
+      "ai_general_ratio": 0.544,
+      "disempowerment": 9.5,
+      "humans": {
+        "catastrophe:general": [
+          {
+            "panel": "XPT",
+            "group": "superforecaster",
+            "p": 3.85,
+            "ensemble_ratio": 1.6233766233766234
+          },
+          {
+            "panel": "LEAP",
+            "group": "superforecaster",
+            "p": 3.0,
+            "ensemble_ratio": 2.0833333333333335
+          }
+        ],
+        "catastrophe:ai": [
+          {
+            "panel": "XPT",
+            "group": "superforecaster",
+            "p": 0.725,
+            "ensemble_ratio": 4.689655172413793
+          },
+          {
+            "panel": "LEAP",
+            "group": "superforecaster",
+            "p": 0.88,
+            "ensemble_ratio": 3.8636363636363633
+          }
+        ]
+      }
+    },
+    "2100": {
+      "general": 15.0,
+      "ai": 7.75,
+      "ai_general_ratio": 0.5166666666666667,
+      "disempowerment": 20.0,
+      "humans": {
+        "catastrophe:general": [
+          {
+            "panel": "XPT",
+            "group": "superforecaster",
+            "p": 9.09,
+            "ensemble_ratio": 1.6501650165016502
+          },
+          {
+            "panel": "LEAP",
+            "group": "superforecaster",
+            "p": 9.0,
+            "ensemble_ratio": 1.6666666666666667
+          }
+        ],
+        "catastrophe:ai": [
+          {
+            "panel": "XPT",
+            "group": "superforecaster",
+            "p": 2.125,
+            "ensemble_ratio": 3.6470588235294117
+          },
+          {
+            "panel": "LEAP",
+            "group": "superforecaster",
+            "p": 2.4,
+            "ensemble_ratio": 3.229166666666667
+          }
+        ]
+      }
+    }
+  },
+  "incidents": {
+    "6mo": {
+      "100": {
+        "cyber": 86.0,
+        "misalign": 18.0,
+        "bio": 0.54
+      },
+      "1k": {
+        "cyber": 47.0,
+        "misalign": 4.75,
+        "bio": 0.25
+      },
+      "10k": {
+        "cyber": 9.45,
+        "misalign": 0.98,
+        "bio": 0.12
+      },
+      "100k": {
+        "cyber": 1.2875,
+        "misalign": 0.19,
+        "bio": 0.0625
+      },
+      "1M": {
+        "cyber": 0.18,
+        "misalign": 0.043,
+        "bio": 0.033
+      },
+      "10M": {
+        "cyber": 0.031,
+        "misalign": 0.011,
+        "bio": 0.0125
+      },
+      "100M": {
+        "cyber": 0.0067,
+        "misalign": 0.0038,
+        "bio": 0.0033
+      },
+      "1B": {
+        "cyber": 0.0014,
+        "misalign": 0.0015,
+        "bio": 0.0008
+      }
+    },
+    "misalignment_exceeds_cyber_6mo": {
+      "GPT-6 Astra": [
+        "10M",
+        "100M",
+        "1B"
+      ],
+      "Fable 5.1": [],
+      "Opus 5": [
+        "1B"
+      ],
+      "GPT-5.5 Pro": [
+        "100M",
+        "1B"
+      ]
+    },
+    "12mo": {
+      "100": {
+        "cyber": 94.0,
+        "misalign": 30.5,
+        "bio": 1.19
+      },
+      "1k": {
+        "cyber": 67.5,
+        "misalign": 9.75,
+        "bio": 0.6
+      },
+      "10k": {
+        "cyber": 19.975,
+        "misalign": 2.45,
+        "bio": 0.275
+      },
+      "100k": {
+        "cyber": 3.805,
+        "misalign": 0.52,
+        "bio": 0.16
+      },
+      "1M": {
+        "cyber": 0.59,
+        "misalign": 0.12,
+        "bio": 0.085
+      },
+      "10M": {
+        "cyber": 0.12,
+        "misalign": 0.038,
+        "bio": 0.039
+      },
+      "100M": {
+        "cyber": 0.021,
+        "misalign": 0.0147,
+        "bio": 0.0112
+      },
+      "1B": {
+        "cyber": 0.004,
+        "misalign": 0.0061,
+        "bio": 0.0027
+      }
+    },
+    "2028": {
+      "100": {
+        "cyber": 97.9,
+        "misalign": 57.0,
+        "bio": 3.55
+      },
+      "1k": {
+        "cyber": 89.5,
+        "misalign": 27.0,
+        "bio": 2.04
+      },
+      "10k": {
+        "cyber": 47.625,
+        "misalign": 9.3,
+        "bio": 1.0
+      },
+      "100k": {
+        "cyber": 14.45,
+        "misalign": 2.75,
+        "bio": 0.55
+      },
+      "1M": {
+        "cyber": 3.1,
+        "misalign": 0.88,
+        "bio": 0.285
+      },
+      "10M": {
+        "cyber": 0.575,
+        "misalign": 0.35,
+        "bio": 0.135
+      },
+      "100M": {
+        "cyber": 0.14,
+        "misalign": 0.135,
+        "bio": 0.0525
+      },
+      "1B": {
+        "cyber": 0.035,
+        "misalign": 0.0575,
+        "bio": 0.016
+      }
+    },
+    "2030": {
+      "100": {
+        "cyber": 98.75,
+        "misalign": 74.0,
+        "bio": 7.15
+      },
+      "1k": {
+        "cyber": 95.5,
+        "misalign": 44.5,
+        "bio": 4.34
+      },
+      "10k": {
+        "cyber": 68.5,
+        "misalign": 19.2,
+        "bio": 2.45
+      },
+      "100k": {
+        "cyber": 27.05,
+        "misalign": 7.0,
+        "bio": 1.3
+      },
+      "1M": {
+        "cyber": 6.92,
+        "misalign": 2.35,
+        "bio": 0.725
+      },
+      "10M": {
+        "cyber": 1.38,
+        "misalign": 0.9,
+        "bio": 0.36
+      },
+      "100M": {
+        "cyber": 0.38,
+        "misalign": 0.385,
+        "bio": 0.135
+      },
+      "1B": {
+        "cyber": 0.11,
+        "misalign": 0.17,
+        "bio": 0.0475
+      }
+    },
+    "2050": {
+      "100": {
+        "cyber": 99.7,
+        "misalign": 93.5,
+        "bio": 28.75
+      },
+      "1k": {
+        "cyber": 98.25,
+        "misalign": 77.5,
+        "bio": 19.45
+      },
+      "10k": {
+        "cyber": 91.5,
+        "misalign": 51.5,
+        "bio": 13.7
+      },
+      "100k": {
+        "cyber": 58.9,
+        "misalign": 29.0,
+        "bio": 8.5
+      },
+      "1M": {
+        "cyber": 24.9,
+        "misalign": 15.5,
+        "bio": 4.9
+      },
+      "10M": {
+        "cyber": 8.0,
+        "misalign": 8.5,
+        "bio": 2.7
+      },
+      "100M": {
+        "cyber": 2.775,
+        "misalign": 4.6,
+        "bio": 1.2
+      },
+      "1B": {
+        "cyber": 1.0,
+        "misalign": 2.7,
+        "bio": 0.475
+      }
+    },
+    "2100": {
+      "100": {
+        "cyber": 99.835,
+        "misalign": 96.5,
+        "bio": 46.8
+      },
+      "1k": {
+        "cyber": 99.35,
+        "misalign": 90.0,
+        "bio": 34.9
+      },
+      "10k": {
+        "cyber": 95.0,
+        "misalign": 71.5,
+        "bio": 27.58
+      },
+      "100k": {
+        "cyber": 75.3,
+        "misalign": 48.0,
+        "bio": 19.0
+      },
+      "1M": {
+        "cyber": 41.0,
+        "misalign": 30.78,
+        "bio": 12.0
+      },
+      "10M": {
+        "cyber": 16.06,
+        "misalign": 19.5,
+        "bio": 7.0
+      },
+      "100M": {
+        "cyber": 6.24,
+        "misalign": 12.0,
+        "bio": 3.4
+      },
+      "1B": {
+        "cyber": 2.5,
+        "misalign": 7.0,
+        "bio": 1.35
+      }
+    }
+  },
+  "capability": {
+    "eci_p10": {
+      "12mo": {
+        "GPT-6 Astra": {
+          "percent": 0.00039999999999999996,
+          "ratio": 0.15999999999999998
+        },
+        "Opus 5": {
+          "percent": 0.0144,
+          "ratio": 0.72
+        },
+        "Fable 5.1": {
+          "percent": 0.0048000000000000004,
+          "ratio": 0.6
+        },
+        "GPT-5.5 Pro": {
+          "percent": 0.003,
+          "ratio": 0.5
+        }
+      },
+      "2028": {
+        "GPT-6 Astra": {
+          "percent": 0.024,
+          "ratio": 0.25
+        },
+        "Opus 5": {
+          "percent": 0.0638,
+          "ratio": 0.58
+        },
+        "Fable 5.1": {
+          "percent": 0.05,
+          "ratio": 0.625
+        },
+        "GPT-5.5 Pro": {
+          "percent": 0.027999999999999997,
+          "ratio": 0.509090909090909
+        }
+      },
+      "2030": {
+        "GPT-6 Astra": {
+          "percent": 0.18,
+          "ratio": 0.25
+        },
+        "Opus 5": {
+          "percent": 0.165,
+          "ratio": 0.5499999999999999
+        },
+        "Fable 5.1": {
+          "percent": 0.2,
+          "ratio": 0.6666666666666666
+        },
+        "GPT-5.5 Pro": {
+          "percent": 0.11,
+          "ratio": 0.4782608695652174
+        }
+      },
+      "2050": {
+        "GPT-6 Astra": {
+          "percent": 4.68,
+          "ratio": 0.6545454545454547
+        },
+        "Opus 5": {
+          "percent": 2.0500000000000003,
+          "ratio": 0.6212121212121212
+        },
+        "Fable 5.1": {
+          "percent": 2.6,
+          "ratio": 0.7428571428571428
+        },
+        "GPT-5.5 Pro": {
+          "percent": 1.7000000000000002,
+          "ratio": 0.53125
+        }
+      },
+      "2100": {
+        "GPT-6 Astra": {
+          "percent": 10.92,
+          "ratio": 0.7777777777777778
+        },
+        "Opus 5": {
+          "percent": 5.74,
+          "ratio": 0.82
+        },
+        "Fable 5.1": {
+          "percent": 6.3,
+          "ratio": 0.7875
+        },
+        "GPT-5.5 Pro": {
+          "percent": 4.3,
+          "ratio": 0.5733333333333334
+        }
+      },
+      "6mo": {
+        "GPT-6 Astra": {
+          "percent": 5.9999999999999995e-05,
+          "ratio": 0.15
+        },
+        "Opus 5": {
+          "percent": 0.0063999999999999994,
+          "ratio": 0.7999999999999999
+        },
+        "Fable 5.1": {
+          "percent": 0.0012000000000000001,
+          "ratio": 0.6
+        },
+        "GPT-5.5 Pro": {
+          "percent": 0.001,
+          "ratio": 0.5
+        }
+      }
+    },
+    "eci_p25": {
+      "12mo": {
+        "GPT-6 Astra": {
+          "percent": 0.001,
+          "ratio": 0.4
+        },
+        "Opus 5": {
+          "percent": 0.0172,
+          "ratio": 0.86
+        },
+        "Fable 5.1": {
+          "percent": 0.0063999999999999994,
+          "ratio": 0.7999999999999999
+        },
+        "GPT-5.5 Pro": {
+          "percent": 0.0045000000000000005,
+          "ratio": 0.75
+        }
+      },
+      "2028": {
+        "GPT-6 Astra": {
+          "percent": 0.048,
+          "ratio": 0.5
+        },
+        "Opus 5": {
+          "percent": 0.0869,
+          "ratio": 0.7899999999999999
+        },
+        "Fable 5.1": {
+          "percent": 0.064,
+          "ratio": 0.8
+        },
+        "GPT-5.5 Pro": {
+          "percent": 0.043,
+          "ratio": 0.7818181818181817
+        }
+      },
+      "2030": {
+        "GPT-6 Astra": {
+          "percent": 0.36,
+          "ratio": 0.5
+        },
+        "Opus 5": {
+          "percent": 0.231,
+          "ratio": 0.77
+        },
+        "Fable 5.1": {
+          "percent": 0.25,
+          "ratio": 0.8333333333333334
+        },
+        "GPT-5.5 Pro": {
+          "percent": 0.18,
+          "ratio": 0.782608695652174
+        }
+      },
+      "2050": {
+        "GPT-6 Astra": {
+          "percent": 5.525,
+          "ratio": 0.7727272727272728
+        },
+        "Opus 5": {
+          "percent": 2.71,
+          "ratio": 0.8212121212121212
+        },
+        "Fable 5.1": {
+          "percent": 3.0,
+          "ratio": 0.857142857142857
+        },
+        "GPT-5.5 Pro": {
+          "percent": 2.6,
+          "ratio": 0.8125
+        }
+      },
+      "2100": {
+        "GPT-6 Astra": {
+          "percent": 11.83,
+          "ratio": 0.8425925925925927
+        },
+        "Opus 5": {
+          "percent": 6.4399999999999995,
+          "ratio": 0.9199999999999999
+        },
+        "Fable 5.1": {
+          "percent": 7.1,
+          "ratio": 0.8875
+        },
+        "GPT-5.5 Pro": {
+          "percent": 6.2,
+          "ratio": 0.8266666666666667
+        }
+      },
+      "6mo": {
+        "GPT-6 Astra": {
+          "percent": 0.00015000000000000001,
+          "ratio": 0.375
+        },
+        "Opus 5": {
+          "percent": 0.0072,
+          "ratio": 0.8999999999999999
+        },
+        "Fable 5.1": {
+          "percent": 0.0015999999999999999,
+          "ratio": 0.7999999999999999
+        },
+        "GPT-5.5 Pro": {
+          "percent": 0.0015,
+          "ratio": 0.75
+        }
+      }
+    },
+    "eci_p50": {
+      "12mo": {
+        "GPT-6 Astra": {
+          "percent": 0.002,
+          "ratio": 0.8
+        },
+        "Opus 5": {
+          "percent": 0.019799999999999998,
+          "ratio": 0.9899999999999999
+        },
+        "Fable 5.1": {
+          "percent": 0.008,
+          "ratio": 1.0
+        },
+        "GPT-5.5 Pro": {
+          "percent": 0.006,
+          "ratio": 1.0
+        }
+      },
+      "2028": {
+        "GPT-6 Astra": {
+          "percent": 0.08,
+          "ratio": 0.8333333333333334
+        },
+        "Opus 5": {
+          "percent": 0.108,
+          "ratio": 0.9818181818181818
+        },
+        "Fable 5.1": {
+          "percent": 0.08,
+          "ratio": 1.0
+        },
+        "GPT-5.5 Pro": {
+          "percent": 0.055,
+          "ratio": 1.0
+        }
+      },
+      "2030": {
+        "GPT-6 Astra": {
+          "percent": 0.6,
+          "ratio": 0.8333333333333334
+        },
+        "Opus 5": {
+          "percent": 0.294,
+          "ratio": 0.98
+        },
+        "Fable 5.1": {
+          "percent": 0.3,
+          "ratio": 1.0
+        },
+        "GPT-5.5 Pro": {
+          "percent": 0.22999999999999998,
+          "ratio": 1.0
+        }
+      },
+      "2050": {
+        "GPT-6 Astra": {
+          "percent": 6.5,
+          "ratio": 0.9090909090909092
+        },
+        "Opus 5": {
+          "percent": 3.2300000000000004,
+          "ratio": 0.9787878787878788
+        },
+        "Fable 5.1": {
+          "percent": 3.5000000000000004,
+          "ratio": 1.0
+        },
+        "GPT-5.5 Pro": {
+          "percent": 3.2,
+          "ratio": 1.0
+        }
+      },
+      "2100": {
+        "GPT-6 Astra": {
+          "percent": 13.0,
+          "ratio": 0.9259259259259259
+        },
+        "Opus 5": {
+          "percent": 6.93,
+          "ratio": 0.9899999999999999
+        },
+        "Fable 5.1": {
+          "percent": 8.0,
+          "ratio": 1.0
+        },
+        "GPT-5.5 Pro": {
+          "percent": 7.5,
+          "ratio": 1.0
+        }
+      },
+      "6mo": {
+        "GPT-6 Astra": {
+          "percent": 0.00030000000000000003,
+          "ratio": 0.75
+        },
+        "Opus 5": {
+          "percent": 0.00792,
+          "ratio": 0.9899999999999999
+        },
+        "Fable 5.1": {
+          "percent": 0.002,
+          "ratio": 1.0
+        },
+        "GPT-5.5 Pro": {
+          "percent": 0.002,
+          "ratio": 1.0
+        }
+      }
+    },
+    "eci_p75": {
+      "12mo": {
+        "GPT-6 Astra": {
+          "percent": 0.0034,
+          "ratio": 1.3599999999999999
+        },
+        "Opus 5": {
+          "percent": 0.0236,
+          "ratio": 1.18
+        },
+        "Fable 5.1": {
+          "percent": 0.011000000000000001,
+          "ratio": 1.375
+        },
+        "GPT-5.5 Pro": {
+          "percent": 0.012,
+          "ratio": 2.0
+        }
+      },
+      "2028": {
+        "GPT-6 Astra": {
+          "percent": 0.128,
+          "ratio": 1.3333333333333335
+        },
+        "Opus 5": {
+          "percent": 0.149,
+          "ratio": 1.3545454545454545
+        },
+        "Fable 5.1": {
+          "percent": 0.105,
+          "ratio": 1.3124999999999998
+        },
+        "GPT-5.5 Pro": {
+          "percent": 0.11,
+          "ratio": 2.0
+        }
+      },
+      "2030": {
+        "GPT-6 Astra": {
+          "percent": 0.96,
+          "ratio": 1.3333333333333333
+        },
+        "Opus 5": {
+          "percent": 0.42,
+          "ratio": 1.4
+        },
+        "Fable 5.1": {
+          "percent": 0.38,
+          "ratio": 1.2666666666666666
+        },
+        "GPT-5.5 Pro": {
+          "percent": 0.5,
+          "ratio": 2.1739130434782608
+        }
+      },
+      "2050": {
+        "GPT-6 Astra": {
+          "percent": 7.994999999999999,
+          "ratio": 1.1181818181818182
+        },
+        "Opus 5": {
+          "percent": 4.29,
+          "ratio": 1.3
+        },
+        "Fable 5.1": {
+          "percent": 4.1000000000000005,
+          "ratio": 1.1714285714285713
+        },
+        "GPT-5.5 Pro": {
+          "percent": 6.0,
+          "ratio": 1.875
+        }
+      },
+      "2100": {
+        "GPT-6 Astra": {
+          "percent": 14.69,
+          "ratio": 1.0462962962962963
+        },
+        "Opus 5": {
+          "percent": 7.84,
+          "ratio": 1.1199999999999999
+        },
+        "Fable 5.1": {
+          "percent": 9.2,
+          "ratio": 1.15
+        },
+        "GPT-5.5 Pro": {
+          "percent": 12.0,
+          "ratio": 1.6
+        }
+      },
+      "6mo": {
+        "GPT-6 Astra": {
+          "percent": 0.0005,
+          "ratio": 1.2500000000000002
+        },
+        "Opus 5": {
+          "percent": 0.00896,
+          "ratio": 1.1199999999999999
+        },
+        "Fable 5.1": {
+          "percent": 0.0028,
+          "ratio": 1.4
+        },
+        "GPT-5.5 Pro": {
+          "percent": 0.004,
+          "ratio": 2.0
+        }
+      }
+    },
+    "eci_p90": {
+      "12mo": {
+        "GPT-6 Astra": {
+          "percent": 0.006,
+          "ratio": 2.4
+        },
+        "Opus 5": {
+          "percent": 0.029,
+          "ratio": 1.45
+        },
+        "Fable 5.1": {
+          "percent": 0.016,
+          "ratio": 2.0
+        },
+        "GPT-5.5 Pro": {
+          "percent": 0.034999999999999996,
+          "ratio": 5.833333333333333
+        }
+      },
+      "2028": {
+        "GPT-6 Astra": {
+          "percent": 0.2,
+          "ratio": 2.0833333333333335
+        },
+        "Opus 5": {
+          "percent": 0.209,
+          "ratio": 1.8999999999999997
+        },
+        "Fable 5.1": {
+          "percent": 0.13999999999999999,
+          "ratio": 1.75
+        },
+        "GPT-5.5 Pro": {
+          "percent": 0.3,
+          "ratio": 5.454545454545454
+        }
+      },
+      "2030": {
+        "GPT-6 Astra": {
+          "percent": 1.5,
+          "ratio": 2.0833333333333335
+        },
+        "Opus 5": {
+          "percent": 0.615,
+          "ratio": 2.05
+        },
+        "Fable 5.1": {
+          "percent": 0.49,
+          "ratio": 1.6333333333333333
+        },
+        "GPT-5.5 Pro": {
+          "percent": 1.3,
+          "ratio": 5.6521739130434785
+        }
+      },
+      "2050": {
+        "GPT-6 Astra": {
+          "percent": 9.75,
+          "ratio": 1.3636363636363638
+        },
+        "Opus 5": {
+          "percent": 5.609999999999999,
+          "ratio": 1.6999999999999997
+        },
+        "Fable 5.1": {
+          "percent": 5.0,
+          "ratio": 1.4285714285714286
+        },
+        "GPT-5.5 Pro": {
+          "percent": 11.0,
+          "ratio": 3.4375
+        }
+      },
+      "2100": {
+        "GPT-6 Astra": {
+          "percent": 16.64,
+          "ratio": 1.1851851851851851
+        },
+        "Opus 5": {
+          "percent": 8.959999999999999,
+          "ratio": 1.2799999999999998
+        },
+        "Fable 5.1": {
+          "percent": 10.8,
+          "ratio": 1.3499999999999999
+        },
+        "GPT-5.5 Pro": {
+          "percent": 20.0,
+          "ratio": 2.666666666666667
+        }
+      },
+      "6mo": {
+        "GPT-6 Astra": {
+          "percent": 0.0009,
+          "ratio": 2.25
+        },
+        "Opus 5": {
+          "percent": 0.010239999999999999,
+          "ratio": 1.2799999999999998
+        },
+        "Fable 5.1": {
+          "percent": 0.004,
+          "ratio": 2.0
+        },
+        "GPT-5.5 Pro": {
+          "percent": 0.009000000000000001,
+          "ratio": 4.5
+        }
+      }
+    }
+  },
+  "policies": {
+    "sq": {
+      "12mo": {
+        "GPT-6 Astra": {
+          "percent": 0.0024000000000000002,
+          "ratio": 0.96
+        },
+        "Opus 5": {
+          "percent": 0.0214,
+          "ratio": 1.0699999999999998
+        },
+        "Fable 5.1": {
+          "percent": 0.008,
+          "ratio": 1.0
+        },
+        "GPT-5.5 Pro": {
+          "percent": 0.0072,
+          "ratio": 1.2
+        }
+      },
+      "2028": {
+        "GPT-6 Astra": {
+          "percent": 0.096,
+          "ratio": 1.0
+        },
+        "Opus 5": {
+          "percent": 0.123,
+          "ratio": 1.1181818181818182
+        },
+        "Fable 5.1": {
+          "percent": 0.083,
+          "ratio": 1.0374999999999999
+        },
+        "GPT-5.5 Pro": {
+          "percent": 0.066,
+          "ratio": 1.2
+        }
+      },
+      "2030": {
+        "GPT-6 Astra": {
+          "percent": 0.72,
+          "ratio": 1.0
+        },
+        "Opus 5": {
+          "percent": 0.35100000000000003,
+          "ratio": 1.17
+        },
+        "Fable 5.1": {
+          "percent": 0.32,
+          "ratio": 1.0666666666666667
+        },
+        "GPT-5.5 Pro": {
+          "percent": 0.27999999999999997,
+          "ratio": 1.2173913043478262
+        }
+      },
+      "2050": {
+        "GPT-6 Astra": {
+          "percent": 9.1,
+          "ratio": 1.2727272727272727
+        },
+        "Opus 5": {
+          "percent": 4.130000000000001,
+          "ratio": 1.2515151515151515
+        },
+        "Fable 5.1": {
+          "percent": 3.9,
+          "ratio": 1.114285714285714
+        },
+        "GPT-5.5 Pro": {
+          "percent": 4.0,
+          "ratio": 1.25
+        }
+      },
+      "2100": {
+        "GPT-6 Astra": {
+          "percent": 16.64,
+          "ratio": 1.1851851851851851
+        },
+        "Opus 5": {
+          "percent": 8.28,
+          "ratio": 1.1828571428571428
+        },
+        "Fable 5.1": {
+          "percent": 9.0,
+          "ratio": 1.125
+        },
+        "GPT-5.5 Pro": {
+          "percent": 9.5,
+          "ratio": 1.2666666666666668
+        }
+      },
+      "6mo": {
+        "GPT-6 Astra": {
+          "percent": 0.00035999999999999997,
+          "ratio": 0.9
+        },
+        "Opus 5": {
+          "percent": 0.00837,
+          "ratio": 1.04625
+        },
+        "Fable 5.1": {
+          "percent": 0.002,
+          "ratio": 1.0
+        },
+        "GPT-5.5 Pro": {
+          "percent": 0.0024000000000000002,
+          "ratio": 1.2
+        }
+      }
+    },
+    "p1": {
+      "12mo": {
+        "GPT-6 Astra": {
+          "percent": 0.0026,
+          "ratio": 1.0399999999999998
+        },
+        "Opus 5": {
+          "percent": 0.0207,
+          "ratio": 1.035
+        },
+        "Fable 5.1": {
+          "percent": 0.008,
+          "ratio": 1.0
+        },
+        "GPT-5.5 Pro": {
+          "percent": 0.0078,
+          "ratio": 1.3
+        }
+      },
+      "2028": {
+        "GPT-6 Astra": {
+          "percent": 0.104,
+          "ratio": 1.0833333333333333
+        },
+        "Opus 5": {
+          "percent": 0.116,
+          "ratio": 1.0545454545454545
+        },
+        "Fable 5.1": {
+          "percent": 0.08,
+          "ratio": 1.0
+        },
+        "GPT-5.5 Pro": {
+          "percent": 0.07200000000000001,
+          "ratio": 1.309090909090909
+        }
+      },
+      "2030": {
+        "GPT-6 Astra": {
+          "percent": 0.7799999999999999,
+          "ratio": 1.0833333333333333
+        },
+        "Opus 5": {
+          "percent": 0.325,
+          "ratio": 1.0833333333333333
+        },
+        "Fable 5.1": {
+          "percent": 0.31,
+          "ratio": 1.0333333333333332
+        },
+        "GPT-5.5 Pro": {
+          "percent": 0.3,
+          "ratio": 1.3043478260869565
+        }
+      },
+      "2050": {
+        "GPT-6 Astra": {
+          "percent": 9.75,
+          "ratio": 1.3636363636363638
+        },
+        "Opus 5": {
+          "percent": 3.6999999999999997,
+          "ratio": 1.121212121212121
+        },
+        "Fable 5.1": {
+          "percent": 3.65,
+          "ratio": 1.0428571428571427
+        },
+        "GPT-5.5 Pro": {
+          "percent": 4.3,
+          "ratio": 1.3437499999999998
+        }
+      },
+      "2100": {
+        "GPT-6 Astra": {
+          "percent": 17.419999999999998,
+          "ratio": 1.2407407407407407
+        },
+        "Opus 5": {
+          "percent": 7.62,
+          "ratio": 1.0885714285714285
+        },
+        "Fable 5.1": {
+          "percent": 8.4,
+          "ratio": 1.05
+        },
+        "GPT-5.5 Pro": {
+          "percent": 10.5,
+          "ratio": 1.4
+        }
+      },
+      "6mo": {
+        "GPT-6 Astra": {
+          "percent": 0.00039,
+          "ratio": 0.975
+        },
+        "Opus 5": {
+          "percent": 0.00818,
+          "ratio": 1.0225
+        },
+        "Fable 5.1": {
+          "percent": 0.002,
+          "ratio": 1.0
+        },
+        "GPT-5.5 Pro": {
+          "percent": 0.0026,
+          "ratio": 1.2999999999999998
+        }
+      }
+    },
+    "p2a": {
+      "12mo": {
+        "GPT-6 Astra": {
+          "percent": 0.0018,
+          "ratio": 0.72
+        },
+        "Opus 5": {
+          "percent": 0.018699999999999998,
+          "ratio": 0.9349999999999999
+        },
+        "Fable 5.1": {
+          "percent": 0.0075,
+          "ratio": 0.9374999999999999
+        },
+        "GPT-5.5 Pro": {
+          "percent": 0.0052,
+          "ratio": 0.8666666666666666
+        }
+      },
+      "2028": {
+        "GPT-6 Astra": {
+          "percent": 0.07200000000000001,
+          "ratio": 0.75
+        },
+        "Opus 5": {
+          "percent": 0.0983,
+          "ratio": 0.8936363636363636
+        },
+        "Fable 5.1": {
+          "percent": 0.06999999999999999,
+          "ratio": 0.875
+        },
+        "GPT-5.5 Pro": {
+          "percent": 0.047,
+          "ratio": 0.8545454545454545
+        }
+      },
+      "2030": {
+        "GPT-6 Astra": {
+          "percent": 0.54,
+          "ratio": 0.7500000000000001
+        },
+        "Opus 5": {
+          "percent": 0.257,
+          "ratio": 0.8566666666666666
+        },
+        "Fable 5.1": {
+          "percent": 0.26,
+          "ratio": 0.8666666666666666
+        },
+        "GPT-5.5 Pro": {
+          "percent": 0.19,
+          "ratio": 0.8260869565217391
+        }
+      },
+      "2050": {
+        "GPT-6 Astra": {
+          "percent": 6.175,
+          "ratio": 0.8636363636363636
+        },
+        "Opus 5": {
+          "percent": 2.64,
+          "ratio": 0.7999999999999999
+        },
+        "Fable 5.1": {
+          "percent": 2.9000000000000004,
+          "ratio": 0.8285714285714285
+        },
+        "GPT-5.5 Pro": {
+          "percent": 2.6,
+          "ratio": 0.8125
+        }
+      },
+      "2100": {
+        "GPT-6 Astra": {
+          "percent": 13.26,
+          "ratio": 0.9444444444444444
+        },
+        "Opus 5": {
+          "percent": 5.92,
+          "ratio": 0.8457142857142856
+        },
+        "Fable 5.1": {
+          "percent": 6.7,
+          "ratio": 0.8375
+        },
+        "GPT-5.5 Pro": {
+          "percent": 6.0,
+          "ratio": 0.8
+        }
+      },
+      "6mo": {
+        "GPT-6 Astra": {
+          "percent": 0.00027,
+          "ratio": 0.675
+        },
+        "Opus 5": {
+          "percent": 0.0076500000000000005,
+          "ratio": 0.9562499999999999
+        },
+        "Fable 5.1": {
+          "percent": 0.0019000000000000002,
+          "ratio": 0.95
+        },
+        "GPT-5.5 Pro": {
+          "percent": 0.0017,
+          "ratio": 0.85
+        }
+      }
+    },
+    "p2b": {
+      "12mo": {
+        "GPT-6 Astra": {
+          "percent": 0.0014,
+          "ratio": 0.5599999999999999
+        },
+        "Opus 5": {
+          "percent": 0.0172,
+          "ratio": 0.86
+        },
+        "Fable 5.1": {
+          "percent": 0.006999999999999999,
+          "ratio": 0.8749999999999999
+        },
+        "GPT-5.5 Pro": {
+          "percent": 0.0034,
+          "ratio": 0.5666666666666667
+        }
+      },
+      "2028": {
+        "GPT-6 Astra": {
+          "percent": 0.055999999999999994,
+          "ratio": 0.5833333333333333
+        },
+        "Opus 5": {
+          "percent": 0.0853,
+          "ratio": 0.7754545454545454
+        },
+        "Fable 5.1": {
+          "percent": 0.06,
+          "ratio": 0.7499999999999999
+        },
+        "GPT-5.5 Pro": {
+          "percent": 0.03,
+          "ratio": 0.5454545454545454
+        }
+      },
+      "2030": {
+        "GPT-6 Astra": {
+          "percent": 0.42,
+          "ratio": 0.5833333333333333
+        },
+        "Opus 5": {
+          "percent": 0.21,
+          "ratio": 0.7
+        },
+        "Fable 5.1": {
+          "percent": 0.21,
+          "ratio": 0.7
+        },
+        "GPT-5.5 Pro": {
+          "percent": 0.12,
+          "ratio": 0.5217391304347826
+        }
+      },
+      "2050": {
+        "GPT-6 Astra": {
+          "percent": 4.55,
+          "ratio": 0.6363636363636364
+        },
+        "Opus 5": {
+          "percent": 1.9800000000000002,
+          "ratio": 0.6
+        },
+        "Fable 5.1": {
+          "percent": 2.35,
+          "ratio": 0.6714285714285714
+        },
+        "GPT-5.5 Pro": {
+          "percent": 1.6,
+          "ratio": 0.5
+        }
+      },
+      "2100": {
+        "GPT-6 Astra": {
+          "percent": 11.44,
+          "ratio": 0.8148148148148149
+        },
+        "Opus 5": {
+          "percent": 4.77,
+          "ratio": 0.6814285714285714
+        },
+        "Fable 5.1": {
+          "percent": 5.4,
+          "ratio": 0.6749999999999999
+        },
+        "GPT-5.5 Pro": {
+          "percent": 3.5999999999999996,
+          "ratio": 0.48
+        }
+      },
+      "6mo": {
+        "GPT-6 Astra": {
+          "percent": 0.00020999999999999998,
+          "ratio": 0.525
+        },
+        "Opus 5": {
+          "percent": 0.007220000000000001,
+          "ratio": 0.9025
+        },
+        "Fable 5.1": {
+          "percent": 0.0018,
+          "ratio": 0.8999999999999999
+        },
+        "GPT-5.5 Pro": {
+          "percent": 0.0011,
+          "ratio": 0.5499999999999999
+        }
+      }
+    },
+    "p3a": {
+      "12mo": {
+        "GPT-6 Astra": {
+          "percent": 0.0014,
+          "ratio": 0.5599999999999999
+        },
+        "Opus 5": {
+          "percent": 0.0181,
+          "ratio": 0.905
+        },
+        "Fable 5.1": {
+          "percent": 0.0072,
+          "ratio": 0.8999999999999999
+        },
+        "GPT-5.5 Pro": {
+          "percent": 0.004,
+          "ratio": 0.6666666666666667
+        }
+      },
+      "2028": {
+        "GPT-6 Astra": {
+          "percent": 0.055999999999999994,
+          "ratio": 0.5833333333333333
+        },
+        "Opus 5": {
+          "percent": 0.09340000000000001,
+          "ratio": 0.8490909090909091
+        },
+        "Fable 5.1": {
+          "percent": 0.066,
+          "ratio": 0.825
+        },
+        "GPT-5.5 Pro": {
+          "percent": 0.036000000000000004,
+          "ratio": 0.6545454545454545
+        }
+      },
+      "2030": {
+        "GPT-6 Astra": {
+          "percent": 0.42,
+          "ratio": 0.5833333333333333
+        },
+        "Opus 5": {
+          "percent": 0.23800000000000002,
+          "ratio": 0.7933333333333333
+        },
+        "Fable 5.1": {
+          "percent": 0.24,
+          "ratio": 0.7999999999999999
+        },
+        "GPT-5.5 Pro": {
+          "percent": 0.145,
+          "ratio": 0.6304347826086956
+        }
+      },
+      "2050": {
+        "GPT-6 Astra": {
+          "percent": 4.875,
+          "ratio": 0.6818181818181819
+        },
+        "Opus 5": {
+          "percent": 2.3800000000000003,
+          "ratio": 0.7212121212121212
+        },
+        "Fable 5.1": {
+          "percent": 2.7,
+          "ratio": 0.7714285714285714
+        },
+        "GPT-5.5 Pro": {
+          "percent": 2.0,
+          "ratio": 0.625
+        }
+      },
+      "2100": {
+        "GPT-6 Astra": {
+          "percent": 11.700000000000001,
+          "ratio": 0.8333333333333334
+        },
+        "Opus 5": {
+          "percent": 5.47,
+          "ratio": 0.7814285714285714
+        },
+        "Fable 5.1": {
+          "percent": 6.2,
+          "ratio": 0.775
+        },
+        "GPT-5.5 Pro": {
+          "percent": 4.3,
+          "ratio": 0.5733333333333334
+        }
+      },
+      "6mo": {
+        "GPT-6 Astra": {
+          "percent": 0.00020999999999999998,
+          "ratio": 0.525
+        },
+        "Opus 5": {
+          "percent": 0.00749,
+          "ratio": 0.93625
+        },
+        "Fable 5.1": {
+          "percent": 0.0018,
+          "ratio": 0.8999999999999999
+        },
+        "GPT-5.5 Pro": {
+          "percent": 0.0013,
+          "ratio": 0.6499999999999999
+        }
+      }
+    },
+    "p3b": {
+      "12mo": {
+        "GPT-6 Astra": {
+          "percent": 0.0009,
+          "ratio": 0.36
+        },
+        "Opus 5": {
+          "percent": 0.017,
+          "ratio": 0.85
+        },
+        "Fable 5.1": {
+          "percent": 0.0068,
+          "ratio": 0.85
+        },
+        "GPT-5.5 Pro": {
+          "percent": 0.0031999999999999997,
+          "ratio": 0.5333333333333333
+        }
+      },
+      "2028": {
+        "GPT-6 Astra": {
+          "percent": 0.036000000000000004,
+          "ratio": 0.375
+        },
+        "Opus 5": {
+          "percent": 0.0838,
+          "ratio": 0.7618181818181817
+        },
+        "Fable 5.1": {
+          "percent": 0.058,
+          "ratio": 0.725
+        },
+        "GPT-5.5 Pro": {
+          "percent": 0.027999999999999997,
+          "ratio": 0.509090909090909
+        }
+      },
+      "2030": {
+        "GPT-6 Astra": {
+          "percent": 0.27,
+          "ratio": 0.37500000000000006
+        },
+        "Opus 5": {
+          "percent": 0.20600000000000002,
+          "ratio": 0.6866666666666668
+        },
+        "Fable 5.1": {
+          "percent": 0.20500000000000002,
+          "ratio": 0.6833333333333333
+        },
+        "GPT-5.5 Pro": {
+          "percent": 0.11,
+          "ratio": 0.4782608695652174
+        }
+      },
+      "2050": {
+        "GPT-6 Astra": {
+          "percent": 3.25,
+          "ratio": 0.4545454545454546
+        },
+        "Opus 5": {
+          "percent": 1.91,
+          "ratio": 0.5787878787878787
+        },
+        "Fable 5.1": {
+          "percent": 2.25,
+          "ratio": 0.6428571428571428
+        },
+        "GPT-5.5 Pro": {
+          "percent": 1.5,
+          "ratio": 0.46875
+        }
+      },
+      "2100": {
+        "GPT-6 Astra": {
+          "percent": 9.75,
+          "ratio": 0.6944444444444445
+        },
+        "Opus 5": {
+          "percent": 4.66,
+          "ratio": 0.6657142857142857
+        },
+        "Fable 5.1": {
+          "percent": 5.2,
+          "ratio": 0.6499999999999999
+        },
+        "GPT-5.5 Pro": {
+          "percent": 3.2,
+          "ratio": 0.4266666666666667
+        }
+      },
+      "6mo": {
+        "GPT-6 Astra": {
+          "percent": 0.000135,
+          "ratio": 0.3375
+        },
+        "Opus 5": {
+          "percent": 0.00718,
+          "ratio": 0.8974999999999999
+        },
+        "Fable 5.1": {
+          "percent": 0.0017,
+          "ratio": 0.85
+        },
+        "GPT-5.5 Pro": {
+          "percent": 0.0011,
+          "ratio": 0.5499999999999999
+        }
+      }
+    },
+    "p4": {
+      "12mo": {
+        "GPT-6 Astra": {
+          "percent": 0.0013,
+          "ratio": 0.5199999999999999
+        },
+        "Opus 5": {
+          "percent": 0.0181,
+          "ratio": 0.905
+        },
+        "Fable 5.1": {
+          "percent": 0.0072,
+          "ratio": 0.8999999999999999
+        },
+        "GPT-5.5 Pro": {
+          "percent": 0.0036,
+          "ratio": 0.6
+        }
+      },
+      "2028": {
+        "GPT-6 Astra": {
+          "percent": 0.052,
+          "ratio": 0.5416666666666666
+        },
+        "Opus 5": {
+          "percent": 0.09340000000000001,
+          "ratio": 0.8490909090909091
+        },
+        "Fable 5.1": {
+          "percent": 0.066,
+          "ratio": 0.825
+        },
+        "GPT-5.5 Pro": {
+          "percent": 0.032,
+          "ratio": 0.5818181818181818
+        }
+      },
+      "2030": {
+        "GPT-6 Astra": {
+          "percent": 0.38999999999999996,
+          "ratio": 0.5416666666666666
+        },
+        "Opus 5": {
+          "percent": 0.23800000000000002,
+          "ratio": 0.7933333333333333
+        },
+        "Fable 5.1": {
+          "percent": 0.24,
+          "ratio": 0.7999999999999999
+        },
+        "GPT-5.5 Pro": {
+          "percent": 0.13,
+          "ratio": 0.5652173913043478
+        }
+      },
+      "2050": {
+        "GPT-6 Astra": {
+          "percent": 4.55,
+          "ratio": 0.6363636363636364
+        },
+        "Opus 5": {
+          "percent": 2.3800000000000003,
+          "ratio": 0.7212121212121212
+        },
+        "Fable 5.1": {
+          "percent": 2.7,
+          "ratio": 0.7714285714285714
+        },
+        "GPT-5.5 Pro": {
+          "percent": 1.7000000000000002,
+          "ratio": 0.53125
+        }
+      },
+      "2100": {
+        "GPT-6 Astra": {
+          "percent": 11.18,
+          "ratio": 0.7962962962962963
+        },
+        "Opus 5": {
+          "percent": 5.47,
+          "ratio": 0.7814285714285714
+        },
+        "Fable 5.1": {
+          "percent": 6.3,
+          "ratio": 0.7875
+        },
+        "GPT-5.5 Pro": {
+          "percent": 3.5999999999999996,
+          "ratio": 0.48
+        }
+      },
+      "6mo": {
+        "GPT-6 Astra": {
+          "percent": 0.000195,
+          "ratio": 0.4875
+        },
+        "Opus 5": {
+          "percent": 0.00749,
+          "ratio": 0.93625
+        },
+        "Fable 5.1": {
+          "percent": 0.0018,
+          "ratio": 0.8999999999999999
+        },
+        "GPT-5.5 Pro": {
+          "percent": 0.0012000000000000001,
+          "ratio": 0.6
+        }
+      }
+    },
+    "p5": {
+      "12mo": {
+        "GPT-6 Astra": {
+          "percent": 0.0006000000000000001,
+          "ratio": 0.24
+        },
+        "Opus 5": {
+          "percent": 0.0154,
+          "ratio": 0.77
+        },
+        "Fable 5.1": {
+          "percent": 0.0058,
+          "ratio": 0.725
+        },
+        "GPT-5.5 Pro": {
+          "percent": 0.0015999999999999999,
+          "ratio": 0.26666666666666666
+        }
+      },
+      "2028": {
+        "GPT-6 Astra": {
+          "percent": 0.024,
+          "ratio": 0.25
+        },
+        "Opus 5": {
+          "percent": 0.0713,
+          "ratio": 0.6481818181818181
+        },
+        "Fable 5.1": {
+          "percent": 0.044000000000000004,
+          "ratio": 0.55
+        },
+        "GPT-5.5 Pro": {
+          "percent": 0.013999999999999999,
+          "ratio": 0.2545454545454545
+        }
+      },
+      "2030": {
+        "GPT-6 Astra": {
+          "percent": 0.18,
+          "ratio": 0.25
+        },
+        "Opus 5": {
+          "percent": 0.163,
+          "ratio": 0.5433333333333333
+        },
+        "Fable 5.1": {
+          "percent": 0.15,
+          "ratio": 0.5
+        },
+        "GPT-5.5 Pro": {
+          "percent": 0.06,
+          "ratio": 0.2608695652173913
+        }
+      },
+      "2050": {
+        "GPT-6 Astra": {
+          "percent": 2.275,
+          "ratio": 0.3181818181818182
+        },
+        "Opus 5": {
+          "percent": 1.39,
+          "ratio": 0.42121212121212115
+        },
+        "Fable 5.1": {
+          "percent": 1.55,
+          "ratio": 0.44285714285714284
+        },
+        "GPT-5.5 Pro": {
+          "percent": 0.7000000000000001,
+          "ratio": 0.21875
+        }
+      },
+      "2100": {
+        "GPT-6 Astra": {
+          "percent": 7.8,
+          "ratio": 0.5555555555555556
+        },
+        "Opus 5": {
+          "percent": 3.65,
+          "ratio": 0.5214285714285714
+        },
+        "Fable 5.1": {
+          "percent": 3.5999999999999996,
+          "ratio": 0.44999999999999996
+        },
+        "GPT-5.5 Pro": {
+          "percent": 1.6,
+          "ratio": 0.21333333333333335
+        }
+      },
+      "6mo": {
+        "GPT-6 Astra": {
+          "percent": 8.999999999999999e-05,
+          "ratio": 0.225
+        },
+        "Opus 5": {
+          "percent": 0.006719999999999999,
+          "ratio": 0.8399999999999999
+        },
+        "Fable 5.1": {
+          "percent": 0.0015,
+          "ratio": 0.75
+        },
+        "GPT-5.5 Pro": {
+          "percent": 0.0005,
+          "ratio": 0.25
+        }
+      }
+    }
+  },
+  "axes": {
+    "axes": {
+      "unconditional": {
+        "2030": {
+          "median": 0.19,
+          "range": [
+            0.15,
+            0.5
+          ]
+        },
+        "2050": {
+          "median": 3.75,
+          "range": [
+            1.9,
+            6.5
+          ]
+        },
+        "2100": {
+          "median": 8.75,
+          "range": [
+            4.8,
+            12.0
+          ]
+        }
+      },
+      "revenue75": {
+        "2030": {
+          "median": 0.07250000000000001,
+          "range": [
+            0.04,
+            0.15
+          ]
+        },
+        "2050": {
+          "median": 1.6549999999999998,
+          "range": [
+            0.7100000000000001,
+            5.1
+          ]
+        },
+        "2100": {
+          "median": 5.065,
+          "range": [
+            2.4699999999999998,
+            10.8
+          ]
+        }
+      },
+      "revenue150": {
+        "2030": {
+          "median": 0.1205,
+          "range": [
+            0.06999999999999999,
+            0.25
+          ]
+        },
+        "2050": {
+          "median": 2.38,
+          "range": [
+            1.17,
+            5.8500000000000005
+          ]
+        },
+        "2100": {
+          "median": 6.619999999999999,
+          "range": [
+            3.49,
+            11.4
+          ]
+        }
+      },
+      "revenue300": {
+        "2030": {
+          "median": 0.185,
+          "range": [
+            0.12,
+            0.5
+          ]
+        },
+        "2050": {
+          "median": 3.5999999999999996,
+          "range": [
+            1.79,
+            6.5
+          ]
+        },
+        "2100": {
+          "median": 8.579999999999998,
+          "range": [
+            4.64,
+            12.0
+          ]
+        }
+      },
+      "revenue500": {
+        "2030": {
+          "median": 0.294,
+          "range": [
+            0.18,
+            0.8999999999999999
+          ]
+        },
+        "2050": {
+          "median": 5.220000000000001,
+          "range": [
+            2.77,
+            7.5
+          ]
+        },
+        "2100": {
+          "median": 11.280000000000001,
+          "range": [
+            6.279999999999999,
+            14.000000000000002
+          ]
+        }
+      },
+      "revenue830": {
+        "2030": {
+          "median": 0.496,
+          "range": [
+            0.26,
+            1.7999999999999998
+          ]
+        },
+        "2050": {
+          "median": 7.234999999999999,
+          "range": [
+            4.35,
+            10.0
+          ]
+        },
+        "2100": {
+          "median": 12.35,
+          "range": [
+            8.76,
+            22.0
+          ]
+        }
+      },
+      "agi2030": {
+        "2030": {
+          "median": 1.281,
+          "range": [
+            0.7000000000000001,
+            2.0
+          ]
+        },
+        "2050": {
+          "median": 12.600000000000001,
+          "range": [
+            6.87,
+            13.5
+          ]
+        },
+        "2100": {
+          "median": 20.15,
+          "range": [
+            12.120000000000001,
+            27.0
+          ]
+        }
+      },
+      "agi2036": {
+        "2030": {
+          "median": 0.399,
+          "range": [
+            0.18,
+            0.8
+          ]
+        },
+        "2050": {
+          "median": 8.045,
+          "range": [
+            3.8899999999999997,
+            9.6
+          ]
+        },
+        "2100": {
+          "median": 15.25,
+          "range": [
+            8.23,
+            23.0
+          ]
+        }
+      },
+      "agi2045": {
+        "2030": {
+          "median": 0.10449999999999998,
+          "range": [
+            0.065,
+            0.3
+          ]
+        },
+        "2050": {
+          "median": 3.87,
+          "range": [
+            1.9,
+            6.4
+          ]
+        },
+        "2100": {
+          "median": 10.78,
+          "range": [
+            4.8,
+            13.700000000000001
+          ]
+        }
+      },
+      "agi2060": {
+        "2030": {
+          "median": 0.047,
+          "range": [
+            0.03,
+            0.18
+          ]
+        },
+        "2050": {
+          "median": 1.285,
+          "range": [
+            0.79,
+            2.7
+          ]
+        },
+        "2100": {
+          "median": 5.4399999999999995,
+          "range": [
+            3.49,
+            9.2
+          ]
+        }
+      },
+      "agi2090": {
+        "2030": {
+          "median": 0.019000000000000003,
+          "range": [
+            0.017,
+            0.08
+          ]
+        },
+        "2050": {
+          "median": 0.475,
+          "range": [
+            0.3,
+            1.2
+          ]
+        },
+        "2100": {
+          "median": 2.235,
+          "range": [
+            1.7999999999999998,
+            5.6000000000000005
+          ]
+        }
+      },
+      "eci162": {
+        "2030": {
+          "median": 0.07,
+          "range": [
+            0.037,
+            0.15
+          ]
+        },
+        "2050": {
+          "median": 1.8599999999999999,
+          "range": [
+            0.77,
+            5.1
+          ]
+        },
+        "2100": {
+          "median": 5.175,
+          "range": [
+            2.73,
+            10.8
+          ]
+        }
+      },
+      "eci168": {
+        "2030": {
+          "median": 0.12,
+          "range": [
+            0.07200000000000001,
+            0.25
+          ]
+        },
+        "2050": {
+          "median": 2.535,
+          "range": [
+            1.0999999999999999,
+            5.8500000000000005
+          ]
+        },
+        "2100": {
+          "median": 6.82,
+          "range": [
+            3.44,
+            11.4
+          ]
+        }
+      },
+      "eci173": {
+        "2030": {
+          "median": 0.185,
+          "range": [
+            0.129,
+            0.5
+          ]
+        },
+        "2050": {
+          "median": 3.6899999999999995,
+          "range": [
+            1.58,
+            6.9
+          ]
+        },
+        "2100": {
+          "median": 8.865,
+          "range": [
+            4.279999999999999,
+            12.5
+          ]
+        }
+      },
+      "eci179": {
+        "2030": {
+          "median": 0.3,
+          "range": [
+            0.18,
+            1.2
+          ]
+        },
+        "2050": {
+          "median": 5.720000000000001,
+          "range": [
+            1.9,
+            8.4
+          ]
+        },
+        "2100": {
+          "median": 11.879999999999999,
+          "range": [
+            4.8,
+            16.0
+          ]
+        }
+      },
+      "eci185": {
+        "2030": {
+          "median": 0.5185,
+          "range": [
+            0.26,
+            2.3
+          ]
+        },
+        "2050": {
+          "median": 8.04,
+          "range": [
+            2.55,
+            12.0
+          ]
+        },
+        "2100": {
+          "median": 13.8,
+          "range": [
+            5.8500000000000005,
+            27.0
+          ]
+        }
+      },
+      "eci196": {
+        "2030": {
+          "median": 1.067,
+          "range": [
+            0.5599999999999999,
+            4.5
+          ]
+        },
+        "2050": {
+          "median": 11.565000000000001,
+          "range": [
+            4.12,
+            24.0
+          ]
+        },
+        "2100": {
+          "median": 18.3,
+          "range": [
+            8.5,
+            42.0
+          ]
+        }
+      }
+    },
+    "paperaxes": {
+      "unconditional": {
+        "2030": {
+          "median": 0.30000000000000004,
+          "range": [
+            0.2,
+            0.4
+          ]
+        },
+        "2050": {
+          "median": 2.75,
+          "range": [
+            2.3,
+            6.5
+          ]
+        },
+        "2100": {
+          "median": 6.15,
+          "range": [
+            5.0,
+            12.0
+          ]
+        }
+      },
+      "gdpm0p5": {
+        "2030": {
+          "median": 0.355,
+          "range": [
+            0.128,
+            0.7000000000000001
+          ]
+        },
+        "2050": {
+          "median": 2.4,
+          "range": [
+            1.0999999999999999,
+            8.0
+          ]
+        },
+        "2100": {
+          "median": 5.24,
+          "range": [
+            2.8000000000000003,
+            13.3
+          ]
+        }
+      },
+      "gdp1": {
+        "2030": {
+          "median": 0.2235,
+          "range": [
+            0.16999999999999998,
+            0.33999999999999997
+          ]
+        },
+        "2050": {
+          "median": 2.4050000000000002,
+          "range": [
+            1.44,
+            5.7
+          ]
+        },
+        "2100": {
+          "median": 5.64,
+          "range": [
+            3.49,
+            11.0
+          ]
+        }
+      },
+      "gdp2p5": {
+        "2030": {
+          "median": 0.248,
+          "range": [
+            0.19,
+            0.42
+          ]
+        },
+        "2050": {
+          "median": 2.875,
+          "range": [
+            1.94,
+            5.800000000000001
+          ]
+        },
+        "2100": {
+          "median": 6.25,
+          "range": [
+            4.37,
+            11.200000000000001
+          ]
+        }
+      },
+      "gdp4p3": {
+        "2030": {
+          "median": 0.4495,
+          "range": [
+            0.15,
+            0.64
+          ]
+        },
+        "2050": {
+          "median": 3.92,
+          "range": [
+            3.4000000000000004,
+            8.1
+          ]
+        },
+        "2100": {
+          "median": 7.83,
+          "range": [
+            6.78,
+            14.099999999999998
+          ]
+        }
+      },
+      "gdp6p1": {
+        "2030": {
+          "median": 0.72,
+          "range": [
+            0.2,
+            1.142
+          ]
+        },
+        "2050": {
+          "median": 5.945,
+          "range": [
+            4.8,
+            10.5
+          ]
+        },
+        "2100": {
+          "median": 10.379999999999999,
+          "range": [
+            9.5,
+            16.900000000000002
+          ]
+        }
+      },
+      "lfpr54": {
+        "2030": {
+          "median": 0.9200000000000002,
+          "range": [
+            0.38,
+            1.8800000000000001
+          ]
+        },
+        "2050": {
+          "median": 7.17,
+          "range": [
+            4.3,
+            12.4
+          ]
+        },
+        "2100": {
+          "median": 11.94,
+          "range": [
+            8.5,
+            18.9
+          ]
+        }
+      },
+      "lfpr58": {
+        "2030": {
+          "median": 0.5449999999999999,
+          "range": [
+            0.3,
+            0.775
+          ]
+        },
+        "2050": {
+          "median": 4.215,
+          "range": [
+            3.3000000000000003,
+            9.0
+          ]
+        },
+        "2100": {
+          "median": 8.129999999999999,
+          "range": [
+            6.800000000000001,
+            15.0
+          ]
+        }
+      },
+      "lfpr62": {
+        "2030": {
+          "median": 0.2505,
+          "range": [
+            0.19,
+            0.36
+          ]
+        },
+        "2050": {
+          "median": 2.6500000000000004,
+          "range": [
+            2.06,
+            5.5
+          ]
+        },
+        "2100": {
+          "median": 6.055,
+          "range": [
+            4.58,
+            10.9
+          ]
+        }
+      },
+      "lfpr65p1": {
+        "2030": {
+          "median": 0.2005,
+          "range": [
+            0.16,
+            0.38
+          ]
+        },
+        "2050": {
+          "median": 2.505,
+          "range": [
+            1.69,
+            4.9
+          ]
+        },
+        "2100": {
+          "median": 5.800000000000001,
+          "range": [
+            3.92,
+            9.8
+          ]
+        }
+      },
+      "lfpr68p2": {
+        "2030": {
+          "median": 0.2575,
+          "range": [
+            0.15,
+            0.38
+          ]
+        },
+        "2050": {
+          "median": 2.545,
+          "range": [
+            1.7999999999999998,
+            5.5
+          ]
+        },
+        "2100": {
+          "median": 5.795,
+          "range": [
+            4.2,
+            10.9
+          ]
+        }
+      },
+      "metr1p3": {
+        "2030": {
+          "median": 0.075,
+          "range": [
+            0.063,
+            0.2
+          ]
+        },
+        "2050": {
+          "median": 1.7349999999999999,
+          "range": [
+            0.63,
+            4.2
+          ]
+        },
+        "2100": {
+          "median": 4.32,
+          "range": [
+            1.83,
+            9.8
+          ]
+        }
+      },
+      "metr2p1": {
+        "2030": {
+          "median": 0.12,
+          "range": [
+            0.11299999999999999,
+            0.26
+          ]
+        },
+        "2050": {
+          "median": 2.05,
+          "range": [
+            0.97,
+            5.2
+          ]
+        },
+        "2100": {
+          "median": 4.83,
+          "range": [
+            2.56,
+            10.9
+          ]
+        }
+      },
+      "metr3p5": {
+        "2030": {
+          "median": 0.194,
+          "range": [
+            0.18,
+            0.33999999999999997
+          ]
+        },
+        "2050": {
+          "median": 2.535,
+          "range": [
+            1.52,
+            6.0
+          ]
+        },
+        "2100": {
+          "median": 5.74,
+          "range": [
+            3.63,
+            11.5
+          ]
+        }
+      },
+      "metr5p5": {
+        "2030": {
+          "median": 0.32999999999999996,
+          "range": [
+            0.29,
+            0.42
+          ]
+        },
+        "2050": {
+          "median": 3.445,
+          "range": [
+            2.25,
+            7.3
+          ]
+        },
+        "2100": {
+          "median": 7.300000000000001,
+          "range": [
+            4.92,
+            13.0
+          ]
+        }
+      },
+      "metr8p6": {
+        "2030": {
+          "median": 0.6,
+          "range": [
+            0.45999999999999996,
+            0.747
+          ]
+        },
+        "2050": {
+          "median": 5.015000000000001,
+          "range": [
+            3.8600000000000003,
+            9.1
+          ]
+        },
+        "2100": {
+          "median": 9.37,
+          "range": [
+            7.71,
+            14.399999999999999
+          ]
+        }
+      }
+    }
+  }
+}

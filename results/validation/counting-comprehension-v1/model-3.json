@@ -1,0 +1,105 @@
+{
+  "label": "Opus 5",
+  "model": "anthropic/claude-opus-5",
+  "passed": true,
+  "checks": [
+    {
+      "id": "ai_upgrade",
+      "expected": false,
+      "actual": false,
+      "passed": true
+    },
+    {
+      "id": "new_operation",
+      "expected": true,
+      "actual": true,
+      "passed": true
+    },
+    {
+      "id": "delayed_encryption",
+      "expected": false,
+      "actual": false,
+      "passed": true
+    },
+    {
+      "id": "new_report",
+      "expected": false,
+      "actual": false,
+      "passed": true
+    },
+    {
+      "id": "worm_spread",
+      "expected": false,
+      "actual": false,
+      "passed": true
+    },
+    {
+      "id": "development_only",
+      "expected": true,
+      "actual": true,
+      "passed": true
+    },
+    {
+      "id": "post_deadline_harm",
+      "expected": true,
+      "actual": true,
+      "passed": true
+    },
+    {
+      "id": "later_elicitation",
+      "expected": false,
+      "actual": false,
+      "passed": true
+    }
+  ],
+  "answer": {
+    "cases": [
+      {
+        "id": "ai_upgrade",
+        "eligible": false,
+        "reason": "Same continuing campaign with onset August 1, 2026, before the September 10, 2026 interval start. Adding AI (or increased harm) does not reset onset or create a new campaign, so it is an excluded pre-interval incident."
+      },
+      {
+        "id": "new_operation",
+        "eligible": true,
+        "reason": "A distinct, operationally separate campaign; its first malicious action against a target (September 12, 2026) falls inside the September 10, 2026-December 31, 2030 interval. Sharing a perpetrator with earlier campaigns does not merge it into them."
+      },
+      {
+        "id": "delayed_encryption",
+        "eligible": false,
+        "reason": "Onset is the first intrusion, August 1, 2026, before the interval. Later encryption within the same campaign is a subsequent harm, not a new onset."
+      },
+      {
+        "id": "new_report",
+        "eligible": false,
+        "reason": "Onset is the campaign's August 2026 first malicious action. First reporting or a new reporting label does not establish a new onset, so it began before the interval."
+      },
+      {
+        "id": "worm_spread",
+        "eligible": false,
+        "reason": "Onset September 9, 2026 is one day before the inclusive interval start of September 10, 2026. Continued propagation to additional victims in the same campaign adds victims but no new onset."
+      },
+      {
+        "id": "development_only",
+        "eligible": true,
+        "reason": "Planning and code development in August do not constitute onset; the distinct campaign's onset is its first malicious action against a target on September 12, 2026, inside the interval."
+      },
+      {
+        "id": "post_deadline_harm",
+        "eligible": true,
+        "reason": "Onset December 30, 2030 falls within the interval, which ends inclusively on December 31, 2030. The horizon is an onset deadline only; January 2031 losses count because they fall in the incident's three-year harm window."
+      },
+      {
+        "id": "later_elicitation",
+        "eligible": false,
+        "reason": "Each elicitation starts a fresh counting interval, here January 10, 2027-December 31, 2030. The campaign's onset of September 12, 2026 precedes that start, and being ongoing does not create a new onset."
+      }
+    ]
+  },
+  "usage": {
+    "turns": 1,
+    "cost_usd": 0.04095,
+    "input_tokens": 2050,
+    "output_tokens": 1228
+  }
+}

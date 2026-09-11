@@ -1,0 +1,149 @@
+{
+  "mode": "avg_scatter",
+  "preliminary": false,
+  "nModels": 11,
+  "rho": 0.88,
+  "subsetLabel": "CivBench H2\u2013H4 / 5\u20139% band  +  Starsim pandemic (deaths thresholds)",
+  "scatter": [
+    {
+      "eci": 114,
+      "label": "GPT-3.5",
+      "bss": -10.347,
+      "color": "#9aa7b3",
+      "civbench": -2.595,
+      "starsim": -18.099,
+      "nSims": 2,
+      "sims": [
+        "civbench",
+        "starsim"
+      ]
+    },
+    {
+      "eci": 127,
+      "label": "Llama-3.3-70B",
+      "bss": -6.973,
+      "color": "#7d93c8",
+      "civbench": -5.525,
+      "starsim": -8.421,
+      "nSims": 2,
+      "sims": [
+        "civbench",
+        "starsim"
+      ]
+    },
+    {
+      "eci": 129,
+      "label": "GPT-4o",
+      "bss": -3.327,
+      "color": "#5f86d6",
+      "civbench": -3.61,
+      "starsim": -3.043,
+      "nSims": 2,
+      "sims": [
+        "civbench",
+        "starsim"
+      ]
+    },
+    {
+      "eci": 133,
+      "label": "DeepSeek-V3",
+      "bss": -11.151,
+      "color": "#4f9bc0",
+      "civbench": -5.325,
+      "starsim": -16.977,
+      "nSims": 2,
+      "sims": [
+        "civbench",
+        "starsim"
+      ]
+    },
+    {
+      "eci": 137,
+      "label": "GPT-4.1",
+      "bss": -5.006,
+      "color": "#4bb39b",
+      "civbench": -4.369,
+      "starsim": -5.644,
+      "nSims": 2,
+      "sims": [
+        "civbench",
+        "starsim"
+      ]
+    },
+    {
+      "eci": 143,
+      "label": "Haiku 4.5",
+      "bss": -2.789,
+      "color": "#8bb84e",
+      "civbench": -4.292,
+      "starsim": -1.285,
+      "nSims": 2,
+      "sims": [
+        "civbench",
+        "starsim"
+      ]
+    },
+    {
+      "eci": 147,
+      "label": "Sonnet 4.5",
+      "bss": -1.729,
+      "color": "#c9b03a",
+      "civbench": -2.477,
+      "starsim": -0.981,
+      "nSims": 2,
+      "sims": [
+        "civbench",
+        "starsim"
+      ]
+    },
+    {
+      "eci": 150,
+      "label": "GPT-5",
+      "bss": -2.139,
+      "color": "#e08b3e",
+      "civbench": -2.139,
+      "starsim": null,
+      "nSims": 1,
+      "sims": [
+        "civbench"
+      ]
+    },
+    {
+      "eci": 156,
+      "label": "Opus 4.6",
+      "bss": -1.265,
+      "color": "#dd6140",
+      "civbench": -1.355,
+      "starsim": -1.176,
+      "nSims": 2,
+      "sims": [
+        "civbench",
+        "starsim"
+      ]
+    },
+    {
+      "eci": 158,
+      "label": "Opus 4.8",
+      "bss": -1.913,
+      "color": "#cf3f4e",
+      "civbench": -1.913,
+      "starsim": null,
+      "nSims": 1,
+      "sims": [
+        "civbench"
+      ]
+    },
+    {
+      "eci": 161,
+      "label": "Fable 5",
+      "bss": -1.123,
+      "color": "#b52a55",
+      "civbench": -1.123,
+      "starsim": null,
+      "nSims": 1,
+      "sims": [
+        "civbench"
+      ]
+    }
+  ]
+}

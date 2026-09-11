@@ -1,0 +1,77 @@
+{
+  "date": "2026-09-10",
+  "instrument_version": "airo-incidents-prospective-v1",
+  "prior_raw_files_preserved": 24,
+  "updates": [
+    {
+      "path": "results/conditional_runs_combined.jsonl",
+      "mode": "append",
+      "before_sha256": "e96222bfbfaaff5cb810498a440800c6473faf963a6452c5be8a02f4ef75a230",
+      "after_sha256": "38131b503fda136efe5fe0f7fdb76165b1a034092fa17ba949bfa6b08b50ab52",
+      "added_rows": 1960
+    },
+    {
+      "path": "results/runs/2026-09-10T1844Z.jsonl",
+      "mode": "create",
+      "before_sha256": null,
+      "after_sha256": "d3d24929a97c0c301008003d84b53b90fc7c434d5e847cdfb32b7136d5c05191",
+      "added_rows": 140
+    },
+    {
+      "path": "results/conditional_runs_axes.jsonl",
+      "mode": "append",
+      "before_sha256": "74ac56c2cd8f6aa82bb627d09b819fb410101c6f0729afd0c677d928300d9312",
+      "after_sha256": "a39ca20cd3012f1ac0e0b23b9da93f06528028c76e4c51449cdae1e1c818eda6",
+      "added_rows": 2380
+    },
+    {
+      "path": "results/axes_runs/2026-09-10T1845Z.jsonl",
+      "mode": "create",
+      "before_sha256": null,
+      "after_sha256": "e397cbb459bd2c264523db931df05b2216310cea49c30a3f98f1e1e5a665f3bb",
+      "added_rows": 70
+    },
+    {
+      "path": "results/axes_runs/2026-09-10T1913Z.jsonl",
+      "mode": "create",
+      "before_sha256": null,
+      "after_sha256": "efb78baaad7c3808c45dcfc40ed4d6899c051430608a71d83d805bf214f9b3a8",
+      "added_rows": 35
+    },
+    {
+      "path": "results/axes_runs/2026-09-10T1920Z.jsonl",
+      "mode": "create",
+      "before_sha256": null,
+      "after_sha256": "da533e47ebee5d5c691c2702c4cd8957feb8ecafd902b4c463fc62d8e41e3f8c",
+      "added_rows": 35
+    },
+    {
+      "path": "results/conditional_runs_paperaxes.jsonl",
+      "mode": "append",
+      "before_sha256": "ce54e1be4bec1cdc32f0adcbc3dae01456c53284163acd5dd2c9cfa5c46a6225",
+      "after_sha256": "4850a45faac61c3b84eaa2f5e349c9159c6a74be89d44322b1ba33a6996eec39",
+      "added_rows": 2240
+    },
+    {
+      "path": "results/paperaxes_runs/2026-09-10T1845Z.jsonl",
+      "mode": "create",
+      "before_sha256": null,
+      "after_sha256": "c721fa29602dc1eff15be91af8586cd7b91818506a234ad4161266f84fcb213e",
+      "added_rows": 70
+    },
+    {
+      "path": "results/paperaxes_runs/2026-09-10T1930Z.jsonl",
+      "mode": "create",
+      "before_sha256": null,
+      "after_sha256": "940a4960494a9c38482ae9f0b1a3fdda041ee27c7730fef35d83a46c9382555b",
+      "added_rows": 35
+    },
+    {
+      "path": "results/paperaxes_runs/2026-09-10T1941Z.jsonl",
+      "mode": "create",
+      "before_sha256": null,
+      "after_sha256": "86f8b32e2e3eb625d2e7f72dc07723bfd1baefb3a64cc4237d538af816981d5d",
+      "added_rows": 35
+    }
+  ]
+}

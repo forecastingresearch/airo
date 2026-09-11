@@ -1,0 +1,950 @@
+{
+  "date": "2026-09-10",
+  "instrument_version": "airo-incidents-prospective-v1",
+  "models": [
+    "Fable 5.1",
+    "GPT-5.5 Pro",
+    "GPT-6 Astra",
+    "Opus 5"
+  ],
+  "instruments": {
+    "combined": {
+      "file_sha256": "38131b503fda136efe5fe0f7fdb76165b1a034092fa17ba949bfa6b08b50ab52",
+      "prompt_sha256": "a21e2972e3337acb9ca92ddebbdd46570fe5b64201dd67f8110e1ff40fc33dd0",
+      "rows": 1960,
+      "probabilities": 11760,
+      "expected_probabilities": 11760,
+      "calls": [
+        {
+          "call_id": "2026-09-10T1844Z:combined:joint#1:GPT-6 Astra",
+          "label": "GPT-6 Astra",
+          "rows": 490,
+          "evidence": 20,
+          "usage": {
+            "turns": 16,
+            "cost_usd": 4.109974,
+            "input_tokens": 1026056,
+            "output_tokens": 32675,
+            "cached_tokens": 899944,
+            "reasoning_tokens": 2741
+          },
+          "submission": {
+            "cells_calls": 9,
+            "cells_in_pieces": 210,
+            "cells_in_final": 0
+          }
+        },
+        {
+          "call_id": "2026-09-10T1844Z:combined:joint#1:Opus 5",
+          "label": "Opus 5",
+          "rows": 490,
+          "evidence": 26,
+          "usage": {
+            "turns": 23,
+            "cost_usd": 19.293685,
+            "input_tokens": 3289127,
+            "output_tokens": 113922
+          },
+          "submission": {
+            "cells_calls": 9,
+            "cells_in_pieces": 210,
+            "cells_in_final": 0
+          }
+        },
+        {
+          "call_id": "2026-09-10T1908Z:combined:joint#1:Fable 5.1",
+          "label": "Fable 5.1",
+          "rows": 490,
+          "evidence": 15,
+          "usage": {
+            "turns": 30,
+            "cost_usd": 32.43916,
+            "input_tokens": 2947251,
+            "output_tokens": 59333
+          },
+          "submission": {
+            "cells_calls": 15,
+            "cells_in_pieces": 210,
+            "cells_in_final": 0
+          }
+        },
+        {
+          "call_id": "2026-09-10T1844Z:combined:joint#1:GPT-5.5 Pro",
+          "label": "GPT-5.5 Pro",
+          "rows": 490,
+          "evidence": 36,
+          "usage": {
+            "turns": 8,
+            "cost_usd": 32.75439,
+            "input_tokens": 622595,
+            "output_tokens": 78203,
+            "reasoning_tokens": 48254
+          },
+          "submission": {
+            "cells_calls": 3,
+            "cells_in_pieces": 144,
+            "cells_in_final": 66
+          }
+        }
+      ]
+    },
+    "axes": {
+      "file_sha256": "a39ca20cd3012f1ac0e0b23b9da93f06528028c76e4c51449cdae1e1c818eda6",
+      "prompt_sha256": "f6ef861b6776fe861f26c443225e27857e8680d527d7eca5cc6b1b786ebfd142",
+      "rows": 2380,
+      "probabilities": 7140,
+      "expected_probabilities": 7140,
+      "calls": [
+        {
+          "call_id": "2026-09-10T1845Z:axes:joint#1:GPT-6 Astra",
+          "label": "GPT-6 Astra",
+          "rows": 595,
+          "evidence": 16,
+          "usage": {
+            "turns": 11,
+            "cost_usd": 2.555871,
+            "input_tokens": 475867,
+            "output_tokens": 19369,
+            "cached_tokens": 379203,
+            "reasoning_tokens": 1888
+          },
+          "submission": {
+            "cells_calls": 5,
+            "cells_in_pieces": 105,
+            "cells_in_final": 0
+          }
+        },
+        {
+          "call_id": "2026-09-10T1913Z:axes:joint#1:Opus 5",
+          "label": "Opus 5",
+          "rows": 595,
+          "evidence": 22,
+          "usage": {
+            "turns": 20,
+            "cost_usd": 12.46562,
+            "input_tokens": 2025979,
+            "output_tokens": 93429
+          },
+          "submission": {
+            "cells_calls": 6,
+            "cells_in_pieces": 105,
+            "cells_in_final": 0
+          }
+        },
+        {
+          "call_id": "2026-09-10T1845Z:axes:joint#1:GPT-5.5 Pro",
+          "label": "GPT-5.5 Pro",
+          "rows": 595,
+          "evidence": 40,
+          "usage": {
+            "turns": 9,
+            "cost_usd": 33.99201,
+            "input_tokens": 667035,
+            "output_tokens": 77672,
+            "reasoning_tokens": 58135
+          },
+          "submission": {
+            "cells_calls": 4,
+            "cells_in_pieces": 105,
+            "cells_in_final": 0
+          }
+        },
+        {
+          "call_id": "2026-09-10T1920Z:axes:joint#1:Fable 5.1",
+          "label": "Fable 5.1",
+          "rows": 595,
+          "evidence": 24,
+          "usage": {
+            "turns": 13,
+            "cost_usd": 15.6853,
+            "input_tokens": 980780,
+            "output_tokens": 117550
+          },
+          "submission": {
+            "cells_calls": 0,
+            "cells_in_pieces": 0,
+            "cells_in_final": 105
+          }
+        }
+      ]
+    },
+    "paperaxes": {
+      "file_sha256": "4850a45faac61c3b84eaa2f5e349c9159c6a74be89d44322b1ba33a6996eec39",
+      "prompt_sha256": "f2af84b63749603c0b7dfe80596ca2b5131b0d9348be8b4b9ee80bd9191b64b6",
+      "rows": 2240,
+      "probabilities": 6720,
+      "expected_probabilities": 6720,
+      "calls": [
+        {
+          "call_id": "2026-09-10T1845Z:paperaxes:joint#1:GPT-6 Astra",
+          "label": "GPT-6 Astra",
+          "rows": 560,
+          "evidence": 25,
+          "usage": {
+            "turns": 12,
+            "cost_usd": 2.975947,
+            "input_tokens": 650118,
+            "output_tokens": 21571,
+            "cached_tokens": 541651,
+            "reasoning_tokens": 2209
+          },
+          "submission": {
+            "cells_calls": 5,
+            "cells_in_pieces": 105,
+            "cells_in_final": 0
+          }
+        },
+        {
+          "call_id": "2026-09-10T1845Z:paperaxes:joint#1:GPT-5.5 Pro",
+          "label": "GPT-5.5 Pro",
+          "rows": 560,
+          "evidence": 40,
+          "usage": {
+            "turns": 9,
+            "cost_usd": 33.40077,
+            "input_tokens": 685427,
+            "output_tokens": 71322,
+            "reasoning_tokens": 51297
+          },
+          "submission": {
+            "cells_calls": 4,
+            "cells_in_pieces": 105,
+            "cells_in_final": 0
+          }
+        },
+        {
+          "call_id": "2026-09-10T1930Z:paperaxes:joint#1:Opus 5",
+          "label": "Opus 5",
+          "rows": 560,
+          "evidence": 22,
+          "usage": {
+            "turns": 18,
+            "cost_usd": 10.864135,
+            "input_tokens": 1736777,
+            "output_tokens": 87210
+          },
+          "submission": {
+            "cells_calls": 5,
+            "cells_in_pieces": 105,
+            "cells_in_final": 0
+          }
+        },
+        {
+          "call_id": "2026-09-10T1941Z:paperaxes:joint#1:Fable 5.1",
+          "label": "Fable 5.1",
+          "rows": 560,
+          "evidence": 28,
+          "usage": {
+            "turns": 24,
+            "cost_usd": 30.33862,
+            "input_tokens": 2524087,
+            "output_tokens": 101955
+          },
+          "submission": {
+            "cells_calls": 5,
+            "cells_in_pieces": 105,
+            "cells_in_final": 0
+          }
+        }
+      ]
+    }
+  },
+  "errors": [],
+  "coherence_warnings": [
+    {
+      "set": "combined",
+      "check": "subtype_within_ai",
+      "left": [
+        "GPT-5.5 Pro",
+        "ladder:misalign:1B",
+        "eci_p25",
+        "12mo"
+      ],
+      "right": [
+        "GPT-5.5 Pro",
+        "ladder:ai:1B",
+        "eci_p25",
+        "12mo"
+      ],
+      "values": [
+        4e-05,
+        3.8e-05
+      ],
+      "excess_pp": 0.00020000000000000012
+    },
+    {
+      "set": "combined",
+      "check": "subtype_within_ai",
+      "left": [
+        "GPT-5.5 Pro",
+        "ladder:misalign:1B",
+        "p1",
+        "12mo"
+      ],
+      "right": [
+        "GPT-5.5 Pro",
+        "ladder:ai:1B",
+        "p1",
+        "12mo"
+      ],
+      "values": [
+        6.5e-05,
+        6.3e-05
+      ],
+      "excess_pp": 0.00019999999999999944
+    },
+    {
+      "set": "combined",
+      "check": "subtype_within_ai",
+      "left": [
+        "GPT-5.5 Pro",
+        "ladder:misalign:1B",
+        "eci_p75",
+        "6mo"
+      ],
+      "right": [
+        "GPT-5.5 Pro",
+        "ladder:ai:1B",
+        "eci_p75",
+        "6mo"
+      ],
+      "values": [
+        2.7e-05,
+        2.5e-05
+      ],
+      "excess_pp": 0.00019999999999999977
+    },
+    {
+      "set": "combined",
+      "check": "subtype_within_ai",
+      "left": [
+        "GPT-5.5 Pro",
+        "ladder:misalign:100M",
+        "eci_p75",
+        "12mo"
+      ],
+      "right": [
+        "GPT-5.5 Pro",
+        "ladder:ai:100M",
+        "eci_p75",
+        "12mo"
+      ],
+      "values": [
+        0.00032,
+        0.0003
+      ],
+      "excess_pp": 0.0020000000000000052
+    },
+    {
+      "set": "combined",
+      "check": "subtype_within_ai",
+      "left": [
+        "GPT-5.5 Pro",
+        "ladder:misalign:1B",
+        "eci_p75",
+        "12mo"
+      ],
+      "right": [
+        "GPT-5.5 Pro",
+        "ladder:ai:1B",
+        "eci_p75",
+        "12mo"
+      ],
+      "values": [
+        0.00011,
+        8.5e-05
+      ],
+      "excess_pp": 0.0024999999999999996
+    },
+    {
+      "set": "combined",
+      "check": "subtype_within_ai",
+      "left": [
+        "GPT-5.5 Pro",
+        "ladder:misalign:1B",
+        "eci_p75",
+        "2028"
+      ],
+      "right": [
+        "GPT-5.5 Pro",
+        "ladder:ai:1B",
+        "eci_p75",
+        "2028"
+      ],
+      "values": [
+        0.00075,
+        0.0007
+      ],
+      "excess_pp": 0.005000000000000003
+    },
+    {
+      "set": "combined",
+      "check": "subtype_within_ai",
+      "left": [
+        "GPT-5.5 Pro",
+        "ladder:misalign:1B",
+        "eci_p75",
+        "2050"
+      ],
+      "right": [
+        "GPT-5.5 Pro",
+        "ladder:ai:1B",
+        "eci_p75",
+        "2050"
+      ],
+      "values": [
+        0.043,
+        0.04
+      ],
+      "excess_pp": 0.2999999999999996
+    },
+    {
+      "set": "combined",
+      "check": "subtype_within_ai",
+      "left": [
+        "GPT-5.5 Pro",
+        "ladder:misalign:100M",
+        "eci_p90",
+        "6mo"
+      ],
+      "right": [
+        "GPT-5.5 Pro",
+        "ladder:ai:100M",
+        "eci_p90",
+        "6mo"
+      ],
+      "values": [
+        0.00022,
+        0.00016
+      ],
+      "excess_pp": 0.005999999999999999
+    },
+    {
+      "set": "combined",
+      "check": "subtype_within_ai",
+      "left": [
+        "GPT-5.5 Pro",
+        "ladder:misalign:1B",
+        "eci_p90",
+        "6mo"
+      ],
+      "right": [
+        "GPT-5.5 Pro",
+        "ladder:ai:1B",
+        "eci_p90",
+        "6mo"
+      ],
+      "values": [
+        7.5e-05,
+        5e-05
+      ],
+      "excess_pp": 0.002499999999999999
+    },
+    {
+      "set": "combined",
+      "check": "subtype_within_ai",
+      "left": [
+        "GPT-5.5 Pro",
+        "ladder:misalign:100M",
+        "eci_p90",
+        "12mo"
+      ],
+      "right": [
+        "GPT-5.5 Pro",
+        "ladder:ai:100M",
+        "eci_p90",
+        "12mo"
+      ],
+      "values": [
+        0.0008,
+        0.0005
+      ],
+      "excess_pp": 0.030000000000000002
+    },
+    {
+      "set": "combined",
+      "check": "subtype_within_ai",
+      "left": [
+        "GPT-5.5 Pro",
+        "ladder:misalign:1B",
+        "eci_p90",
+        "12mo"
+      ],
+      "right": [
+        "GPT-5.5 Pro",
+        "ladder:ai:1B",
+        "eci_p90",
+        "12mo"
+      ],
+      "values": [
+        0.00032,
+        0.00017
+      ],
+      "excess_pp": 0.015000000000000001
+    },
+    {
+      "set": "combined",
+      "check": "subtype_within_ai",
+      "left": [
+        "GPT-5.5 Pro",
+        "ladder:misalign:100M",
+        "eci_p90",
+        "2028"
+      ],
+      "right": [
+        "GPT-5.5 Pro",
+        "ladder:ai:100M",
+        "eci_p90",
+        "2028"
+      ],
+      "values": [
+        0.006,
+        0.0045
+      ],
+      "excess_pp": 0.15000000000000005
+    },
+    {
+      "set": "combined",
+      "check": "subtype_within_ai",
+      "left": [
+        "GPT-5.5 Pro",
+        "ladder:misalign:1B",
+        "eci_p90",
+        "2028"
+      ],
+      "right": [
+        "GPT-5.5 Pro",
+        "ladder:ai:1B",
+        "eci_p90",
+        "2028"
+      ],
+      "values": [
+        0.0022,
+        0.0014
+      ],
+      "excess_pp": 0.08000000000000002
+    },
+    {
+      "set": "combined",
+      "check": "ai_within_general",
+      "left": [
+        "GPT-5.5 Pro",
+        "catastrophe:ai",
+        "eci_p90",
+        "2030"
+      ],
+      "right": [
+        "GPT-5.5 Pro",
+        "catastrophe:general",
+        "eci_p90",
+        "2030"
+      ],
+      "values": [
+        0.013,
+        0.0105
+      ],
+      "excess_pp": 0.2499999999999999
+    },
+    {
+      "set": "combined",
+      "check": "subtype_within_ai",
+      "left": [
+        "GPT-5.5 Pro",
+        "ladder:misalign:100M",
+        "eci_p90",
+        "2030"
+      ],
+      "right": [
+        "GPT-5.5 Pro",
+        "ladder:ai:100M",
+        "eci_p90",
+        "2030"
+      ],
+      "values": [
+        0.022,
+        0.017
+      ],
+      "excess_pp": 0.4999999999999998
+    },
+    {
+      "set": "combined",
+      "check": "subtype_within_ai",
+      "left": [
+        "GPT-5.5 Pro",
+        "ladder:misalign:1B",
+        "eci_p90",
+        "2030"
+      ],
+      "right": [
+        "GPT-5.5 Pro",
+        "ladder:ai:1B",
+        "eci_p90",
+        "2030"
+      ],
+      "values": [
+        0.009,
+        0.0065
+      ],
+      "excess_pp": 0.24999999999999997
+    },
+    {
+      "set": "combined",
+      "check": "subtype_within_ai",
+      "left": [
+        "GPT-5.5 Pro",
+        "ladder:misalign:1B",
+        "eci_p90",
+        "2050"
+      ],
+      "right": [
+        "GPT-5.5 Pro",
+        "ladder:ai:1B",
+        "eci_p90",
+        "2050"
+      ],
+      "values": [
+        0.085,
+        0.07
+      ],
+      "excess_pp": 1.5
+    },
+    {
+      "set": "combined",
+      "check": "subtype_within_ai",
+      "left": [
+        "GPT-5.5 Pro",
+        "ladder:misalign:1B",
+        "eci_p90",
+        "2100"
+      ],
+      "right": [
+        "GPT-5.5 Pro",
+        "ladder:ai:1B",
+        "eci_p90",
+        "2100"
+      ],
+      "values": [
+        0.22,
+        0.18
+      ],
+      "excess_pp": 4.000000000000001
+    },
+    {
+      "set": "axes",
+      "check": "ai_within_general",
+      "left": [
+        "Fable 5.1",
+        "catastrophe:ai",
+        "agi2030",
+        "2050"
+      ],
+      "right": [
+        "Fable 5.1",
+        "catastrophe:general",
+        "agi2030",
+        "2050"
+      ],
+      "values": [
+        0.135,
+        0.1206
+      ],
+      "excess_pp": 1.440000000000001
+    },
+    {
+      "set": "axes",
+      "check": "ai_within_general",
+      "left": [
+        "GPT-5.5 Pro",
+        "catastrophe:ai",
+        "eci196",
+        "2050"
+      ],
+      "right": [
+        "GPT-5.5 Pro",
+        "catastrophe:general",
+        "eci196",
+        "2050"
+      ],
+      "values": [
+        0.24,
+        0.22
+      ],
+      "excess_pp": 1.9999999999999991
+    },
+    {
+      "set": "axes",
+      "check": "subtype_within_ai",
+      "left": [
+        "GPT-5.5 Pro",
+        "ladder:misalign:100M",
+        "revenue75",
+        "2050"
+      ],
+      "right": [
+        "GPT-5.5 Pro",
+        "ladder:ai:100M",
+        "revenue75",
+        "2050"
+      ],
+      "values": [
+        0.02,
+        0.015
+      ],
+      "excess_pp": 0.5000000000000001
+    },
+    {
+      "set": "axes",
+      "check": "subtype_within_ai",
+      "left": [
+        "GPT-5.5 Pro",
+        "ladder:misalign:1B",
+        "revenue75",
+        "2050"
+      ],
+      "right": [
+        "GPT-5.5 Pro",
+        "ladder:ai:1B",
+        "revenue75",
+        "2050"
+      ],
+      "values": [
+        0.012,
+        0.008
+      ],
+      "excess_pp": 0.4
+    },
+    {
+      "set": "axes",
+      "check": "subtype_within_ai",
+      "left": [
+        "GPT-5.5 Pro",
+        "ladder:misalign:100M",
+        "revenue150",
+        "2050"
+      ],
+      "right": [
+        "GPT-5.5 Pro",
+        "ladder:ai:100M",
+        "revenue150",
+        "2050"
+      ],
+      "values": [
+        0.038,
+        0.03
+      ],
+      "excess_pp": 0.8
+    },
+    {
+      "set": "axes",
+      "check": "subtype_within_ai",
+      "left": [
+        "GPT-5.5 Pro",
+        "ladder:misalign:1B",
+        "revenue150",
+        "2050"
+      ],
+      "right": [
+        "GPT-5.5 Pro",
+        "ladder:ai:1B",
+        "revenue150",
+        "2050"
+      ],
+      "values": [
+        0.023,
+        0.018
+      ],
+      "excess_pp": 0.5000000000000001
+    },
+    {
+      "set": "axes",
+      "check": "subtype_within_ai",
+      "left": [
+        "GPT-5.5 Pro",
+        "ladder:misalign:100M",
+        "eci168",
+        "2050"
+      ],
+      "right": [
+        "GPT-5.5 Pro",
+        "ladder:ai:100M",
+        "eci168",
+        "2050"
+      ],
+      "values": [
+        0.035,
+        0.028
+      ],
+      "excess_pp": 0.7000000000000003
+    },
+    {
+      "set": "axes",
+      "check": "subtype_within_ai",
+      "left": [
+        "GPT-5.5 Pro",
+        "ladder:misalign:1B",
+        "eci168",
+        "2050"
+      ],
+      "right": [
+        "GPT-5.5 Pro",
+        "ladder:ai:1B",
+        "eci168",
+        "2050"
+      ],
+      "values": [
+        0.022,
+        0.016
+      ],
+      "excess_pp": 0.5999999999999999
+    },
+    {
+      "set": "axes",
+      "check": "subtype_within_ai",
+      "left": [
+        "GPT-5.5 Pro",
+        "ladder:misalign:100M",
+        "eci162",
+        "2050"
+      ],
+      "right": [
+        "GPT-5.5 Pro",
+        "ladder:ai:100M",
+        "eci162",
+        "2050"
+      ],
+      "values": [
+        0.014,
+        0.013
+      ],
+      "excess_pp": 0.10000000000000009
+    },
+    {
+      "set": "axes",
+      "check": "subtype_within_ai",
+      "left": [
+        "GPT-5.5 Pro",
+        "ladder:misalign:1B",
+        "eci162",
+        "2050"
+      ],
+      "right": [
+        "GPT-5.5 Pro",
+        "ladder:ai:1B",
+        "eci162",
+        "2050"
+      ],
+      "values": [
+        0.008,
+        0.007
+      ],
+      "excess_pp": 0.1
+    },
+    {
+      "set": "paperaxes",
+      "check": "subtype_within_ai",
+      "left": [
+        "GPT-5.5 Pro",
+        "ladder:cyber:100",
+        "metr8p6",
+        "2050"
+      ],
+      "right": [
+        "GPT-5.5 Pro",
+        "ladder:ai:100",
+        "metr8p6",
+        "2050"
+      ],
+      "values": [
+        0.999,
+        0.998
+      ],
+      "excess_pp": 0.10000000000000009
+    },
+    {
+      "set": "paperaxes",
+      "check": "subtype_within_ai",
+      "left": [
+        "GPT-5.5 Pro",
+        "ladder:cyber:1k",
+        "metr8p6",
+        "2100"
+      ],
+      "right": [
+        "GPT-5.5 Pro",
+        "ladder:ai:1k",
+        "metr8p6",
+        "2100"
+      ],
+      "values": [
+        0.999,
+        0.998
+      ],
+      "excess_pp": 0.10000000000000009
+    },
+    {
+      "set": "paperaxes",
+      "check": "subtype_within_ai",
+      "left": [
+        "GPT-5.5 Pro",
+        "ladder:cyber:1k",
+        "gdp2p5",
+        "2100"
+      ],
+      "right": [
+        "GPT-5.5 Pro",
+        "ladder:ai:1k",
+        "gdp2p5",
+        "2100"
+      ],
+      "values": [
+        0.996,
+        0.995
+      ],
+      "excess_pp": 0.10000000000000009
+    },
+    {
+      "set": "paperaxes",
+      "check": "subtype_within_ai",
+      "left": [
+        "GPT-5.5 Pro",
+        "ladder:cyber:1k",
+        "gdp4p3",
+        "2100"
+      ],
+      "right": [
+        "GPT-5.5 Pro",
+        "ladder:ai:1k",
+        "gdp4p3",
+        "2100"
+      ],
+      "values": [
+        0.997,
+        0.996
+      ],
+      "excess_pp": 0.10000000000000009
+    },
+    {
+      "set": "paperaxes",
+      "check": "subtype_within_ai",
+      "left": [
+        "GPT-5.5 Pro",
+        "ladder:cyber:1k",
+        "metr3p5",
+        "2100"
+      ],
+      "right": [
+        "GPT-5.5 Pro",
+        "ladder:ai:1k",
+        "metr3p5",
+        "2100"
+      ],
+      "values": [
+        0.994,
+        0.993
+      ],
+      "excess_pp": 0.10000000000000009
+    }
+  ],
+  "passed_integrity_checks": true,
+  "recorded_cost_usd": 230.875482
+}

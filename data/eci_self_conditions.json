@@ -1,0 +1,200 @@
+{
+ "title": "Self-elicited frontier-ECI conditions (end of 2030), as the runner prepends them",
+ "slug": "eciself",
+ "kind": "capability",
+ "protocol": "unified-joint-eciself-v2",
+ "source": {
+  "panel": null,
+  "wave": "Frontier ECI at end of 2030, the model's own p10/p25/p50/p75/p90 (live METR snapshot retrieved 2026-09-10)",
+  "status": "no human panel; the model's percentiles are compared to the live METR projection at the run's own target date (code/analyze_eci_self.py)",
+  "documents": [
+   "data/live_metr_eci_frontier.json"
+  ],
+  "outcome_horizons": [],
+  "policy_probability_horizons": []
+ },
+ "generated_by": "code/make_eci_self_conditions.py",
+ "elicit": {
+  "key": "eci_forecast",
+  "fields": [
+   "p10",
+   "p25",
+   "p50",
+   "p75",
+   "p90"
+  ],
+  "percentiles": {
+   "p10": 10,
+   "p25": 25,
+   "p50": 50,
+   "p75": 75,
+   "p90": 90
+  },
+  "target_date": "2030-12-31",
+  "target_months": null,
+  "text": "Forecast the frontier ECI on December 31, 2030, on the scale above. Give your 10th, 25th, 50th, 75th and 90th percentiles as eci_forecast (p10, p25, p50, p75, p90; numbers, with p10 <= p25 <= p50 <= p75 <= p90): your 50th percentile is the value you think the frontier is equally likely to end up above or below, your 25th and 75th bracket the middle half of your distribution, and your 10th and 90th bracket the middle four-fifths.",
+  "minimum": 0,
+  "maximum": 1000
+ },
+ "conditioning": {
+  "instruction": "For each condition below, assume that the frontier ECI on December 31, 2030 is approximately the value you gave for that percentile in eci_forecast (within about two points of it). Treat it as a fact you have learned about the world, not as an intervention: update your expectations about everything that would ordinarily accompany that level of capability -- investment, compute, algorithmic progress, deployment, and how governments and developers respond -- as you would upon learning it, and then forecast each question in that world. Do not hold other factors fixed where the stated level would change them.",
+  "unconditional_forecast": "forecast the world as you expect it to unfold, including whatever level of AI capability you expect to be reached by December 31, 2030.",
+  "definitions": "Definitions. ECI: the Epoch Capabilities Index, published by Epoch AI -- a single score summarising a model's results across dozens of benchmarks, fit with an item-response model so that scores stay comparable as benchmarks saturate and new ones are added. Higher is more capable; the scale has no ceiling. All scores here are on the scale as published by Epoch on 2026-09-10.\nFrontier ECI: the highest ECI score of any publicly released model from a US developer, as scored by Epoch.\n\nFrontier ECI history -- every release by a US developer that set a new high, best variant per model, from GPT-4 on (Epoch's index of 2026-09-10, 19 models scored):\n  2024-02-29   126.9  Claude 3 Opus\n  2024-04-09   127.2  GPT-4 Turbo (Apr 2024)\n  2024-05-13   129.0  GPT-4o (May 2024)\n  2024-06-20   130.0  Claude 3.5 Sonnet (Jun 2024)\n  2024-09-12   135.8  o1-mini (high)\n  2024-12-17   141.9  o1 (high)\n  2025-03-31   144.2  Gemini 2.5 Pro Preview (Mar 2025)\n  2025-04-16   146.9  o3 (high)\n  2025-06-10   147.5  o3-pro\n  2025-08-07   150.0  GPT-5 (low)\n  2025-10-07   150.3  GPT-5 Pro\n  2025-11-18   152.9  Gemini 3 Pro Preview\n  2025-12-11   155.3  GPT-5.2 Pro\n  2026-02-05   156.4  GPT-5.3 Codex (high)\n  2026-03-05   158.9  GPT-5.4 Pro (xhigh)\n  2026-04-23   159.2  GPT-5.5 (xhigh)\n  2026-04-23   162.0  GPT-5.5 Pro (xhigh)\n  2026-06-09   162.9  Claude Fable 5 (max)\n  2026-09-03   169.2  GPT-6 Astra (high)\nAs of 2026-09-10 no released model has scored above GPT-6 Astra (high), 169.2 (2026-09-03).",
+  "horizon": "every condition is a level of the frontier ECI on December 31, 2030."
+ },
+ "history": [
+  {
+   "date": "2024-02-29",
+   "score": 126.9,
+   "model": "Claude 3 Opus"
+  },
+  {
+   "date": "2024-04-09",
+   "score": 127.2,
+   "model": "GPT-4 Turbo (Apr 2024)"
+  },
+  {
+   "date": "2024-05-13",
+   "score": 129.0,
+   "model": "GPT-4o (May 2024)"
+  },
+  {
+   "date": "2024-06-20",
+   "score": 130.0,
+   "model": "Claude 3.5 Sonnet (Jun 2024)"
+  },
+  {
+   "date": "2024-09-12",
+   "score": 135.8,
+   "model": "o1-mini (high)"
+  },
+  {
+   "date": "2024-12-17",
+   "score": 141.9,
+   "model": "o1 (high)"
+  },
+  {
+   "date": "2025-03-31",
+   "score": 144.2,
+   "model": "Gemini 2.5 Pro Preview (Mar 2025)"
+  },
+  {
+   "date": "2025-04-16",
+   "score": 146.9,
+   "model": "o3 (high)"
+  },
+  {
+   "date": "2025-06-10",
+   "score": 147.5,
+   "model": "o3-pro"
+  },
+  {
+   "date": "2025-08-07",
+   "score": 150.0,
+   "model": "GPT-5 (low)"
+  },
+  {
+   "date": "2025-10-07",
+   "score": 150.3,
+   "model": "GPT-5 Pro"
+  },
+  {
+   "date": "2025-11-18",
+   "score": 152.9,
+   "model": "Gemini 3 Pro Preview"
+  },
+  {
+   "date": "2025-12-11",
+   "score": 155.3,
+   "model": "GPT-5.2 Pro"
+  },
+  {
+   "date": "2026-02-05",
+   "score": 156.4,
+   "model": "GPT-5.3 Codex (high)"
+  },
+  {
+   "date": "2026-03-05",
+   "score": 158.9,
+   "model": "GPT-5.4 Pro (xhigh)"
+  },
+  {
+   "date": "2026-04-23",
+   "score": 159.2,
+   "model": "GPT-5.5 (xhigh)"
+  },
+  {
+   "date": "2026-04-23",
+   "score": 162.0,
+   "model": "GPT-5.5 Pro (xhigh)"
+  },
+  {
+   "date": "2026-06-09",
+   "score": 162.9,
+   "model": "Claude Fable 5 (max)"
+  },
+  {
+   "date": "2026-09-03",
+   "score": 169.2,
+   "model": "GPT-6 Astra (high)"
+  }
+ ],
+ "trend": null,
+ "conditions": [
+  {
+   "id": "eci_p10",
+   "leap_id": null,
+   "label": "Frontier ECI at end of 2030 = your 10th percentile",
+   "policy": null,
+   "part": null,
+   "field": "p10",
+   "assume": "Assume that on December 31, 2030 the frontier ECI is approximately your 10th-percentile value from eci_forecast (within about two points of it).",
+   "description": ""
+  },
+  {
+   "id": "eci_p25",
+   "leap_id": null,
+   "label": "Frontier ECI at end of 2030 = your 25th percentile",
+   "policy": null,
+   "part": null,
+   "field": "p25",
+   "assume": "Assume that on December 31, 2030 the frontier ECI is approximately your 25th-percentile value from eci_forecast (within about two points of it).",
+   "description": ""
+  },
+  {
+   "id": "eci_p50",
+   "leap_id": null,
+   "label": "Frontier ECI at end of 2030 = your 50th percentile",
+   "policy": null,
+   "part": null,
+   "field": "p50",
+   "assume": "Assume that on December 31, 2030 the frontier ECI is approximately your 50th-percentile value from eci_forecast (within about two points of it).",
+   "description": ""
+  },
+  {
+   "id": "eci_p75",
+   "leap_id": null,
+   "label": "Frontier ECI at end of 2030 = your 75th percentile",
+   "policy": null,
+   "part": null,
+   "field": "p75",
+   "assume": "Assume that on December 31, 2030 the frontier ECI is approximately your 75th-percentile value from eci_forecast (within about two points of it).",
+   "description": ""
+  },
+  {
+   "id": "eci_p90",
+   "leap_id": null,
+   "label": "Frontier ECI at end of 2030 = your 90th percentile",
+   "policy": null,
+   "part": null,
+   "field": "p90",
+   "assume": "Assume that on December 31, 2030 the frontier ECI is approximately your 90th-percentile value from eci_forecast (within about two points of it).",
+   "description": ""
+  }
+ ],
+ "notes": {
+  "levels": "per call: the model's own eci_forecast values; the runner stamps condition.value with the number the condition refers to.",
+  "conditioning": "a fact learned about the world, not an exogenous intervention (same clause as data/eci_conditions.json, dated 2030).",
+  "comparison": "the model's five percentiles against `trend`; this instrument's unconditional against the policy instrument's and the fixed ECI set's from the same day."
+ }
+}

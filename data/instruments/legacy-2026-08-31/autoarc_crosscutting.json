@@ -1,0 +1,140 @@
+{
+  "title": "Auto-ARC cross-cutting questions — severity fixed, dates vary",
+  "provenance": {
+    "author": "Bridget Williams, FRI",
+    "received": "2026-08-18; revised 2026-08-31 (tracked changes in the shared doc, applied 2026-09-02 -- see the note atop the definitions file)",
+    "source_workbook": "data/auto-arc/questions-2026-08-31.xlsx",
+    "source_definitions": "data/auto-arc/definitions-2026-08-31.md",
+    "sheet": "Auto-ARC questions - long",
+    "generated_by": "code/make_autoarc_questions.py",
+    "status": "DRAFT — final expected at the 2026-09-07 call. The 2026-08-17 call agreed to forecast the draft now and discard those forecasts if the wording moves; the 2026-08-31 revision moved every dollar leg, so rows elicited before it are a different instrument (protocol tag)."
+  },
+  "notes": {
+    "no_ladder": "Severity does not vary here (Nick, 2026-08-18): a catastrophe IS 10% of population. These are three questions, not a ladder.",
+    "axis": "The two catastrophe questions are ANCHORS on the incident ladder's severity axis at ~820M deaths, not rungs of it — a population share floats where the rungs are absolute, and it has no damages leg.",
+    "human": "No human anchor is plotted. Bridget's comparison column names XPT 2022 and LEAP 2026 for the two catastrophe questions, and code/fetch_human_baselines.py holds their medians in data/human_baselines.json — unplotted, because the wordings differ: XPT counts deaths where she counts attributable excess mortality, and both prior panels time-limit the AI's involvement to a year before the event where she sets no limit. The September superforecaster round is being asked this wording and will need no reconciliation at all."
+  },
+  "world_pop": 8200000000.0,
+  "questions": [
+    {
+      "id": "catastrophe:general",
+      "name": "General catastrophe",
+      "short": "General catastrophe",
+      "category": "crosscutting",
+      "value_kind": "probability",
+      "severity": {
+        "kind": "population_share",
+        "share": 0.1,
+        "deaths_equiv": 820000000.0,
+        "label": "deaths reaching 10% of the population",
+        "short": "10% of population",
+        "source_text": "10% of population"
+      },
+      "horizons": [
+        "6mo",
+        "12mo",
+        "2028",
+        "2030",
+        "2050",
+        "2100"
+      ],
+      "text": "What is the probability that any global catastrophe (deaths reaching at least 10% of the population alive at the start of the measurement window) will occur within 6 months / within 12 months / by the end of 2028 / by the end of 2030 / by the end of 2050 / by the end of 2100?",
+      "criteria": "* Catastrophe threshold and the measurement window: A catastrophe at the 10% level means that deaths attributable to the catastrophe (excess mortality, i.e., deaths beyond the baseline that would have occurred anyway) reach at least 10% of the population alive at the start of the measurement window.  \n* The measurement window is any contiguous period of at most five years during which the attributable deaths accumulate to the threshold. The window must begin on or after December 31, 2025 and end on or before December 31 of the resolution year (2030, 2050, or 2100). A faster event; the five years is a ceiling on the span over which deaths are counted, not a required duration.  \n* For a threshold to resolve positively, the deaths must arise from a single catastrophe or a single causally-linked chain of events, not from summing unrelated causes.  \n* Data and disagreement: For fatality and population data, we will rely on broadly recognized sources (e.g., Our World in Data, the Economist, the United Nations). Where these disagree in ways that would change resolution, we will resolve by the majority opinion of a panel of experts in demographics and fields relevant to the specific catastrophe (e.g., epidemiology for a pandemic). If reasonable people disagree about whether the event occurred, the question resolves via the same expert panel.\n* [Scope of \"the resolution year\", added 2026-08-28 when these questions moved onto the incident ladder's horizon grid: read it as the resolution date of whichever horizon you are answering, which for a rolling horizon is that many months after today's date. The rule is otherwise unchanged -- the measurement window still begins on or after December 31, 2025, must end on or before that resolution date, and still spans at most five years.]",
+      "human": {},
+      "human_wanted": [
+        "2030",
+        "2050",
+        "2100"
+      ],
+      "human_comparisons": {
+        "2030": [
+          "XPT",
+          "LEAP"
+        ],
+        "2050": [
+          "XPT",
+          "LEAP"
+        ],
+        "2100": [
+          "XPT",
+          "LEAP"
+        ]
+      }
+    },
+    {
+      "id": "catastrophe:ai",
+      "name": "AI catastrophe",
+      "short": "AI catastrophe",
+      "category": "crosscutting",
+      "value_kind": "probability",
+      "severity": {
+        "kind": "population_share",
+        "share": 0.1,
+        "deaths_equiv": 820000000.0,
+        "label": "deaths reaching 10% of the population",
+        "short": "10% of population",
+        "source_text": "10% of population"
+      },
+      "horizons": [
+        "6mo",
+        "12mo",
+        "2028",
+        "2030",
+        "2050",
+        "2100"
+      ],
+      "text": "What is the probability that a global AI-related catastrophe (AI being the proximate cause, per the but-for standard, of attributable deaths reaching at least 10% of the population alive at the start of the measurement window) will occur within 6 months / within 12 months / by the end of 2028 / by the end of 2030 / by the end of 2050 / by the end of 2100?",
+      "criteria": "* Catastrophe threshold and the measurement window: A catastrophe at the 10% level means that deaths attributable to the catastrophe (excess mortality, i.e., deaths beyond the baseline that would have occurred anyway) reach at least 10% of the population alive at the start of the measurement window.  \n* The measurement window is any contiguous period of at most five years during which the attributable deaths accumulate to the threshold. The window must begin on or after December 31, 2025 and end on or before December 31 of the resolution year (2030, 2050, or 2100). A faster event; the five years is a ceiling on the span over which deaths are counted, not a required duration.  \n* For a threshold to resolve positively, the deaths must arise from a single catastrophe or a single causally-linked chain of events, not from summing unrelated causes.  \n* Data and disagreement: For fatality and population data, we will rely on broadly recognized sources (e.g., Our World in Data, the Economist, the United Nations). Where these disagree in ways that would change resolution, we will resolve by the majority opinion of a panel of experts in demographics and fields relevant to the specific catastrophe (e.g., epidemiology for a pandemic). If reasonable people disagree about whether the event occurred, the question resolves via the same expert panel.\n\n[Carried forward from \"General large-scale catastrophe\"]\n\n* The points above also apply to this question.  \n* Artificial intelligence: Defined as the development of machines capable of sophisticated (intelligent) information processing (Dafoe 2018, AI Governance: A Research Agenda, p. 5 fn. 2).  \n* AI as proximate cause (but-for standard): We consider AI a proximate cause of death under a but-for test: the event would not have occurred, or would have been counterfactually extremely unlikely to occur, but for the substantial involvement of AI.  \n  * Examples that count: an AI-powered system directly killing people at the relevant magnitude; AI autonomously triggering a nuclear launch (including deaths from subsequent nuclear winter); AI being substantially responsible for creating a superweapon that later causes deaths at the relevant magnitude; AI acting autonomously in armed conflict and causing deaths at the relevant magnitude.  \n  * Examples that do not count: AI assisting in targeting a weapon that humans could and would have launched anyway (the AI did not counterfactually enable the event).  \n* There is no fixed time limit between the AI's involvement and the deaths. Creation of a superweapon may precede its use by years and still satisfy the but-for standard; the test is counterfactual materiality, rather than timing.\n* [Scope of \"the resolution year\", added 2026-08-28 when these questions moved onto the incident ladder's horizon grid: read it as the resolution date of whichever horizon you are answering, which for a rolling horizon is that many months after today's date. The rule is otherwise unchanged -- the measurement window still begins on or after December 31, 2025, must end on or before that resolution date, and still spans at most five years.]",
+      "human": {},
+      "human_wanted": [
+        "2030",
+        "2050",
+        "2100"
+      ],
+      "human_comparisons": {
+        "2030": [
+          "XPT",
+          "LEAP"
+        ],
+        "2050": [
+          "XPT",
+          "LEAP"
+        ],
+        "2100": [
+          "XPT",
+          "LEAP"
+        ]
+      }
+    },
+    {
+      "id": "disempowerment",
+      "name": "Human disempowerment",
+      "short": "Human disempowerment",
+      "category": "crosscutting",
+      "value_kind": "probability",
+      "severity": {
+        "kind": "none",
+        "label": "not applicable",
+        "short": "—",
+        "source_text": "NA"
+      },
+      "horizons": [
+        "6mo",
+        "12mo",
+        "2028",
+        "2030",
+        "2050",
+        "2100"
+      ],
+      "text": "What is the probability that disempowerment of humanity will occur within 6 months / within 12 months / by the end of 2028 / by the end of 2030 / by the end of 2050 / by the end of 2100?",
+      "criteria": "* Disempowerment of humanity is defined as a state where AI systems are the primary determinant of human events globally.   \n* This could occur via an overt takeover, where an AI system takes control of global systems of power (such as national governments, international organizations, multinational corporations) and humans have no role in executing power. It could also occur if the majority of human events are determined by AI decision, even if humans are nominally in control but humans could not behave differently if they wanted to, for example because they do not understand the decisions well enough to make a decision, or they are coerced into certain actions due to threats or other means.",
+      "human": {},
+      "human_wanted": [
+        "2030",
+        "2050",
+        "2100"
+      ],
+      "human_comparisons": {}
+    }
+  ]
+}

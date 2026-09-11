@@ -1,0 +1,737 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Catastrophic Risk Forecasting Panel</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,400;6..72,500;6..72,600&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet" />
+<style>
+  :root {
+    --bg: oklch(0.985 0.004 95);
+    --panel: oklch(1 0 0);
+    --ink: oklch(0.27 0.02 260);
+    --ink-soft: oklch(0.48 0.02 260);
+    --ink-faint: oklch(0.62 0.015 260);
+    --line: oklch(0.92 0.006 260);
+    --line-soft: oklch(0.95 0.005 260);
+    --model: oklch(0.62 0.16 35);
+    --super: oklch(0.55 0.12 230);
+    --hybrid: oklch(0.52 0.15 300);
+    --warn-bg: oklch(0.96 0.05 85);
+    --warn-ink: oklch(0.45 0.09 70);
+    --warn-line: oklch(0.82 0.09 85);
+    --shadow: 0 1px 2px oklch(0.3 0.02 260 / 0.06), 0 6px 20px oklch(0.3 0.02 260 / 0.05);
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; }
+  body {
+    background: var(--bg);
+    color: var(--ink);
+    font-family: "IBM Plex Sans", system-ui, sans-serif;
+    font-size: 15px;
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+  }
+  #root { max-width: 1180px; margin: 0 auto; padding: 32px 28px 72px; }
+  h1, h2, h3 { font-family: "Newsreader", Georgia, serif; font-weight: 500; letter-spacing: -0.01em; margin: 0; }
+  .mono { font-family: "IBM Plex Mono", ui-monospace, monospace; }
+  button { font-family: inherit; }
+  .linkbtn { background: none; border: none; color: var(--super); cursor: pointer; font-size: inherit; padding: 0; text-decoration: underline; text-underline-offset: 2px; }
+</style>
+<link rel="stylesheet" href="https://unpkg.com/tippy.js@6.3.7/dist/tippy.css" />
+<link rel="stylesheet" href="https://unpkg.com/tippy.js@6.3.7/themes/light-border.css" />
+</head>
+<body>
+<div id="root"></div>
+
+<script
+  src="https://unpkg.com/react@18.3.1/umd/react.development.js"
+  integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L"
+  crossorigin="anonymous"
+></script>
+<script
+  src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js"
+  integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm"
+  crossorigin="anonymous"
+></script>
+<script
+  src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js"
+  integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y"
+  crossorigin="anonymous"
+></script>
+<script src="https://unpkg.com/@popperjs/core@2.11.8/dist/umd/popper.min.js"></script>
+<script src="https://unpkg.com/tippy.js@6.3.7/dist/tippy-bundle.umd.min.js"></script>
+
+<script type="text/babel">
+const { useState, useMemo } = React;
+
+/* ============================ mock data ============================ */
+function mulberry32(a) {
+  return function () {
+    a |= 0; a = (a + 0x6D2B79F5) | 0;
+    let t = Math.imul(a ^ (a >>> 15), 1 | a);
+    t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t;
+    return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+  };
+}
+const clamp = (v, lo, hi) => Math.min(hi, Math.max(lo, v));
+
+const MONTHS = ["Jun ’25","Jul ’25","Aug ’25","Sep ’25","Oct ’25","Nov ’25","Dec ’25","Jan ’26","Feb ’26","Mar ’26","Apr ’26","May ’26","Jun ’26"];
+const SURVEY_IDX = [0, 3, 6, 9, 12]; // superforecaster surveys are quarterly
+
+// start/end = headline (≥10M deaths) model forecast (%) at the 12-month horizon.
+const CATEGORIES = [
+  { key: "totcat", label: "Total catastrophic risk (AI + non-AI)", color: "oklch(0.30 0.02 260)", start: 4.4, end: 6.0, vol: 0.26, emphasis: true },
+  { key: "totai",  label: "Total AI-enabled risk",                color: "oklch(0.45 0.16 300)", start: 3.1, end: 4.6, vol: 0.22 },
+  { key: "cbrn",   label: "AI-enabled CBRN",                      color: "oklch(0.55 0.13 175)", start: 1.1, end: 1.9, vol: 0.14 },
+  { key: "cyber",  label: "AI-enabled cyber / infrastructure",   color: "oklch(0.66 0.15 60)",  start: 1.4, end: 2.7, vol: 0.20 },
+  { key: "control",label: "Loss of control / power-seeking",      color: "oklch(0.58 0.17 25)",  start: 0.6, end: 1.5, vol: 0.16 },
+  { key: "geo",    label: "AI-enabled geopolitical / nuclear",    color: "oklch(0.62 0.12 145)", start: 2.0, end: 2.4, vol: 0.18 },
+  { key: "nonai",  label: "Non-AI baseline (pandemic, nuclear, natural)", color: "oklch(0.60 0.015 260)", start: 1.8, end: 1.9, vol: 0.10, baseline: true },
+];
+
+const HORIZONS = {
+  "12mo": { label: "Within 12 months", scale: 1 },
+  "5yr":  { label: "Within 5 years",   scale: 3.6 },
+};
+
+const SEVERITY = [
+  { key: "1M",  label: "≥ 1 million deaths",   factor: 1.70 },
+  { key: "10M", label: "≥ 10 million deaths",  factor: 1.00, headline: true },
+  { key: "1B",  label: "≥ 1 billion deaths",   factor: 0.42 },
+  { key: "ext", label: "Human extinction",     factor: 0.18 },
+];
+
+const FC = {
+  model:  { key: "model",  label: "Models (monthly)",          color: "var(--model)" },
+  super:  { key: "super",  label: "Superforecasters (quarterly)", color: "var(--super)" },
+  hybrid: { key: "hybrid", label: "Hybrid — model after seeing humans (quarterly)", color: "var(--hybrid)" },
+};
+
+// returns { model:[13 monthly], super:[{i,v} quarterly], hybrid:[{i,v} quarterly] }
+function buildPanel(cat, horizonKey, sevFactor) {
+  const h = HORIZONS[horizonKey];
+  const f = sevFactor == null ? 1 : sevFactor;
+  const seed = (cat.key.length * 911) ^ Math.round(cat.start * 1000) ^ (horizonKey === "5yr" ? 7777 : 31) ^ Math.round(f * 100);
+  const rng = mulberry32(seed);
+  const n = MONTHS.length;
+  const trend = i => (cat.start + (cat.end - cat.start) * (i / (n - 1))) * h.scale * f;
+  const model = [];
+  for (let i = 0; i < n; i++) {
+    model.push(Math.max(0.02, trend(i) + (rng() - 0.5) * 2 * cat.vol * h.scale * f));
+  }
+  const sup = SURVEY_IDX.map(i => {
+    const v = trend(i) * 0.70 + (rng() - 0.5) * cat.vol * h.scale * f * 0.5;
+    return { i, v: Math.max(0.02, v) };
+  });
+  const hybrid = SURVEY_IDX.map((i, k) => {
+    // model's revised estimate after viewing the superforecaster panel: pulled partway toward humans
+    const v = model[i] * 0.6 + sup[k].v * 0.4 + (rng() - 0.5) * cat.vol * h.scale * f * 0.25;
+    return { i, v: Math.max(0.02, v) };
+  });
+  return { model, sup, hybrid };
+}
+
+/* ============================ chart helpers ============================ */
+function niceMax(v) {
+  const steps = [0.5,1,2,2.5,3,4,5,6,8,10,12,15,20,25,30,40,50,60,80];
+  for (const s of steps) if (s >= v) return s;
+  return Math.ceil(v / 10) * 10;
+}
+
+/* ============================ time-series chart ============================ */
+function TimeSeriesChart({ panel, active }) {
+  const W = 880, H = 380;
+  const pad = { l: 46, r: 70, t: 16, b: 40 };
+  const n = MONTHS.length;
+  const x = i => pad.l + (i / (n - 1)) * (W - pad.l - pad.r);
+
+  const lines = [];
+  if (active.model)  lines.push({ ...FC.model,  pts: panel.model.map((v, i) => ({ i, v })), kind: "line" });
+  if (active.super)  lines.push({ ...FC.super,  pts: panel.sup,    kind: "marker" });
+  if (active.hybrid) lines.push({ ...FC.hybrid, pts: panel.hybrid, kind: "marker" });
+
+  const allV = lines.flatMap(l => l.pts.map(p => p.v));
+  const bandTop = active.model ? Math.max(...panel.model) * 1.32 : 0;
+  const ymax = niceMax(Math.max(...allV, bandTop, 0.5) * 1.05);
+  const y = v => pad.t + (1 - v / ymax) * (H - pad.t - pad.b);
+  const yticks = Array.from({ length: 6 }, (_, i) => (ymax / 5) * i);
+  const [hv, setHv] = useState(null);
+
+  const linePath = pts => pts.map((p, k) => (k === 0 ? "M" : "L") + x(p.i).toFixed(1) + " " + y(p.v).toFixed(1)).join(" ");
+  let band = null;
+  if (active.model) {
+    const sp = 0.30;
+    const up = panel.model.map((v, i) => x(i) + "," + y(v * (1 + sp))).join(" ");
+    const dn = panel.model.map((v, i) => x(i) + "," + y(v * (1 - sp))).reverse().join(" ");
+    band = up + " " + dn;
+  }
+
+  return (
+    <div style={{ position: "relative" }}>
+      <svg viewBox={`0 0 ${W} ${H}`} style={{ width: "100%", height: "auto", display: "block" }} onMouseLeave={() => setHv(null)}>
+        {yticks.map((t, i) => (
+          <g key={i}>
+            <line x1={pad.l} x2={W - pad.r} y1={y(t)} y2={y(t)} stroke="var(--line-soft)" />
+            <text x={pad.l - 9} y={y(t) + 4} textAnchor="end" fontSize="11" fill="var(--ink-faint)" className="mono">{t.toFixed(t < 10 ? 1 : 0)}%</text>
+          </g>
+        ))}
+        {MONTHS.map((m, i) => {
+          const survey = SURVEY_IDX.includes(i);
+          return (
+            <g key={i}>
+              {survey && <line x1={x(i)} x2={x(i)} y1={pad.t} y2={H - pad.b} stroke="var(--super)" strokeWidth="1" opacity="0.10" />}
+              {(i % 2 === 0) && <text x={x(i)} y={H - 14} textAnchor="middle" fontSize="10.5" fill={survey ? "var(--ink-soft)" : "var(--ink-faint)"} fontWeight={survey ? 600 : 400}>{m}</text>}
+            </g>
+          );
+        })}
+        {band && <polygon points={band} fill="var(--model)" opacity="0.09" />}
+        {lines.map(l => (
+          <path key={l.key} d={linePath(l.pts)} fill="none" stroke={l.color}
+            strokeWidth={l.kind === "line" ? 2.6 : 1.6} strokeDasharray={l.kind === "marker" ? "5 4" : "none"}
+            strokeLinejoin="round" strokeLinecap="round" opacity={l.kind === "line" ? 1 : 0.85} />
+        ))}
+        {lines.filter(l => l.kind === "marker").map(l => (
+          <g key={l.key + "-m"}>{l.pts.map((p, k) => <circle key={k} cx={x(p.i)} cy={y(p.v)} r="4" fill="var(--panel)" stroke={l.color} strokeWidth="2" />)}</g>
+        ))}
+        {lines.map(l => {
+          const last = l.pts[l.pts.length - 1];
+          return <text key={l.key + "-lab"} x={x(last.i) + 8} y={y(last.v) + 4} fontSize="11" fill={l.color} className="mono" fontWeight="500">{last.v.toFixed(1)}%</text>;
+        })}
+        {hv != null && <line x1={x(hv)} x2={x(hv)} y1={pad.t} y2={H - pad.b} stroke="var(--ink-faint)" strokeDasharray="3 3" opacity="0.6" />}
+        {MONTHS.map((m, i) => (
+          <rect key={"hit" + i} x={x(i) - (W - pad.l - pad.r) / (2 * (n - 1))} y={pad.t}
+            width={(W - pad.l - pad.r) / (n - 1)} height={H - pad.t - pad.b} fill="transparent" onMouseEnter={() => setHv(i)} />
+        ))}
+      </svg>
+      {hv != null && (() => {
+        const rows = lines.map(l => ({ l, p: l.pts.find(p => p.i === hv) })).filter(r => r.p);
+        if (!rows.length) return null;
+        return (
+          <div style={{ position: "absolute", top: 6, left: `${(x(hv) / W) * 100}%`, transform: "translateX(8px)",
+            background: "var(--panel)", border: "1px solid var(--line)", borderRadius: 8, padding: "8px 10px",
+            boxShadow: "var(--shadow)", pointerEvents: "none", minWidth: 150 }}>
+            <div style={{ fontSize: 11, color: "var(--ink-faint)", marginBottom: 5 }}>{MONTHS[hv]}{SURVEY_IDX.includes(hv) ? " · survey" : ""}</div>
+            {rows.map(({ l, p }) => (
+              <div key={l.key} style={{ display: "flex", justifyContent: "space-between", gap: 14, fontSize: 12 }}>
+                <span style={{ display: "flex", alignItems: "center", gap: 6 }}><span style={{ width: 9, height: 9, borderRadius: 2, background: l.color }}></span>{l.label.split(" (")[0].split(" — ")[0]}</span>
+                <span className="mono" style={{ fontWeight: 500 }}>{p.v.toFixed(2)}%</span>
+              </div>
+            ))}
+          </div>
+        );
+      })()}
+    </div>
+  );
+}
+
+/* ============================ resolution / calibration ============================ */
+function deciles(samples) {
+  const s = [...samples].sort((a, b) => a.pred - b.pred);
+  const N = s.length, G = 10, pts = [];
+  const obar = s.reduce((a, x) => a + x.out, 0) / N;
+  let res = 0;
+  for (let g = 0; g < G; g++) {
+    const lo = Math.floor(g * N / G), hi = Math.floor((g + 1) * N / G);
+    const sl = s.slice(lo, hi);
+    const mp = sl.reduce((a, x) => a + x.pred, 0) / sl.length;
+    const mo = sl.reduce((a, x) => a + x.out, 0) / sl.length;
+    pts.push({ pred: mp, obs: mo, n: sl.length });
+    res += sl.length * (mo - obar) ** 2;
+  }
+  const brier = s.reduce((a, x) => a + (x.pred - x.out) ** 2, 0) / N;
+  return { pts, resolution: res / N, brier, base: obar, spread: pts[9].pred - pts[0].pred };
+}
+
+// intermediate events: model predictions compressed toward 0.5 (low resolution) + noisy; superforecasters sharp.
+function simIntermediate() {
+  const rng = mulberry32(20260622);
+  const model = [], sup = [];
+  for (let k = 0; k < 3000; k++) {
+    const q = 0.02 + 0.95 * rng();
+    const out = rng() < q ? 1 : 0;
+    model.push({ pred: clamp(0.5 + (q - 0.5) * 0.6 + (rng() - 0.5) * 0.34, 0.01, 0.99), out });
+    sup.push({ pred: clamp(q + (rng() - 0.5) * 0.12, 0.01, 0.99), out });
+  }
+  return { model: deciles(model), sup: deciles(sup) };
+}
+// rare events (1–9¢ contracts): models over-forecast the tail; superforecasters near truth.
+function simRare() {
+  const rng = mulberry32(424242);
+  const model = [], sup = [];
+  for (let k = 0; k < 4000; k++) {
+    const q = 0.004 + 0.095 * rng() * rng();
+    const out = rng() < q ? 1 : 0;
+    model.push({ pred: clamp(q * 1.9 + 0.006 + (rng() - 0.5) * 0.02, 0.001, 0.18), out });
+    sup.push({ pred: clamp(q * 1.05 + (rng() - 0.5) * 0.008, 0.001, 0.18), out });
+  }
+  const m = deciles(model), s = deciles(sup);
+  const base = (m.base + s.base) / 2;
+  const brierRef = base * (1 - base); // climatology / base-rate reference
+  m.bss = 1 - m.brier / brierRef; s.bss = 1 - s.brier / brierRef; m.ref = base; s.ref = base;
+  return { model: m, sup: s, brierRef, base };
+}
+const INTER = simIntermediate();
+const RARE = simRare();
+
+// Live low-probability results (injected by code/make_demo_data.py from the real eval).
+const G4 = (typeof window !== "undefined" && window.__GRAPH4__) || null;
+const G4_SERIES = G4
+  ? G4.models.map(m => ({ key: m.key, color: m.color, data: { pts: m.pts } }))
+  : [{ key: "model", color: "var(--model)", data: RARE.model }, { key: "super", color: "var(--super)", data: RARE.sup }];
+const G4_DOMAIN = G4 ? G4.domainMax : 0.1;
+const G4_BASE = G4 ? G4.base : RARE.base;
+const G4_SC = G4 ? G4.scatter : [];
+const G4_FRONTIER = G4 ? G4_SC[G4_SC.length - 1] : null;   // highest ECI
+const G4_BEST = G4 ? G4_SC.reduce((a, b) => (b.bss > a.bss ? b : a)) : null;
+const G4_WORST = G4 ? G4_SC.reduce((a, b) => (b.bss < a.bss ? b : a)) : null;
+const G4_GRAD = G4 ? "linear-gradient(90deg, " + G4.models.map(m => m.color).join(", ") + ")" : "";
+
+function CalibrationChart({ series, domainMax, fmt, baseRate }) {
+  const W = 430, H = 360;
+  const pad = { l: 52, r: 16, t: 14, b: 46 };
+  const x = v => pad.l + (v / domainMax) * (W - pad.l - pad.r);
+  const y = v => pad.t + (1 - v / domainMax) * (H - pad.t - pad.b);
+  const ticks = domainMax <= 0.12 ? [0, 0.02, 0.04, 0.06, 0.08, 0.1]
+    : Array.from({ length: 6 }, (_, i) => Math.round((i * domainMax / 5) * 1000) / 1000);
+  const line = pts => pts.map((p, i) => (i === 0 ? "M" : "L") + x(p.pred).toFixed(1) + " " + y(p.obs).toFixed(1)).join(" ");
+  return (
+    <svg viewBox={`0 0 ${W} ${H}`} style={{ width: "100%", height: "auto", display: "block" }}>
+      {ticks.map((t, i) => (
+        <g key={i}>
+          <line x1={x(t)} x2={x(t)} y1={pad.t} y2={H - pad.b} stroke="var(--line-soft)" />
+          <line x1={pad.l} x2={W - pad.r} y1={y(t)} y2={y(t)} stroke="var(--line-soft)" />
+          <text x={x(t)} y={H - pad.b + 17} textAnchor="middle" fontSize="10" fill="var(--ink-faint)" className="mono">{fmt(t)}</text>
+          <text x={pad.l - 8} y={y(t) + 3.5} textAnchor="end" fontSize="10" fill="var(--ink-faint)" className="mono">{fmt(t)}</text>
+        </g>
+      ))}
+      <line x1={x(0)} y1={y(0)} x2={x(domainMax)} y2={y(domainMax)} stroke="var(--ink-faint)" strokeDasharray="4 4" opacity="0.7" />
+      <text x={x(domainMax) - 4} y={y(domainMax) + 13} textAnchor="end" fontSize="9.5" fill="var(--ink-faint)">perfect calibration</text>
+      {baseRate ? <g>
+        <line x1={pad.l} x2={W - pad.r} y1={y(baseRate)} y2={y(baseRate)} stroke="var(--warn-ink)" strokeDasharray="3 3" opacity="0.8" />
+        <text x={W - pad.r} y={y(baseRate) - 4} textAnchor="end" fontSize="9.5" fill="var(--warn-ink)">base rate {fmt(baseRate)} — where rare events actually land</text>
+      </g> : null}
+      {series.map(s => <path key={s.key} d={line(s.data.pts)} fill="none" stroke={s.color} strokeWidth="2" strokeLinejoin="round" opacity="0.85" />)}
+      {series.map(s => s.data.pts.map((p, i) => <circle key={s.key + i} cx={x(p.pred)} cy={y(p.obs)} r="3.6" fill={s.color} />))}
+      <text x={(pad.l + W - pad.r) / 2} y={H - 4} textAnchor="middle" fontSize="10.5" fill="var(--ink-soft)">Forecast probability (decile means)</text>
+      <text x={-H / 2} y={13} transform="rotate(-90)" textAnchor="middle" fontSize="10.5" fill="var(--ink-soft)">Observed frequency</text>
+    </svg>
+  );
+}
+
+/* ============================ ECI scatter (tail skill vs capability) ============================ */
+function tipHTML(pt) {
+  const f = v => (v == null ? "n/a" : (v >= 0 ? "+" : "") + v.toFixed(2));
+  const civ = pt.bssCiv != null ? `CivBench ${f(pt.bssCiv)}` : "";
+  const star = pt.bssStar != null ? `Starsim ${f(pt.bssStar)}` : "";
+  const per = [civ, star].filter(Boolean).join(" &nbsp;·&nbsp; ");
+  return `<div style="font-family:'IBM Plex Sans',sans-serif;font-size:12px;line-height:1.5">`
+    + `<strong>${pt.label}</strong> &nbsp;<span style="color:#888">ECI ${pt.eci}</span><br>`
+    + `Tail skill (2-sim avg): <strong>${f(pt.bss)}</strong><br>`
+    + (per ? `<span style="color:#888">${per}</span><br>` : "")
+    + (pt.meanPred != null ? `<span style="color:#888">avg forecast ${(pt.meanPred*100).toFixed(0)}%</span>` : "")
+    + `</div>`;
+}
+
+function ECIScatter({ points }) {
+  const ref = React.useRef(null);
+  React.useEffect(() => {
+    if (!window.tippy || !ref.current) return;
+    const nodes = ref.current.querySelectorAll("[data-tippy-content]");
+    const inst = window.tippy(nodes, { allowHTML: true, theme: "light-border", arrow: true,
+      maxWidth: 240, offset: [0, 8], placement: "top" });
+    return () => inst.forEach(i => i.destroy());
+  }, []);
+  const W = 430, H = 360;
+  const pad = { l: 46, r: 30, t: 18, b: 42 };
+  const xs = points.map(p => p.eci), ys = points.map(p => p.bss);
+  const xmin = Math.min(...xs) - 3, xmax = Math.max(...xs) + 3;
+  const ymin = Math.min(...ys, 0) - 0.6, ymax = Math.max(...ys, 0) + 0.6;
+  const x = v => pad.l + (v - xmin) / (xmax - xmin) * (W - pad.l - pad.r);
+  const y = v => pad.t + (1 - (v - ymin) / (ymax - ymin)) * (H - pad.t - pad.b);
+  const xt0 = Math.ceil(xmin / 10) * 10;
+  const xticks = []; for (let v = xt0; v <= xmax; v += 10) xticks.push(v);
+  const ystep = (ymax - ymin) > 8 ? 2 : 1;
+  const yt0 = Math.ceil(ymin / ystep) * ystep, yticks = []; for (let v = yt0; v <= ymax; v += ystep) yticks.push(v);
+  return (
+    <svg ref={ref} viewBox={`0 0 ${W} ${H}`} style={{ width: "100%", height: "auto", display: "block" }}>
+      {xticks.map((v, i) => (
+        <g key={"x" + i}>
+          <line x1={x(v)} x2={x(v)} y1={pad.t} y2={H - pad.b} stroke="var(--line-soft)" />
+          <text x={x(v)} y={H - pad.b + 15} textAnchor="middle" fontSize="10" fill="var(--ink-faint)" className="mono">{v}</text>
+        </g>
+      ))}
+      {yticks.map((v, i) => (
+        <g key={"y" + i}>
+          <line x1={pad.l} x2={W - pad.r} y1={y(v)} y2={y(v)} stroke={v === 0 ? "var(--warn-line)" : "var(--line-soft)"} strokeWidth={v === 0 ? 1.4 : 1} />
+          <text x={pad.l - 6} y={y(v) + 3} textAnchor="end" fontSize="10" fill="var(--ink-faint)" className="mono">{v > 0 ? "+" + v : v}</text>
+        </g>
+      ))}
+      <text x={pad.l + 2} y={y(0) - 4} textAnchor="start" fontSize="9.5" fill="var(--warn-ink)">0 = base rate forecasting</text>
+      {points.map((pt, i) => {
+        const off = [-14, 17, -30, 33][i % 4];            // 4-level stagger so neighbors never share a level
+        const ly = y(pt.bss) + off;
+        return (
+          <g key={i}>
+            <line x1={x(pt.eci)} y1={y(pt.bss)} x2={x(pt.eci)} y2={ly + (off < 0 ? 4 : -9)} stroke="var(--line-soft)" strokeWidth="0.8" />
+            <circle cx={x(pt.eci)} cy={y(pt.bss)} r="5.5" fill={pt.color} stroke="#fff" strokeWidth="1.1"
+              style={{ cursor: "pointer" }} data-tippy-content={tipHTML(pt)} />
+            <text x={x(pt.eci)} y={ly} textAnchor="middle" fontSize="10" fill="var(--ink)">{pt.label}</text>
+          </g>
+        );
+      })}
+      <text x={(pad.l + W - pad.r) / 2} y={H - 4} textAnchor="middle" fontSize="10.5" fill="var(--ink-soft)">Epoch Capabilities Index (ECI) →</text>
+      <text x={-H / 2} y={13} transform="rotate(-90)" textAnchor="middle" fontSize="10.5" fill="var(--ink-soft)">Brier skill (2-sim avg)</text>
+    </svg>
+  );
+}
+
+
+/* ============================ severity ladder ============================ */
+function SeverityLadder({ latestByKey, selKey }) {
+  const max = Math.max(...SEVERITY.map(s => latestByKey[s.key]));
+  return (
+    <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
+      <div style={{ fontSize: 11.5, color: "var(--ink-faint)", fontWeight: 600 }}>LATEST MODEL FORECAST BY SEVERITY (Total AI-enabled)</div>
+      {SEVERITY.map(s => {
+        const v = latestByKey[s.key];
+        const sel = s.key === selKey;
+        return (
+          <div key={s.key} style={{ display: "flex", alignItems: "center", gap: 10 }}>
+            <div style={{ width: 142, fontSize: 12.5, color: sel ? "var(--ink)" : "var(--ink-soft)", fontWeight: sel ? 600 : 400 }}>{s.label}</div>
+            <div style={{ flex: 1, background: "var(--line-soft)", borderRadius: 5, height: 16, position: "relative" }}>
+              <div style={{ width: `${Math.max(2, (v / max) * 100)}%`, height: "100%", borderRadius: 5, background: sel ? "var(--model)" : "oklch(0.62 0.16 35 / 0.4)" }}></div>
+            </div>
+            <div className="mono" style={{ width: 48, textAlign: "right", fontSize: 12.5, fontWeight: 500, color: sel ? "var(--model)" : "var(--ink-soft)" }}>{v.toFixed(2)}%</div>
+          </div>
+        );
+      })}
+      <div style={{ fontSize: 11.5, color: "var(--ink-faint)" }}>Probabilities are weakly monotone — a more severe threshold can never be more likely.</div>
+    </div>
+  );
+}
+
+/* ============================ atoms ============================ */
+function Panel({ children, style }) {
+  return <div style={{ background: "var(--panel)", border: "1px solid var(--line)", borderRadius: 14, boxShadow: "var(--shadow)", ...style }}>{children}</div>;
+}
+function Eyebrow({ children }) {
+  return <div style={{ fontSize: 11, letterSpacing: "0.09em", textTransform: "uppercase", color: "var(--ink-faint)", fontWeight: 600 }}>{children}</div>;
+}
+function LegendDot({ color, label, hollow }) {
+  return (
+    <span style={{ display: "inline-flex", alignItems: "center", gap: 7, fontSize: 12.5, color: "var(--ink-soft)" }}>
+      <span style={{ width: 11, height: 11, borderRadius: 3, background: hollow ? "var(--panel)" : color, border: hollow ? `2px solid ${color}` : "none" }}></span>{label}
+    </span>
+  );
+}
+function Stat({ label, value, color }) {
+  return (
+    <div>
+      <div style={{ fontSize: 11, color: "var(--ink-faint)", marginBottom: 2 }}>{label}</div>
+      <div className="mono" style={{ fontSize: 18, fontWeight: 500, color }}>{value}</div>
+    </div>
+  );
+}
+function Toggle({ options, value, onChange }) {
+  return (
+    <div style={{ display: "flex", gap: 6, background: "var(--bg)", padding: 4, borderRadius: 10, border: "1px solid var(--line)", flexWrap: "wrap" }}>
+      {options.map(o => (
+        <button key={o.key} onClick={() => onChange(o.key)} style={{ border: "none", cursor: "pointer", padding: "6px 12px",
+          borderRadius: 7, fontSize: 13, fontWeight: 500, background: value === o.key ? "var(--ink)" : "transparent",
+          color: value === o.key ? "white" : "var(--ink-soft)" }}>{o.label}</button>
+      ))}
+    </div>
+  );
+}
+function ForecasterLegend({ active, setActive }) {
+  const items = [FC.model, FC.super, FC.hybrid];
+  return (
+    <div style={{ display: "flex", gap: 18, flexWrap: "wrap" }}>
+      {items.map(f => (
+        <button key={f.key} onClick={() => setActive(a => ({ ...a, [f.key]: !a[f.key] }))}
+          style={{ border: "none", background: "transparent", cursor: "pointer", padding: 0, opacity: active[f.key] ? 1 : 0.36 }}>
+          <LegendDot color={f.color} label={f.label} hollow={f.key !== "model"} />
+        </button>
+      ))}
+    </div>
+  );
+}
+
+/* ============================ details modal ============================ */
+const INTERMEDIATE_EVENTS = [
+  ["AI R&D acceleration", "Release dates of models hitting threshold scores on existing / new AI benchmarks; ‘speed-up’ task performance; reductions in $ or time to train a model that reaches a fixed benchmark."],
+  ["Biosecurity", "New biology / wet-lab troubleshooting benchmarks; controlled human-uplift studies; public model safety-tier changes driven by CBRN concerns; nucleic-acid screening policy changes."],
+  ["Cyber", "Autonomous cyber-range performance; AI-attributed cyber incidents; credible reports of AI agents finding consequential vulnerabilities in authorized settings."],
+  ["Loss of control / power-seeking", "Autonomous replication, resource acquisition, shutdown evasion, deception of evaluators, or propagation beyond intended environments."],
+  ["Geopolitical & baselines", "Taiwan conflict, nuclear escalation, WHO emergency declarations, major climate / natural-disaster indicators, and other non-AI baselines."],
+];
+function Modal({ onClose }) {
+  return (
+    <div onClick={onClose} style={{ position: "fixed", inset: 0, background: "oklch(0.2 0.02 260 / 0.45)", zIndex: 50,
+      display: "flex", alignItems: "flex-start", justifyContent: "center", padding: "48px 20px", overflowY: "auto" }}>
+      <div onClick={e => e.stopPropagation()} style={{ background: "var(--panel)", maxWidth: 760, width: "100%", borderRadius: 16,
+        padding: "28px 32px 36px", boxShadow: "var(--shadow)" }}>
+        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: 6 }}>
+          <h2 style={{ fontSize: 24 }}>Definitions &amp; methodology</h2>
+          <button onClick={onClose} style={{ border: "1px solid var(--line)", background: "var(--bg)", borderRadius: 8, cursor: "pointer", padding: "4px 11px", fontSize: 18, color: "var(--ink-soft)" }}>×</button>
+        </div>
+
+        <h3 style={{ fontSize: 17, marginTop: 18, marginBottom: 8 }}>What counts as “catastrophic”</h3>
+        <p style={{ fontSize: 13.5, color: "var(--ink-soft)", marginTop: 0 }}>
+          Headline threshold: <strong>≥ 10 million deaths</strong> (or ≥ $1 trillion in real economic damage). Fatalities are
+          measured as excess mortality attributable to the event over a fixed window. Severity can be varied along a ladder:
+        </p>
+        <ul style={{ fontSize: 13.5, color: "var(--ink-soft)", margin: "0 0 4px", paddingLeft: 20 }}>
+          {SEVERITY.map(s => <li key={s.key} style={{ marginBottom: 3 }}>{s.label}{s.headline ? "  —  headline" : ""}</li>)}
+        </ul>
+
+        <h3 style={{ fontSize: 17, marginTop: 22, marginBottom: 8 }}>Risk categories</h3>
+        <ul style={{ fontSize: 13.5, color: "var(--ink-soft)", margin: 0, paddingLeft: 20 }}>
+          <li><strong>AI-enabled CBRN</strong> — biological, chemical, radiological or nuclear harm materially enabled by AI.</li>
+          <li><strong>AI-enabled cyber / infrastructure</strong> — AI materially enables cyber operations or infrastructure failures.</li>
+          <li><strong>Loss of control / power-seeking</strong> — an AI system or agentic network acts outside intended control.</li>
+          <li><strong>AI-enabled geopolitical / nuclear</strong> — AI materially contributes to major-power conflict or escalation.</li>
+          <li><strong>Non-AI baseline</strong> — pandemic, nuclear exchange, asteroid / natural catastrophe, climate extremes.</li>
+        </ul>
+
+        <h3 style={{ fontSize: 17, marginTop: 22, marginBottom: 8 }}>Intermediate (validation) events</h3>
+        <p style={{ fontSize: 13.5, color: "var(--ink-soft)", marginTop: 0, marginBottom: 10 }}>
+          Shorter-horizon questions selected to (a) resolve within ~6 months and (b) appreciably move the catastrophic forecast.
+          They both validate subject-matter skill and feed the catastrophic estimates.
+        </p>
+        <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
+          {INTERMEDIATE_EVENTS.map(([fam, sig]) => (
+            <div key={fam} style={{ display: "grid", gridTemplateColumns: "180px 1fr", gap: 12, fontSize: 13, borderTop: "1px solid var(--line-soft)", paddingTop: 8 }}>
+              <div style={{ fontWeight: 600 }}>{fam}</div>
+              <div style={{ color: "var(--ink-soft)" }}>{sig}</div>
+            </div>
+          ))}
+        </div>
+
+        <h3 style={{ fontSize: 17, marginTop: 22, marginBottom: 8 }}>Forecaster cadence</h3>
+        <p style={{ fontSize: 13.5, color: "var(--ink-soft)", margin: 0 }}>
+          <strong style={{ color: "var(--model)" }}>Models</strong> are re-run monthly. <strong style={{ color: "var(--super)" }}>Superforecasters</strong> are
+          surveyed quarterly (markers on the chart). The <strong style={{ color: "var(--hybrid)" }}>hybrid</strong> forecast is each
+          model’s revised estimate after viewing the superforecaster panel, so it is only available on the same quarterly cadence.
+        </p>
+      </div>
+    </div>
+  );
+}
+
+/* ============================ app ============================ */
+function App() {
+  const [catKey, setCatKey] = useState("totcat");
+  const [horizonKey, setHorizonKey] = useState("12mo");
+  const [sevKey, setSevKey] = useState("10M");
+  const [active, setActive] = useState({ model: true, super: true, hybrid: true });
+  const [modal, setModal] = useState(false);
+
+  const category = CATEGORIES.find(c => c.key === catKey);
+  const panel = useMemo(() => buildPanel(category, horizonKey, 1), [catKey, horizonKey]);
+
+  const sev = SEVERITY.find(s => s.key === sevKey);
+  const totAi = CATEGORIES.find(c => c.key === "totai");
+  const sevPanel = useMemo(() => buildPanel(totAi, horizonKey, sev.factor), [sevKey, horizonKey]);
+  const latestByKey = useMemo(() => {
+    const o = {};
+    SEVERITY.forEach(s => { const p = buildPanel(totAi, horizonKey, s.factor); o[s.key] = p.model[p.model.length - 1]; });
+    return o;
+  }, [horizonKey]);
+
+  const lastModel = panel.model[panel.model.length - 1];
+  const lastSuper = panel.sup[panel.sup.length - 1].v;
+  const lastHybrid = panel.hybrid[panel.hybrid.length - 1].v;
+
+  return (
+    <React.Fragment>
+      {modal && <Modal onClose={() => setModal(false)} />}
+
+      <header style={{ marginBottom: 20 }}>
+        <Eyebrow>Forecasting Research · Prototype</Eyebrow>
+        <h1 style={{ fontSize: 33, marginTop: 8, marginBottom: 6 }}>Catastrophic Risk Forecasting Panel</h1>
+        <p style={{ color: "var(--ink-soft)", maxWidth: 760, margin: "0 0 10px" }}>
+          A live panel tracking the probability of catastrophic events at multiple horizons, eliciting the same forecasts
+          from a suite of frontier <strong>models</strong> and a panel of human <strong>superforecasters</strong>.
+        </p>
+        <div style={{ fontSize: 13.5, color: "var(--ink-soft)" }}>
+          <strong>Catastrophic</strong> = ≥ 10 million deaths (or ≥ $1T economic damage), headline threshold. {" "}
+          <button className="linkbtn" onClick={() => setModal(true)}>Definitions, severity ladder &amp; intermediate-event list →</button>
+        </div>
+      </header>
+
+      <div style={{ display: "flex", gap: 12, alignItems: "flex-start", background: "var(--warn-bg)", border: "1px solid var(--warn-line)",
+        color: "var(--warn-ink)", borderRadius: 12, padding: "12px 16px", marginBottom: 26, fontSize: 13.5 }}>
+        <span style={{ fontWeight: 600, whiteSpace: "nowrap" }}>⚠ Validation status</span>
+        <span style={{ color: "oklch(0.42 0.06 70)" }}>
+          Model forecasts are <strong>not yet validated</strong> against superforecasters on catastrophic-risk questions.
+          Calibration <em>and resolution</em> are being established on resolved intermediate and rare events (below). All figures
+          here are <strong>illustrative mock data</strong> — not real risk estimates.
+        </span>
+      </div>
+
+      {/* ---------- GRAPH 1 (mock, not hydrated) ---------- */}
+      <Panel style={{ padding: 24, marginBottom: 24, filter: "grayscale(1)", opacity: 0.48 }}>
+        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-end", flexWrap: "wrap", gap: 12 }}>
+          <div>
+            <Eyebrow>Graph 1 · Unresolved events · mock</Eyebrow>
+            <h2 style={{ fontSize: 22, marginTop: 6 }}>Catastrophic outcome forecasts over time</h2>
+          </div>
+          <Toggle options={Object.entries(HORIZONS).map(([k, h]) => ({ key: k, label: h.label }))} value={horizonKey} onChange={setHorizonKey} />
+        </div>
+
+        <div style={{ display: "grid", gridTemplateColumns: "240px 1fr", gap: 24, marginTop: 16, alignItems: "start" }}>
+          <div style={{ display: "flex", flexDirection: "column", gap: 4 }}>
+            <div style={{ fontSize: 11.5, color: "var(--ink-faint)", marginBottom: 4, fontWeight: 600 }}>RISK CATEGORY</div>
+            {CATEGORIES.map(c => (
+              <button key={c.key} onClick={() => setCatKey(c.key)} style={{ textAlign: "left",
+                border: "1px solid " + (catKey === c.key ? "var(--line)" : "transparent"),
+                background: catKey === c.key ? "var(--bg)" : "transparent", cursor: "pointer", padding: "8px 10px",
+                borderRadius: 9, fontSize: 13, color: "var(--ink)", display: "flex", alignItems: "center", gap: 9, lineHeight: 1.25,
+                borderTop: c.key === "cbrn" ? "1px solid var(--line-soft)" : undefined, marginTop: c.key === "cbrn" ? 4 : 0, paddingTop: c.key === "cbrn" ? 10 : 8 }}>
+                <span style={{ width: 10, height: 10, borderRadius: 3, background: c.color, flexShrink: 0,
+                  outline: c.baseline ? "1px dashed var(--ink-faint)" : "none", outlineOffset: 1 }}></span>
+                <span style={{ fontWeight: catKey === c.key ? 600 : (c.emphasis ? 600 : 400) }}>{c.label}</span>
+              </button>
+            ))}
+          </div>
+
+          <div>
+            <div style={{ marginBottom: 4 }}><ForecasterLegend active={active} setActive={setActive} /></div>
+            <TimeSeriesChart panel={panel} active={active} />
+            <div style={{ fontSize: 11.5, color: "var(--ink-faint)", marginTop: 2 }}>
+              Solid line = monthly model runs. Hollow markers = quarterly superforecaster surveys &amp; hybrid revisions.
+            </div>
+            <div style={{ display: "flex", gap: 22, marginTop: 12, paddingTop: 14, borderTop: "1px solid var(--line-soft)", flexWrap: "wrap" }}>
+              <Stat label="Latest — models" value={lastModel.toFixed(1) + "%"} color="var(--model)" />
+              <Stat label="Latest — superforecasters" value={lastSuper.toFixed(1) + "%"} color="var(--super)" />
+              <Stat label="Latest — hybrid" value={lastHybrid.toFixed(1) + "%"} color="var(--hybrid)" />
+            </div>
+          </div>
+        </div>
+      </Panel>
+
+      {/* ---------- GRAPH 2 : severity (mock, not hydrated) ---------- */}
+      <Panel style={{ padding: 24, marginBottom: 24, filter: "grayscale(1)", opacity: 0.48 }}>
+        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-end", flexWrap: "wrap", gap: 12 }}>
+          <div>
+            <Eyebrow>Graph 2 · Total AI-enabled risk by severity · mock</Eyebrow>
+            <h2 style={{ fontSize: 22, marginTop: 6 }}>How risk scales with severity</h2>
+          </div>
+          <Toggle options={SEVERITY.map(s => ({ key: s.key, label: s.label }))} value={sevKey} onChange={setSevKey} />
+        </div>
+        <div style={{ marginTop: 18 }}>
+          <div style={{ marginBottom: 4 }}><ForecasterLegend active={active} setActive={setActive} /></div>
+          <TimeSeriesChart panel={sevPanel} active={active} />
+          <div style={{ fontSize: 11.5, color: "var(--ink-faint)", marginTop: 2 }}>Total AI-enabled risk at threshold “{sev.label}”, {HORIZONS[horizonKey].label.toLowerCase()}.</div>
+          <div style={{ marginTop: 18, paddingTop: 18, borderTop: "1px solid var(--line-soft)", maxWidth: 660 }}>
+            <SeverityLadder latestByKey={latestByKey} selKey={sevKey} />
+          </div>
+        </div>
+      </Panel>
+
+      {/* ---------- GRAPHS 3 & 4 : calibration + resolution ---------- */}
+      <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 24, marginBottom: 24 }}>
+        <Panel style={{ padding: 24, filter: "grayscale(1)", opacity: 0.48 }}>
+          <Eyebrow>Graph 3 · Resolved events · mock</Eyebrow>
+          <h2 style={{ fontSize: 20, marginTop: 6, marginBottom: 4 }}>Calibration &amp; resolution — intermediate events</h2>
+          <p style={{ color: "var(--ink-soft)", fontSize: 13, marginTop: 0, marginBottom: 8 }}>
+            Each dot is a fixed <strong>decile of that forecaster’s own predictions</strong>. Vertical distance from the diagonal
+            is miscalibration; horizontal <strong>spread</strong> of the dots is resolution (sharpness).
+          </p>
+          <CalibrationChart domainMax={1.0} fmt={v => Math.round(v * 100) + "%"}
+            series={[{ key: "model", color: "var(--model)", data: INTER.model }, { key: "super", color: "var(--super)", data: INTER.sup }]} />
+          <div style={{ display: "flex", gap: 18, marginTop: 6 }}>
+            <LegendDot color="var(--model)" label="Models" /><LegendDot color="var(--super)" label="Superforecasters" />
+          </div>
+          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 14, marginTop: 14, paddingTop: 14, borderTop: "1px solid var(--line-soft)" }}>
+            <Stat label="Brier — models" value={INTER.model.brier.toFixed(3)} color="var(--model)" />
+            <Stat label="Brier — superf." value={INTER.sup.brier.toFixed(3)} color="var(--super)" />
+            <Stat label="Resolution — models" value={INTER.model.resolution.toFixed(3)} color="var(--model)" />
+            <Stat label="Resolution — superf." value={INTER.sup.resolution.toFixed(3)} color="var(--super)" />
+          </div>
+          <div style={{ fontSize: 12, color: "var(--ink-faint)", marginTop: 10 }}>
+            Models compress predictions toward the base rate (narrow spread → low resolution); superforecasters separate
+            outcomes more sharply. Higher resolution is better; a base-rate-only forecaster collapses to a single point.
+          </div>
+        </Panel>
+
+        <Panel style={{ padding: 24 }}>
+          <Eyebrow>Graph 4 · Resolved events{G4 && G4.preliminary ? " · preliminary" : ""}</Eyebrow>
+          <h2 style={{ fontSize: 20, marginTop: 6, marginBottom: 4 }}>Calibration &amp; skill — rare events</h2>
+          <p style={{ color: "var(--ink-soft)", fontSize: 13, marginTop: 0, marginBottom: 8 }}>
+            Low-probability events from StarSim and FreeCiv. Tests calibration and skill in the tail.
+          </p>
+          {G4 && G4_SC.length ? <ECIScatter points={G4_SC} /> : null}
+          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 14, marginTop: 14, paddingTop: 14, borderTop: "1px solid var(--line-soft)" }}>
+            <Stat label={G4_BEST ? `Best tail skill — ${G4_BEST.label}` : "Best tail skill"} value={G4_BEST ? (G4_BEST.bss >= 0 ? "+" : "") + G4_BEST.bss.toFixed(2) : "—"} color={G4_FRONTIER ? G4_FRONTIER.color : "var(--model)"} />
+            <Stat label="Capability ↔ skill (ρ)" value={(G4 && G4.rho != null) ? (G4.rho >= 0 ? "+" : "") + G4.rho.toFixed(2) : "—"} color="var(--model)" />
+          </div>
+          <div style={{ fontSize: 12, color: "var(--warn-ink)", marginTop: 10 }}>
+            Brier <strong>skill score</strong> is relative to the base-rate (climatology) forecast: 0 = no better than always
+            predicting the base rate; 1 = perfect.
+          </div>
+        </Panel>
+      </div>
+
+      {/* ---------- DATA BANK (mock, not hydrated) ---------- */}
+      <Panel style={{ padding: 24, filter: "grayscale(1)", opacity: 0.48 }}>
+        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "baseline", flexWrap: "wrap", gap: 8 }}>
+          <div><Eyebrow>Public data bank</Eyebrow><h2 style={{ fontSize: 20, marginTop: 6 }}>Forecasts &amp; resolutions</h2></div>
+          <span style={{ fontSize: 12.5, color: "var(--ink-faint)" }}>showing 6 of 1,043 questions · mock</span>
+        </div>
+        <div style={{ overflowX: "auto", marginTop: 14 }}>
+          <table style={{ width: "100%", borderCollapse: "collapse", fontSize: 13 }}>
+            <thead>
+              <tr style={{ textAlign: "left", color: "var(--ink-faint)", fontSize: 11.5, textTransform: "uppercase", letterSpacing: "0.05em" }}>
+                {["Question", "Category", "Horizon", "Models", "Superf.", "Hybrid", "Status", "Resolved"].map(h => (
+                  <th key={h} style={{ padding: "8px 12px 8px 0", fontWeight: 600, borderBottom: "1px solid var(--line)" }}>{h}</th>
+                ))}
+              </tr>
+            </thead>
+            <tbody>
+              {DATA_BANK.map((r, i) => (
+                <tr key={i} style={{ borderBottom: "1px solid var(--line-soft)" }}>
+                  <td style={{ padding: "10px 12px 10px 0", maxWidth: 320 }}>{r.q}</td>
+                  <td style={{ padding: "10px 12px 10px 0", color: "var(--ink-soft)", whiteSpace: "nowrap" }}>{r.cat}</td>
+                  <td style={{ padding: "10px 12px 10px 0", color: "var(--ink-soft)" }}>{r.hz}</td>
+                  <td style={{ padding: "10px 12px 10px 0" }} className="mono"><span style={{ color: "var(--model)" }}>{r.model}</span></td>
+                  <td style={{ padding: "10px 12px 10px 0" }} className="mono"><span style={{ color: "var(--super)" }}>{r.super}</span></td>
+                  <td style={{ padding: "10px 12px 10px 0" }} className="mono"><span style={{ color: "var(--hybrid)" }}>{r.hybrid}</span></td>
+                  <td style={{ padding: "10px 12px 10px 0" }}>
+                    <span style={{ fontSize: 11.5, padding: "2px 8px", borderRadius: 20, whiteSpace: "nowrap",
+                      background: r.res === "Open" ? "var(--line-soft)" : r.res === "Yes" ? "oklch(0.93 0.06 25)" : "oklch(0.93 0.04 150)",
+                      color: r.res === "Open" ? "var(--ink-soft)" : r.res === "Yes" ? "oklch(0.45 0.12 25)" : "oklch(0.42 0.08 150)" }}>{r.res === "Open" ? "Open" : r.res === "Yes" ? "Resolved Yes" : "Resolved No"}</span>
+                  </td>
+                  <td style={{ padding: "10px 12px 10px 0", color: "var(--ink-faint)", whiteSpace: "nowrap" }}>{r.date}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </Panel>
+
+      <footer style={{ marginTop: 26, fontSize: 12, color: "var(--ink-faint)", lineHeight: 1.6 }}>
+        Prototype for internal review · all figures are illustrative mock data · headline threshold = ≥10M deaths or ≥$1T economic damage · superforecaster surveys quarterly, model runs monthly.
+      </footer>
+    </React.Fragment>
+  );
+}
+
+const DATA_BANK = [
+  { q: "AI-enabled biological event causing ≥10M deaths", cat: "CBRN", hz: "5 yr", model: "2.4%", super: "1.5%", hybrid: "1.9%", res: "Open", date: "—" },
+  { q: "Frontier model exceeds 85% on CyberBench-Pro", cat: "Intermediate", hz: "6 mo", model: "61%", super: "54%", hybrid: "58%", res: "Yes", date: "Apr 2026" },
+  { q: "Autonomous self-replication demonstrated in eval", cat: "Loss of control", hz: "12 mo", model: "1.3%", super: "0.7%", hybrid: "1.0%", res: "Open", date: "—" },
+  { q: "WHO declares new PHEIC", cat: "Baseline", hz: "6 mo", model: "18%", super: "22%", hybrid: "20%", res: "No", date: "Mar 2026" },
+  { q: "Taiwan Strait military blockade begins", cat: "Geopolitical", hz: "12 mo", model: "4.1%", super: "3.0%", hybrid: "3.4%", res: "Open", date: "—" },
+  { q: "Kalshi: named storm makes US landfall in window", cat: "Rare (calib.)", hz: "1 mo", model: "3.0%", super: "1.8%", hybrid: "2.1%", res: "No", date: "Feb 2026" },
+];
+
+ReactDOM.createRoot(document.getElementById("root")).render(<App />);
+</script>
+</body>
+</html>

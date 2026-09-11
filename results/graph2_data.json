@@ -1,0 +1,3500 @@
+{
+  "horizons": [
+    "6mo",
+    "12mo",
+    "2028",
+    "2030",
+    "2050",
+    "2100"
+  ],
+  "instrumentInfo": {
+    "version": "airo-incidents-prospective-v1",
+    "available": true,
+    "runDate": "2026-09-10",
+    "countingWindows": {
+      "6mo": [
+        {
+          "start": "2026-09-10",
+          "end": "2027-03-10",
+          "timezone": "UTC",
+          "harm_years": 3
+        }
+      ],
+      "12mo": [
+        {
+          "start": "2026-09-10",
+          "end": "2027-09-10",
+          "timezone": "UTC",
+          "harm_years": 3
+        }
+      ],
+      "2028": [
+        {
+          "start": "2026-09-10",
+          "end": "2028-12-31",
+          "timezone": "UTC",
+          "harm_years": 3
+        }
+      ],
+      "2030": [
+        {
+          "start": "2026-09-10",
+          "end": "2030-12-31",
+          "timezone": "UTC",
+          "harm_years": 3
+        }
+      ],
+      "2050": [
+        {
+          "start": "2026-09-10",
+          "end": "2050-12-31",
+          "timezone": "UTC",
+          "harm_years": 3
+        }
+      ],
+      "2100": [
+        {
+          "start": "2026-09-10",
+          "end": "2100-12-31",
+          "timezone": "UTC",
+          "harm_years": 3
+        }
+      ]
+    },
+    "change": "Incident counting rules changed: only incidents beginning on or after the elicitation date qualify. The entire joint forecast series starts anew because the questions are elicited together. Earlier forecasts remain in the download under their original recorded version or as unversioned legacy rows. Current charts require all four panel models on the same elicitation date.",
+    "windowChange": "Incident onset starts advance with each elicitation date, including for fixed-year deadlines. Changes across runs therefore reflect changing intervals as well as revised beliefs.",
+    "archiveUrl": "redlines-data.zip"
+  },
+  "causeDefs": [
+    {
+      "key": "ai",
+      "label": "Any AI-related incident",
+      "color": "#3a4150",
+      "definition": "An incident is considered \u201cAI-related\u201d if it would not occur, or not reach the severity threshold, but for the substantial involvement of AI.",
+      "container": true
+    },
+    {
+      "key": "bio",
+      "label": "Biorisk",
+      "color": "#a63d76",
+      "definition": "This could include: pathogens released deliberately by malicious human actors who have used AI; pathogens deliberately created by humans using AI but released accidentally; or pathogens created and released entirely by AI without human involvement.",
+      "container": false
+    },
+    {
+      "key": "cyber",
+      "label": "Cyber",
+      "color": "#a1801a",
+      "definition": "A set of malicious cyber operations sharing a common perpetrator (an individual, group, or coordinated set of actors) and a common campaign or method, directed at a target or set of related targets within a bounded, contiguous period.",
+      "container": false
+    },
+    {
+      "key": "misalign",
+      "label": "Misalignment",
+      "color": "#33a8bd",
+      "definition": "An incident in which an AI system behaves in a way that neither its developer nor its operating user intended or endorsed.",
+      "container": false
+    }
+  ],
+  "audit": {
+    "byConstraint": {
+      "HORIZON": {
+        "bad": 0,
+        "n": 700,
+        "rate": 0.0,
+        "examples": []
+      },
+      "LADDER": {
+        "bad": 0,
+        "n": 672,
+        "rate": 0.0,
+        "examples": []
+      },
+      "CROSS": {
+        "bad": 0,
+        "n": 576,
+        "rate": 0.0,
+        "examples": []
+      },
+      "BRACKET": {
+        "bad": 0,
+        "n": 24,
+        "rate": 0.0,
+        "examples": []
+      },
+      "SUBSET": {
+        "bad": 0,
+        "n": 24,
+        "rate": 0.0,
+        "examples": []
+      }
+    },
+    "bad": 0,
+    "n": 1996,
+    "rate": 100.0,
+    "rows": [
+      {
+        "key": "HORIZON",
+        "title": "An event that has happened by 2030 has also happened by 2050.",
+        "constraints": [
+          "HORIZON"
+        ],
+        "bad": 0,
+        "n": 700,
+        "rate": 100.0,
+        "examples": []
+      },
+      {
+        "key": "LADDER",
+        "title": "The probability of reaching a higher severity threshold is never higher than the probability of reaching a lower one.",
+        "constraints": [
+          "LADDER"
+        ],
+        "bad": 0,
+        "n": 672,
+        "rate": 100.0,
+        "examples": []
+      },
+      {
+        "key": "SUBSET",
+        "title": "Some questions are special cases of another, and a special case can never be likelier than the general one.",
+        "constraints": [
+          "SUBSET",
+          "CROSS",
+          "BRACKET"
+        ],
+        "bad": 0,
+        "n": 624,
+        "rate": 100.0,
+        "examples": []
+      }
+    ]
+  },
+  "horizonLabels": {
+    "6mo": "within 6 months (by 2027-03-10)",
+    "12mo": "within 12 months (by 2027-09-10)",
+    "2028": "by 2028",
+    "2030": "by 2030",
+    "2050": "by 2050",
+    "2100": "by 2100"
+  },
+  "models": [
+    {
+      "label": "GPT-6 Astra",
+      "color": "#0e7c7b"
+    },
+    {
+      "label": "Fable 5.1",
+      "color": "#8e2a63"
+    },
+    {
+      "label": "Opus 5",
+      "color": "#7a4fa3"
+    },
+    {
+      "label": "GPT-5.5 Pro",
+      "color": "#c25a2e"
+    }
+  ],
+  "rungs": [
+    {
+      "rung": "100",
+      "deaths": 100.0,
+      "damages": 220000000.0,
+      "label": "100 deaths or $220M"
+    },
+    {
+      "rung": "1k",
+      "deaths": 1000.0,
+      "damages": 2200000000.0,
+      "label": "1k deaths or $2.2B"
+    },
+    {
+      "rung": "10k",
+      "deaths": 10000.0,
+      "damages": 22000000000.0,
+      "label": "10k deaths or $22B"
+    },
+    {
+      "rung": "100k",
+      "deaths": 100000.0,
+      "damages": 220000000000.0,
+      "label": "100k deaths or $220B"
+    },
+    {
+      "rung": "1M",
+      "deaths": 1000000.0,
+      "damages": 2200000000000.0,
+      "label": "1M deaths or $2.2T"
+    },
+    {
+      "rung": "10M",
+      "deaths": 10000000.0,
+      "damages": 22000000000000.0,
+      "label": "10M deaths or $22T"
+    },
+    {
+      "rung": "100M",
+      "deaths": 100000000.0,
+      "damages": 220000000000000.0,
+      "label": "100M deaths or $220T"
+    },
+    {
+      "rung": "1B",
+      "deaths": 1000000000.0,
+      "damages": 2200000000000000.2,
+      "label": "1B deaths or $2.2Q"
+    }
+  ],
+  "byHorizon": {
+    "6mo": {
+      "causes": [
+        {
+          "key": "ai",
+          "label": "Any AI-related incident",
+          "color": "#3a4150",
+          "container": true,
+          "rungs": [
+            {
+              "rung": "100",
+              "deaths": 100.0,
+              "damages": 220000000.0,
+              "label": "100 deaths or $220M",
+              "qid": "ladder:ai:100",
+              "per_model": {
+                "GPT-6 Astra": 90.0,
+                "Fable 5.1": 95.0,
+                "Opus 5": 92.0,
+                "GPT-5.5 Pro": 75.0
+              },
+              "median": 91.0,
+              "ci": null
+            },
+            {
+              "rung": "1k",
+              "deaths": 1000.0,
+              "damages": 2200000000.0,
+              "label": "1k deaths or $2.2B",
+              "qid": "ladder:ai:1k",
+              "per_model": {
+                "GPT-6 Astra": 48.0,
+                "Fable 5.1": 65.0,
+                "Opus 5": 73.0,
+                "GPT-5.5 Pro": 42.0
+              },
+              "median": 56.5,
+              "ci": null
+            },
+            {
+              "rung": "10k",
+              "deaths": 10000.0,
+              "damages": 22000000000.0,
+              "label": "10k deaths or $22B",
+              "qid": "ladder:ai:10k",
+              "per_model": {
+                "GPT-6 Astra": 7.2,
+                "Fable 5.1": 11.0,
+                "Opus 5": 25.0,
+                "GPT-5.5 Pro": 9.0
+              },
+              "median": 10.0,
+              "ci": null
+            },
+            {
+              "rung": "100k",
+              "deaths": 100000.0,
+              "damages": 220000000000.0,
+              "label": "100k deaths or $220B",
+              "qid": "ladder:ai:100k",
+              "per_model": {
+                "GPT-6 Astra": 0.8,
+                "Fable 5.1": 2.0,
+                "Opus 5": 4.0,
+                "GPT-5.5 Pro": 1.2
+              },
+              "median": 1.6,
+              "ci": null
+            },
+            {
+              "rung": "1M",
+              "deaths": 1000000.0,
+              "damages": 2200000000000.0,
+              "label": "1M deaths or $2.2T",
+              "qid": "ladder:ai:1M",
+              "per_model": {
+                "GPT-6 Astra": 0.15,
+                "Fable 5.1": 0.6,
+                "Opus 5": 0.35,
+                "GPT-5.5 Pro": 0.2
+              },
+              "median": 0.275,
+              "ci": null
+            },
+            {
+              "rung": "10M",
+              "deaths": 10000000.0,
+              "damages": 22000000000000.0,
+              "label": "10M deaths or $22T",
+              "qid": "ladder:ai:10M",
+              "per_model": {
+                "GPT-6 Astra": 0.04,
+                "Fable 5.1": 0.18,
+                "Opus 5": 0.07,
+                "GPT-5.5 Pro": 0.05
+              },
+              "median": 0.06,
+              "ci": null
+            },
+            {
+              "rung": "100M",
+              "deaths": 100000000.0,
+              "damages": 220000000000000.0,
+              "label": "100M deaths or $220T",
+              "qid": "ladder:ai:100M",
+              "per_model": {
+                "GPT-6 Astra": 0.009,
+                "Fable 5.1": 0.07,
+                "Opus 5": 0.018,
+                "GPT-5.5 Pro": 0.012
+              },
+              "median": 0.015,
+              "ci": null
+            },
+            {
+              "rung": "1B",
+              "deaths": 1000000000.0,
+              "damages": 2200000000000000.2,
+              "label": "1B deaths or $2.2Q",
+              "qid": "ladder:ai:1B",
+              "per_model": {
+                "GPT-6 Astra": 0.0024,
+                "Fable 5.1": 0.03,
+                "Opus 5": 0.005,
+                "GPT-5.5 Pro": 0.003
+              },
+              "median": 0.004,
+              "ci": null
+            }
+          ]
+        },
+        {
+          "key": "bio",
+          "label": "Biorisk",
+          "color": "#a63d76",
+          "container": false,
+          "rungs": [
+            {
+              "rung": "100",
+              "deaths": 100.0,
+              "damages": 220000000.0,
+              "label": "100 deaths or $220M",
+              "qid": "ladder:bio:100",
+              "per_model": {
+                "GPT-6 Astra": 0.46,
+                "Fable 5.1": 1.2,
+                "Opus 5": 0.5,
+                "GPT-5.5 Pro": 0.25
+              },
+              "median": 0.48,
+              "ci": null
+            },
+            {
+              "rung": "1k",
+              "deaths": 1000.0,
+              "damages": 2200000000.0,
+              "label": "1k deaths or $2.2B",
+              "qid": "ladder:bio:1k",
+              "per_model": {
+                "GPT-6 Astra": 0.2875,
+                "Fable 5.1": 0.5,
+                "Opus 5": 0.35,
+                "GPT-5.5 Pro": 0.12
+              },
+              "median": 0.3187,
+              "ci": null
+            },
+            {
+              "rung": "10k",
+              "deaths": 10000.0,
+              "damages": 22000000000.0,
+              "label": "10k deaths or $22B",
+              "qid": "ladder:bio:10k",
+              "per_model": {
+                "GPT-6 Astra": 0.1725,
+                "Fable 5.1": 0.2,
+                "Opus 5": 0.22,
+                "GPT-5.5 Pro": 0.05
+              },
+              "median": 0.1862,
+              "ci": null
+            },
+            {
+              "rung": "100k",
+              "deaths": 100000.0,
+              "damages": 220000000000.0,
+              "label": "100k deaths or $220B",
+              "qid": "ladder:bio:100k",
+              "per_model": {
+                "GPT-6 Astra": 0.092,
+                "Fable 5.1": 0.08,
+                "Opus 5": 0.14,
+                "GPT-5.5 Pro": 0.018
+              },
+              "median": 0.086,
+              "ci": null
+            },
+            {
+              "rung": "1M",
+              "deaths": 1000000.0,
+              "damages": 2200000000000.0,
+              "label": "1M deaths or $2.2T",
+              "qid": "ladder:bio:1M",
+              "per_model": {
+                "GPT-6 Astra": 0.046,
+                "Fable 5.1": 0.04,
+                "Opus 5": 0.07,
+                "GPT-5.5 Pro": 0.007
+              },
+              "median": 0.043,
+              "ci": null
+            },
+            {
+              "rung": "10M",
+              "deaths": 10000000.0,
+              "damages": 22000000000000.0,
+              "label": "10M deaths or $22T",
+              "qid": "ladder:bio:10M",
+              "per_model": {
+                "GPT-6 Astra": 0.0172,
+                "Fable 5.1": 0.02,
+                "Opus 5": 0.028,
+                "GPT-5.5 Pro": 0.003
+              },
+              "median": 0.0186,
+              "ci": null
+            },
+            {
+              "rung": "100M",
+              "deaths": 100000000.0,
+              "damages": 220000000000000.0,
+              "label": "100M deaths or $220T",
+              "qid": "ladder:bio:100M",
+              "per_model": {
+                "GPT-6 Astra": 0.0046,
+                "Fable 5.1": 0.01,
+                "Opus 5": 0.01,
+                "GPT-5.5 Pro": 0.0008
+              },
+              "median": 0.0073,
+              "ci": null
+            },
+            {
+              "rung": "1B",
+              "deaths": 1000000000.0,
+              "damages": 2200000000000000.2,
+              "label": "1B deaths or $2.2Q",
+              "qid": "ladder:bio:1B",
+              "per_model": {
+                "GPT-6 Astra": 0.0009,
+                "Fable 5.1": 0.003,
+                "Opus 5": 0.003,
+                "GPT-5.5 Pro": 0.0002
+              },
+              "median": 0.0019,
+              "ci": null
+            }
+          ]
+        },
+        {
+          "key": "cyber",
+          "label": "Cyber",
+          "color": "#a1801a",
+          "container": false,
+          "rungs": [
+            {
+              "rung": "100",
+              "deaths": 100.0,
+              "damages": 220000000.0,
+              "label": "100 deaths or $220M",
+              "qid": "ladder:cyber:100",
+              "per_model": {
+                "GPT-6 Astra": 86.0,
+                "Fable 5.1": 93.0,
+                "Opus 5": 88.0,
+                "GPT-5.5 Pro": 70.0
+              },
+              "median": 87.0,
+              "ci": null
+            },
+            {
+              "rung": "1k",
+              "deaths": 1000.0,
+              "damages": 2200000000.0,
+              "label": "1k deaths or $2.2B",
+              "qid": "ladder:cyber:1k",
+              "per_model": {
+                "GPT-6 Astra": 42.0,
+                "Fable 5.1": 60.0,
+                "Opus 5": 70.0,
+                "GPT-5.5 Pro": 38.0
+              },
+              "median": 51.0,
+              "ci": null
+            },
+            {
+              "rung": "10k",
+              "deaths": 10000.0,
+              "damages": 22000000000.0,
+              "label": "10k deaths or $22B",
+              "qid": "ladder:cyber:10k",
+              "per_model": {
+                "GPT-6 Astra": 5.175,
+                "Fable 5.1": 8.0,
+                "Opus 5": 22.0,
+                "GPT-5.5 Pro": 6.5
+              },
+              "median": 7.25,
+              "ci": null
+            },
+            {
+              "rung": "100k",
+              "deaths": 100000.0,
+              "damages": 220000000000.0,
+              "label": "100k deaths or $220B",
+              "qid": "ladder:cyber:100k",
+              "per_model": {
+                "GPT-6 Astra": 0.345,
+                "Fable 5.1": 1.2,
+                "Opus 5": 3.2,
+                "GPT-5.5 Pro": 0.6
+              },
+              "median": 0.9,
+              "ci": null
+            },
+            {
+              "rung": "1M",
+              "deaths": 1000000.0,
+              "damages": 2200000000000.0,
+              "label": "1M deaths or $2.2T",
+              "qid": "ladder:cyber:1M",
+              "per_model": {
+                "GPT-6 Astra": 0.0345,
+                "Fable 5.1": 0.3,
+                "Opus 5": 0.22,
+                "GPT-5.5 Pro": 0.06
+              },
+              "median": 0.14,
+              "ci": null
+            },
+            {
+              "rung": "10M",
+              "deaths": 10000000.0,
+              "damages": 22000000000000.0,
+              "label": "10M deaths or $22T",
+              "qid": "ladder:cyber:10M",
+              "per_model": {
+                "GPT-6 Astra": 0.0046,
+                "Fable 5.1": 0.07,
+                "Opus 5": 0.035,
+                "GPT-5.5 Pro": 0.012
+              },
+              "median": 0.0235,
+              "ci": null
+            },
+            {
+              "rung": "100M",
+              "deaths": 100000000.0,
+              "damages": 220000000000000.0,
+              "label": "100M deaths or $220T",
+              "qid": "ladder:cyber:100M",
+              "per_model": {
+                "GPT-6 Astra": 0.0003,
+                "Fable 5.1": 0.02,
+                "Opus 5": 0.006,
+                "GPT-5.5 Pro": 0.003
+              },
+              "median": 0.0045,
+              "ci": null
+            },
+            {
+              "rung": "1B",
+              "deaths": 1000000000.0,
+              "damages": 2200000000000000.2,
+              "label": "1B deaths or $2.2Q",
+              "qid": "ladder:cyber:1B",
+              "per_model": {
+                "GPT-6 Astra": 0.0001,
+                "Fable 5.1": 0.005,
+                "Opus 5": 0.001,
+                "GPT-5.5 Pro": 0.0005
+              },
+              "median": 0.0008,
+              "ci": null
+            }
+          ]
+        },
+        {
+          "key": "misalign",
+          "label": "Misalignment",
+          "color": "#33a8bd",
+          "container": false,
+          "rungs": [
+            {
+              "rung": "100",
+              "deaths": 100.0,
+              "damages": 220000000.0,
+              "label": "100 deaths or $220M",
+              "qid": "ladder:misalign:100",
+              "per_model": {
+                "GPT-6 Astra": 14.0,
+                "Fable 5.1": 35.0,
+                "Opus 5": 45.0,
+                "GPT-5.5 Pro": 6.0
+              },
+              "median": 24.5,
+              "ci": null
+            },
+            {
+              "rung": "1k",
+              "deaths": 1000.0,
+              "damages": 2200000000.0,
+              "label": "1k deaths or $2.2B",
+              "qid": "ladder:misalign:1k",
+              "per_model": {
+                "GPT-6 Astra": 3.1,
+                "Fable 5.1": 9.0,
+                "Opus 5": 11.0,
+                "GPT-5.5 Pro": 1.8
+              },
+              "median": 6.05,
+              "ci": null
+            },
+            {
+              "rung": "10k",
+              "deaths": 10000.0,
+              "damages": 22000000000.0,
+              "label": "10k deaths or $22B",
+              "qid": "ladder:misalign:10k",
+              "per_model": {
+                "GPT-6 Astra": 0.39,
+                "Fable 5.1": 2.0,
+                "Opus 5": 2.0,
+                "GPT-5.5 Pro": 0.4
+              },
+              "median": 1.2,
+              "ci": null
+            },
+            {
+              "rung": "100k",
+              "deaths": 100000.0,
+              "damages": 220000000000.0,
+              "label": "100k deaths or $220B",
+              "qid": "ladder:misalign:100k",
+              "per_model": {
+                "GPT-6 Astra": 0.065,
+                "Fable 5.1": 0.5,
+                "Opus 5": 0.35,
+                "GPT-5.5 Pro": 0.1
+              },
+              "median": 0.225,
+              "ci": null
+            },
+            {
+              "rung": "1M",
+              "deaths": 1000000.0,
+              "damages": 2200000000000.0,
+              "label": "1M deaths or $2.2T",
+              "qid": "ladder:misalign:1M",
+              "per_model": {
+                "GPT-6 Astra": 0.013,
+                "Fable 5.1": 0.18,
+                "Opus 5": 0.07,
+                "GPT-5.5 Pro": 0.035
+              },
+              "median": 0.0525,
+              "ci": null
+            },
+            {
+              "rung": "10M",
+              "deaths": 10000000.0,
+              "damages": 22000000000000.0,
+              "label": "10M deaths or $22T",
+              "qid": "ladder:misalign:10M",
+              "per_model": {
+                "GPT-6 Astra": 0.0039,
+                "Fable 5.1": 0.08,
+                "Opus 5": 0.012,
+                "GPT-5.5 Pro": 0.012
+              },
+              "median": 0.012,
+              "ci": null
+            },
+            {
+              "rung": "100M",
+              "deaths": 100000000.0,
+              "damages": 220000000000000.0,
+              "label": "100M deaths or $220T",
+              "qid": "ladder:misalign:100M",
+              "per_model": {
+                "GPT-6 Astra": 0.0013,
+                "Fable 5.1": 0.04,
+                "Opus 5": 0.003,
+                "GPT-5.5 Pro": 0.004
+              },
+              "median": 0.0035,
+              "ci": null
+            },
+            {
+              "rung": "1B",
+              "deaths": 1000000000.0,
+              "damages": 2200000000000000.2,
+              "label": "1B deaths or $2.2Q",
+              "qid": "ladder:misalign:1B",
+              "per_model": {
+                "GPT-6 Astra": 0.0004,
+                "Fable 5.1": 0.02,
+                "Opus 5": 0.001,
+                "GPT-5.5 Pro": 0.0015
+              },
+              "median": 0.0013,
+              "ci": null
+            }
+          ]
+        }
+      ],
+      "violations": [],
+      "declines": {},
+      "pairsChecked": 112
+    },
+    "12mo": {
+      "causes": [
+        {
+          "key": "ai",
+          "label": "Any AI-related incident",
+          "color": "#3a4150",
+          "container": true,
+          "rungs": [
+            {
+              "rung": "100",
+              "deaths": 100.0,
+              "damages": 220000000.0,
+              "label": "100 deaths or $220M",
+              "qid": "ladder:ai:100",
+              "per_model": {
+                "GPT-6 Astra": 97.8,
+                "Fable 5.1": 97.5,
+                "Opus 5": 96.0,
+                "GPT-5.5 Pro": 91.0
+              },
+              "median": 96.75,
+              "ci": null
+            },
+            {
+              "rung": "1k",
+              "deaths": 1000.0,
+              "damages": 2200000000.0,
+              "label": "1k deaths or $2.2B",
+              "qid": "ladder:ai:1k",
+              "per_model": {
+                "GPT-6 Astra": 74.0,
+                "Fable 5.1": 83.0,
+                "Opus 5": 83.0,
+                "GPT-5.5 Pro": 68.0
+              },
+              "median": 78.5,
+              "ci": null
+            },
+            {
+              "rung": "10k",
+              "deaths": 10000.0,
+              "damages": 22000000000.0,
+              "label": "10k deaths or $22B",
+              "qid": "ladder:ai:10k",
+              "per_model": {
+                "GPT-6 Astra": 16.0,
+                "Fable 5.1": 22.0,
+                "Opus 5": 41.0,
+                "GPT-5.5 Pro": 20.0
+              },
+              "median": 21.0,
+              "ci": null
+            },
+            {
+              "rung": "100k",
+              "deaths": 100000.0,
+              "damages": 220000000000.0,
+              "label": "100k deaths or $220B",
+              "qid": "ladder:ai:100k",
+              "per_model": {
+                "GPT-6 Astra": 2.2,
+                "Fable 5.1": 4.5,
+                "Opus 5": 8.0,
+                "GPT-5.5 Pro": 3.0
+              },
+              "median": 3.75,
+              "ci": null
+            },
+            {
+              "rung": "1M",
+              "deaths": 1000000.0,
+              "damages": 2200000000000.0,
+              "label": "1M deaths or $2.2T",
+              "qid": "ladder:ai:1M",
+              "per_model": {
+                "GPT-6 Astra": 0.45,
+                "Fable 5.1": 1.3,
+                "Opus 5": 0.8,
+                "GPT-5.5 Pro": 0.6
+              },
+              "median": 0.7,
+              "ci": null
+            },
+            {
+              "rung": "10M",
+              "deaths": 10000000.0,
+              "damages": 22000000000000.0,
+              "label": "10M deaths or $22T",
+              "qid": "ladder:ai:10M",
+              "per_model": {
+                "GPT-6 Astra": 0.12,
+                "Fable 5.1": 0.4,
+                "Opus 5": 0.17,
+                "GPT-5.5 Pro": 0.2
+              },
+              "median": 0.185,
+              "ci": null
+            },
+            {
+              "rung": "100M",
+              "deaths": 100000000.0,
+              "damages": 220000000000000.0,
+              "label": "100M deaths or $220T",
+              "qid": "ladder:ai:100M",
+              "per_model": {
+                "GPT-6 Astra": 0.03,
+                "Fable 5.1": 0.15,
+                "Opus 5": 0.042,
+                "GPT-5.5 Pro": 0.06
+              },
+              "median": 0.051,
+              "ci": null
+            },
+            {
+              "rung": "1B",
+              "deaths": 1000000000.0,
+              "damages": 2200000000000000.2,
+              "label": "1B deaths or $2.2Q",
+              "qid": "ladder:ai:1B",
+              "per_model": {
+                "GPT-6 Astra": 0.0082,
+                "Fable 5.1": 0.06,
+                "Opus 5": 0.012,
+                "GPT-5.5 Pro": 0.015
+              },
+              "median": 0.0135,
+              "ci": null
+            }
+          ]
+        },
+        {
+          "key": "bio",
+          "label": "Biorisk",
+          "color": "#a63d76",
+          "container": false,
+          "rungs": [
+            {
+              "rung": "100",
+              "deaths": 100.0,
+              "damages": 220000000.0,
+              "label": "100 deaths or $220M",
+              "qid": "ladder:bio:100",
+              "per_model": {
+                "GPT-6 Astra": 1.15,
+                "Fable 5.1": 3.0,
+                "Opus 5": 1.1,
+                "GPT-5.5 Pro": 0.6
+              },
+              "median": 1.125,
+              "ci": null
+            },
+            {
+              "rung": "1k",
+              "deaths": 1000.0,
+              "damages": 2200000000.0,
+              "label": "1k deaths or $2.2B",
+              "qid": "ladder:bio:1k",
+              "per_model": {
+                "GPT-6 Astra": 0.7188,
+                "Fable 5.1": 1.2,
+                "Opus 5": 0.8,
+                "GPT-5.5 Pro": 0.35
+              },
+              "median": 0.7594,
+              "ci": null
+            },
+            {
+              "rung": "10k",
+              "deaths": 10000.0,
+              "damages": 22000000000.0,
+              "label": "10k deaths or $22B",
+              "qid": "ladder:bio:10k",
+              "per_model": {
+                "GPT-6 Astra": 0.4313,
+                "Fable 5.1": 0.5,
+                "Opus 5": 0.5,
+                "GPT-5.5 Pro": 0.15
+              },
+              "median": 0.4657,
+              "ci": null
+            },
+            {
+              "rung": "100k",
+              "deaths": 100000.0,
+              "damages": 220000000000.0,
+              "label": "100k deaths or $220B",
+              "qid": "ladder:bio:100k",
+              "per_model": {
+                "GPT-6 Astra": 0.23,
+                "Fable 5.1": 0.2,
+                "Opus 5": 0.3,
+                "GPT-5.5 Pro": 0.065
+              },
+              "median": 0.215,
+              "ci": null
+            },
+            {
+              "rung": "1M",
+              "deaths": 1000000.0,
+              "damages": 2200000000000.0,
+              "label": "1M deaths or $2.2T",
+              "qid": "ladder:bio:1M",
+              "per_model": {
+                "GPT-6 Astra": 0.115,
+                "Fable 5.1": 0.1,
+                "Opus 5": 0.15,
+                "GPT-5.5 Pro": 0.025
+              },
+              "median": 0.1075,
+              "ci": null
+            },
+            {
+              "rung": "10M",
+              "deaths": 10000000.0,
+              "damages": 22000000000000.0,
+              "label": "10M deaths or $22T",
+              "qid": "ladder:bio:10M",
+              "per_model": {
+                "GPT-6 Astra": 0.0431,
+                "Fable 5.1": 0.05,
+                "Opus 5": 0.06,
+                "GPT-5.5 Pro": 0.011
+              },
+              "median": 0.0466,
+              "ci": null
+            },
+            {
+              "rung": "100M",
+              "deaths": 100000000.0,
+              "damages": 220000000000000.0,
+              "label": "100M deaths or $220T",
+              "qid": "ladder:bio:100M",
+              "per_model": {
+                "GPT-6 Astra": 0.0115,
+                "Fable 5.1": 0.02,
+                "Opus 5": 0.022,
+                "GPT-5.5 Pro": 0.0035
+              },
+              "median": 0.0158,
+              "ci": null
+            },
+            {
+              "rung": "1B",
+              "deaths": 1000000000.0,
+              "damages": 2200000000000000.2,
+              "label": "1B deaths or $2.2Q",
+              "qid": "ladder:bio:1B",
+              "per_model": {
+                "GPT-6 Astra": 0.0023,
+                "Fable 5.1": 0.007,
+                "Opus 5": 0.006,
+                "GPT-5.5 Pro": 0.0012
+              },
+              "median": 0.0042,
+              "ci": null
+            }
+          ]
+        },
+        {
+          "key": "cyber",
+          "label": "Cyber",
+          "color": "#a1801a",
+          "container": false,
+          "rungs": [
+            {
+              "rung": "100",
+              "deaths": 100.0,
+              "damages": 220000000.0,
+              "label": "100 deaths or $220M",
+              "qid": "ladder:cyber:100",
+              "per_model": {
+                "GPT-6 Astra": 96.0,
+                "Fable 5.1": 96.5,
+                "Opus 5": 93.0,
+                "GPT-5.5 Pro": 88.0
+              },
+              "median": 94.5,
+              "ci": null
+            },
+            {
+              "rung": "1k",
+              "deaths": 1000.0,
+              "damages": 2200000000.0,
+              "label": "1k deaths or $2.2B",
+              "qid": "ladder:cyber:1k",
+              "per_model": {
+                "GPT-6 Astra": 67.0,
+                "Fable 5.1": 80.0,
+                "Opus 5": 80.0,
+                "GPT-5.5 Pro": 63.0
+              },
+              "median": 73.5,
+              "ci": null
+            },
+            {
+              "rung": "10k",
+              "deaths": 10000.0,
+              "damages": 22000000000.0,
+              "label": "10k deaths or $22B",
+              "qid": "ladder:cyber:10k",
+              "per_model": {
+                "GPT-6 Astra": 11.5,
+                "Fable 5.1": 17.0,
+                "Opus 5": 37.0,
+                "GPT-5.5 Pro": 16.0
+              },
+              "median": 16.5,
+              "ci": null
+            },
+            {
+              "rung": "100k",
+              "deaths": 100000.0,
+              "damages": 220000000000.0,
+              "label": "100k deaths or $220B",
+              "qid": "ladder:cyber:100k",
+              "per_model": {
+                "GPT-6 Astra": 1.035,
+                "Fable 5.1": 3.0,
+                "Opus 5": 6.5,
+                "GPT-5.5 Pro": 1.8
+              },
+              "median": 2.4,
+              "ci": null
+            },
+            {
+              "rung": "1M",
+              "deaths": 1000000.0,
+              "damages": 2200000000000.0,
+              "label": "1M deaths or $2.2T",
+              "qid": "ladder:cyber:1M",
+              "per_model": {
+                "GPT-6 Astra": 0.115,
+                "Fable 5.1": 0.7,
+                "Opus 5": 0.5,
+                "GPT-5.5 Pro": 0.25
+              },
+              "median": 0.375,
+              "ci": null
+            },
+            {
+              "rung": "10M",
+              "deaths": 10000000.0,
+              "damages": 22000000000000.0,
+              "label": "10M deaths or $22T",
+              "qid": "ladder:cyber:10M",
+              "per_model": {
+                "GPT-6 Astra": 0.0172,
+                "Fable 5.1": 0.15,
+                "Opus 5": 0.08,
+                "GPT-5.5 Pro": 0.05
+              },
+              "median": 0.065,
+              "ci": null
+            },
+            {
+              "rung": "100M",
+              "deaths": 100000000.0,
+              "damages": 220000000000000.0,
+              "label": "100M deaths or $220T",
+              "qid": "ladder:cyber:100M",
+              "per_model": {
+                "GPT-6 Astra": 0.0017,
+                "Fable 5.1": 0.04,
+                "Opus 5": 0.014,
+                "GPT-5.5 Pro": 0.012
+              },
+              "median": 0.013,
+              "ci": null
+            },
+            {
+              "rung": "1B",
+              "deaths": 1000000000.0,
+              "damages": 2200000000000000.2,
+              "label": "1B deaths or $2.2Q",
+              "qid": "ladder:cyber:1B",
+              "per_model": {
+                "GPT-6 Astra": 0.0003,
+                "Fable 5.1": 0.01,
+                "Opus 5": 0.003,
+                "GPT-5.5 Pro": 0.003
+              },
+              "median": 0.003,
+              "ci": null
+            }
+          ]
+        },
+        {
+          "key": "misalign",
+          "label": "Misalignment",
+          "color": "#33a8bd",
+          "container": false,
+          "rungs": [
+            {
+              "rung": "100",
+              "deaths": 100.0,
+              "damages": 220000000.0,
+              "label": "100 deaths or $220M",
+              "qid": "ladder:misalign:100",
+              "per_model": {
+                "GPT-6 Astra": 29.0,
+                "Fable 5.1": 50.0,
+                "Opus 5": 58.0,
+                "GPT-5.5 Pro": 12.0
+              },
+              "median": 39.5,
+              "ci": null
+            },
+            {
+              "rung": "1k",
+              "deaths": 1000.0,
+              "damages": 2200000000.0,
+              "label": "1k deaths or $2.2B",
+              "qid": "ladder:misalign:1k",
+              "per_model": {
+                "GPT-6 Astra": 8.4,
+                "Fable 5.1": 17.0,
+                "Opus 5": 18.0,
+                "GPT-5.5 Pro": 4.0
+              },
+              "median": 12.7,
+              "ci": null
+            },
+            {
+              "rung": "10k",
+              "deaths": 10000.0,
+              "damages": 22000000000.0,
+              "label": "10k deaths or $22B",
+              "qid": "ladder:misalign:10k",
+              "per_model": {
+                "GPT-6 Astra": 1.56,
+                "Fable 5.1": 4.5,
+                "Opus 5": 4.0,
+                "GPT-5.5 Pro": 1.2
+              },
+              "median": 2.78,
+              "ci": null
+            },
+            {
+              "rung": "100k",
+              "deaths": 100000.0,
+              "damages": 220000000000.0,
+              "label": "100k deaths or $220B",
+              "qid": "ladder:misalign:100k",
+              "per_model": {
+                "GPT-6 Astra": 0.26,
+                "Fable 5.1": 1.2,
+                "Opus 5": 0.85,
+                "GPT-5.5 Pro": 0.3
+              },
+              "median": 0.575,
+              "ci": null
+            },
+            {
+              "rung": "1M",
+              "deaths": 1000000.0,
+              "damages": 2200000000000.0,
+              "label": "1M deaths or $2.2T",
+              "qid": "ladder:misalign:1M",
+              "per_model": {
+                "GPT-6 Astra": 0.065,
+                "Fable 5.1": 0.4,
+                "Opus 5": 0.16,
+                "GPT-5.5 Pro": 0.12
+              },
+              "median": 0.14,
+              "ci": null
+            },
+            {
+              "rung": "10M",
+              "deaths": 10000000.0,
+              "damages": 22000000000000.0,
+              "label": "10M deaths or $22T",
+              "qid": "ladder:misalign:10M",
+              "per_model": {
+                "GPT-6 Astra": 0.0195,
+                "Fable 5.1": 0.18,
+                "Opus 5": 0.03,
+                "GPT-5.5 Pro": 0.04
+              },
+              "median": 0.035,
+              "ci": null
+            },
+            {
+              "rung": "100M",
+              "deaths": 100000000.0,
+              "damages": 220000000000000.0,
+              "label": "100M deaths or $220T",
+              "qid": "ladder:misalign:100M",
+              "per_model": {
+                "GPT-6 Astra": 0.0078,
+                "Fable 5.1": 0.09,
+                "Opus 5": 0.008,
+                "GPT-5.5 Pro": 0.015
+              },
+              "median": 0.0115,
+              "ci": null
+            },
+            {
+              "rung": "1B",
+              "deaths": 1000000000.0,
+              "damages": 2200000000000000.2,
+              "label": "1B deaths or $2.2Q",
+              "qid": "ladder:misalign:1B",
+              "per_model": {
+                "GPT-6 Astra": 0.0026,
+                "Fable 5.1": 0.04,
+                "Opus 5": 0.003,
+                "GPT-5.5 Pro": 0.006
+              },
+              "median": 0.0045,
+              "ci": null
+            }
+          ]
+        }
+      ],
+      "violations": [],
+      "declines": {},
+      "pairsChecked": 112
+    },
+    "2028": {
+      "causes": [
+        {
+          "key": "ai",
+          "label": "Any AI-related incident",
+          "color": "#3a4150",
+          "container": true,
+          "rungs": [
+            {
+              "rung": "100",
+              "deaths": 100.0,
+              "damages": 220000000.0,
+              "label": "100 deaths or $220M",
+              "qid": "ladder:ai:100",
+              "per_model": {
+                "GPT-6 Astra": 99.8,
+                "Fable 5.1": 99.3,
+                "Opus 5": 99.0,
+                "GPT-5.5 Pro": 99.0
+              },
+              "median": 99.15,
+              "ci": null
+            },
+            {
+              "rung": "1k",
+              "deaths": 1000.0,
+              "damages": 2200000000.0,
+              "label": "1k deaths or $2.2B",
+              "qid": "ladder:ai:1k",
+              "per_model": {
+                "GPT-6 Astra": 95.0,
+                "Fable 5.1": 96.0,
+                "Opus 5": 94.0,
+                "GPT-5.5 Pro": 92.0
+              },
+              "median": 94.5,
+              "ci": null
+            },
+            {
+              "rung": "10k",
+              "deaths": 10000.0,
+              "damages": 22000000000.0,
+              "label": "10k deaths or $22B",
+              "qid": "ladder:ai:10k",
+              "per_model": {
+                "GPT-6 Astra": 44.0,
+                "Fable 5.1": 58.0,
+                "Opus 5": 66.0,
+                "GPT-5.5 Pro": 53.0
+              },
+              "median": 55.5,
+              "ci": null
+            },
+            {
+              "rung": "100k",
+              "deaths": 100000.0,
+              "damages": 220000000000.0,
+              "label": "100k deaths or $220B",
+              "qid": "ladder:ai:100k",
+              "per_model": {
+                "GPT-6 Astra": 9.7,
+                "Fable 5.1": 17.0,
+                "Opus 5": 22.0,
+                "GPT-5.5 Pro": 11.0
+              },
+              "median": 14.0,
+              "ci": null
+            },
+            {
+              "rung": "1M",
+              "deaths": 1000000.0,
+              "damages": 2200000000000.0,
+              "label": "1M deaths or $2.2T",
+              "qid": "ladder:ai:1M",
+              "per_model": {
+                "GPT-6 Astra": 3.3,
+                "Fable 5.1": 5.0,
+                "Opus 5": 2.8,
+                "GPT-5.5 Pro": 2.5
+              },
+              "median": 3.05,
+              "ci": null
+            },
+            {
+              "rung": "10M",
+              "deaths": 10000000.0,
+              "damages": 22000000000000.0,
+              "label": "10M deaths or $22T",
+              "qid": "ladder:ai:10M",
+              "per_model": {
+                "GPT-6 Astra": 1.1,
+                "Fable 5.1": 1.7,
+                "Opus 5": 0.62,
+                "GPT-5.5 Pro": 1.0
+              },
+              "median": 1.05,
+              "ci": null
+            },
+            {
+              "rung": "100M",
+              "deaths": 100000000.0,
+              "damages": 220000000000000.0,
+              "label": "100M deaths or $220T",
+              "qid": "ladder:ai:100M",
+              "per_model": {
+                "GPT-6 Astra": 0.38,
+                "Fable 5.1": 0.7,
+                "Opus 5": 0.16,
+                "GPT-5.5 Pro": 0.3
+              },
+              "median": 0.34,
+              "ci": null
+            },
+            {
+              "rung": "1B",
+              "deaths": 1000000000.0,
+              "damages": 2200000000000000.2,
+              "label": "1B deaths or $2.2Q",
+              "qid": "ladder:ai:1B",
+              "per_model": {
+                "GPT-6 Astra": 0.16,
+                "Fable 5.1": 0.3,
+                "Opus 5": 0.042,
+                "GPT-5.5 Pro": 0.1
+              },
+              "median": 0.13,
+              "ci": null
+            }
+          ]
+        },
+        {
+          "key": "bio",
+          "label": "Biorisk",
+          "color": "#a63d76",
+          "container": false,
+          "rungs": [
+            {
+              "rung": "100",
+              "deaths": 100.0,
+              "damages": 220000000.0,
+              "label": "100 deaths or $220M",
+              "qid": "ladder:bio:100",
+              "per_model": {
+                "GPT-6 Astra": 3.45,
+                "Fable 5.1": 9.0,
+                "Opus 5": 3.5,
+                "GPT-5.5 Pro": 1.8
+              },
+              "median": 3.475,
+              "ci": null
+            },
+            {
+              "rung": "1k",
+              "deaths": 1000.0,
+              "damages": 2200000000.0,
+              "label": "1k deaths or $2.2B",
+              "qid": "ladder:bio:1k",
+              "per_model": {
+                "GPT-6 Astra": 2.53,
+                "Fable 5.1": 4.5,
+                "Opus 5": 2.5,
+                "GPT-5.5 Pro": 1.2
+              },
+              "median": 2.515,
+              "ci": null
+            },
+            {
+              "rung": "10k",
+              "deaths": 10000.0,
+              "damages": 22000000000.0,
+              "label": "10k deaths or $22B",
+              "qid": "ladder:bio:10k",
+              "per_model": {
+                "GPT-6 Astra": 1.84,
+                "Fable 5.1": 2.0,
+                "Opus 5": 1.6,
+                "GPT-5.5 Pro": 0.55
+              },
+              "median": 1.72,
+              "ci": null
+            },
+            {
+              "rung": "100k",
+              "deaths": 100000.0,
+              "damages": 220000000000.0,
+              "label": "100k deaths or $220B",
+              "qid": "ladder:bio:100k",
+              "per_model": {
+                "GPT-6 Astra": 1.15,
+                "Fable 5.1": 0.9,
+                "Opus 5": 1.0,
+                "GPT-5.5 Pro": 0.25
+              },
+              "median": 0.95,
+              "ci": null
+            },
+            {
+              "rung": "1M",
+              "deaths": 1000000.0,
+              "damages": 2200000000000.0,
+              "label": "1M deaths or $2.2T",
+              "qid": "ladder:bio:1M",
+              "per_model": {
+                "GPT-6 Astra": 0.69,
+                "Fable 5.1": 0.45,
+                "Opus 5": 0.5,
+                "GPT-5.5 Pro": 0.11
+              },
+              "median": 0.475,
+              "ci": null
+            },
+            {
+              "rung": "10M",
+              "deaths": 10000000.0,
+              "damages": 22000000000000.0,
+              "label": "10M deaths or $22T",
+              "qid": "ladder:bio:10M",
+              "per_model": {
+                "GPT-6 Astra": 0.322,
+                "Fable 5.1": 0.22,
+                "Opus 5": 0.2,
+                "GPT-5.5 Pro": 0.05
+              },
+              "median": 0.21,
+              "ci": null
+            },
+            {
+              "rung": "100M",
+              "deaths": 100000000.0,
+              "damages": 220000000000000.0,
+              "label": "100M deaths or $220T",
+              "qid": "ladder:bio:100M",
+              "per_model": {
+                "GPT-6 Astra": 0.1035,
+                "Fable 5.1": 0.1,
+                "Opus 5": 0.07,
+                "GPT-5.5 Pro": 0.016
+              },
+              "median": 0.085,
+              "ci": null
+            },
+            {
+              "rung": "1B",
+              "deaths": 1000000000.0,
+              "damages": 2200000000000000.2,
+              "label": "1B deaths or $2.2Q",
+              "qid": "ladder:bio:1B",
+              "per_model": {
+                "GPT-6 Astra": 0.0287,
+                "Fable 5.1": 0.04,
+                "Opus 5": 0.02,
+                "GPT-5.5 Pro": 0.006
+              },
+              "median": 0.0244,
+              "ci": null
+            }
+          ]
+        },
+        {
+          "key": "cyber",
+          "label": "Cyber",
+          "color": "#a1801a",
+          "container": false,
+          "rungs": [
+            {
+              "rung": "100",
+              "deaths": 100.0,
+              "damages": 220000000.0,
+              "label": "100 deaths or $220M",
+              "qid": "ladder:cyber:100",
+              "per_model": {
+                "GPT-6 Astra": 99.5,
+                "Fable 5.1": 99.0,
+                "Opus 5": 97.5,
+                "GPT-5.5 Pro": 97.5
+              },
+              "median": 98.25,
+              "ci": null
+            },
+            {
+              "rung": "1k",
+              "deaths": 1000.0,
+              "damages": 2200000000.0,
+              "label": "1k deaths or $2.2B",
+              "qid": "ladder:cyber:1k",
+              "per_model": {
+                "GPT-6 Astra": 90.0,
+                "Fable 5.1": 94.0,
+                "Opus 5": 91.0,
+                "GPT-5.5 Pro": 88.0
+              },
+              "median": 90.5,
+              "ci": null
+            },
+            {
+              "rung": "10k",
+              "deaths": 10000.0,
+              "damages": 22000000000.0,
+              "label": "10k deaths or $22B",
+              "qid": "ladder:cyber:10k",
+              "per_model": {
+                "GPT-6 Astra": 35.0,
+                "Fable 5.1": 50.0,
+                "Opus 5": 60.0,
+                "GPT-5.5 Pro": 44.0
+              },
+              "median": 47.0,
+              "ci": null
+            },
+            {
+              "rung": "100k",
+              "deaths": 100000.0,
+              "damages": 220000000000.0,
+              "label": "100k deaths or $220B",
+              "qid": "ladder:cyber:100k",
+              "per_model": {
+                "GPT-6 Astra": 5.175,
+                "Fable 5.1": 11.0,
+                "Opus 5": 18.0,
+                "GPT-5.5 Pro": 7.0
+              },
+              "median": 9.0,
+              "ci": null
+            },
+            {
+              "rung": "1M",
+              "deaths": 1000000.0,
+              "damages": 2200000000000.0,
+              "label": "1M deaths or $2.2T",
+              "qid": "ladder:cyber:1M",
+              "per_model": {
+                "GPT-6 Astra": 1.035,
+                "Fable 5.1": 2.5,
+                "Opus 5": 1.8,
+                "GPT-5.5 Pro": 1.2
+              },
+              "median": 1.5,
+              "ci": null
+            },
+            {
+              "rung": "10M",
+              "deaths": 10000000.0,
+              "damages": 22000000000000.0,
+              "label": "10M deaths or $22T",
+              "qid": "ladder:cyber:10M",
+              "per_model": {
+                "GPT-6 Astra": 0.1725,
+                "Fable 5.1": 0.6,
+                "Opus 5": 0.3,
+                "GPT-5.5 Pro": 0.3
+              },
+              "median": 0.3,
+              "ci": null
+            },
+            {
+              "rung": "100M",
+              "deaths": 100000000.0,
+              "damages": 220000000000000.0,
+              "label": "100M deaths or $220T",
+              "qid": "ladder:cyber:100M",
+              "per_model": {
+                "GPT-6 Astra": 0.0345,
+                "Fable 5.1": 0.15,
+                "Opus 5": 0.055,
+                "GPT-5.5 Pro": 0.08
+              },
+              "median": 0.0675,
+              "ci": null
+            },
+            {
+              "rung": "1B",
+              "deaths": 1000000000.0,
+              "damages": 2200000000000000.2,
+              "label": "1B deaths or $2.2Q",
+              "qid": "ladder:cyber:1B",
+              "per_model": {
+                "GPT-6 Astra": 0.008,
+                "Fable 5.1": 0.04,
+                "Opus 5": 0.011,
+                "GPT-5.5 Pro": 0.02
+              },
+              "median": 0.0155,
+              "ci": null
+            }
+          ]
+        },
+        {
+          "key": "misalign",
+          "label": "Misalignment",
+          "color": "#33a8bd",
+          "container": false,
+          "rungs": [
+            {
+              "rung": "100",
+              "deaths": 100.0,
+              "damages": 220000000.0,
+              "label": "100 deaths or $220M",
+              "qid": "ladder:misalign:100",
+              "per_model": {
+                "GPT-6 Astra": 59.0,
+                "Fable 5.1": 75.0,
+                "Opus 5": 80.0,
+                "GPT-5.5 Pro": 32.0
+              },
+              "median": 67.0,
+              "ci": null
+            },
+            {
+              "rung": "1k",
+              "deaths": 1000.0,
+              "damages": 2200000000.0,
+              "label": "1k deaths or $2.2B",
+              "qid": "ladder:misalign:1k",
+              "per_model": {
+                "GPT-6 Astra": 30.0,
+                "Fable 5.1": 42.0,
+                "Opus 5": 38.0,
+                "GPT-5.5 Pro": 14.0
+              },
+              "median": 34.0,
+              "ci": null
+            },
+            {
+              "rung": "10k",
+              "deaths": 10000.0,
+              "damages": 22000000000.0,
+              "label": "10k deaths or $22B",
+              "qid": "ladder:misalign:10k",
+              "per_model": {
+                "GPT-6 Astra": 9.1,
+                "Fable 5.1": 17.0,
+                "Opus 5": 12.0,
+                "GPT-5.5 Pro": 5.5
+              },
+              "median": 10.55,
+              "ci": null
+            },
+            {
+              "rung": "100k",
+              "deaths": 100000.0,
+              "damages": 220000000000.0,
+              "label": "100k deaths or $220B",
+              "qid": "ladder:misalign:100k",
+              "per_model": {
+                "GPT-6 Astra": 2.34,
+                "Fable 5.1": 6.0,
+                "Opus 5": 3.0,
+                "GPT-5.5 Pro": 1.7
+              },
+              "median": 2.67,
+              "ci": null
+            },
+            {
+              "rung": "1M",
+              "deaths": 1000000.0,
+              "damages": 2200000000000.0,
+              "label": "1M deaths or $2.2T",
+              "qid": "ladder:misalign:1M",
+              "per_model": {
+                "GPT-6 Astra": 0.78,
+                "Fable 5.1": 2.2,
+                "Opus 5": 0.6,
+                "GPT-5.5 Pro": 0.7
+              },
+              "median": 0.74,
+              "ci": null
+            },
+            {
+              "rung": "10M",
+              "deaths": 10000000.0,
+              "damages": 22000000000000.0,
+              "label": "10M deaths or $22T",
+              "qid": "ladder:misalign:10M",
+              "per_model": {
+                "GPT-6 Astra": 0.325,
+                "Fable 5.1": 1.0,
+                "Opus 5": 0.12,
+                "GPT-5.5 Pro": 0.25
+              },
+              "median": 0.2875,
+              "ci": null
+            },
+            {
+              "rung": "100M",
+              "deaths": 100000000.0,
+              "damages": 220000000000000.0,
+              "label": "100M deaths or $220T",
+              "qid": "ladder:misalign:100M",
+              "per_model": {
+                "GPT-6 Astra": 0.156,
+                "Fable 5.1": 0.5,
+                "Opus 5": 0.035,
+                "GPT-5.5 Pro": 0.1
+              },
+              "median": 0.128,
+              "ci": null
+            },
+            {
+              "rung": "1B",
+              "deaths": 1000000000.0,
+              "damages": 2200000000000000.2,
+              "label": "1B deaths or $2.2Q",
+              "qid": "ladder:misalign:1B",
+              "per_model": {
+                "GPT-6 Astra": 0.078,
+                "Fable 5.1": 0.25,
+                "Opus 5": 0.012,
+                "GPT-5.5 Pro": 0.04
+              },
+              "median": 0.059,
+              "ci": null
+            }
+          ]
+        }
+      ],
+      "violations": [],
+      "declines": {},
+      "pairsChecked": 112
+    },
+    "2030": {
+      "causes": [
+        {
+          "key": "ai",
+          "label": "Any AI-related incident",
+          "color": "#3a4150",
+          "container": true,
+          "rungs": [
+            {
+              "rung": "100",
+              "deaths": 100.0,
+              "damages": 220000000.0,
+              "label": "100 deaths or $220M",
+              "qid": "ladder:ai:100",
+              "per_model": {
+                "GPT-6 Astra": 99.97,
+                "Fable 5.1": 99.7,
+                "Opus 5": 99.5,
+                "GPT-5.5 Pro": 99.8
+              },
+              "median": 99.75,
+              "ci": null
+            },
+            {
+              "rung": "1k",
+              "deaths": 1000.0,
+              "damages": 2200000000.0,
+              "label": "1k deaths or $2.2B",
+              "qid": "ladder:ai:1k",
+              "per_model": {
+                "GPT-6 Astra": 98.7,
+                "Fable 5.1": 98.5,
+                "Opus 5": 97.0,
+                "GPT-5.5 Pro": 98.0
+              },
+              "median": 98.25,
+              "ci": null
+            },
+            {
+              "rung": "10k",
+              "deaths": 10000.0,
+              "damages": 22000000000.0,
+              "label": "10k deaths or $22B",
+              "qid": "ladder:ai:10k",
+              "per_model": {
+                "GPT-6 Astra": 70.0,
+                "Fable 5.1": 82.0,
+                "Opus 5": 79.0,
+                "GPT-5.5 Pro": 75.0
+              },
+              "median": 77.0,
+              "ci": null
+            },
+            {
+              "rung": "100k",
+              "deaths": 100000.0,
+              "damages": 220000000000.0,
+              "label": "100k deaths or $220B",
+              "qid": "ladder:ai:100k",
+              "per_model": {
+                "GPT-6 Astra": 25.0,
+                "Fable 5.1": 33.0,
+                "Opus 5": 37.0,
+                "GPT-5.5 Pro": 24.0
+              },
+              "median": 29.0,
+              "ci": null
+            },
+            {
+              "rung": "1M",
+              "deaths": 1000000.0,
+              "damages": 2200000000000.0,
+              "label": "1M deaths or $2.2T",
+              "qid": "ladder:ai:1M",
+              "per_model": {
+                "GPT-6 Astra": 10.4,
+                "Fable 5.1": 12.0,
+                "Opus 5": 6.5,
+                "GPT-5.5 Pro": 8.0
+              },
+              "median": 9.2,
+              "ci": null
+            },
+            {
+              "rung": "10M",
+              "deaths": 10000000.0,
+              "damages": 22000000000000.0,
+              "label": "10M deaths or $22T",
+              "qid": "ladder:ai:10M",
+              "per_model": {
+                "GPT-6 Astra": 4.3,
+                "Fable 5.1": 4.5,
+                "Opus 5": 1.5,
+                "GPT-5.5 Pro": 4.0
+              },
+              "median": 4.15,
+              "ci": null
+            },
+            {
+              "rung": "100M",
+              "deaths": 100000000.0,
+              "damages": 220000000000000.0,
+              "label": "100M deaths or $220T",
+              "qid": "ladder:ai:100M",
+              "per_model": {
+                "GPT-6 Astra": 1.8,
+                "Fable 5.1": 2.0,
+                "Opus 5": 0.42,
+                "GPT-5.5 Pro": 1.5
+              },
+              "median": 1.65,
+              "ci": null
+            },
+            {
+              "rung": "1B",
+              "deaths": 1000000000.0,
+              "damages": 2200000000000000.2,
+              "label": "1B deaths or $2.2Q",
+              "qid": "ladder:ai:1B",
+              "per_model": {
+                "GPT-6 Astra": 0.85,
+                "Fable 5.1": 1.1,
+                "Opus 5": 0.14,
+                "GPT-5.5 Pro": 0.5
+              },
+              "median": 0.675,
+              "ci": null
+            }
+          ]
+        },
+        {
+          "key": "bio",
+          "label": "Biorisk",
+          "color": "#a63d76",
+          "container": false,
+          "rungs": [
+            {
+              "rung": "100",
+              "deaths": 100.0,
+              "damages": 220000000.0,
+              "label": "100 deaths or $220M",
+              "qid": "ladder:bio:100",
+              "per_model": {
+                "GPT-6 Astra": 8.05,
+                "Fable 5.1": 18.0,
+                "Opus 5": 6.5,
+                "GPT-5.5 Pro": 4.0
+              },
+              "median": 7.275,
+              "ci": null
+            },
+            {
+              "rung": "1k",
+              "deaths": 1000.0,
+              "damages": 2200000000.0,
+              "label": "1k deaths or $2.2B",
+              "qid": "ladder:bio:1k",
+              "per_model": {
+                "GPT-6 Astra": 6.325,
+                "Fable 5.1": 10.0,
+                "Opus 5": 4.6,
+                "GPT-5.5 Pro": 2.8
+              },
+              "median": 5.4625,
+              "ci": null
+            },
+            {
+              "rung": "10k",
+              "deaths": 10000.0,
+              "damages": 22000000000.0,
+              "label": "10k deaths or $22B",
+              "qid": "ladder:bio:10k",
+              "per_model": {
+                "GPT-6 Astra": 4.6,
+                "Fable 5.1": 5.0,
+                "Opus 5": 3.0,
+                "GPT-5.5 Pro": 1.4
+              },
+              "median": 3.8,
+              "ci": null
+            },
+            {
+              "rung": "100k",
+              "deaths": 100000.0,
+              "damages": 220000000000.0,
+              "label": "100k deaths or $220B",
+              "qid": "ladder:bio:100k",
+              "per_model": {
+                "GPT-6 Astra": 3.22,
+                "Fable 5.1": 2.5,
+                "Opus 5": 1.9,
+                "GPT-5.5 Pro": 0.65
+              },
+              "median": 2.2,
+              "ci": null
+            },
+            {
+              "rung": "1M",
+              "deaths": 1000000.0,
+              "damages": 2200000000000.0,
+              "label": "1M deaths or $2.2T",
+              "qid": "ladder:bio:1M",
+              "per_model": {
+                "GPT-6 Astra": 2.07,
+                "Fable 5.1": 1.3,
+                "Opus 5": 1.0,
+                "GPT-5.5 Pro": 0.32
+              },
+              "median": 1.15,
+              "ci": null
+            },
+            {
+              "rung": "10M",
+              "deaths": 10000000.0,
+              "damages": 22000000000000.0,
+              "label": "10M deaths or $22T",
+              "qid": "ladder:bio:10M",
+              "per_model": {
+                "GPT-6 Astra": 1.035,
+                "Fable 5.1": 0.65,
+                "Opus 5": 0.4,
+                "GPT-5.5 Pro": 0.15
+              },
+              "median": 0.525,
+              "ci": null
+            },
+            {
+              "rung": "100M",
+              "deaths": 100000000.0,
+              "damages": 220000000000000.0,
+              "label": "100M deaths or $220T",
+              "qid": "ladder:bio:100M",
+              "per_model": {
+                "GPT-6 Astra": 0.4025,
+                "Fable 5.1": 0.3,
+                "Opus 5": 0.15,
+                "GPT-5.5 Pro": 0.06
+              },
+              "median": 0.225,
+              "ci": null
+            },
+            {
+              "rung": "1B",
+              "deaths": 1000000000.0,
+              "damages": 2200000000000000.2,
+              "label": "1B deaths or $2.2Q",
+              "qid": "ladder:bio:1B",
+              "per_model": {
+                "GPT-6 Astra": 0.138,
+                "Fable 5.1": 0.12,
+                "Opus 5": 0.05,
+                "GPT-5.5 Pro": 0.022
+              },
+              "median": 0.085,
+              "ci": null
+            }
+          ]
+        },
+        {
+          "key": "cyber",
+          "label": "Cyber",
+          "color": "#a1801a",
+          "container": false,
+          "rungs": [
+            {
+              "rung": "100",
+              "deaths": 100.0,
+              "damages": 220000000.0,
+              "label": "100 deaths or $220M",
+              "qid": "ladder:cyber:100",
+              "per_model": {
+                "GPT-6 Astra": 99.9,
+                "Fable 5.1": 99.5,
+                "Opus 5": 98.5,
+                "GPT-5.5 Pro": 99.3
+              },
+              "median": 99.4,
+              "ci": null
+            },
+            {
+              "rung": "1k",
+              "deaths": 1000.0,
+              "damages": 2200000000.0,
+              "label": "1k deaths or $2.2B",
+              "qid": "ladder:cyber:1k",
+              "per_model": {
+                "GPT-6 Astra": 97.0,
+                "Fable 5.1": 97.5,
+                "Opus 5": 94.5,
+                "GPT-5.5 Pro": 95.5
+              },
+              "median": 96.25,
+              "ci": null
+            },
+            {
+              "rung": "10k",
+              "deaths": 10000.0,
+              "damages": 22000000000.0,
+              "label": "10k deaths or $22B",
+              "qid": "ladder:cyber:10k",
+              "per_model": {
+                "GPT-6 Astra": 58.0,
+                "Fable 5.1": 75.0,
+                "Opus 5": 72.0,
+                "GPT-5.5 Pro": 65.0
+              },
+              "median": 68.5,
+              "ci": null
+            },
+            {
+              "rung": "100k",
+              "deaths": 100000.0,
+              "damages": 220000000000.0,
+              "label": "100k deaths or $220B",
+              "qid": "ladder:cyber:100k",
+              "per_model": {
+                "GPT-6 Astra": 13.8,
+                "Fable 5.1": 25.0,
+                "Opus 5": 30.0,
+                "GPT-5.5 Pro": 16.0
+              },
+              "median": 20.5,
+              "ci": null
+            },
+            {
+              "rung": "1M",
+              "deaths": 1000000.0,
+              "damages": 2200000000000.0,
+              "label": "1M deaths or $2.2T",
+              "qid": "ladder:cyber:1M",
+              "per_model": {
+                "GPT-6 Astra": 3.45,
+                "Fable 5.1": 6.0,
+                "Opus 5": 4.2,
+                "GPT-5.5 Pro": 4.0
+              },
+              "median": 4.1,
+              "ci": null
+            },
+            {
+              "rung": "10M",
+              "deaths": 10000000.0,
+              "damages": 22000000000000.0,
+              "label": "10M deaths or $22T",
+              "qid": "ladder:cyber:10M",
+              "per_model": {
+                "GPT-6 Astra": 0.805,
+                "Fable 5.1": 1.5,
+                "Opus 5": 0.8,
+                "GPT-5.5 Pro": 1.3
+              },
+              "median": 1.0525,
+              "ci": null
+            },
+            {
+              "rung": "100M",
+              "deaths": 100000000.0,
+              "damages": 220000000000000.0,
+              "label": "100M deaths or $220T",
+              "qid": "ladder:cyber:100M",
+              "per_model": {
+                "GPT-6 Astra": 0.23,
+                "Fable 5.1": 0.4,
+                "Opus 5": 0.16,
+                "GPT-5.5 Pro": 0.4
+              },
+              "median": 0.315,
+              "ci": null
+            },
+            {
+              "rung": "1B",
+              "deaths": 1000000000.0,
+              "damages": 2200000000000000.2,
+              "label": "1B deaths or $2.2Q",
+              "qid": "ladder:cyber:1B",
+              "per_model": {
+                "GPT-6 Astra": 0.069,
+                "Fable 5.1": 0.1,
+                "Opus 5": 0.04,
+                "GPT-5.5 Pro": 0.1
+              },
+              "median": 0.0845,
+              "ci": null
+            }
+          ]
+        },
+        {
+          "key": "misalign",
+          "label": "Misalignment",
+          "color": "#33a8bd",
+          "container": false,
+          "rungs": [
+            {
+              "rung": "100",
+              "deaths": 100.0,
+              "damages": 220000000.0,
+              "label": "100 deaths or $220M",
+              "qid": "ladder:misalign:100",
+              "per_model": {
+                "GPT-6 Astra": 78.0,
+                "Fable 5.1": 86.0,
+                "Opus 5": 88.0,
+                "GPT-5.5 Pro": 55.0
+              },
+              "median": 82.0,
+              "ci": null
+            },
+            {
+              "rung": "1k",
+              "deaths": 1000.0,
+              "damages": 2200000000.0,
+              "label": "1k deaths or $2.2B",
+              "qid": "ladder:misalign:1k",
+              "per_model": {
+                "GPT-6 Astra": 50.0,
+                "Fable 5.1": 60.0,
+                "Opus 5": 52.0,
+                "GPT-5.5 Pro": 28.0
+              },
+              "median": 51.0,
+              "ci": null
+            },
+            {
+              "rung": "10k",
+              "deaths": 10000.0,
+              "damages": 22000000000.0,
+              "label": "10k deaths or $22B",
+              "qid": "ladder:misalign:10k",
+              "per_model": {
+                "GPT-6 Astra": 22.5,
+                "Fable 5.1": 30.0,
+                "Opus 5": 21.0,
+                "GPT-5.5 Pro": 13.0
+              },
+              "median": 21.75,
+              "ci": null
+            },
+            {
+              "rung": "100k",
+              "deaths": 100000.0,
+              "damages": 220000000000.0,
+              "label": "100k deaths or $220B",
+              "qid": "ladder:misalign:100k",
+              "per_model": {
+                "GPT-6 Astra": 8.125,
+                "Fable 5.1": 13.0,
+                "Opus 5": 6.5,
+                "GPT-5.5 Pro": 5.0
+              },
+              "median": 7.3125,
+              "ci": null
+            },
+            {
+              "rung": "1M",
+              "deaths": 1000000.0,
+              "damages": 2200000000000.0,
+              "label": "1M deaths or $2.2T",
+              "qid": "ladder:misalign:1M",
+              "per_model": {
+                "GPT-6 Astra": 3.25,
+                "Fable 5.1": 6.0,
+                "Opus 5": 1.4,
+                "GPT-5.5 Pro": 2.5
+              },
+              "median": 2.875,
+              "ci": null
+            },
+            {
+              "rung": "10M",
+              "deaths": 10000000.0,
+              "damages": 22000000000000.0,
+              "label": "10M deaths or $22T",
+              "qid": "ladder:misalign:10M",
+              "per_model": {
+                "GPT-6 Astra": 1.5,
+                "Fable 5.1": 3.0,
+                "Opus 5": 0.3,
+                "GPT-5.5 Pro": 1.0
+              },
+              "median": 1.25,
+              "ci": null
+            },
+            {
+              "rung": "100M",
+              "deaths": 100000000.0,
+              "damages": 220000000000000.0,
+              "label": "100M deaths or $220T",
+              "qid": "ladder:misalign:100M",
+              "per_model": {
+                "GPT-6 Astra": 0.75,
+                "Fable 5.1": 1.6,
+                "Opus 5": 0.1,
+                "GPT-5.5 Pro": 0.4
+              },
+              "median": 0.575,
+              "ci": null
+            },
+            {
+              "rung": "1B",
+              "deaths": 1000000000.0,
+              "damages": 2200000000000000.2,
+              "label": "1B deaths or $2.2Q",
+              "qid": "ladder:misalign:1B",
+              "per_model": {
+                "GPT-6 Astra": 0.4375,
+                "Fable 5.1": 0.8,
+                "Opus 5": 0.05,
+                "GPT-5.5 Pro": 0.15
+              },
+              "median": 0.2938,
+              "ci": null
+            }
+          ]
+        }
+      ],
+      "violations": [],
+      "declines": {},
+      "pairsChecked": 112
+    },
+    "2050": {
+      "causes": [
+        {
+          "key": "ai",
+          "label": "Any AI-related incident",
+          "color": "#3a4150",
+          "container": true,
+          "rungs": [
+            {
+              "rung": "100",
+              "deaths": 100.0,
+              "damages": 220000000.0,
+              "label": "100 deaths or $220M",
+              "qid": "ladder:ai:100",
+              "per_model": {
+                "GPT-6 Astra": 99.995,
+                "Fable 5.1": 99.9,
+                "Opus 5": 99.8,
+                "GPT-5.5 Pro": 99.98
+              },
+              "median": 99.94,
+              "ci": null
+            },
+            {
+              "rung": "1k",
+              "deaths": 1000.0,
+              "damages": 2200000000.0,
+              "label": "1k deaths or $2.2B",
+              "qid": "ladder:ai:1k",
+              "per_model": {
+                "GPT-6 Astra": 99.8,
+                "Fable 5.1": 99.5,
+                "Opus 5": 99.5,
+                "GPT-5.5 Pro": 99.8
+              },
+              "median": 99.65,
+              "ci": null
+            },
+            {
+              "rung": "10k",
+              "deaths": 10000.0,
+              "damages": 22000000000.0,
+              "label": "10k deaths or $22B",
+              "qid": "ladder:ai:10k",
+              "per_model": {
+                "GPT-6 Astra": 97.0,
+                "Fable 5.1": 97.0,
+                "Opus 5": 95.5,
+                "GPT-5.5 Pro": 98.5
+              },
+              "median": 97.0,
+              "ci": null
+            },
+            {
+              "rung": "100k",
+              "deaths": 100000.0,
+              "damages": 220000000000.0,
+              "label": "100k deaths or $220B",
+              "qid": "ladder:ai:100k",
+              "per_model": {
+                "GPT-6 Astra": 76.0,
+                "Fable 5.1": 85.0,
+                "Opus 5": 75.0,
+                "GPT-5.5 Pro": 88.0
+              },
+              "median": 80.5,
+              "ci": null
+            },
+            {
+              "rung": "1M",
+              "deaths": 1000000.0,
+              "damages": 2200000000000.0,
+              "label": "1M deaths or $2.2T",
+              "qid": "ladder:ai:1M",
+              "per_model": {
+                "GPT-6 Astra": 45.0,
+                "Fable 5.1": 50.0,
+                "Opus 5": 36.0,
+                "GPT-5.5 Pro": 55.0
+              },
+              "median": 47.5,
+              "ci": null
+            },
+            {
+              "rung": "10M",
+              "deaths": 10000000.0,
+              "damages": 22000000000000.0,
+              "label": "10M deaths or $22T",
+              "qid": "ladder:ai:10M",
+              "per_model": {
+                "GPT-6 Astra": 26.0,
+                "Fable 5.1": 22.0,
+                "Opus 5": 11.5,
+                "GPT-5.5 Pro": 35.0
+              },
+              "median": 24.0,
+              "ci": null
+            },
+            {
+              "rung": "100M",
+              "deaths": 100000000.0,
+              "damages": 220000000000000.0,
+              "label": "100M deaths or $220T",
+              "qid": "ladder:ai:100M",
+              "per_model": {
+                "GPT-6 Astra": 14.8,
+                "Fable 5.1": 10.0,
+                "Opus 5": 3.6,
+                "GPT-5.5 Pro": 20.0
+              },
+              "median": 12.4,
+              "ci": null
+            },
+            {
+              "rung": "1B",
+              "deaths": 1000000000.0,
+              "damages": 2200000000000000.2,
+              "label": "1B deaths or $2.2Q",
+              "qid": "ladder:ai:1B",
+              "per_model": {
+                "GPT-6 Astra": 9.3,
+                "Fable 5.1": 5.5,
+                "Opus 5": 1.5,
+                "GPT-5.5 Pro": 9.0
+              },
+              "median": 7.25,
+              "ci": null
+            }
+          ]
+        },
+        {
+          "key": "bio",
+          "label": "Biorisk",
+          "color": "#a63d76",
+          "container": false,
+          "rungs": [
+            {
+              "rung": "100",
+              "deaths": 100.0,
+              "damages": 220000000.0,
+              "label": "100 deaths or $220M",
+              "qid": "ladder:bio:100",
+              "per_model": {
+                "GPT-6 Astra": 31.5,
+                "Fable 5.1": 55.0,
+                "Opus 5": 28.0,
+                "GPT-5.5 Pro": 24.0
+              },
+              "median": 29.75,
+              "ci": null
+            },
+            {
+              "rung": "1k",
+              "deaths": 1000.0,
+              "damages": 2200000000.0,
+              "label": "1k deaths or $2.2B",
+              "qid": "ladder:bio:1k",
+              "per_model": {
+                "GPT-6 Astra": 27.3,
+                "Fable 5.1": 40.0,
+                "Opus 5": 21.0,
+                "GPT-5.5 Pro": 18.0
+              },
+              "median": 24.15,
+              "ci": null
+            },
+            {
+              "rung": "10k",
+              "deaths": 10000.0,
+              "damages": 22000000000.0,
+              "label": "10k deaths or $22B",
+              "qid": "ladder:bio:10k",
+              "per_model": {
+                "GPT-6 Astra": 23.1,
+                "Fable 5.1": 27.0,
+                "Opus 5": 14.5,
+                "GPT-5.5 Pro": 11.0
+              },
+              "median": 18.8,
+              "ci": null
+            },
+            {
+              "rung": "100k",
+              "deaths": 100000.0,
+              "damages": 220000000000.0,
+              "label": "100k deaths or $220B",
+              "qid": "ladder:bio:100k",
+              "per_model": {
+                "GPT-6 Astra": 18.9,
+                "Fable 5.1": 17.0,
+                "Opus 5": 9.5,
+                "GPT-5.5 Pro": 6.0
+              },
+              "median": 13.25,
+              "ci": null
+            },
+            {
+              "rung": "1M",
+              "deaths": 1000000.0,
+              "damages": 2200000000000.0,
+              "label": "1M deaths or $2.2T",
+              "qid": "ladder:bio:1M",
+              "per_model": {
+                "GPT-6 Astra": 13.65,
+                "Fable 5.1": 10.0,
+                "Opus 5": 5.5,
+                "GPT-5.5 Pro": 3.5
+              },
+              "median": 7.75,
+              "ci": null
+            },
+            {
+              "rung": "10M",
+              "deaths": 10000000.0,
+              "damages": 22000000000000.0,
+              "label": "10M deaths or $22T",
+              "qid": "ladder:bio:10M",
+              "per_model": {
+                "GPT-6 Astra": 8.4,
+                "Fable 5.1": 6.0,
+                "Opus 5": 2.6,
+                "GPT-5.5 Pro": 2.0
+              },
+              "median": 4.3,
+              "ci": null
+            },
+            {
+              "rung": "100M",
+              "deaths": 100000000.0,
+              "damages": 220000000000000.0,
+              "label": "100M deaths or $220T",
+              "qid": "ladder:bio:100M",
+              "per_model": {
+                "GPT-6 Astra": 3.675,
+                "Fable 5.1": 3.0,
+                "Opus 5": 1.0,
+                "GPT-5.5 Pro": 0.8
+              },
+              "median": 2.0,
+              "ci": null
+            },
+            {
+              "rung": "1B",
+              "deaths": 1000000000.0,
+              "damages": 2200000000000000.2,
+              "label": "1B deaths or $2.2Q",
+              "qid": "ladder:bio:1B",
+              "per_model": {
+                "GPT-6 Astra": 1.26,
+                "Fable 5.1": 1.3,
+                "Opus 5": 0.4,
+                "GPT-5.5 Pro": 0.3
+              },
+              "median": 0.83,
+              "ci": null
+            }
+          ]
+        },
+        {
+          "key": "cyber",
+          "label": "Cyber",
+          "color": "#a1801a",
+          "container": false,
+          "rungs": [
+            {
+              "rung": "100",
+              "deaths": 100.0,
+              "damages": 220000000.0,
+              "label": "100 deaths or $220M",
+              "qid": "ladder:cyber:100",
+              "per_model": {
+                "GPT-6 Astra": 99.98,
+                "Fable 5.1": 99.8,
+                "Opus 5": 99.5,
+                "GPT-5.5 Pro": 99.9
+              },
+              "median": 99.85,
+              "ci": null
+            },
+            {
+              "rung": "1k",
+              "deaths": 1000.0,
+              "damages": 2200000000.0,
+              "label": "1k deaths or $2.2B",
+              "qid": "ladder:cyber:1k",
+              "per_model": {
+                "GPT-6 Astra": 99.5,
+                "Fable 5.1": 99.0,
+                "Opus 5": 98.5,
+                "GPT-5.5 Pro": 99.5
+              },
+              "median": 99.25,
+              "ci": null
+            },
+            {
+              "rung": "10k",
+              "deaths": 10000.0,
+              "damages": 22000000000.0,
+              "label": "10k deaths or $22B",
+              "qid": "ladder:cyber:10k",
+              "per_model": {
+                "GPT-6 Astra": 92.0,
+                "Fable 5.1": 95.0,
+                "Opus 5": 91.0,
+                "GPT-5.5 Pro": 95.0
+              },
+              "median": 93.5,
+              "ci": null
+            },
+            {
+              "rung": "100k",
+              "deaths": 100000.0,
+              "damages": 220000000000.0,
+              "label": "100k deaths or $220B",
+              "qid": "ladder:cyber:100k",
+              "per_model": {
+                "GPT-6 Astra": 57.0,
+                "Fable 5.1": 75.0,
+                "Opus 5": 66.0,
+                "GPT-5.5 Pro": 72.0
+              },
+              "median": 69.0,
+              "ci": null
+            },
+            {
+              "rung": "1M",
+              "deaths": 1000000.0,
+              "damages": 2200000000000.0,
+              "label": "1M deaths or $2.2T",
+              "qid": "ladder:cyber:1M",
+              "per_model": {
+                "GPT-6 Astra": 23.1,
+                "Fable 5.1": 35.0,
+                "Opus 5": 26.0,
+                "GPT-5.5 Pro": 32.0
+              },
+              "median": 29.0,
+              "ci": null
+            },
+            {
+              "rung": "10M",
+              "deaths": 10000000.0,
+              "damages": 22000000000000.0,
+              "label": "10M deaths or $22T",
+              "qid": "ladder:cyber:10M",
+              "per_model": {
+                "GPT-6 Astra": 8.4,
+                "Fable 5.1": 8.0,
+                "Opus 5": 6.0,
+                "GPT-5.5 Pro": 16.0
+              },
+              "median": 8.2,
+              "ci": null
+            },
+            {
+              "rung": "100M",
+              "deaths": 100000000.0,
+              "damages": 220000000000000.0,
+              "label": "100M deaths or $220T",
+              "qid": "ladder:cyber:100M",
+              "per_model": {
+                "GPT-6 Astra": 2.625,
+                "Fable 5.1": 2.0,
+                "Opus 5": 1.3,
+                "GPT-5.5 Pro": 7.0
+              },
+              "median": 2.3125,
+              "ci": null
+            },
+            {
+              "rung": "1B",
+              "deaths": 1000000000.0,
+              "damages": 2200000000000000.2,
+              "label": "1B deaths or $2.2Q",
+              "qid": "ladder:cyber:1B",
+              "per_model": {
+                "GPT-6 Astra": 1.05,
+                "Fable 5.1": 0.6,
+                "Opus 5": 0.4,
+                "GPT-5.5 Pro": 2.5
+              },
+              "median": 0.825,
+              "ci": null
+            }
+          ]
+        },
+        {
+          "key": "misalign",
+          "label": "Misalignment",
+          "color": "#33a8bd",
+          "container": false,
+          "rungs": [
+            {
+              "rung": "100",
+              "deaths": 100.0,
+              "damages": 220000000.0,
+              "label": "100 deaths or $220M",
+              "qid": "ladder:misalign:100",
+              "per_model": {
+                "GPT-6 Astra": 95.0,
+                "Fable 5.1": 96.0,
+                "Opus 5": 97.0,
+                "GPT-5.5 Pro": 90.0
+              },
+              "median": 95.5,
+              "ci": null
+            },
+            {
+              "rung": "1k",
+              "deaths": 1000.0,
+              "damages": 2200000000.0,
+              "label": "1k deaths or $2.2B",
+              "qid": "ladder:misalign:1k",
+              "per_model": {
+                "GPT-6 Astra": 82.0,
+                "Fable 5.1": 85.0,
+                "Opus 5": 82.0,
+                "GPT-5.5 Pro": 78.0
+              },
+              "median": 82.0,
+              "ci": null
+            },
+            {
+              "rung": "10k",
+              "deaths": 10000.0,
+              "damages": 22000000000.0,
+              "label": "10k deaths or $22B",
+              "qid": "ladder:misalign:10k",
+              "per_model": {
+                "GPT-6 Astra": 55.0,
+                "Fable 5.1": 60.0,
+                "Opus 5": 55.0,
+                "GPT-5.5 Pro": 55.0
+              },
+              "median": 55.0,
+              "ci": null
+            },
+            {
+              "rung": "100k",
+              "deaths": 100000.0,
+              "damages": 220000000000.0,
+              "label": "100k deaths or $220B",
+              "qid": "ladder:misalign:100k",
+              "per_model": {
+                "GPT-6 Astra": 33.0,
+                "Fable 5.1": 38.0,
+                "Opus 5": 29.0,
+                "GPT-5.5 Pro": 35.0
+              },
+              "median": 34.0,
+              "ci": null
+            },
+            {
+              "rung": "1M",
+              "deaths": 1000000.0,
+              "damages": 2200000000000.0,
+              "label": "1M deaths or $2.2T",
+              "qid": "ladder:misalign:1M",
+              "per_model": {
+                "GPT-6 Astra": 19.8,
+                "Fable 5.1": 22.0,
+                "Opus 5": 12.0,
+                "GPT-5.5 Pro": 23.0
+              },
+              "median": 20.9,
+              "ci": null
+            },
+            {
+              "rung": "10M",
+              "deaths": 10000000.0,
+              "damages": 22000000000000.0,
+              "label": "10M deaths or $22T",
+              "qid": "ladder:misalign:10M",
+              "per_model": {
+                "GPT-6 Astra": 12.1,
+                "Fable 5.1": 13.0,
+                "Opus 5": 4.2,
+                "GPT-5.5 Pro": 15.0
+              },
+              "median": 12.55,
+              "ci": null
+            },
+            {
+              "rung": "100M",
+              "deaths": 100000000.0,
+              "damages": 220000000000000.0,
+              "label": "100M deaths or $220T",
+              "qid": "ladder:misalign:100M",
+              "per_model": {
+                "GPT-6 Astra": 8.25,
+                "Fable 5.1": 7.5,
+                "Opus 5": 1.8,
+                "GPT-5.5 Pro": 9.0
+              },
+              "median": 7.875,
+              "ci": null
+            },
+            {
+              "rung": "1B",
+              "deaths": 1000000000.0,
+              "damages": 2200000000000000.2,
+              "label": "1B deaths or $2.2Q",
+              "qid": "ladder:misalign:1B",
+              "per_model": {
+                "GPT-6 Astra": 5.5,
+                "Fable 5.1": 4.5,
+                "Opus 5": 0.95,
+                "GPT-5.5 Pro": 5.0
+              },
+              "median": 4.75,
+              "ci": null
+            }
+          ]
+        }
+      ],
+      "violations": [],
+      "declines": {},
+      "pairsChecked": 112
+    },
+    "2100": {
+      "causes": [
+        {
+          "key": "ai",
+          "label": "Any AI-related incident",
+          "color": "#3a4150",
+          "container": true,
+          "rungs": [
+            {
+              "rung": "100",
+              "deaths": 100.0,
+              "damages": 220000000.0,
+              "label": "100 deaths or $220M",
+              "qid": "ladder:ai:100",
+              "per_model": {
+                "GPT-6 Astra": 99.997,
+                "Fable 5.1": 99.9,
+                "Opus 5": 99.9,
+                "GPT-5.5 Pro": 99.99
+              },
+              "median": 99.945,
+              "ci": null
+            },
+            {
+              "rung": "1k",
+              "deaths": 1000.0,
+              "damages": 2200000000.0,
+              "label": "1k deaths or $2.2B",
+              "qid": "ladder:ai:1k",
+              "per_model": {
+                "GPT-6 Astra": 99.96,
+                "Fable 5.1": 99.7,
+                "Opus 5": 99.7,
+                "GPT-5.5 Pro": 99.95
+              },
+              "median": 99.825,
+              "ci": null
+            },
+            {
+              "rung": "10k",
+              "deaths": 10000.0,
+              "damages": 22000000000.0,
+              "label": "10k deaths or $22B",
+              "qid": "ladder:ai:10k",
+              "per_model": {
+                "GPT-6 Astra": 99.3,
+                "Fable 5.1": 98.0,
+                "Opus 5": 97.5,
+                "GPT-5.5 Pro": 99.8
+              },
+              "median": 98.65,
+              "ci": null
+            },
+            {
+              "rung": "100k",
+              "deaths": 100000.0,
+              "damages": 220000000000.0,
+              "label": "100k deaths or $220B",
+              "qid": "ladder:ai:100k",
+              "per_model": {
+                "GPT-6 Astra": 92.0,
+                "Fable 5.1": 92.0,
+                "Opus 5": 86.0,
+                "GPT-5.5 Pro": 98.0
+              },
+              "median": 92.0,
+              "ci": null
+            },
+            {
+              "rung": "1M",
+              "deaths": 1000000.0,
+              "damages": 2200000000000.0,
+              "label": "1M deaths or $2.2T",
+              "qid": "ladder:ai:1M",
+              "per_model": {
+                "GPT-6 Astra": 72.0,
+                "Fable 5.1": 65.0,
+                "Opus 5": 60.0,
+                "GPT-5.5 Pro": 86.0
+              },
+              "median": 68.5,
+              "ci": null
+            },
+            {
+              "rung": "10M",
+              "deaths": 10000000.0,
+              "damages": 22000000000000.0,
+              "label": "10M deaths or $22T",
+              "qid": "ladder:ai:10M",
+              "per_model": {
+                "GPT-6 Astra": 45.0,
+                "Fable 5.1": 38.0,
+                "Opus 5": 27.0,
+                "GPT-5.5 Pro": 68.0
+              },
+              "median": 41.5,
+              "ci": null
+            },
+            {
+              "rung": "100M",
+              "deaths": 100000000.0,
+              "damages": 220000000000000.0,
+              "label": "100M deaths or $220T",
+              "qid": "ladder:ai:100M",
+              "per_model": {
+                "GPT-6 Astra": 27.5,
+                "Fable 5.1": 18.0,
+                "Opus 5": 10.0,
+                "GPT-5.5 Pro": 45.0
+              },
+              "median": 22.75,
+              "ci": null
+            },
+            {
+              "rung": "1B",
+              "deaths": 1000000000.0,
+              "damages": 2200000000000000.2,
+              "label": "1B deaths or $2.2Q",
+              "qid": "ladder:ai:1B",
+              "per_model": {
+                "GPT-6 Astra": 18.1,
+                "Fable 5.1": 10.0,
+                "Opus 5": 4.2,
+                "GPT-5.5 Pro": 23.0
+              },
+              "median": 14.05,
+              "ci": null
+            }
+          ]
+        },
+        {
+          "key": "bio",
+          "label": "Biorisk",
+          "color": "#a63d76",
+          "container": false,
+          "rungs": [
+            {
+              "rung": "100",
+              "deaths": 100.0,
+              "damages": 220000000.0,
+              "label": "100 deaths or $220M",
+              "qid": "ladder:bio:100",
+              "per_model": {
+                "GPT-6 Astra": 52.5,
+                "Fable 5.1": 72.0,
+                "Opus 5": 45.0,
+                "GPT-5.5 Pro": 60.0
+              },
+              "median": 56.25,
+              "ci": null
+            },
+            {
+              "rung": "1k",
+              "deaths": 1000.0,
+              "damages": 2200000000.0,
+              "label": "1k deaths or $2.2B",
+              "qid": "ladder:bio:1k",
+              "per_model": {
+                "GPT-6 Astra": 47.25,
+                "Fable 5.1": 58.0,
+                "Opus 5": 35.0,
+                "GPT-5.5 Pro": 48.0
+              },
+              "median": 47.625,
+              "ci": null
+            },
+            {
+              "rung": "10k",
+              "deaths": 10000.0,
+              "damages": 22000000000.0,
+              "label": "10k deaths or $22B",
+              "qid": "ladder:bio:10k",
+              "per_model": {
+                "GPT-6 Astra": 42.0,
+                "Fable 5.1": 42.0,
+                "Opus 5": 26.0,
+                "GPT-5.5 Pro": 34.0
+              },
+              "median": 38.0,
+              "ci": null
+            },
+            {
+              "rung": "100k",
+              "deaths": 100000.0,
+              "damages": 220000000000.0,
+              "label": "100k deaths or $220B",
+              "qid": "ladder:bio:100k",
+              "per_model": {
+                "GPT-6 Astra": 35.7,
+                "Fable 5.1": 29.0,
+                "Opus 5": 19.0,
+                "GPT-5.5 Pro": 22.0
+              },
+              "median": 25.5,
+              "ci": null
+            },
+            {
+              "rung": "1M",
+              "deaths": 1000000.0,
+              "damages": 2200000000000.0,
+              "label": "1M deaths or $2.2T",
+              "qid": "ladder:bio:1M",
+              "per_model": {
+                "GPT-6 Astra": 27.3,
+                "Fable 5.1": 19.0,
+                "Opus 5": 12.0,
+                "GPT-5.5 Pro": 14.0
+              },
+              "median": 16.5,
+              "ci": null
+            },
+            {
+              "rung": "10M",
+              "deaths": 10000000.0,
+              "damages": 22000000000000.0,
+              "label": "10M deaths or $22T",
+              "qid": "ladder:bio:10M",
+              "per_model": {
+                "GPT-6 Astra": 17.85,
+                "Fable 5.1": 12.0,
+                "Opus 5": 6.2,
+                "GPT-5.5 Pro": 8.0
+              },
+              "median": 10.0,
+              "ci": null
+            },
+            {
+              "rung": "100M",
+              "deaths": 100000000.0,
+              "damages": 220000000000000.0,
+              "label": "100M deaths or $220T",
+              "qid": "ladder:bio:100M",
+              "per_model": {
+                "GPT-6 Astra": 8.4,
+                "Fable 5.1": 6.5,
+                "Opus 5": 2.8,
+                "GPT-5.5 Pro": 3.5
+              },
+              "median": 5.0,
+              "ci": null
+            },
+            {
+              "rung": "1B",
+              "deaths": 1000000000.0,
+              "damages": 2200000000000000.2,
+              "label": "1B deaths or $2.2Q",
+              "qid": "ladder:bio:1B",
+              "per_model": {
+                "GPT-6 Astra": 3.675,
+                "Fable 5.1": 3.0,
+                "Opus 5": 1.3,
+                "GPT-5.5 Pro": 1.4
+              },
+              "median": 2.2,
+              "ci": null
+            }
+          ]
+        },
+        {
+          "key": "cyber",
+          "label": "Cyber",
+          "color": "#a1801a",
+          "container": false,
+          "rungs": [
+            {
+              "rung": "100",
+              "deaths": 100.0,
+              "damages": 220000000.0,
+              "label": "100 deaths or $220M",
+              "qid": "ladder:cyber:100",
+              "per_model": {
+                "GPT-6 Astra": 99.99,
+                "Fable 5.1": 99.9,
+                "Opus 5": 99.7,
+                "GPT-5.5 Pro": 99.96
+              },
+              "median": 99.93,
+              "ci": null
+            },
+            {
+              "rung": "1k",
+              "deaths": 1000.0,
+              "damages": 2200000000.0,
+              "label": "1k deaths or $2.2B",
+              "qid": "ladder:cyber:1k",
+              "per_model": {
+                "GPT-6 Astra": 99.9,
+                "Fable 5.1": 99.5,
+                "Opus 5": 99.0,
+                "GPT-5.5 Pro": 99.88
+              },
+              "median": 99.69,
+              "ci": null
+            },
+            {
+              "rung": "10k",
+              "deaths": 10000.0,
+              "damages": 22000000000.0,
+              "label": "10k deaths or $22B",
+              "qid": "ladder:cyber:10k",
+              "per_model": {
+                "GPT-6 Astra": 98.0,
+                "Fable 5.1": 97.0,
+                "Opus 5": 94.5,
+                "GPT-5.5 Pro": 98.5
+              },
+              "median": 97.5,
+              "ci": null
+            },
+            {
+              "rung": "100k",
+              "deaths": 100000.0,
+              "damages": 220000000000.0,
+              "label": "100k deaths or $220B",
+              "qid": "ladder:cyber:100k",
+              "per_model": {
+                "GPT-6 Astra": 81.0,
+                "Fable 5.1": 87.0,
+                "Opus 5": 77.0,
+                "GPT-5.5 Pro": 90.0
+              },
+              "median": 84.0,
+              "ci": null
+            },
+            {
+              "rung": "1M",
+              "deaths": 1000000.0,
+              "damages": 2200000000000.0,
+              "label": "1M deaths or $2.2T",
+              "qid": "ladder:cyber:1M",
+              "per_model": {
+                "GPT-6 Astra": 50.4,
+                "Fable 5.1": 50.0,
+                "Opus 5": 47.0,
+                "GPT-5.5 Pro": 55.0
+              },
+              "median": 50.2,
+              "ci": null
+            },
+            {
+              "rung": "10M",
+              "deaths": 10000000.0,
+              "damages": 22000000000000.0,
+              "label": "10M deaths or $22T",
+              "qid": "ladder:cyber:10M",
+              "per_model": {
+                "GPT-6 Astra": 21.0,
+                "Fable 5.1": 16.0,
+                "Opus 5": 17.0,
+                "GPT-5.5 Pro": 33.0
+              },
+              "median": 19.0,
+              "ci": null
+            },
+            {
+              "rung": "100M",
+              "deaths": 100000000.0,
+              "damages": 220000000000000.0,
+              "label": "100M deaths or $220T",
+              "qid": "ladder:cyber:100M",
+              "per_model": {
+                "GPT-6 Astra": 7.35,
+                "Fable 5.1": 4.5,
+                "Opus 5": 4.2,
+                "GPT-5.5 Pro": 18.0
+              },
+              "median": 5.925,
+              "ci": null
+            },
+            {
+              "rung": "1B",
+              "deaths": 1000000000.0,
+              "damages": 2200000000000000.2,
+              "label": "1B deaths or $2.2Q",
+              "qid": "ladder:cyber:1B",
+              "per_model": {
+                "GPT-6 Astra": 3.675,
+                "Fable 5.1": 1.4,
+                "Opus 5": 1.0,
+                "GPT-5.5 Pro": 8.0
+              },
+              "median": 2.5375,
+              "ci": null
+            }
+          ]
+        },
+        {
+          "key": "misalign",
+          "label": "Misalignment",
+          "color": "#33a8bd",
+          "container": false,
+          "rungs": [
+            {
+              "rung": "100",
+              "deaths": 100.0,
+              "damages": 220000000.0,
+              "label": "100 deaths or $220M",
+              "qid": "ladder:misalign:100",
+              "per_model": {
+                "GPT-6 Astra": 98.3,
+                "Fable 5.1": 97.0,
+                "Opus 5": 98.0,
+                "GPT-5.5 Pro": 96.0
+              },
+              "median": 97.5,
+              "ci": null
+            },
+            {
+              "rung": "1k",
+              "deaths": 1000.0,
+              "damages": 2200000000.0,
+              "label": "1k deaths or $2.2B",
+              "qid": "ladder:misalign:1k",
+              "per_model": {
+                "GPT-6 Astra": 94.0,
+                "Fable 5.1": 90.0,
+                "Opus 5": 89.0,
+                "GPT-5.5 Pro": 90.0
+              },
+              "median": 90.0,
+              "ci": null
+            },
+            {
+              "rung": "10k",
+              "deaths": 10000.0,
+              "damages": 22000000000.0,
+              "label": "10k deaths or $22B",
+              "qid": "ladder:misalign:10k",
+              "per_model": {
+                "GPT-6 Astra": 78.0,
+                "Fable 5.1": 70.0,
+                "Opus 5": 68.0,
+                "GPT-5.5 Pro": 78.0
+              },
+              "median": 74.0,
+              "ci": null
+            },
+            {
+              "rung": "100k",
+              "deaths": 100000.0,
+              "damages": 220000000000.0,
+              "label": "100k deaths or $220B",
+              "qid": "ladder:misalign:100k",
+              "per_model": {
+                "GPT-6 Astra": 53.5,
+                "Fable 5.1": 48.0,
+                "Opus 5": 43.0,
+                "GPT-5.5 Pro": 62.0
+              },
+              "median": 50.75,
+              "ci": null
+            },
+            {
+              "rung": "1M",
+              "deaths": 1000000.0,
+              "damages": 2200000000000.0,
+              "label": "1M deaths or $2.2T",
+              "qid": "ladder:misalign:1M",
+              "per_model": {
+                "GPT-6 Astra": 34.24,
+                "Fable 5.1": 30.0,
+                "Opus 5": 24.0,
+                "GPT-5.5 Pro": 48.0
+              },
+              "median": 32.12,
+              "ci": null
+            },
+            {
+              "rung": "10M",
+              "deaths": 10000000.0,
+              "damages": 22000000000000.0,
+              "label": "10M deaths or $22T",
+              "qid": "ladder:misalign:10M",
+              "per_model": {
+                "GPT-6 Astra": 21.4,
+                "Fable 5.1": 19.0,
+                "Opus 5": 10.5,
+                "GPT-5.5 Pro": 35.0
+              },
+              "median": 20.2,
+              "ci": null
+            },
+            {
+              "rung": "100M",
+              "deaths": 100000000.0,
+              "damages": 220000000000000.0,
+              "label": "100M deaths or $220T",
+              "qid": "ladder:misalign:100M",
+              "per_model": {
+                "GPT-6 Astra": 14.98,
+                "Fable 5.1": 12.0,
+                "Opus 5": 5.2,
+                "GPT-5.5 Pro": 22.0
+              },
+              "median": 13.49,
+              "ci": null
+            },
+            {
+              "rung": "1B",
+              "deaths": 1000000000.0,
+              "damages": 2200000000000000.2,
+              "label": "1B deaths or $2.2Q",
+              "qid": "ladder:misalign:1B",
+              "per_model": {
+                "GPT-6 Astra": 10.7,
+                "Fable 5.1": 7.5,
+                "Opus 5": 2.9,
+                "GPT-5.5 Pro": 14.0
+              },
+              "median": 9.1,
+              "ci": null
+            }
+          ]
+        }
+      ],
+      "violations": [],
+      "declines": {},
+      "pairsChecked": 112
+    }
+  },
+  "container": "ai",
+  "notes": {
+    "vsl_usd": 2200000.0,
+    "severity_axis": "Each rung resolves on deaths OR damages, whichever comes first. The two legs sit at a constant 1:2.2e+06 ratio \u2014 the $2.2M value of a statistical life the criteria state \u2014 so the axis stays monotone and log-spaced whichever leg binds.",
+    "cyber": "Cyber is on the ladder for the first time. It was held out while the axis was deaths-only (per Jason, 2026-08-03: cyber belongs on a DAMAGES ladder); the disjunctive threshold is what admits it.",
+    "container": "'Any AI-related incident' contains the other three by Bridget's definition, so it plays the role 'All causes' used to. There is NO all-cause ladder in this set: nuclear and natural pandemics are outside it, so the CROSS check has an AI-internal ceiling only.",
+    "rolling": "All incident onset windows start at the elicitation date. 6mo/12mo end that many months later; fixed-year windows end on December 31. Rows retain both boundaries. Harm within three years of each eligible onset can occur after the deadline; the onset deadline is not necessarily the date on which a forecast can be scored."
+  },
+  "ladder": {
+    "criteria": "* An incident is considered \u201cAI-related\u201d if it would not occur, or not reach the severity threshold, but for the substantial involvement of AI.  \n  * An AI-related incident could be an AI-related human-caused epidemic, an AI-related cyber incident, a misaligned AI incident, or a different type of AI-related incident.",
+    "details": {
+      "perfect_knowledge": "* Perfect-knowledge clause: Assume we have perfect knowledge of the cause of each event, the intent and identity of the actors involved (including whether an AI system was involved and in what role), and the technical attribution. We want your view on the damages resulting from these events, not on the probability that they would be correctly identified or attributed.  \n* Incident categories could overlap; for example, a misaligned AI incident could also be counted as an AI-related cyber incident, provided such an incident met the defined thresholds for each category.",
+      "severity": "* The figure of [X] deaths refers to global excess mortality that is believed to be attributed to the incident(s).   \n  * The deaths do not need to be directly attributed to the incident but if there is an alternative reason for excess mortality to increase in a location (e.g. due to conflict) then the excess mortality for that region will not be counted as deaths as a result of the incident. E.g., famine deaths that would not have occurred absent the incident would count, while deaths due to a conflict that likely would have occurred anyway would not.  \n  * For this question to resolve positively, more than X million excess deaths attributable to the incident must occur within a 3-year period, beginning from the onset of the incident.  \n  * In the absence of a published estimate, we will defer to the majority opinion of a panel of at least five experts to determine if this criterion has been met.  \n* Equivalent morbidity is defined as roughly 10 QALYs per death, e.g. 100 million QALYs is intended to represent morbidity roughly equivalent to 10 million deaths.  \n  * A quality-adjusted life year (QALY) is a measure used in health economics that combines both the length and quality of life, where one QALY equals one year lived in perfect health. It's calculated by multiplying the number of years lived by a quality score between 0 (death) and 1 (perfect health), allowing comparison of different health interventions' effectiveness.  \n  * An estimate of QALYs lost due to the pathogen that is published in a peer-reviewed journal, or by an international organization such as the World Health Organization or World Bank, would be sufficient to resolve this question.  \n  * In the absence of such an estimate, we will defer to the majority opinion of a panel of at least five experts to determine if this criterion has been met.  \n* Economic damages: Economic damages refer to global economic costs attributable to the event, beginning from the start of the event and extending to three years after the event onset. These include:  \n  * Direct economic losses \u2014 e.g., reduced productivity and income (commonly estimated as a reduction in GDP); costs of response, remediation, recovery, and decontamination; destroyed or unrecoverable data and hardware; ransoms paid; medical and public-health response costs; regulatory penalties tied to the event.  \n  * Monetized mortality, using a value of a statistical life (VSL) of $2.2 million, regardless of the geographic distribution of fatalities.  \n  * Exclude purely notional losses such as declines in market capitalization or share price that do not correspond to real resource costs. Give all estimates in 2026 USD.  \n* Resolution sources: Assume access to authoritative assessments, which may include estimates from the WHO, World Bank, IMF, national cybersecurity agencies (e.g., CISA, ENISA), major insurers and reinsurers, incident-response and threat-intelligence firms, and academic epidemiological and economic-modeling groups. Where multiple analyses exist, we will use the consensus or median; absent that, we will defer to the majority opinion of a panel of at least five experts.",
+      "dates": "* Count only incidents whose onset falls within the specified counting interval, beginning on the elicitation date. All dates refer to UTC calendar dates, inclusive of the stated start and end dates.\n* For six- and twelve-month horizons, the interval ends that many calendar months after the elicitation date. For a fixed-year horizon, it ends on December 31 of the named year. The exact start and end dates are supplied with this forecast. Every later elicitation starts a new counting interval; there is no permanent project-start or calendar-year baseline.\n* Exclude incidents that began before the interval, including their later harms. New reporting, additional losses or later AI involvement does not by itself establish a new incident onset.\n* For each eligible incident, count attributable mortality, equivalent morbidity and economic damages within its first three years after onset, under the severity definitions above. Harm after the interval's end date can count if it falls within that incident's three-year harm window. The horizon is an onset deadline, not a deadline for all harm to occur.\n* These date rules apply to all four incident categories only; the separate large-scale-catastrophe and human-disempowerment questions retain their own date criteria."
+    }
+  },
+  "severityAxis": {
+    "lo": 800,
+    "hi": 14000000000.0
+  },
+  "historical": {
+    "caveat": "These marks locate historical events and two definitional reference points on the severity axis. They are NOT comparable to the curves: every curve is the probability of an AI-related incident inside one horizon window, while the historical events are non-AI and accumulated over years. Bands show the range across published estimates, not measurement error; the reference marks (Black Death as a population share, Extinction) are definitions drawn at today's population, not tolls. NotPetya is a damages figure, placed by converting dollars to death-equivalents at the ladder's own value of a statistical life.",
+    "conversion": {
+      "vsl_usd": 2200000.0,
+      "rule": "severity = max(deaths, damages_usd / vsl_usd)",
+      "why": "Each rung resolves on deaths OR damages, whichever binds first, so an event reaches the rung set by its higher leg."
+    },
+    "events": [
+      {
+        "id": "notpetya",
+        "kind": "event",
+        "label": "NotPetya (~$10B damages)",
+        "short": "NotPetya: $10B",
+        "span": "2017",
+        "basis": "damages only \u2014 the White House's ~$10B estimate, at $2.2M per statistical life",
+        "low": 4545.454545454545,
+        "central": 4545.454545454545,
+        "high": 4545.454545454545,
+        "leg": "damages",
+        "damagesUsd": 10000000000.0,
+        "source": "White House estimate, as reported by Wired (Greenberg, 2018)",
+        "sourceTitle": "The Untold Story of NotPetya, the Most Devastating Cyberattack in History: \"more than $10 billion in total damages\" (Tom Bossert, then Homeland Security adviser)",
+        "url": "https://www.wired.com/story/notpetya-cyberattack-ukraine-russia-code-crashed-the-world/",
+        "note": "DAMAGES ONLY: no deaths are attributed to NotPetya, so it enters on the dollar leg and its position is $10B / $2.2M per statistical life \u2248 4.5k death-equivalents. The $10B is a single U.S. government estimate in 2017 dollars (the rungs are stated in 2026 USD; inflating it would move the mark a few percent, invisible on a log axis). Disclosed corporate write-downs alone (Merck, Maersk, FedEx/TNT, Saint-Gobain, Mondelez) sum to over $3B. It is here to show where the costliest cyberattack on record sits: at the foot of the ladder."
+      },
+      {
+        "id": "covid-19",
+        "kind": "event",
+        "label": "COVID-19",
+        "short": "COVID-19",
+        "span": "2020-2021",
+        "basis": "excess mortality, the accounting the ladder's criteria ask for",
+        "low": 13230000.0,
+        "central": 14830000.0,
+        "high": 16580000.0,
+        "leg": "deaths",
+        "damagesUsd": 12500000000000.0,
+        "source": "World Health Organization",
+        "sourceTitle": "Global excess deaths associated with COVID-19, January 2020 - December 2021: 14.83M (13.23-16.58M)",
+        "url": "https://www.who.int/data/stories/global-excess-deaths-associated-with-covid-19-january-2020-december-2021",
+        "note": "Excess mortality, not the ~7M laboratory-confirmed deaths \u2014 the ladder's criteria ask for excess mortality attributable to the event. The damages leg (IMF cumulative output loss, $12.5T over 2020-21 rising to $22T through 2025) implies only ~1.25M death-equivalent, so the deaths leg binds and sets the position."
+      },
+      {
+        "id": "black-death",
+        "kind": "event",
+        "label": "Black Death (Europe)",
+        "short": "Black Death",
+        "span": "1347-1352",
+        "basis": "European deaths at 40-60% mortality of a ~80M population",
+        "low": 25000000.0,
+        "central": 35000000.0,
+        "high": 50000000.0,
+        "leg": "deaths",
+        "damagesUsd": null,
+        "source": "Benedictow 2004; Alfani & Murphy 2017, Journal of Economic History 77(1), 314-343",
+        "sourceTitle": "The Black Death 1346-1353: The Complete History (up to 60% mortality), reviewed against the 40-60% range in Plague and Lethal Epidemics in the Pre-Industrial World",
+        "url": "https://www.cambridge.org/core/journals/journal-of-economic-history/article/plague-and-lethal-epidemics-in-the-preindustrial-world/1D2D564AD8560ABACAF9D81A65F27CED",
+        "note": "EUROPE ONLY. Global tolls of 75-200M circulate but rest on far weaker evidence. In absolute deaths this lands beside COVID-19; as a share of the population it is orders of magnitude worse, which is precisely what an absolute-deaths axis cannot show."
+      },
+      {
+        "id": "world-war-ii",
+        "kind": "event",
+        "label": "World War II",
+        "short": "World War II",
+        "span": "1939-1945",
+        "basis": "total military and civilian deaths",
+        "low": 70000000.0,
+        "central": 77000000.0,
+        "high": 85000000.0,
+        "leg": "deaths",
+        "damagesUsd": null,
+        "source": "Compiled national estimates; battle-death subset in the Correlates of War project",
+        "sourceTitle": "The 70-85M range synthesises national archives, postwar demographic studies and census-loss estimates; only the ~16.6M battle-death subset comes from a single dataset",
+        "url": "https://correlatesofwar.org/data-sets/COW-war/",
+        "note": "This is a compilation, not one source. It is included because it is the reference point every reader already has for 'the worst thing that has happened', and excluding it would leave the top of the axis unanchored."
+      },
+      {
+        "id": "black-death-share",
+        "kind": "reference",
+        "label": "Black Death (25% of population)",
+        "short": "Black Death 25%",
+        "span": "1347-1352 share, at today's population",
+        "basis": "25% of the ~8.2B alive today",
+        "low": 2050000000.0,
+        "central": 2050000000.0,
+        "high": 2050000000.0,
+        "leg": "deaths",
+        "damagesUsd": null,
+        "source": "U.S. Census Bureau, Historical Estimates of World Population (compiling Biraben, Durand, McEvedy & Jones); Alchon 2003",
+        "sourceTitle": "Compiled world-population estimates fall from ~443-475M on the eve of the plague to 350-375M after it",
+        "url": "https://www.census.gov/data/tables/time-series/demo/international-programs/historical-est-worldpop.html",
+        "note": "DEFINITIONAL, not a second death toll: the conventional 'quarter of the world's population' summary of the Black Death, applied to the people alive today. The share rests on medieval demography (world population estimates fall from ~443-475M to ~350-375M across the plague century \u2014 roughly a sixth to a quarter), evidence far weaker than the Europe-only band this file also draws. The mark exists to show scale: as a count the Black Death sits beside COVID-19; as a share of humanity it was ~2.5x the 10% catastrophe threshold."
+      },
+      {
+        "id": "extinction",
+        "kind": "reference",
+        "label": "Extinction",
+        "short": "Extinction",
+        "span": "hypothetical",
+        "basis": "everyone alive \u2014 the question set's ~8.2B population basis",
+        "low": 8200000000.0,
+        "central": 8200000000.0,
+        "high": 8200000000.0,
+        "leg": "deaths",
+        "damagesUsd": null,
+        "source": "United Nations, World Population Prospects 2024",
+        "sourceTitle": "World population ~8.2B \u2014 the figure the question set carries as world_pop and converts '10% of population' through (820M)",
+        "url": "https://population.un.org/wpp/",
+        "note": "Not an event and not an estimate: the position is simply the number of people alive, on the same population basis as the catastrophe questions. It tops out the severity axis so a reader can see how far the 1B rung and the Black Death's population share still sit from everyone."
+      }
+    ]
+  },
+  "coherence": {
+    "enforced": false,
+    "note": "The models are told nothing about how these questions relate. Every rung of every cause is answered in one call, and the orderings are checked afterwards. No forecast is adjusted or discarded for failing one."
+  }
+}

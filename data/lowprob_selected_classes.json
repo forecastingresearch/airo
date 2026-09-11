@@ -1,0 +1,297 @@
+{
+  "meta": {
+    "snapshot_turn": 40,
+    "n_games": 1019,
+    "rate_band": [
+      0.01,
+      0.09
+    ],
+    "min_n": 40,
+    "total_binary_questions": 425270,
+    "n_classes_total": 564,
+    "n_classes_selected": 35,
+    "n_corpus_instances": 25919
+  },
+  "classes": [
+    {
+      "template_id": "government_at",
+      "target": "government_type=Monarchy",
+      "horizon": "H6",
+      "n": 1593,
+      "yes": 16,
+      "base_rate": 0.010043942247332079
+    },
+    {
+      "template_id": "tech_discovered",
+      "target": "tech_name=Communism",
+      "horizon": "H4",
+      "n": 587,
+      "yes": 7,
+      "base_rate": 0.01192504258943782
+    },
+    {
+      "template_id": "wonder_completed",
+      "target": "wonder_name=Sun Tzu's War Academy",
+      "horizon": "H2",
+      "n": 74,
+      "yes": 1,
+      "base_rate": 0.013513513513513514
+    },
+    {
+      "template_id": "tech_discovered",
+      "target": "tech_name=Atomic Theory",
+      "horizon": "H3",
+      "n": 535,
+      "yes": 8,
+      "base_rate": 0.014953271028037384
+    },
+    {
+      "template_id": "wonder_completed",
+      "target": "wonder_name=Palace",
+      "horizon": "H1",
+      "n": 911,
+      "yes": 14,
+      "base_rate": 0.015367727771679473
+    },
+    {
+      "template_id": "government_at",
+      "target": "government_type=Despotism",
+      "horizon": "H2",
+      "n": 1895,
+      "yes": 32,
+      "base_rate": 0.016886543535620052
+    },
+    {
+      "template_id": "wonder_completed",
+      "target": "wonder_name=Marco Polo's Embassy",
+      "horizon": "H1",
+      "n": 466,
+      "yes": 8,
+      "base_rate": 0.017167381974248927
+    },
+    {
+      "template_id": "tech_discovered",
+      "target": "tech_name=Advanced Flight",
+      "horizon": "H7",
+      "n": 105,
+      "yes": 2,
+      "base_rate": 0.01904761904761905
+    },
+    {
+      "template_id": "wonder_completed",
+      "target": "wonder_name=A.Smith's Trading Co.",
+      "horizon": "H3",
+      "n": 587,
+      "yes": 13,
+      "base_rate": 0.022146507666098807
+    },
+    {
+      "template_id": "wonder_completed",
+      "target": "wonder_name=J.S. Bach's Cathedral",
+      "horizon": "H4",
+      "n": 286,
+      "yes": 7,
+      "base_rate": 0.024475524475524476
+    },
+    {
+      "template_id": "government_at",
+      "target": "government_type=Communism",
+      "horizon": "H5",
+      "n": 1525,
+      "yes": 38,
+      "base_rate": 0.024918032786885248
+    },
+    {
+      "template_id": "tech_discovered",
+      "target": "tech_name=Combustion",
+      "horizon": "H6",
+      "n": 495,
+      "yes": 14,
+      "base_rate": 0.028282828282828285
+    },
+    {
+      "template_id": "tech_discovered",
+      "target": "tech_name=Nuclear Fission",
+      "horizon": "H7",
+      "n": 70,
+      "yes": 2,
+      "base_rate": 0.02857142857142857
+    },
+    {
+      "template_id": "tech_discovered",
+      "target": "tech_name=Philosophy",
+      "horizon": "H1",
+      "n": 174,
+      "yes": 5,
+      "base_rate": 0.028735632183908046
+    },
+    {
+      "template_id": "wonder_completed",
+      "target": "wonder_name=Cure For Cancer",
+      "horizon": "H6",
+      "n": 61,
+      "yes": 2,
+      "base_rate": 0.03278688524590164
+    },
+    {
+      "template_id": "tech_discovered",
+      "target": "tech_name=Genetic Engineering",
+      "horizon": "H5",
+      "n": 55,
+      "yes": 2,
+      "base_rate": 0.03636363636363636
+    },
+    {
+      "template_id": "wonder_completed",
+      "target": "wonder_name=Copernicus' Observatory",
+      "horizon": "H2",
+      "n": 402,
+      "yes": 15,
+      "base_rate": 0.03731343283582089
+    },
+    {
+      "template_id": "government_at",
+      "target": "government_type=Monarchy",
+      "horizon": "H7",
+      "n": 1583,
+      "yes": 62,
+      "base_rate": 0.03916614024005054
+    },
+    {
+      "template_id": "wonder_completed",
+      "target": "wonder_name=Isaac Newton's College",
+      "horizon": "H4",
+      "n": 70,
+      "yes": 3,
+      "base_rate": 0.04285714285714286
+    },
+    {
+      "template_id": "tech_discovered",
+      "target": "tech_name=Machine Tools",
+      "horizon": "H5",
+      "n": 67,
+      "yes": 3,
+      "base_rate": 0.04477611940298507
+    },
+    {
+      "template_id": "government_at",
+      "target": "government_type=Democracy",
+      "horizon": "H2",
+      "n": 1293,
+      "yes": 65,
+      "base_rate": 0.050270688321732405
+    },
+    {
+      "template_id": "government_at",
+      "target": "government_type=Despotism",
+      "horizon": "H3",
+      "n": 1895,
+      "yes": 96,
+      "base_rate": 0.050659630606860157
+    },
+    {
+      "template_id": "tech_discovered",
+      "target": "tech_name=Amphibious Warfare",
+      "horizon": "H4",
+      "n": 625,
+      "yes": 32,
+      "base_rate": 0.0512
+    },
+    {
+      "template_id": "government_at",
+      "target": "government_type=Monarchy",
+      "horizon": "H2",
+      "n": 1593,
+      "yes": 83,
+      "base_rate": 0.052102950408035156
+    },
+    {
+      "template_id": "tech_discovered",
+      "target": "tech_name=Explosives",
+      "horizon": "H4",
+      "n": 610,
+      "yes": 34,
+      "base_rate": 0.05573770491803279
+    },
+    {
+      "template_id": "wonder_completed",
+      "target": "wonder_name=Colossus",
+      "horizon": "H1",
+      "n": 125,
+      "yes": 8,
+      "base_rate": 0.064
+    },
+    {
+      "template_id": "tech_discovered",
+      "target": "tech_name=Communism",
+      "horizon": "H5",
+      "n": 587,
+      "yes": 38,
+      "base_rate": 0.06473594548551959
+    },
+    {
+      "template_id": "government_at",
+      "target": "government_type=Monarchy",
+      "horizon": "H1",
+      "n": 1593,
+      "yes": 104,
+      "base_rate": 0.06528562460765851
+    },
+    {
+      "template_id": "tech_discovered",
+      "target": "tech_name=Atomic Theory",
+      "horizon": "H4",
+      "n": 535,
+      "yes": 35,
+      "base_rate": 0.06542056074766354
+    },
+    {
+      "template_id": "tech_discovered",
+      "target": "tech_name=Guerilla Warfare",
+      "horizon": "H6",
+      "n": 608,
+      "yes": 41,
+      "base_rate": 0.06743421052631579
+    },
+    {
+      "template_id": "wonder_completed",
+      "target": "wonder_name=J.S. Bach's Cathedral",
+      "horizon": "H5",
+      "n": 286,
+      "yes": 22,
+      "base_rate": 0.07692307692307693
+    },
+    {
+      "template_id": "tech_discovered",
+      "target": "tech_name=Steel",
+      "horizon": "H5",
+      "n": 600,
+      "yes": 48,
+      "base_rate": 0.08
+    },
+    {
+      "template_id": "government_at",
+      "target": "government_type=Despotism",
+      "horizon": "H4",
+      "n": 1895,
+      "yes": 153,
+      "base_rate": 0.08073878627968338
+    },
+    {
+      "template_id": "tech_discovered",
+      "target": "tech_name=Refining",
+      "horizon": "H6",
+      "n": 1125,
+      "yes": 92,
+      "base_rate": 0.08177777777777778
+    },
+    {
+      "template_id": "wonder_completed",
+      "target": "wonder_name=Great Library",
+      "horizon": "H1",
+      "n": 1008,
+      "yes": 83,
+      "base_rate": 0.08234126984126984
+    }
+  ]
+}

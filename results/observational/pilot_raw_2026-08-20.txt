@@ -1,0 +1,199 @@
+
+===== pair-09 claude-haiku-4-5 =====
+I need to forecast whether temperatures will be higher on 2026-09-19 compared to 2026-08-20 at two nearby weather stations in the Alsace region of France.
+
+**Key considerations:**
+
+1. **Seasonal trend**: August 20 to September 19 is a 30-day period. Late August is typically warmer than mid-September in this region. Historically, average daily temperatures decline from late August to mid-September in the Alsace region, typically by 5-10°C.
+
+2. **Daily variability**: However, individual days can vary significantly. September 19 could be warmer than August 20 due to:
+   - Warm weather systems or heat waves in September
+   - Cold snaps or poor weather on August 20
+   - Natural daily variability
+
+3. **Base rates**: Given the strong seasonal decline from late August to mid-September, the probability that a specific day 30 days later is warmer than today would typically be below 50%, perhaps around 30-40%.
+
+4. **Question A (Strasbourg Airport)**: This is a major station with reliable data. The seasonal decline should be consistent.
+
+5. **Question B (EuroAirport Basel-Mulhouse-Freiburg)**: Located about 60km south of Strasbourg, at similar latitude and slightly lower elevation. Climate patterns should be very similar.
+
+6. **Correlation**: The two stations are close enough that:
+   - They experience similar weather systems
+   - Seasonal patterns are nearly identical
+   - If A resolves YES, it's somewhat more likely B does too (same favorable conditions)
+   - If A resolves NO, it's somewhat more likely B also resolves NO
+
+**Estimates:**
+
+- **p_a**: The seasonal decline from late August to mid-September makes it unlikely September 19 is warmer. I estimate around **0.35** (accounting for variability that could favor September 19).
+
+- **p_b**: Nearly identical climate to Strasbourg, so similar base rate: **0.35**
+
+- **p_b_given_a**: If September 19 was warmer than August 20 at Strasbourg (unusual), this suggests either a warm September pattern or an unusually cool August 20. This increases the likelihood of the same pattern at the nearby station. I estimate **0.65**.
+
+- **p_b_given_not_a**: If September 19 was not warmer (the expected case), the two stations being correlated means B likely also experiences cooler September conditions. I estimate **0.30**.
+
+```json
+{
+  "p_a": 0.35,
+  "p_b": 0.35,
+  "p_b_given_a": 0.65,
+  "p_b_given_not_a": 0.30
+}
+```
+
+===== pair-09 claude-sonnet-5 =====
+Given the ~1 month gap (Aug 20 → Sep 19), there's a strong seasonal cooling trend in this region, so the "warmer on the later date" event is less likely than 50% for both stations. Strasbourg and Basel-Mulhouse are ~130 km apart in the same climatic region (Rhine valley), so their day-to-day temperature anomalies are highly correlated, meaning A and B should be strongly associated.
+
+**Question A/B base rates:** Historical climatology suggests average temps drop from mid/late August to mid-September in this region, so P(warmer on Sep19 than Aug20) is below 50%, but with meaningful variance due to weather patterns (heat waves, cold snaps) that could reverse the seasonal trend. I estimate ~32% for each.
+
+**Correlation:** Given the geographic proximity and shared synoptic weather systems, if Strasbourg shows a warm anomaly on Sep 19 (relative to Aug 20) it's very likely Basel-Mulhouse does too. This correlation is very high but not perfect due to local effects (fog, wind patterns, station specifics).
+
+```json
+{"p_a": 0.32, "p_b": 0.32, "p_b_given_a": 0.78, "p_b_given_not_a": 0.19}
+```
+
+===== pair-09 claude-opus-5 =====
+Climatologically, mid-September daily means in the Upper Rhine valley run ~3.5–4.5 °C below late-August means (Strasbourg: ~19.5 °C on Aug 20 vs ~15.5 °C on Sep 19). Day-to-day variability (σ ≈ 3.5 °C per day, ≈5 °C for the difference) means the September day exceeds the August day roughly 20–25% of the time, slightly boosted by warming trends and the chance that today happens to be a cool, unsettled day.
+
+Basel-Mulhouse has an almost identical seasonal cycle and its daily anomalies correlate ~0.95 with Strasbourg (~130 km apart, same synoptic regime), so the two outcomes are strongly linked, though local effects (fog, inversions, thunderstorms) can occasionally decouple them.
+
+{"p_a": 0.22, "p_b": 0.23, "p_b_given_a": 0.85, "p_b_given_not_a": 0.055}
+
+===== pair-09 claude-fable-5 =====
+**Reasoning:** From August 20 to September 19, climatological mean daily temperatures in the Upper Rhine region (Strasbourg, Basel) drop by roughly 4°C. Day-to-day variability (std ~3–4°C per day, so ~5°C for the difference of two days) means there's a real but minority chance the September date is warmer. P(diff > 0) ≈ Φ(−4/5) ≈ 0.21–0.23 for each station.
+
+The two stations are only ~100 km apart in the same Rhine valley, so their daily temperatures are extremely correlated (r ≈ 0.95). If A resolves YES, B is very likely YES; if A resolves NO, B is very unlikely YES.
+
+Consistency check: 0.22 × 0.88 + 0.78 × 0.04 ≈ 0.22 ✓
+
+{"p_a": 0.22, "p_b": 0.22, "p_b_given_a": 0.88, "p_b_given_not_a": 0.04}
+
+===== pair-21 claude-haiku-4-5 =====
+I need to forecast whether daily average temperatures will be higher on 2026-09-19 compared to 2026-08-20 at two French weather stations.
+
+**Key considerations:**
+
+1. **Seasonal context**: Moving from August 20 to September 19 is roughly a month forward, going from late summer toward early autumn in the Northern Hemisphere. Generally, temperatures tend to decline slightly during this period in France.
+
+2. **Day-to-day variability**: However, individual day temperatures can vary significantly. September 19 could easily be warmer than August 20 depending on weather patterns. The comparison is between two specific days, not seasonal averages.
+
+3. **Weather pattern dependence**: 
+   - Both stations are in France
+   - Gourdon is in Provence (southeastern France, inland)
+   - Grande Terre appears to be in Corsica (island location)
+   - Both will experience similar large-scale weather patterns, so their temperatures should be positively correlated
+
+4. **Base rates for individual day comparisons**: For a random pair of days 30 days apart in this season transition, the probability of the later date being warmer is probably slightly below 50% (seasonal cooling trend), but not dramatically so due to high variability. I'd estimate around 45-48%.
+
+5. **Correlation between locations**: The two stations are both in French territory (one mainland, one island) and will largely respond to the same weather systems. If conditions are warm on Sept 19 versus Aug 20 at one location, they're likely to be similar at the other. This creates positive correlation.
+
+**Estimates:**
+
+- **p_a**: ~0.46 (slight seasonal cooling trend offsets random variability)
+- **p_b**: ~0.46 (same reasoning, same region)
+- **p_b_given_a**: ~0.65 (if A is true, it suggests favorable warm conditions on Sept 19, which would likely carry over to B's location given geographic proximity and correlation)
+- **p_b_given_not_a**: ~0.30 (if A is false, it suggests cooler conditions on Sept 19 relative to Aug 20, which would likely extend to B's location)
+
+```json
+{
+  "p_a": 0.46,
+  "p_b": 0.46,
+  "p_b_given_a": 0.65,
+  "p_b_given_not_a": 0.30
+}
+```
+
+===== pair-21 claude-sonnet-5 =====
+Looking at these two locations:
+
+**Gourdon (mainland France, Lot department)**: Moving from August 20 to September 19 represents a clear seasonal transition from late summer into early autumn. Climatologically, average temperatures in this region typically decline by several degrees over this window (roughly 24-25°C average in mid-August dropping to 19-20°C by mid-September). While daily weather variability could occasionally produce a warmer September 19, the strong seasonal trend makes this unlikely. I'd estimate p_a around 0.25-0.30.
+
+**Grande Terre (likely Guadeloupe, Caribbean)**: This is a tropical location with minimal seasonal temperature variation. August and September are both within the hot/rainy season, with average temperatures nearly identical (sometimes September is marginally warmer than August in Caribbean climates due to sea surface temperature lag). This makes the outcome close to a coin flip, with slight weather noise dominating over any seasonal signal. I'd estimate p_b close to 0.50.
+
+**Correlation between A and B**: Gourdon (mainland France) and Grande Terre (Caribbean) are geographically very distant with essentially independent weather systems and no shared synoptic patterns. There's no meteorological mechanism linking daily temperature anomalies at these two locations. Therefore, learning the outcome of A should provide negligible information about B.
+
+{"p_a": 0.28, "p_b": 0.50, "p_b_given_a": 0.50, "p_b_given_not_a": 0.50}
+
+===== pair-21 claude-opus-5 =====
+**Question A (Gourdon, SW France):** Climatological mean daily temperature falls roughly 3–4 °C between Aug 20 and Sep 19 (≈21 °C → ≈17.5 °C). Day-to-day variability (σ of the difference ≈ 5 °C) gives some chance a warm mid-September day beats a cool late-August day, but the odds are against it → ~25–28%.
+
+**Question B (Grande Terre):** Whether this is the Guadeloupe island (tropical, Aug ≈ Sep, essentially flat seasonal cycle, small daily variance) or Kerguelen's Grande Terre (Southern Hemisphere, late winter → early spring, slight warming), the seasonal tendency is neutral-to-slightly-positive → ~52–58%.
+
+**Dependence:** The two locations are climatically and synoptically unrelated (one mid-latitude Europe, one tropical/subantarctic), so conditioning barely moves the estimate.
+
+{"p_a": 0.27, "p_b": 0.55, "p_b_given_a": 0.56, "p_b_given_not_a": 0.545}
+
+===== pair-21 claude-fable-5 =====
+**Question A (Gourdon, SW France):** Mid-September is climatologically ~3–5°C cooler than mid-August in southern France on average daily temperature. Day-to-day variability (std ~3°C per day, ~4°C for the difference of two days a month apart) allows upsets — e.g., a heatwave on Sept 19 or an unusually cool Aug 20. With a mean difference of roughly −4°C and std ~4°C, P(YES) ≈ 15–20%.
+
+**Question B (Grande Terre):** Whether this refers to Grande-Terre in Guadeloupe (tropical, essentially flat seasonal cycle Aug→Sep, both peak-warm months) or Grande Terre in the Kerguelen Islands (Southern Hemisphere, where September is late winter/early spring and slightly *warmer* than August), the seasonal drift is near zero or slightly positive. Small daily variability relative to that drift gives P(YES) ≈ 50–60%. I'll use ~55%.
+
+**Dependence:** The stations are in very different climate regimes (likely different hemispheres or tropical vs. temperate), so weather outcomes are essentially independent. A tiny shared component from global-scale anomalies justifies negligible correlation.
+
+{"p_a": 0.18, "p_b": 0.55, "p_b_given_a": 0.56, "p_b_given_not_a": 0.55}
+
+===== pair-01 claude-haiku-4-5 =====
+I need to forecast temperatures at two French weather stations 30 days apart.
+
+**Key considerations:**
+
+1. **Seasonal trend**: From August 20 to September 19 is a 30-day window in late summer/early fall in France. Typically, temperatures decline as summer transitions to autumn in the Northern Hemisphere. September 19 would likely be cooler than August 20 on average.
+
+2. **Perpignan**: Located in southern France (near Spain), has a Mediterranean climate with warm summers. The temperature difference between late August and mid-September would show seasonal cooling, but Perpignan remains relatively warm in September.
+
+3. **Saint-Pierre**: This is less common as a French weather station name. It could refer to Saint-Pierre-et-Miquelon (French territory near Canada), which has a subarctic maritime climate, or another location. If it's the island territory, temperatures would be much cooler overall but follow similar seasonal patterns.
+
+4. **Base rates**: In the Northern Hemisphere, temperatures typically decline from late August to mid-September by roughly 2-5°C depending on location. This creates a base expectation that September 19 would be *cooler* than August 20.
+
+5. **Day-to-day variability**: However, there's significant weather variability. An unusually hot weather pattern in mid-September or unusually cool conditions on August 20 could reverse this.
+
+6. **Correlation**: If both stations are in metropolitan France, their temperatures would be somewhat correlated (both affected by similar weather systems). If Saint-Pierre is in the Atlantic territory, correlation would be much lower.
+
+**Estimates:**
+
+- **Question A (Perpignan)**: The seasonal trend strongly suggests cooling. I estimate ~35% chance that September 19 is warmer than August 20 (accounting for possible late summer heat waves or measurement variability).
+
+- **Question B (Saint-Pierre)**: Assuming this is Saint-Pierre-et-Miquelon with similar seasonal patterns but less predictable Atlantic weather, I estimate ~40% chance.
+
+- **Correlation**: If both are in metropolitan France, knowing A is YES (warmer) would slightly increase probability of B being YES. If Saint-Pierre is distant, correlation is minimal. I'll assume modest correlation.
+
+```json
+{
+  "p_a": 0.35,
+  "p_b": 0.38,
+  "p_b_given_a": 0.50,
+  "p_b_given_not_a": 0.32
+}
+```
+
+===== pair-01 claude-sonnet-5 =====
+Looking at these two locations:
+
+- **Perpignan** is in mainland southern France (Northern Hemisphere, Mediterranean climate). Moving from Aug 20 to Sep 19 represents the climatological transition from late summer to early autumn, so the seasonal trend favors cooling. Day-to-day weather noise is large relative to the ~2-3°C average seasonal decline over this span, but the trend still tilts probability below 50%.
+
+- **Saint-Pierre** (French overseas station, likely Réunion, Southern Hemisphere) — Aug 20 falls in austral winter and Sep 19 in early austral spring, so the seasonal trend favors warming, pushing probability above 50%.
+
+Since these stations are geographically remote from each other (different hemispheres/oceans), their day-to-day weather variability is essentially driven by independent synoptic systems. There's only a small shared component from global climate anomalies (e.g., a warm year globally), so I expect near independence with a slight positive correlation.
+
+{"p_a": 0.35, "p_b": 0.65, "p_b_given_a": 0.67, "p_b_given_not_a": 0.63}
+
+===== pair-01 claude-opus-5 =====
+**Question A (Perpignan):** Climatological daily mean drops roughly 3 °C between Aug 20 (~23–24 °C) and Sep 19 (~20–21 °C). Day-to-day variability (σ ≈ 2.5–3 °C each day, ~4 °C for the difference) gives P ≈ Φ(−3/4.2) ≈ 0.24.
+
+**Question B (Saint-Pierre):** Ambiguous station — most likely Saint-Pierre, Réunion (Southern Hemisphere, where late Aug → late Sep is a slight warming, low variability → P ≈ 0.6–0.65), possibly Saint-Pierre, Saint-Pierre-et-Miquelon (strong autumn cooling, P ≈ 0.25). Weighting ~60/40 toward Réunion gives ≈ 0.47.
+
+**Dependence:** Given the ambiguity, learning A's outcome barely updates B (weather at the two sites is essentially uncorrelated; slight positive link only if both are North Atlantic/European).
+
+{"p_a": 0.25, "p_b": 0.47, "p_b_given_a": 0.50, "p_b_given_not_a": 0.46}
+
+===== pair-01 claude-fable-5 =====
+**Question A (Perpignan):** Perpignan is Mediterranean France in the Northern Hemisphere. Climatological mean daily temps drop roughly 4°C from Aug 20 to Sep 19. Daily anomalies have std ~3°C, so the difference has std ~4°C. That puts YES about 1 sd below zero → roughly 15–20%.
+
+**Question B (Saint-Pierre):** Taking Saint-Pierre on Réunion (Southern Hemisphere tropics), late September is slightly warmer than late August (moving from winter toward summer), with a mean warming of ~0.5–1°C and small tropical day-to-day variability (~1.5°C for the difference). That gives YES modestly above 50% → around 60–65%.
+
+**Dependence:** The stations are in different hemispheres with essentially unrelated synoptic weather; any coupling through global anomalies over one month is negligible. Treat as nearly independent, with a trivial positive tilt.
+
+Consistency check: 0.17×0.63 + 0.83×0.62 ≈ 0.62 ✓
+
+{"p_a": 0.17, "p_b": 0.62, "p_b_given_a": 0.63, "p_b_given_not_a": 0.62}

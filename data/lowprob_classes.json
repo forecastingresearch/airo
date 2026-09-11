@@ -1,0 +1,4529 @@
+{
+  "meta": {
+    "snapshot_turn": 40,
+    "n_games": 1019,
+    "rate_band": [
+      0.01,
+      0.09
+    ],
+    "min_n": 40,
+    "total_binary_questions": 425270,
+    "n_classes_total": 564,
+    "n_classes_selected": 35,
+    "n_corpus_instances": 25919
+  },
+  "classes": [
+    {
+      "template_id": "tech_discovered",
+      "target": "tech_name=Medicine",
+      "horizon": "H1",
+      "n": 1048,
+      "yes": 0,
+      "base_rate": 0.0
+    },
+    {
+      "template_id": "government_at",
+      "target": "government_type=Monarchy",
+      "horizon": "H4",
+      "n": 1593,
+      "yes": 0,
+      "base_rate": 0.0
+    },
+    {
+      "template_id": "tech_discovered",
+      "target": "tech_name=Combustion",
+      "horizon": "H1",
+      "n": 495,
+      "yes": 0,
+      "base_rate": 0.0
+    },
+    {
+      "template_id": "tech_discovered",
+      "target": "tech_name=Explosives",
+      "horizon": "H1",
+      "n": 610,
+      "yes": 0,
+      "base_rate": 0.0
+    },
+    {
+      "template_id": "tech_discovered",
+      "target": "tech_name=Combustion",
+      "horizon": "H2",
+      "n": 495,
+      "yes": 0,
+      "base_rate": 0.0
+    },
+    {
+      "template_id": "tech_discovered",
+      "target": "tech_name=Explosives",
+      "horizon": "H2",
+      "n": 610,
+      "yes": 0,
+      "base_rate": 0.0
+    },
+    {
+      "template_id": "tech_discovered",
+      "target": "tech_name=Combustion",
+      "horizon": "H3",
+      "n": 495,
+      "yes": 0,
+      "base_rate": 0.0
+    },
+    {
+      "template_id": "tech_discovered",
+      "target": "tech_name=Explosives",
+      "horizon": "H3",
+      "n": 610,
+      "yes": 0,
+      "base_rate": 0.0
+    },
+    {
+      "template_id": "tech_discovered",
+      "target": "tech_name=Combustion",
+      "horizon": "H4",
+      "n": 495,
+      "yes": 0,
+      "base_rate": 0.0
+    },
+    {
+      "template_id": "wonder_completed",
+      "target": "wonder_name=Copernicus' Observatory",
+      "horizon": "H1",
+      "n": 402,
+      "yes": 0,
+      "base_rate": 0.0
+    },
+    {
+      "template_id": "wonder_completed",
+      "target": "wonder_name=A.Smith's Trading Co.",
+      "horizon": "H1",
+      "n": 587,
+      "yes": 0,
+      "base_rate": 0.0
+    },
+    {
+      "template_id": "wonder_completed",
+      "target": "wonder_name=Darwin's Voyage",
+      "horizon": "H1",
+      "n": 308,
+      "yes": 0,
+      "base_rate": 0.0
+    },
+    {
+      "template_id": "wonder_completed",
+      "target": "wonder_name=Michelangelo's Chapel",
+      "horizon": "H1",
+      "n": 590,
+      "yes": 0,
+      "base_rate": 0.0
+    },
+    {
+      "template_id": "wonder_completed",
+      "target": "wonder_name=A.Smith's Trading Co.",
+      "horizon": "H2",
+      "n": 587,
+      "yes": 0,
+      "base_rate": 0.0
+    },
+    {
+      "template_id": "wonder_completed",
+      "target": "wonder_name=Darwin's Voyage",
+      "horizon": "H2",
+      "n": 308,
+      "yes": 0,
+      "base_rate": 0.0
+    },
+    {
+      "template_id": "tech_discovered",
+      "target": "tech_name=Steam Engine",
+      "horizon": "H1",
+      "n": 740,
+      "yes": 0,
+      "base_rate": 0.0
+    },
+    {
+      "template_id": "tech_discovered",
+      "target": "tech_name=Genetic Engineering",
+      "horizon": "H1",
+      "n": 55,
+      "yes": 0,
+      "base_rate": 0.0
+    },
+    {
+      "template_id": "tech_discovered",
+      "target": "tech_name=Industrialization",
+      "horizon": "H1",
+      "n": 50,
+      "yes": 0,
+      "base_rate": 0.0
+    },
+    {
+      "template_id": "tech_discovered",
+      "target": "tech_name=Steam Engine",
+      "horizon": "H2",
+      "n": 740,
+      "yes": 0,
+      "base_rate": 0.0
+    },
+    {
+      "template_id": "tech_discovered",
+      "target": "tech_name=Genetic Engineering",
+      "horizon": "H2",
+      "n": 55,
+      "yes": 0,
+      "base_rate": 0.0
+    },
+    {
+      "template_id": "tech_discovered",
+      "target": "tech_name=Industrialization",
+      "horizon": "H2",
+      "n": 50,
+      "yes": 0,
+      "base_rate": 0.0
+    },
+    {
+      "template_id": "tech_discovered",
+      "target": "tech_name=Genetic Engineering",
+      "horizon": "H3",
+      "n": 55,
+      "yes": 0,
+      "base_rate": 0.0
+    },
+    {
+      "template_id": "tech_discovered",
+      "target": "tech_name=Industrialization",
+      "horizon": "H3",
+      "n": 50,
+      "yes": 0,
+      "base_rate": 0.0
+    },
+    {
+      "template_id": "tech_discovered",
+      "target": "tech_name=Genetic Engineering",
+      "horizon": "H4",
+      "n": 55,
+      "yes": 0,
+      "base_rate": 0.0
+    },
+    {
+      "template_id": "wonder_completed",
+      "target": "wonder_name=Isaac Newton's College",
+      "horizon": "H1",
+      "n": 70,
+      "yes": 0,
+      "base_rate": 0.0
+    },
+    {
+      "template_id": "wonder_completed",
+      "target": "wonder_name=Isaac Newton's College",
+      "horizon": "H2",
+      "n": 70,
+      "yes": 0,
+      "base_rate": 0.0
+    },
+    {
+      "template_id": "wonder_completed",
+      "target": "wonder_name=Isaac Newton's College",
+      "horizon": "H3",
+      "n": 70,
+      "yes": 0,
+      "base_rate": 0.0
+    },
+    {
+      "template_id": "tech_discovered",
+      "target": "tech_name=Guerilla Warfare",
+      "horizon": "H1",
+      "n": 608,
+      "yes": 0,
+      "base_rate": 0.0
+    },
+    {
+      "template_id": "tech_discovered",
+      "target": "tech_name=Amphibious Warfare",
+      "horizon": "H1",
+      "n": 625,
+      "yes": 0,
+      "base_rate": 0.0
+    },
+    {
+      "template_id": "tech_discovered",
+      "target": "tech_name=Guerilla Warfare",
+      "horizon": "H2",
+      "n": 608,
+      "yes": 0,
+      "base_rate": 0.0
+    },
+    {
+      "template_id": "tech_discovered",
+      "target": "tech_name=Amphibious Warfare",
+      "horizon": "H2",
+      "n": 625,
+      "yes": 0,
+      "base_rate": 0.0
+    },
+    {
+      "template_id": "tech_discovered",
+      "target": "tech_name=Guerilla Warfare",
+      "horizon": "H3",
+      "n": 608,
+      "yes": 0,
+      "base_rate": 0.0
+    },
+    {
+      "template_id": "tech_discovered",
+      "target": "tech_name=Amphibious Warfare",
+      "horizon": "H3",
+      "n": 625,
+      "yes": 0,
+      "base_rate": 0.0
+    },
+    {
+      "template_id": "tech_discovered",
+      "target": "tech_name=Guerilla Warfare",
+      "horizon": "H4",
+      "n": 608,
+      "yes": 0,
+      "base_rate": 0.0
+    },
+    {
+      "template_id": "wonder_completed",
+      "target": "wonder_name=J.S. Bach's Cathedral",
+      "horizon": "H1",
+      "n": 286,
+      "yes": 0,
+      "base_rate": 0.0
+    },
+    {
+      "template_id": "wonder_completed",
+      "target": "wonder_name=J.S. Bach's Cathedral",
+      "horizon": "H2",
+      "n": 286,
+      "yes": 0,
+      "base_rate": 0.0
+    },
+    {
+      "template_id": "tech_discovered",
+      "target": "tech_name=Steel",
+      "horizon": "H1",
+      "n": 600,
+      "yes": 0,
+      "base_rate": 0.0
+    },
+    {
+      "template_id": "tech_discovered",
+      "target": "tech_name=Chemistry",
+      "horizon": "H1",
+      "n": 600,
+      "yes": 0,
+      "base_rate": 0.0
+    },
+    {
+      "template_id": "tech_discovered",
+      "target": "tech_name=Refining",
+      "horizon": "H1",
+      "n": 1125,
+      "yes": 0,
+      "base_rate": 0.0
+    },
+    {
+      "template_id": "tech_discovered",
+      "target": "tech_name=Steel",
+      "horizon": "H2",
+      "n": 600,
+      "yes": 0,
+      "base_rate": 0.0
+    },
+    {
+      "template_id": "tech_discovered",
+      "target": "tech_name=Chemistry",
+      "horizon": "H2",
+      "n": 600,
+      "yes": 0,
+      "base_rate": 0.0
+    },
+    {
+      "template_id": "tech_discovered",
+      "target": "tech_name=Refining",
+      "horizon": "H2",
+      "n": 1125,
+      "yes": 0,
+      "base_rate": 0.0
+    },
+    {
+      "template_id": "tech_discovered",
+      "target": "tech_name=Steel",
+      "horizon": "H3",
+      "n": 600,
+      "yes": 0,
+      "base_rate": 0.0
+    },
+    {
+      "template_id": "tech_discovered",
+      "target": "tech_name=Refining",
+      "horizon": "H3",
+      "n": 1125,
+      "yes": 0,
+      "base_rate": 0.0
+    },
+    {
+      "template_id": "tech_discovered",
+      "target": "tech_name=Refining",
+      "horizon": "H4",
+      "n": 1125,
+      "yes": 0,
+      "base_rate": 0.0
+    },
+    {
+      "template_id": "government_at",
+      "target": "government_type=Communism",
+      "horizon": "H1",
+      "n": 1525,
+      "yes": 0,
+      "base_rate": 0.0
+    },
+    {
+      "template_id": "government_at",
+      "target": "government_type=Communism",
+      "horizon": "H2",
+      "n": 1525,
+      "yes": 0,
+      "base_rate": 0.0
+    },
+    {
+      "template_id": "government_at",
+      "target": "government_type=Communism",
+      "horizon": "H3",
+      "n": 1525,
+      "yes": 0,
+      "base_rate": 0.0
+    },
+    {
+      "template_id": "tech_discovered",
+      "target": "tech_name=Economics",
+      "horizon": "H1",
+      "n": 635,
+      "yes": 0,
+      "base_rate": 0.0
+    },
+    {
+      "template_id": "tech_discovered",
+      "target": "tech_name=Communism",
+      "horizon": "H1",
+      "n": 587,
+      "yes": 0,
+      "base_rate": 0.0
+    },
+    {
+      "template_id": "tech_discovered",
+      "target": "tech_name=Atomic Theory",
+      "horizon": "H1",
+      "n": 535,
+      "yes": 0,
+      "base_rate": 0.0
+    },
+    {
+      "template_id": "tech_discovered",
+      "target": "tech_name=University",
+      "horizon": "H1",
+      "n": 490,
+      "yes": 0,
+      "base_rate": 0.0
+    },
+    {
+      "template_id": "tech_discovered",
+      "target": "tech_name=Communism",
+      "horizon": "H2",
+      "n": 587,
+      "yes": 0,
+      "base_rate": 0.0
+    },
+    {
+      "template_id": "tech_discovered",
+      "target": "tech_name=Atomic Theory",
+      "horizon": "H2",
+      "n": 535,
+      "yes": 0,
+      "base_rate": 0.0
+    },
+    {
+      "template_id": "tech_discovered",
+      "target": "tech_name=Communism",
+      "horizon": "H3",
+      "n": 587,
+      "yes": 0,
+      "base_rate": 0.0
+    },
+    {
+      "template_id": "wonder_completed",
+      "target": "wonder_name=King Richard's Crusade",
+      "horizon": "H1",
+      "n": 58,
+      "yes": 0,
+      "base_rate": 0.0
+    },
+    {
+      "template_id": "tech_discovered",
+      "target": "tech_name=Machine Tools",
+      "horizon": "H1",
+      "n": 67,
+      "yes": 0,
+      "base_rate": 0.0
+    },
+    {
+      "template_id": "tech_discovered",
+      "target": "tech_name=Machine Tools",
+      "horizon": "H2",
+      "n": 67,
+      "yes": 0,
+      "base_rate": 0.0
+    },
+    {
+      "template_id": "tech_discovered",
+      "target": "tech_name=Machine Tools",
+      "horizon": "H3",
+      "n": 67,
+      "yes": 0,
+      "base_rate": 0.0
+    },
+    {
+      "template_id": "tech_discovered",
+      "target": "tech_name=Machine Tools",
+      "horizon": "H4",
+      "n": 67,
+      "yes": 0,
+      "base_rate": 0.0
+    },
+    {
+      "template_id": "wonder_completed",
+      "target": "wonder_name=Cure For Cancer",
+      "horizon": "H1",
+      "n": 61,
+      "yes": 0,
+      "base_rate": 0.0
+    },
+    {
+      "template_id": "wonder_completed",
+      "target": "wonder_name=Cure For Cancer",
+      "horizon": "H2",
+      "n": 61,
+      "yes": 0,
+      "base_rate": 0.0
+    },
+    {
+      "template_id": "wonder_completed",
+      "target": "wonder_name=Cure For Cancer",
+      "horizon": "H3",
+      "n": 61,
+      "yes": 0,
+      "base_rate": 0.0
+    },
+    {
+      "template_id": "wonder_completed",
+      "target": "wonder_name=Cure For Cancer",
+      "horizon": "H4",
+      "n": 61,
+      "yes": 0,
+      "base_rate": 0.0
+    },
+    {
+      "template_id": "wonder_completed",
+      "target": "wonder_name=Cure For Cancer",
+      "horizon": "H5",
+      "n": 61,
+      "yes": 0,
+      "base_rate": 0.0
+    },
+    {
+      "template_id": "wonder_completed",
+      "target": "wonder_name=Sun Tzu's War Academy",
+      "horizon": "H1",
+      "n": 74,
+      "yes": 0,
+      "base_rate": 0.0
+    },
+    {
+      "template_id": "wonder_completed",
+      "target": "wonder_name=Leonardo's Workshop",
+      "horizon": "H1",
+      "n": 31,
+      "yes": 0,
+      "base_rate": 0.0
+    },
+    {
+      "template_id": "wonder_completed",
+      "target": "wonder_name=Leonardo's Workshop",
+      "horizon": "H2",
+      "n": 31,
+      "yes": 0,
+      "base_rate": 0.0
+    },
+    {
+      "template_id": "wonder_completed",
+      "target": "wonder_name=Oracle",
+      "horizon": "H1",
+      "n": 3,
+      "yes": 0,
+      "base_rate": 0.0
+    },
+    {
+      "template_id": "tech_discovered",
+      "target": "tech_name=Advanced Flight",
+      "horizon": "H1",
+      "n": 105,
+      "yes": 0,
+      "base_rate": 0.0
+    },
+    {
+      "template_id": "tech_discovered",
+      "target": "tech_name=Advanced Flight",
+      "horizon": "H2",
+      "n": 105,
+      "yes": 0,
+      "base_rate": 0.0
+    },
+    {
+      "template_id": "tech_discovered",
+      "target": "tech_name=Advanced Flight",
+      "horizon": "H3",
+      "n": 105,
+      "yes": 0,
+      "base_rate": 0.0
+    },
+    {
+      "template_id": "tech_discovered",
+      "target": "tech_name=Advanced Flight",
+      "horizon": "H4",
+      "n": 105,
+      "yes": 0,
+      "base_rate": 0.0
+    },
+    {
+      "template_id": "tech_discovered",
+      "target": "tech_name=Advanced Flight",
+      "horizon": "H5",
+      "n": 105,
+      "yes": 0,
+      "base_rate": 0.0
+    },
+    {
+      "template_id": "tech_discovered",
+      "target": "tech_name=Advanced Flight",
+      "horizon": "H6",
+      "n": 105,
+      "yes": 0,
+      "base_rate": 0.0
+    },
+    {
+      "template_id": "tech_discovered",
+      "target": "tech_name=Nuclear Fission",
+      "horizon": "H1",
+      "n": 70,
+      "yes": 0,
+      "base_rate": 0.0
+    },
+    {
+      "template_id": "tech_discovered",
+      "target": "tech_name=Nuclear Fission",
+      "horizon": "H2",
+      "n": 70,
+      "yes": 0,
+      "base_rate": 0.0
+    },
+    {
+      "template_id": "tech_discovered",
+      "target": "tech_name=Nuclear Fission",
+      "horizon": "H3",
+      "n": 70,
+      "yes": 0,
+      "base_rate": 0.0
+    },
+    {
+      "template_id": "tech_discovered",
+      "target": "tech_name=Nuclear Fission",
+      "horizon": "H4",
+      "n": 70,
+      "yes": 0,
+      "base_rate": 0.0
+    },
+    {
+      "template_id": "tech_discovered",
+      "target": "tech_name=Nuclear Fission",
+      "horizon": "H5",
+      "n": 70,
+      "yes": 0,
+      "base_rate": 0.0
+    },
+    {
+      "template_id": "tech_discovered",
+      "target": "tech_name=Nuclear Fission",
+      "horizon": "H6",
+      "n": 70,
+      "yes": 0,
+      "base_rate": 0.0
+    },
+    {
+      "template_id": "tech_discovered",
+      "target": "tech_name=Tactics",
+      "horizon": "H1",
+      "n": 175,
+      "yes": 0,
+      "base_rate": 0.0
+    },
+    {
+      "template_id": "tech_discovered",
+      "target": "tech_name=Tactics",
+      "horizon": "H2",
+      "n": 175,
+      "yes": 0,
+      "base_rate": 0.0
+    },
+    {
+      "template_id": "tech_discovered",
+      "target": "tech_name=Tactics",
+      "horizon": "H3",
+      "n": 175,
+      "yes": 0,
+      "base_rate": 0.0
+    },
+    {
+      "template_id": "tech_discovered",
+      "target": "tech_name=Mass Production",
+      "horizon": "H1",
+      "n": 37,
+      "yes": 0,
+      "base_rate": 0.0
+    },
+    {
+      "template_id": "tech_discovered",
+      "target": "tech_name=Mass Production",
+      "horizon": "H2",
+      "n": 37,
+      "yes": 0,
+      "base_rate": 0.0
+    },
+    {
+      "template_id": "tech_discovered",
+      "target": "tech_name=Mass Production",
+      "horizon": "H3",
+      "n": 37,
+      "yes": 0,
+      "base_rate": 0.0
+    },
+    {
+      "template_id": "tech_discovered",
+      "target": "tech_name=Mass Production",
+      "horizon": "H4",
+      "n": 37,
+      "yes": 0,
+      "base_rate": 0.0
+    },
+    {
+      "template_id": "tech_discovered",
+      "target": "tech_name=Mass Production",
+      "horizon": "H5",
+      "n": 37,
+      "yes": 0,
+      "base_rate": 0.0
+    },
+    {
+      "template_id": "tech_discovered",
+      "target": "tech_name=Space Flight",
+      "horizon": "H1",
+      "n": 10,
+      "yes": 0,
+      "base_rate": 0.0
+    },
+    {
+      "template_id": "tech_discovered",
+      "target": "tech_name=Space Flight",
+      "horizon": "H2",
+      "n": 10,
+      "yes": 0,
+      "base_rate": 0.0
+    },
+    {
+      "template_id": "tech_discovered",
+      "target": "tech_name=Space Flight",
+      "horizon": "H3",
+      "n": 10,
+      "yes": 0,
+      "base_rate": 0.0
+    },
+    {
+      "template_id": "tech_discovered",
+      "target": "tech_name=Space Flight",
+      "horizon": "H4",
+      "n": 10,
+      "yes": 0,
+      "base_rate": 0.0
+    },
+    {
+      "template_id": "tech_discovered",
+      "target": "tech_name=Space Flight",
+      "horizon": "H5",
+      "n": 10,
+      "yes": 0,
+      "base_rate": 0.0
+    },
+    {
+      "template_id": "tech_discovered",
+      "target": "tech_name=Space Flight",
+      "horizon": "H6",
+      "n": 10,
+      "yes": 0,
+      "base_rate": 0.0
+    },
+    {
+      "template_id": "tech_discovered",
+      "target": "tech_name=Space Flight",
+      "horizon": "H7",
+      "n": 10,
+      "yes": 0,
+      "base_rate": 0.0
+    },
+    {
+      "template_id": "wonder_completed",
+      "target": "wonder_name=Magellan's Expedition",
+      "horizon": "H1",
+      "n": 2,
+      "yes": 0,
+      "base_rate": 0.0
+    },
+    {
+      "template_id": "wonder_completed",
+      "target": "wonder_name=Magellan's Expedition",
+      "horizon": "H2",
+      "n": 2,
+      "yes": 0,
+      "base_rate": 0.0
+    },
+    {
+      "template_id": "wonder_completed",
+      "target": "wonder_name=Magellan's Expedition",
+      "horizon": "H3",
+      "n": 2,
+      "yes": 0,
+      "base_rate": 0.0
+    },
+    {
+      "template_id": "wonder_completed",
+      "target": "wonder_name=Magellan's Expedition",
+      "horizon": "H4",
+      "n": 2,
+      "yes": 0,
+      "base_rate": 0.0
+    },
+    {
+      "template_id": "wonder_completed",
+      "target": "wonder_name=Magellan's Expedition",
+      "horizon": "H5",
+      "n": 2,
+      "yes": 0,
+      "base_rate": 0.0
+    },
+    {
+      "template_id": "wonder_completed",
+      "target": "wonder_name=Magellan's Expedition",
+      "horizon": "H6",
+      "n": 2,
+      "yes": 0,
+      "base_rate": 0.0
+    },
+    {
+      "template_id": "tech_discovered",
+      "target": "tech_name=Navigation",
+      "horizon": "H1",
+      "n": 20,
+      "yes": 0,
+      "base_rate": 0.0
+    },
+    {
+      "template_id": "tech_discovered",
+      "target": "tech_name=Leadership",
+      "horizon": "H1",
+      "n": 15,
+      "yes": 0,
+      "base_rate": 0.0
+    },
+    {
+      "template_id": "tech_discovered",
+      "target": "tech_name=Leadership",
+      "horizon": "H2",
+      "n": 15,
+      "yes": 0,
+      "base_rate": 0.0
+    },
+    {
+      "template_id": "tech_discovered",
+      "target": "tech_name=Leadership",
+      "horizon": "H3",
+      "n": 15,
+      "yes": 0,
+      "base_rate": 0.0
+    },
+    {
+      "template_id": "tech_discovered",
+      "target": "tech_name=Sanitation",
+      "horizon": "H1",
+      "n": 10,
+      "yes": 0,
+      "base_rate": 0.0
+    },
+    {
+      "template_id": "tech_discovered",
+      "target": "tech_name=Sanitation",
+      "horizon": "H2",
+      "n": 10,
+      "yes": 0,
+      "base_rate": 0.0
+    },
+    {
+      "template_id": "tech_discovered",
+      "target": "tech_name=Sanitation",
+      "horizon": "H3",
+      "n": 10,
+      "yes": 0,
+      "base_rate": 0.0
+    },
+    {
+      "template_id": "tech_discovered",
+      "target": "tech_name=Sanitation",
+      "horizon": "H4",
+      "n": 10,
+      "yes": 0,
+      "base_rate": 0.0
+    },
+    {
+      "template_id": "tech_discovered",
+      "target": "tech_name=Sanitation",
+      "horizon": "H5",
+      "n": 10,
+      "yes": 0,
+      "base_rate": 0.0
+    },
+    {
+      "template_id": "tech_discovered",
+      "target": "tech_name=Sanitation",
+      "horizon": "H6",
+      "n": 10,
+      "yes": 0,
+      "base_rate": 0.0
+    },
+    {
+      "template_id": "wonder_completed",
+      "target": "wonder_name=SETI Program",
+      "horizon": "H1",
+      "n": 3,
+      "yes": 0,
+      "base_rate": 0.0
+    },
+    {
+      "template_id": "wonder_completed",
+      "target": "wonder_name=SETI Program",
+      "horizon": "H2",
+      "n": 3,
+      "yes": 0,
+      "base_rate": 0.0
+    },
+    {
+      "template_id": "wonder_completed",
+      "target": "wonder_name=SETI Program",
+      "horizon": "H3",
+      "n": 3,
+      "yes": 0,
+      "base_rate": 0.0
+    },
+    {
+      "template_id": "wonder_completed",
+      "target": "wonder_name=SETI Program",
+      "horizon": "H4",
+      "n": 3,
+      "yes": 0,
+      "base_rate": 0.0
+    },
+    {
+      "template_id": "wonder_completed",
+      "target": "wonder_name=SETI Program",
+      "horizon": "H5",
+      "n": 3,
+      "yes": 0,
+      "base_rate": 0.0
+    },
+    {
+      "template_id": "wonder_completed",
+      "target": "wonder_name=SETI Program",
+      "horizon": "H6",
+      "n": 3,
+      "yes": 0,
+      "base_rate": 0.0
+    },
+    {
+      "template_id": "wonder_completed",
+      "target": "wonder_name=SETI Program",
+      "horizon": "H7",
+      "n": 3,
+      "yes": 0,
+      "base_rate": 0.0
+    },
+    {
+      "template_id": "tech_discovered",
+      "target": "tech_name=Engineering",
+      "horizon": "H1",
+      "n": 5,
+      "yes": 0,
+      "base_rate": 0.0
+    },
+    {
+      "template_id": "tech_discovered",
+      "target": "tech_name=Nuclear Power",
+      "horizon": "H1",
+      "n": 10,
+      "yes": 0,
+      "base_rate": 0.0
+    },
+    {
+      "template_id": "tech_discovered",
+      "target": "tech_name=Nuclear Power",
+      "horizon": "H2",
+      "n": 10,
+      "yes": 0,
+      "base_rate": 0.0
+    },
+    {
+      "template_id": "tech_discovered",
+      "target": "tech_name=Nuclear Power",
+      "horizon": "H3",
+      "n": 10,
+      "yes": 0,
+      "base_rate": 0.0
+    },
+    {
+      "template_id": "tech_discovered",
+      "target": "tech_name=Nuclear Power",
+      "horizon": "H4",
+      "n": 10,
+      "yes": 0,
+      "base_rate": 0.0
+    },
+    {
+      "template_id": "tech_discovered",
+      "target": "tech_name=Nuclear Power",
+      "horizon": "H5",
+      "n": 10,
+      "yes": 0,
+      "base_rate": 0.0
+    },
+    {
+      "template_id": "tech_discovered",
+      "target": "tech_name=Nuclear Power",
+      "horizon": "H6",
+      "n": 10,
+      "yes": 0,
+      "base_rate": 0.0
+    },
+    {
+      "template_id": "tech_discovered",
+      "target": "tech_name=Nuclear Power",
+      "horizon": "H7",
+      "n": 10,
+      "yes": 0,
+      "base_rate": 0.0
+    },
+    {
+      "template_id": "wonder_completed",
+      "target": "wonder_name=Eiffel Tower",
+      "horizon": "H1",
+      "n": 3,
+      "yes": 0,
+      "base_rate": 0.0
+    },
+    {
+      "template_id": "wonder_completed",
+      "target": "wonder_name=Eiffel Tower",
+      "horizon": "H2",
+      "n": 3,
+      "yes": 0,
+      "base_rate": 0.0
+    },
+    {
+      "template_id": "wonder_completed",
+      "target": "wonder_name=Eiffel Tower",
+      "horizon": "H3",
+      "n": 3,
+      "yes": 0,
+      "base_rate": 0.0
+    },
+    {
+      "template_id": "wonder_completed",
+      "target": "wonder_name=Eiffel Tower",
+      "horizon": "H4",
+      "n": 3,
+      "yes": 0,
+      "base_rate": 0.0
+    },
+    {
+      "template_id": "wonder_completed",
+      "target": "wonder_name=Eiffel Tower",
+      "horizon": "H5",
+      "n": 3,
+      "yes": 0,
+      "base_rate": 0.0
+    },
+    {
+      "template_id": "wonder_completed",
+      "target": "wonder_name=Women's Suffrage",
+      "horizon": "H1",
+      "n": 2,
+      "yes": 0,
+      "base_rate": 0.0
+    },
+    {
+      "template_id": "wonder_completed",
+      "target": "wonder_name=Women's Suffrage",
+      "horizon": "H2",
+      "n": 2,
+      "yes": 0,
+      "base_rate": 0.0
+    },
+    {
+      "template_id": "wonder_completed",
+      "target": "wonder_name=Women's Suffrage",
+      "horizon": "H3",
+      "n": 2,
+      "yes": 0,
+      "base_rate": 0.0
+    },
+    {
+      "template_id": "wonder_completed",
+      "target": "wonder_name=Women's Suffrage",
+      "horizon": "H4",
+      "n": 2,
+      "yes": 0,
+      "base_rate": 0.0
+    },
+    {
+      "template_id": "wonder_completed",
+      "target": "wonder_name=Women's Suffrage",
+      "horizon": "H5",
+      "n": 2,
+      "yes": 0,
+      "base_rate": 0.0
+    },
+    {
+      "template_id": "tech_discovered",
+      "target": "tech_name=Metallurgy",
+      "horizon": "H1",
+      "n": 20,
+      "yes": 0,
+      "base_rate": 0.0
+    },
+    {
+      "template_id": "tech_discovered",
+      "target": "tech_name=Metallurgy",
+      "horizon": "H2",
+      "n": 20,
+      "yes": 0,
+      "base_rate": 0.0
+    },
+    {
+      "template_id": "wonder_completed",
+      "target": "wonder_name=Apollo Program",
+      "horizon": "H1",
+      "n": 2,
+      "yes": 0,
+      "base_rate": 0.0
+    },
+    {
+      "template_id": "wonder_completed",
+      "target": "wonder_name=Apollo Program",
+      "horizon": "H2",
+      "n": 2,
+      "yes": 0,
+      "base_rate": 0.0
+    },
+    {
+      "template_id": "wonder_completed",
+      "target": "wonder_name=Apollo Program",
+      "horizon": "H3",
+      "n": 2,
+      "yes": 0,
+      "base_rate": 0.0
+    },
+    {
+      "template_id": "wonder_completed",
+      "target": "wonder_name=Apollo Program",
+      "horizon": "H4",
+      "n": 2,
+      "yes": 0,
+      "base_rate": 0.0
+    },
+    {
+      "template_id": "wonder_completed",
+      "target": "wonder_name=Apollo Program",
+      "horizon": "H5",
+      "n": 2,
+      "yes": 0,
+      "base_rate": 0.0
+    },
+    {
+      "template_id": "wonder_completed",
+      "target": "wonder_name=Apollo Program",
+      "horizon": "H6",
+      "n": 2,
+      "yes": 0,
+      "base_rate": 0.0
+    },
+    {
+      "template_id": "wonder_completed",
+      "target": "wonder_name=Apollo Program",
+      "horizon": "H7",
+      "n": 2,
+      "yes": 0,
+      "base_rate": 0.0
+    },
+    {
+      "template_id": "tech_discovered",
+      "target": "tech_name=Fusion Power",
+      "horizon": "H1",
+      "n": 5,
+      "yes": 0,
+      "base_rate": 0.0
+    },
+    {
+      "template_id": "tech_discovered",
+      "target": "tech_name=Labor Union",
+      "horizon": "H1",
+      "n": 15,
+      "yes": 0,
+      "base_rate": 0.0
+    },
+    {
+      "template_id": "tech_discovered",
+      "target": "tech_name=Fusion Power",
+      "horizon": "H2",
+      "n": 5,
+      "yes": 0,
+      "base_rate": 0.0
+    },
+    {
+      "template_id": "tech_discovered",
+      "target": "tech_name=Labor Union",
+      "horizon": "H2",
+      "n": 15,
+      "yes": 0,
+      "base_rate": 0.0
+    },
+    {
+      "template_id": "tech_discovered",
+      "target": "tech_name=Fusion Power",
+      "horizon": "H3",
+      "n": 5,
+      "yes": 0,
+      "base_rate": 0.0
+    },
+    {
+      "template_id": "tech_discovered",
+      "target": "tech_name=Labor Union",
+      "horizon": "H3",
+      "n": 15,
+      "yes": 0,
+      "base_rate": 0.0
+    },
+    {
+      "template_id": "tech_discovered",
+      "target": "tech_name=Fusion Power",
+      "horizon": "H4",
+      "n": 5,
+      "yes": 0,
+      "base_rate": 0.0
+    },
+    {
+      "template_id": "tech_discovered",
+      "target": "tech_name=Labor Union",
+      "horizon": "H4",
+      "n": 15,
+      "yes": 0,
+      "base_rate": 0.0
+    },
+    {
+      "template_id": "tech_discovered",
+      "target": "tech_name=Fusion Power",
+      "horizon": "H5",
+      "n": 5,
+      "yes": 0,
+      "base_rate": 0.0
+    },
+    {
+      "template_id": "tech_discovered",
+      "target": "tech_name=Labor Union",
+      "horizon": "H5",
+      "n": 15,
+      "yes": 0,
+      "base_rate": 0.0
+    },
+    {
+      "template_id": "tech_discovered",
+      "target": "tech_name=Fusion Power",
+      "horizon": "H6",
+      "n": 5,
+      "yes": 0,
+      "base_rate": 0.0
+    },
+    {
+      "template_id": "tech_discovered",
+      "target": "tech_name=Labor Union",
+      "horizon": "H6",
+      "n": 15,
+      "yes": 0,
+      "base_rate": 0.0
+    },
+    {
+      "template_id": "tech_discovered",
+      "target": "tech_name=Fusion Power",
+      "horizon": "H7",
+      "n": 5,
+      "yes": 0,
+      "base_rate": 0.0
+    },
+    {
+      "template_id": "tech_discovered",
+      "target": "tech_name=Labor Union",
+      "horizon": "H7",
+      "n": 15,
+      "yes": 0,
+      "base_rate": 0.0
+    },
+    {
+      "template_id": "tech_discovered",
+      "target": "tech_name=Espionage",
+      "horizon": "H1",
+      "n": 1,
+      "yes": 0,
+      "base_rate": 0.0
+    },
+    {
+      "template_id": "tech_discovered",
+      "target": "tech_name=Espionage",
+      "horizon": "H2",
+      "n": 1,
+      "yes": 0,
+      "base_rate": 0.0
+    },
+    {
+      "template_id": "tech_discovered",
+      "target": "tech_name=Espionage",
+      "horizon": "H3",
+      "n": 1,
+      "yes": 0,
+      "base_rate": 0.0
+    },
+    {
+      "template_id": "tech_discovered",
+      "target": "tech_name=Espionage",
+      "horizon": "H4",
+      "n": 1,
+      "yes": 0,
+      "base_rate": 0.0
+    },
+    {
+      "template_id": "tech_discovered",
+      "target": "tech_name=Espionage",
+      "horizon": "H5",
+      "n": 1,
+      "yes": 0,
+      "base_rate": 0.0
+    },
+    {
+      "template_id": "tech_discovered",
+      "target": "tech_name=Espionage",
+      "horizon": "H6",
+      "n": 1,
+      "yes": 0,
+      "base_rate": 0.0
+    },
+    {
+      "template_id": "tech_discovered",
+      "target": "tech_name=Espionage",
+      "horizon": "H7",
+      "n": 1,
+      "yes": 0,
+      "base_rate": 0.0
+    },
+    {
+      "template_id": "tech_discovered",
+      "target": "tech_name=Environmentalism",
+      "horizon": "H1",
+      "n": 5,
+      "yes": 0,
+      "base_rate": 0.0
+    },
+    {
+      "template_id": "tech_discovered",
+      "target": "tech_name=Environmentalism",
+      "horizon": "H2",
+      "n": 5,
+      "yes": 0,
+      "base_rate": 0.0
+    },
+    {
+      "template_id": "tech_discovered",
+      "target": "tech_name=Environmentalism",
+      "horizon": "H3",
+      "n": 5,
+      "yes": 0,
+      "base_rate": 0.0
+    },
+    {
+      "template_id": "tech_discovered",
+      "target": "tech_name=Environmentalism",
+      "horizon": "H4",
+      "n": 5,
+      "yes": 0,
+      "base_rate": 0.0
+    },
+    {
+      "template_id": "tech_discovered",
+      "target": "tech_name=Environmentalism",
+      "horizon": "H5",
+      "n": 5,
+      "yes": 0,
+      "base_rate": 0.0
+    },
+    {
+      "template_id": "tech_discovered",
+      "target": "tech_name=Environmentalism",
+      "horizon": "H6",
+      "n": 5,
+      "yes": 0,
+      "base_rate": 0.0
+    },
+    {
+      "template_id": "tech_discovered",
+      "target": "tech_name=Environmentalism",
+      "horizon": "H7",
+      "n": 5,
+      "yes": 0,
+      "base_rate": 0.0
+    },
+    {
+      "template_id": "tech_discovered",
+      "target": "tech_name=Plastics",
+      "horizon": "H1",
+      "n": 5,
+      "yes": 0,
+      "base_rate": 0.0
+    },
+    {
+      "template_id": "tech_discovered",
+      "target": "tech_name=Plastics",
+      "horizon": "H2",
+      "n": 5,
+      "yes": 0,
+      "base_rate": 0.0
+    },
+    {
+      "template_id": "tech_discovered",
+      "target": "tech_name=Plastics",
+      "horizon": "H3",
+      "n": 5,
+      "yes": 0,
+      "base_rate": 0.0
+    },
+    {
+      "template_id": "tech_discovered",
+      "target": "tech_name=Plastics",
+      "horizon": "H4",
+      "n": 5,
+      "yes": 0,
+      "base_rate": 0.0
+    },
+    {
+      "template_id": "tech_discovered",
+      "target": "tech_name=Plastics",
+      "horizon": "H5",
+      "n": 5,
+      "yes": 0,
+      "base_rate": 0.0
+    },
+    {
+      "template_id": "tech_discovered",
+      "target": "tech_name=Plastics",
+      "horizon": "H6",
+      "n": 5,
+      "yes": 0,
+      "base_rate": 0.0
+    },
+    {
+      "template_id": "tech_discovered",
+      "target": "tech_name=Plastics",
+      "horizon": "H7",
+      "n": 5,
+      "yes": 0,
+      "base_rate": 0.0
+    },
+    {
+      "template_id": "government_at",
+      "target": "government_type=Republic",
+      "horizon": "H6",
+      "n": 3855,
+      "yes": 1,
+      "base_rate": 0.00025940337224383917
+    },
+    {
+      "template_id": "government_at",
+      "target": "government_type=Republic",
+      "horizon": "H7",
+      "n": 3835,
+      "yes": 2,
+      "base_rate": 0.0005215123859191656
+    },
+    {
+      "template_id": "tech_discovered",
+      "target": "tech_name=Guerilla Warfare",
+      "horizon": "H5",
+      "n": 608,
+      "yes": 1,
+      "base_rate": 0.001644736842105263
+    },
+    {
+      "template_id": "tech_discovered",
+      "target": "tech_name=Invention",
+      "horizon": "H1",
+      "n": 1203,
+      "yes": 2,
+      "base_rate": 0.0016625103906899418
+    },
+    {
+      "template_id": "government_at",
+      "target": "government_type=Republic",
+      "horizon": "H5",
+      "n": 3865,
+      "yes": 7,
+      "base_rate": 0.0018111254851228978
+    },
+    {
+      "template_id": "government_at",
+      "target": "government_type=Monarchy",
+      "horizon": "H5",
+      "n": 1593,
+      "yes": 3,
+      "base_rate": 0.0018832391713747645
+    },
+    {
+      "template_id": "government_at",
+      "target": "government_type=Democracy",
+      "horizon": "H1",
+      "n": 1293,
+      "yes": 3,
+      "base_rate": 0.002320185614849188
+    },
+    {
+      "template_id": "tech_discovered",
+      "target": "tech_name=Monotheism",
+      "horizon": "H1",
+      "n": 650,
+      "yes": 2,
+      "base_rate": 0.003076923076923077
+    },
+    {
+      "template_id": "wonder_completed",
+      "target": "wonder_name=J.S. Bach's Cathedral",
+      "horizon": "H3",
+      "n": 286,
+      "yes": 1,
+      "base_rate": 0.0034965034965034965
+    },
+    {
+      "template_id": "government_at",
+      "target": "government_type=Communism",
+      "horizon": "H4",
+      "n": 1525,
+      "yes": 6,
+      "base_rate": 0.003934426229508197
+    },
+    {
+      "template_id": "tech_discovered",
+      "target": "tech_name=Combustion",
+      "horizon": "H5",
+      "n": 495,
+      "yes": 2,
+      "base_rate": 0.00404040404040404
+    },
+    {
+      "template_id": "tech_discovered",
+      "target": "tech_name=Economics",
+      "horizon": "H2",
+      "n": 635,
+      "yes": 3,
+      "base_rate": 0.004724409448818898
+    },
+    {
+      "template_id": "wonder_completed",
+      "target": "wonder_name=Michelangelo's Chapel",
+      "horizon": "H2",
+      "n": 590,
+      "yes": 3,
+      "base_rate": 0.005084745762711864
+    },
+    {
+      "template_id": "tech_discovered",
+      "target": "tech_name=Refining",
+      "horizon": "H5",
+      "n": 1125,
+      "yes": 7,
+      "base_rate": 0.006222222222222222
+    },
+    {
+      "template_id": "wonder_completed",
+      "target": "wonder_name=Darwin's Voyage",
+      "horizon": "H3",
+      "n": 308,
+      "yes": 2,
+      "base_rate": 0.006493506493506494
+    },
+    {
+      "template_id": "tech_discovered",
+      "target": "tech_name=Steel",
+      "horizon": "H4",
+      "n": 600,
+      "yes": 4,
+      "base_rate": 0.006666666666666667
+    },
+    {
+      "template_id": "government_at",
+      "target": "government_type=Republic",
+      "horizon": "H4",
+      "n": 3880,
+      "yes": 31,
+      "base_rate": 0.007989690721649484
+    },
+    {
+      "template_id": "government_at",
+      "target": "government_type=Monarchy",
+      "horizon": "H3",
+      "n": 1593,
+      "yes": 14,
+      "base_rate": 0.008788449466415568
+    },
+    {
+      "template_id": "government_at",
+      "target": "government_type=Monarchy",
+      "horizon": "H6",
+      "n": 1593,
+      "yes": 16,
+      "base_rate": 0.010043942247332079
+    },
+    {
+      "template_id": "tech_discovered",
+      "target": "tech_name=Communism",
+      "horizon": "H4",
+      "n": 587,
+      "yes": 7,
+      "base_rate": 0.01192504258943782
+    },
+    {
+      "template_id": "wonder_completed",
+      "target": "wonder_name=Sun Tzu's War Academy",
+      "horizon": "H2",
+      "n": 74,
+      "yes": 1,
+      "base_rate": 0.013513513513513514
+    },
+    {
+      "template_id": "tech_discovered",
+      "target": "tech_name=Atomic Theory",
+      "horizon": "H3",
+      "n": 535,
+      "yes": 8,
+      "base_rate": 0.014953271028037384
+    },
+    {
+      "template_id": "wonder_completed",
+      "target": "wonder_name=Palace",
+      "horizon": "H1",
+      "n": 911,
+      "yes": 14,
+      "base_rate": 0.015367727771679473
+    },
+    {
+      "template_id": "government_at",
+      "target": "government_type=Despotism",
+      "horizon": "H2",
+      "n": 1895,
+      "yes": 32,
+      "base_rate": 0.016886543535620052
+    },
+    {
+      "template_id": "wonder_completed",
+      "target": "wonder_name=Marco Polo's Embassy",
+      "horizon": "H1",
+      "n": 466,
+      "yes": 8,
+      "base_rate": 0.017167381974248927
+    },
+    {
+      "template_id": "tech_discovered",
+      "target": "tech_name=Advanced Flight",
+      "horizon": "H7",
+      "n": 105,
+      "yes": 2,
+      "base_rate": 0.01904761904761905
+    },
+    {
+      "template_id": "wonder_completed",
+      "target": "wonder_name=A.Smith's Trading Co.",
+      "horizon": "H3",
+      "n": 587,
+      "yes": 13,
+      "base_rate": 0.022146507666098807
+    },
+    {
+      "template_id": "wonder_completed",
+      "target": "wonder_name=J.S. Bach's Cathedral",
+      "horizon": "H4",
+      "n": 286,
+      "yes": 7,
+      "base_rate": 0.024475524475524476
+    },
+    {
+      "template_id": "government_at",
+      "target": "government_type=Communism",
+      "horizon": "H5",
+      "n": 1525,
+      "yes": 38,
+      "base_rate": 0.024918032786885248
+    },
+    {
+      "template_id": "tech_discovered",
+      "target": "tech_name=Combustion",
+      "horizon": "H6",
+      "n": 495,
+      "yes": 14,
+      "base_rate": 0.028282828282828285
+    },
+    {
+      "template_id": "tech_discovered",
+      "target": "tech_name=Nuclear Fission",
+      "horizon": "H7",
+      "n": 70,
+      "yes": 2,
+      "base_rate": 0.02857142857142857
+    },
+    {
+      "template_id": "tech_discovered",
+      "target": "tech_name=Philosophy",
+      "horizon": "H1",
+      "n": 174,
+      "yes": 5,
+      "base_rate": 0.028735632183908046
+    },
+    {
+      "template_id": "wonder_completed",
+      "target": "wonder_name=Cure For Cancer",
+      "horizon": "H6",
+      "n": 61,
+      "yes": 2,
+      "base_rate": 0.03278688524590164
+    },
+    {
+      "template_id": "tech_discovered",
+      "target": "tech_name=Genetic Engineering",
+      "horizon": "H5",
+      "n": 55,
+      "yes": 2,
+      "base_rate": 0.03636363636363636
+    },
+    {
+      "template_id": "wonder_completed",
+      "target": "wonder_name=Copernicus' Observatory",
+      "horizon": "H2",
+      "n": 402,
+      "yes": 15,
+      "base_rate": 0.03731343283582089
+    },
+    {
+      "template_id": "government_at",
+      "target": "government_type=Monarchy",
+      "horizon": "H7",
+      "n": 1583,
+      "yes": 62,
+      "base_rate": 0.03916614024005054
+    },
+    {
+      "template_id": "wonder_completed",
+      "target": "wonder_name=Isaac Newton's College",
+      "horizon": "H4",
+      "n": 70,
+      "yes": 3,
+      "base_rate": 0.04285714285714286
+    },
+    {
+      "template_id": "tech_discovered",
+      "target": "tech_name=Machine Tools",
+      "horizon": "H5",
+      "n": 67,
+      "yes": 3,
+      "base_rate": 0.04477611940298507
+    },
+    {
+      "template_id": "tech_discovered",
+      "target": "tech_name=Navigation",
+      "horizon": "H2",
+      "n": 20,
+      "yes": 1,
+      "base_rate": 0.05
+    },
+    {
+      "template_id": "government_at",
+      "target": "government_type=Democracy",
+      "horizon": "H2",
+      "n": 1293,
+      "yes": 65,
+      "base_rate": 0.050270688321732405
+    },
+    {
+      "template_id": "government_at",
+      "target": "government_type=Despotism",
+      "horizon": "H3",
+      "n": 1895,
+      "yes": 96,
+      "base_rate": 0.050659630606860157
+    },
+    {
+      "template_id": "tech_discovered",
+      "target": "tech_name=Amphibious Warfare",
+      "horizon": "H4",
+      "n": 625,
+      "yes": 32,
+      "base_rate": 0.0512
+    },
+    {
+      "template_id": "government_at",
+      "target": "government_type=Monarchy",
+      "horizon": "H2",
+      "n": 1593,
+      "yes": 83,
+      "base_rate": 0.052102950408035156
+    },
+    {
+      "template_id": "tech_discovered",
+      "target": "tech_name=Mass Production",
+      "horizon": "H6",
+      "n": 37,
+      "yes": 2,
+      "base_rate": 0.05405405405405406
+    },
+    {
+      "template_id": "tech_discovered",
+      "target": "tech_name=Explosives",
+      "horizon": "H4",
+      "n": 610,
+      "yes": 34,
+      "base_rate": 0.05573770491803279
+    },
+    {
+      "template_id": "wonder_completed",
+      "target": "wonder_name=Colossus",
+      "horizon": "H1",
+      "n": 125,
+      "yes": 8,
+      "base_rate": 0.064
+    },
+    {
+      "template_id": "wonder_completed",
+      "target": "wonder_name=Leonardo's Workshop",
+      "horizon": "H3",
+      "n": 31,
+      "yes": 2,
+      "base_rate": 0.06451612903225806
+    },
+    {
+      "template_id": "tech_discovered",
+      "target": "tech_name=Communism",
+      "horizon": "H5",
+      "n": 587,
+      "yes": 38,
+      "base_rate": 0.06473594548551959
+    },
+    {
+      "template_id": "government_at",
+      "target": "government_type=Monarchy",
+      "horizon": "H1",
+      "n": 1593,
+      "yes": 104,
+      "base_rate": 0.06528562460765851
+    },
+    {
+      "template_id": "tech_discovered",
+      "target": "tech_name=Atomic Theory",
+      "horizon": "H4",
+      "n": 535,
+      "yes": 35,
+      "base_rate": 0.06542056074766354
+    },
+    {
+      "template_id": "tech_discovered",
+      "target": "tech_name=Guerilla Warfare",
+      "horizon": "H6",
+      "n": 608,
+      "yes": 41,
+      "base_rate": 0.06743421052631579
+    },
+    {
+      "template_id": "wonder_completed",
+      "target": "wonder_name=J.S. Bach's Cathedral",
+      "horizon": "H5",
+      "n": 286,
+      "yes": 22,
+      "base_rate": 0.07692307692307693
+    },
+    {
+      "template_id": "tech_discovered",
+      "target": "tech_name=Steel",
+      "horizon": "H5",
+      "n": 600,
+      "yes": 48,
+      "base_rate": 0.08
+    },
+    {
+      "template_id": "government_at",
+      "target": "government_type=Despotism",
+      "horizon": "H4",
+      "n": 1895,
+      "yes": 153,
+      "base_rate": 0.08073878627968338
+    },
+    {
+      "template_id": "tech_discovered",
+      "target": "tech_name=Refining",
+      "horizon": "H6",
+      "n": 1125,
+      "yes": 92,
+      "base_rate": 0.08177777777777778
+    },
+    {
+      "template_id": "wonder_completed",
+      "target": "wonder_name=Great Library",
+      "horizon": "H1",
+      "n": 1008,
+      "yes": 83,
+      "base_rate": 0.08234126984126984
+    },
+    {
+      "template_id": "government_at",
+      "target": "government_type=Communism",
+      "horizon": "H6",
+      "n": 1525,
+      "yes": 138,
+      "base_rate": 0.09049180327868853
+    },
+    {
+      "template_id": "government_at",
+      "target": "government_type=Republic",
+      "horizon": "H3",
+      "n": 3880,
+      "yes": 353,
+      "base_rate": 0.09097938144329897
+    },
+    {
+      "template_id": "tech_discovered",
+      "target": "tech_name=Medicine",
+      "horizon": "H2",
+      "n": 1048,
+      "yes": 99,
+      "base_rate": 0.09446564885496184
+    },
+    {
+      "template_id": "tech_discovered",
+      "target": "tech_name=Chemistry",
+      "horizon": "H3",
+      "n": 600,
+      "yes": 58,
+      "base_rate": 0.09666666666666666
+    },
+    {
+      "template_id": "wonder_completed",
+      "target": "wonder_name=Cure For Cancer",
+      "horizon": "H7",
+      "n": 61,
+      "yes": 6,
+      "base_rate": 0.09836065573770492
+    },
+    {
+      "template_id": "wonder_completed",
+      "target": "wonder_name=Isaac Newton's College",
+      "horizon": "H5",
+      "n": 70,
+      "yes": 7,
+      "base_rate": 0.1
+    },
+    {
+      "template_id": "government_at",
+      "target": "government_type=Despotism",
+      "horizon": "H5",
+      "n": 1885,
+      "yes": 210,
+      "base_rate": 0.11140583554376658
+    },
+    {
+      "template_id": "wonder_completed",
+      "target": "wonder_name=Darwin's Voyage",
+      "horizon": "H4",
+      "n": 308,
+      "yes": 36,
+      "base_rate": 0.11688311688311688
+    },
+    {
+      "template_id": "tech_discovered",
+      "target": "tech_name=Iron Working",
+      "horizon": "H1",
+      "n": 621,
+      "yes": 73,
+      "base_rate": 0.11755233494363929
+    },
+    {
+      "template_id": "tech_discovered",
+      "target": "tech_name=University",
+      "horizon": "H2",
+      "n": 490,
+      "yes": 61,
+      "base_rate": 0.12448979591836734
+    },
+    {
+      "template_id": "tech_discovered",
+      "target": "tech_name=Genetic Engineering",
+      "horizon": "H6",
+      "n": 55,
+      "yes": 7,
+      "base_rate": 0.12727272727272726
+    },
+    {
+      "template_id": "government_at",
+      "target": "government_type=Despotism",
+      "horizon": "H6",
+      "n": 1875,
+      "yes": 254,
+      "base_rate": 0.13546666666666668
+    },
+    {
+      "template_id": "tech_discovered",
+      "target": "tech_name=Tactics",
+      "horizon": "H4",
+      "n": 175,
+      "yes": 26,
+      "base_rate": 0.14857142857142858
+    },
+    {
+      "template_id": "tech_discovered",
+      "target": "tech_name=Steam Engine",
+      "horizon": "H3",
+      "n": 740,
+      "yes": 111,
+      "base_rate": 0.15
+    },
+    {
+      "template_id": "tech_discovered",
+      "target": "tech_name=Explosives",
+      "horizon": "H5",
+      "n": 610,
+      "yes": 96,
+      "base_rate": 0.15737704918032788
+    },
+    {
+      "template_id": "wonder_completed",
+      "target": "wonder_name=Pyramids",
+      "horizon": "H1",
+      "n": 100,
+      "yes": 16,
+      "base_rate": 0.16
+    },
+    {
+      "template_id": "wonder_completed",
+      "target": "wonder_name=Sun Tzu's War Academy",
+      "horizon": "H3",
+      "n": 74,
+      "yes": 12,
+      "base_rate": 0.16216216216216217
+    },
+    {
+      "template_id": "tech_discovered",
+      "target": "tech_name=Mass Production",
+      "horizon": "H7",
+      "n": 37,
+      "yes": 6,
+      "base_rate": 0.16216216216216217
+    },
+    {
+      "template_id": "government_at",
+      "target": "government_type=Despotism",
+      "horizon": "H7",
+      "n": 1860,
+      "yes": 304,
+      "base_rate": 0.16344086021505377
+    },
+    {
+      "template_id": "tech_discovered",
+      "target": "tech_name=Combustion",
+      "horizon": "H7",
+      "n": 495,
+      "yes": 81,
+      "base_rate": 0.16363636363636364
+    },
+    {
+      "template_id": "government_at",
+      "target": "government_type=Communism",
+      "horizon": "H7",
+      "n": 1515,
+      "yes": 265,
+      "base_rate": 0.17491749174917492
+    },
+    {
+      "template_id": "tech_discovered",
+      "target": "tech_name=Economics",
+      "horizon": "H3",
+      "n": 635,
+      "yes": 113,
+      "base_rate": 0.17795275590551182
+    },
+    {
+      "template_id": "wonder_completed",
+      "target": "wonder_name=A.Smith's Trading Co.",
+      "horizon": "H4",
+      "n": 587,
+      "yes": 107,
+      "base_rate": 0.18228279386712096
+    },
+    {
+      "template_id": "wonder_completed",
+      "target": "wonder_name=Michelangelo's Chapel",
+      "horizon": "H3",
+      "n": 590,
+      "yes": 108,
+      "base_rate": 0.18305084745762712
+    },
+    {
+      "template_id": "wonder_completed",
+      "target": "wonder_name=Palace",
+      "horizon": "H2",
+      "n": 911,
+      "yes": 176,
+      "base_rate": 0.19319429198682767
+    },
+    {
+      "template_id": "tech_discovered",
+      "target": "tech_name=Machine Tools",
+      "horizon": "H6",
+      "n": 67,
+      "yes": 13,
+      "base_rate": 0.19402985074626866
+    },
+    {
+      "template_id": "score_rank_1",
+      "target": "",
+      "horizon": "H7",
+      "n": 5038,
+      "yes": 1003,
+      "base_rate": 0.19908693926161175
+    },
+    {
+      "template_id": "score_rank_1",
+      "target": "",
+      "horizon": "H5",
+      "n": 5078,
+      "yes": 1012,
+      "base_rate": 0.19929105947223316
+    },
+    {
+      "template_id": "score_rank_1",
+      "target": "",
+      "horizon": "H4",
+      "n": 5093,
+      "yes": 1015,
+      "base_rate": 0.19929314745729432
+    },
+    {
+      "template_id": "score_rank_1",
+      "target": "",
+      "horizon": "H6",
+      "n": 5068,
+      "yes": 1011,
+      "base_rate": 0.1994869771112865
+    },
+    {
+      "template_id": "score_rank_1",
+      "target": "",
+      "horizon": "H3",
+      "n": 5093,
+      "yes": 1016,
+      "base_rate": 0.19948949538582367
+    },
+    {
+      "template_id": "score_rank_1",
+      "target": "",
+      "horizon": "H2",
+      "n": 5093,
+      "yes": 1018,
+      "base_rate": 0.1998821912428824
+    },
+    {
+      "template_id": "score_rank_1",
+      "target": "",
+      "horizon": "H1",
+      "n": 5098,
+      "yes": 1019,
+      "base_rate": 0.19988230678697527
+    },
+    {
+      "template_id": "tech_discovered",
+      "target": "tech_name=Industrialization",
+      "horizon": "H4",
+      "n": 50,
+      "yes": 10,
+      "base_rate": 0.2
+    },
+    {
+      "template_id": "tech_discovered",
+      "target": "tech_name=Sanitation",
+      "horizon": "H7",
+      "n": 10,
+      "yes": 2,
+      "base_rate": 0.2
+    },
+    {
+      "template_id": "government_at",
+      "target": "government_type=Despotism",
+      "horizon": "H1",
+      "n": 1900,
+      "yes": 387,
+      "base_rate": 0.2036842105263158
+    },
+    {
+      "template_id": "wonder_completed",
+      "target": "wonder_name=King Richard's Crusade",
+      "horizon": "H2",
+      "n": 58,
+      "yes": 12,
+      "base_rate": 0.20689655172413793
+    },
+    {
+      "template_id": "wonder_completed",
+      "target": "wonder_name=J.S. Bach's Cathedral",
+      "horizon": "H6",
+      "n": 286,
+      "yes": 60,
+      "base_rate": 0.2097902097902098
+    },
+    {
+      "template_id": "tech_discovered",
+      "target": "tech_name=Atomic Theory",
+      "horizon": "H5",
+      "n": 535,
+      "yes": 115,
+      "base_rate": 0.21495327102803738
+    },
+    {
+      "template_id": "wonder_completed",
+      "target": "wonder_name=Colossus",
+      "horizon": "H2",
+      "n": 125,
+      "yes": 27,
+      "base_rate": 0.216
+    },
+    {
+      "template_id": "tech_discovered",
+      "target": "tech_name=Communism",
+      "horizon": "H6",
+      "n": 587,
+      "yes": 141,
+      "base_rate": 0.2402044293015332
+    },
+    {
+      "template_id": "tech_discovered",
+      "target": "tech_name=Genetic Engineering",
+      "horizon": "H7",
+      "n": 55,
+      "yes": 14,
+      "base_rate": 0.2545454545454545
+    },
+    {
+      "template_id": "wonder_completed",
+      "target": "wonder_name=Leonardo's Workshop",
+      "horizon": "H4",
+      "n": 31,
+      "yes": 8,
+      "base_rate": 0.25806451612903225
+    },
+    {
+      "template_id": "wonder_completed",
+      "target": "wonder_name=King Richard's Crusade",
+      "horizon": "H3",
+      "n": 58,
+      "yes": 15,
+      "base_rate": 0.25862068965517243
+    },
+    {
+      "template_id": "tech_discovered",
+      "target": "tech_name=Guerilla Warfare",
+      "horizon": "H7",
+      "n": 603,
+      "yes": 164,
+      "base_rate": 0.27197346600331673
+    },
+    {
+      "template_id": "tech_discovered",
+      "target": "tech_name=Refining",
+      "horizon": "H7",
+      "n": 1115,
+      "yes": 306,
+      "base_rate": 0.27443946188340806
+    },
+    {
+      "template_id": "tech_discovered",
+      "target": "tech_name=Mathematics",
+      "horizon": "H1",
+      "n": 640,
+      "yes": 194,
+      "base_rate": 0.303125
+    },
+    {
+      "template_id": "wonder_completed",
+      "target": "wonder_name=King Richard's Crusade",
+      "horizon": "H4",
+      "n": 58,
+      "yes": 19,
+      "base_rate": 0.3275862068965517
+    },
+    {
+      "template_id": "wonder_completed",
+      "target": "wonder_name=Oracle",
+      "horizon": "H2",
+      "n": 3,
+      "yes": 1,
+      "base_rate": 0.3333333333333333
+    },
+    {
+      "template_id": "wonder_completed",
+      "target": "wonder_name=Eiffel Tower",
+      "horizon": "H6",
+      "n": 3,
+      "yes": 1,
+      "base_rate": 0.3333333333333333
+    },
+    {
+      "template_id": "wonder_completed",
+      "target": "wonder_name=Eiffel Tower",
+      "horizon": "H7",
+      "n": 3,
+      "yes": 1,
+      "base_rate": 0.3333333333333333
+    },
+    {
+      "template_id": "tech_discovered",
+      "target": "tech_name=Steel",
+      "horizon": "H6",
+      "n": 600,
+      "yes": 206,
+      "base_rate": 0.3433333333333333
+    },
+    {
+      "template_id": "tech_discovered",
+      "target": "tech_name=Chemistry",
+      "horizon": "H4",
+      "n": 600,
+      "yes": 209,
+      "base_rate": 0.34833333333333333
+    },
+    {
+      "template_id": "tech_discovered",
+      "target": "tech_name=Map Making",
+      "horizon": "H1",
+      "n": 20,
+      "yes": 7,
+      "base_rate": 0.35
+    },
+    {
+      "template_id": "tech_discovered",
+      "target": "tech_name=Explosives",
+      "horizon": "H6",
+      "n": 610,
+      "yes": 216,
+      "base_rate": 0.3540983606557377
+    },
+    {
+      "template_id": "wonder_completed",
+      "target": "wonder_name=King Richard's Crusade",
+      "horizon": "H5",
+      "n": 58,
+      "yes": 21,
+      "base_rate": 0.3620689655172414
+    },
+    {
+      "template_id": "wonder_completed",
+      "target": "wonder_name=Isaac Newton's College",
+      "horizon": "H6",
+      "n": 70,
+      "yes": 26,
+      "base_rate": 0.37142857142857144
+    },
+    {
+      "template_id": "wonder_completed",
+      "target": "wonder_name=Michelangelo's Chapel",
+      "horizon": "H4",
+      "n": 590,
+      "yes": 220,
+      "base_rate": 0.3728813559322034
+    },
+    {
+      "template_id": "wonder_completed",
+      "target": "wonder_name=Copernicus' Observatory",
+      "horizon": "H3",
+      "n": 402,
+      "yes": 150,
+      "base_rate": 0.373134328358209
+    },
+    {
+      "template_id": "tech_discovered",
+      "target": "tech_name=Machine Tools",
+      "horizon": "H7",
+      "n": 67,
+      "yes": 25,
+      "base_rate": 0.373134328358209
+    },
+    {
+      "template_id": "government_at",
+      "target": "government_type=Republic",
+      "horizon": "H1",
+      "n": 3885,
+      "yes": 1450,
+      "base_rate": 0.3732303732303732
+    },
+    {
+      "template_id": "tech_discovered",
+      "target": "tech_name=Amphibious Warfare",
+      "horizon": "H5",
+      "n": 620,
+      "yes": 241,
+      "base_rate": 0.38870967741935486
+    },
+    {
+      "template_id": "wonder_completed",
+      "target": "wonder_name=Sun Tzu's War Academy",
+      "horizon": "H4",
+      "n": 74,
+      "yes": 29,
+      "base_rate": 0.3918918918918919
+    },
+    {
+      "template_id": "tech_discovered",
+      "target": "tech_name=Trade",
+      "horizon": "H1",
+      "n": 608,
+      "yes": 243,
+      "base_rate": 0.3996710526315789
+    },
+    {
+      "template_id": "tech_discovered",
+      "target": "tech_name=Navigation",
+      "horizon": "H3",
+      "n": 20,
+      "yes": 8,
+      "base_rate": 0.4
+    },
+    {
+      "template_id": "wonder_completed",
+      "target": "wonder_name=Darwin's Voyage",
+      "horizon": "H5",
+      "n": 308,
+      "yes": 125,
+      "base_rate": 0.40584415584415584
+    },
+    {
+      "template_id": "wonder_completed",
+      "target": "wonder_name=Pyramids",
+      "horizon": "H2",
+      "n": 100,
+      "yes": 41,
+      "base_rate": 0.41
+    },
+    {
+      "template_id": "wonder_completed",
+      "target": "wonder_name=Great Wall",
+      "horizon": "H1",
+      "n": 802,
+      "yes": 335,
+      "base_rate": 0.4177057356608479
+    },
+    {
+      "template_id": "tech_discovered",
+      "target": "tech_name=Monotheism",
+      "horizon": "H2",
+      "n": 650,
+      "yes": 274,
+      "base_rate": 0.42153846153846153
+    },
+    {
+      "template_id": "wonder_completed",
+      "target": "wonder_name=Colossus",
+      "horizon": "H3",
+      "n": 125,
+      "yes": 53,
+      "base_rate": 0.424
+    },
+    {
+      "template_id": "tech_discovered",
+      "target": "tech_name=Horseback Riding",
+      "horizon": "H1",
+      "n": 35,
+      "yes": 15,
+      "base_rate": 0.42857142857142855
+    },
+    {
+      "template_id": "government_at",
+      "target": "government_type=Democracy",
+      "horizon": "H3",
+      "n": 1293,
+      "yes": 556,
+      "base_rate": 0.4300077339520495
+    },
+    {
+      "template_id": "tech_discovered",
+      "target": "tech_name=Atomic Theory",
+      "horizon": "H6",
+      "n": 535,
+      "yes": 231,
+      "base_rate": 0.43177570093457945
+    },
+    {
+      "template_id": "tech_discovered",
+      "target": "tech_name=Pottery",
+      "horizon": "H1",
+      "n": 30,
+      "yes": 13,
+      "base_rate": 0.43333333333333335
+    },
+    {
+      "template_id": "government_at",
+      "target": "government_type=Democracy",
+      "horizon": "H4",
+      "n": 1293,
+      "yes": 564,
+      "base_rate": 0.4361948955916473
+    },
+    {
+      "template_id": "wonder_completed",
+      "target": "wonder_name=J.S. Bach's Cathedral",
+      "horizon": "H7",
+      "n": 286,
+      "yes": 126,
+      "base_rate": 0.4405594405594406
+    },
+    {
+      "template_id": "wonder_completed",
+      "target": "wonder_name=A.Smith's Trading Co.",
+      "horizon": "H5",
+      "n": 587,
+      "yes": 260,
+      "base_rate": 0.44293015332197616
+    },
+    {
+      "template_id": "wonder_completed",
+      "target": "wonder_name=King Richard's Crusade",
+      "horizon": "H6",
+      "n": 58,
+      "yes": 26,
+      "base_rate": 0.4482758620689655
+    },
+    {
+      "template_id": "tech_comparative",
+      "target": "",
+      "horizon": "H4",
+      "n": 4075,
+      "yes": 1841,
+      "base_rate": 0.45177914110429446
+    },
+    {
+      "template_id": "tech_comparative",
+      "target": "",
+      "horizon": "H6",
+      "n": 4055,
+      "yes": 1857,
+      "base_rate": 0.4579531442663379
+    },
+    {
+      "template_id": "tech_comparative",
+      "target": "",
+      "horizon": "H5",
+      "n": 4063,
+      "yes": 1887,
+      "base_rate": 0.46443514644351463
+    },
+    {
+      "template_id": "government_at",
+      "target": "government_type=Democracy",
+      "horizon": "H7",
+      "n": 1283,
+      "yes": 596,
+      "base_rate": 0.46453624318004677
+    },
+    {
+      "template_id": "tech_comparative",
+      "target": "",
+      "horizon": "H7",
+      "n": 4031,
+      "yes": 1879,
+      "base_rate": 0.46613743487968246
+    },
+    {
+      "template_id": "wonder_completed",
+      "target": "wonder_name=Palace",
+      "horizon": "H3",
+      "n": 911,
+      "yes": 426,
+      "base_rate": 0.4676180021953897
+    },
+    {
+      "template_id": "tech_comparative",
+      "target": "",
+      "horizon": "H3",
+      "n": 4075,
+      "yes": 1915,
+      "base_rate": 0.4699386503067485
+    },
+    {
+      "template_id": "wonder_completed",
+      "target": "wonder_name=Pyramids",
+      "horizon": "H3",
+      "n": 100,
+      "yes": 47,
+      "base_rate": 0.47
+    },
+    {
+      "template_id": "tech_discovered",
+      "target": "tech_name=Communism",
+      "horizon": "H7",
+      "n": 582,
+      "yes": 275,
+      "base_rate": 0.4725085910652921
+    },
+    {
+      "template_id": "wonder_completed",
+      "target": "wonder_name=Leonardo's Workshop",
+      "horizon": "H5",
+      "n": 31,
+      "yes": 15,
+      "base_rate": 0.4838709677419355
+    },
+    {
+      "template_id": "tech_comparative",
+      "target": "",
+      "horizon": "H2",
+      "n": 4075,
+      "yes": 1986,
+      "base_rate": 0.48736196319018404
+    },
+    {
+      "template_id": "city_count_comparative",
+      "target": "",
+      "horizon": "H7",
+      "n": 4031,
+      "yes": 1977,
+      "base_rate": 0.49044902009426944
+    },
+    {
+      "template_id": "score_comparative",
+      "target": "",
+      "horizon": "H4",
+      "n": 4075,
+      "yes": 2015,
+      "base_rate": 0.49447852760736194
+    },
+    {
+      "template_id": "treasury_comparative",
+      "target": "",
+      "horizon": "H3",
+      "n": 4075,
+      "yes": 2018,
+      "base_rate": 0.4952147239263804
+    },
+    {
+      "template_id": "wonder_completed",
+      "target": "wonder_name=Michelangelo's Chapel",
+      "horizon": "H5",
+      "n": 590,
+      "yes": 293,
+      "base_rate": 0.4966101694915254
+    },
+    {
+      "template_id": "score_comparative",
+      "target": "",
+      "horizon": "H3",
+      "n": 4075,
+      "yes": 2028,
+      "base_rate": 0.4976687116564417
+    },
+    {
+      "template_id": "wonder_completed",
+      "target": "wonder_name=Pyramids",
+      "horizon": "H4",
+      "n": 100,
+      "yes": 50,
+      "base_rate": 0.5
+    },
+    {
+      "template_id": "wonder_completed",
+      "target": "wonder_name=Magellan's Expedition",
+      "horizon": "H7",
+      "n": 2,
+      "yes": 1,
+      "base_rate": 0.5
+    },
+    {
+      "template_id": "wonder_completed",
+      "target": "wonder_name=Women's Suffrage",
+      "horizon": "H6",
+      "n": 2,
+      "yes": 1,
+      "base_rate": 0.5
+    },
+    {
+      "template_id": "wonder_completed",
+      "target": "wonder_name=Women's Suffrage",
+      "horizon": "H7",
+      "n": 2,
+      "yes": 1,
+      "base_rate": 0.5
+    },
+    {
+      "template_id": "score_comparative",
+      "target": "",
+      "horizon": "H6",
+      "n": 4055,
+      "yes": 2030,
+      "base_rate": 0.5006165228113441
+    },
+    {
+      "template_id": "score_comparative",
+      "target": "",
+      "horizon": "H1",
+      "n": 4079,
+      "yes": 2047,
+      "base_rate": 0.5018386859524393
+    },
+    {
+      "template_id": "score_comparative",
+      "target": "",
+      "horizon": "H7",
+      "n": 4031,
+      "yes": 2023,
+      "base_rate": 0.5018605805011164
+    },
+    {
+      "template_id": "score_comparative",
+      "target": "",
+      "horizon": "H5",
+      "n": 4063,
+      "yes": 2042,
+      "base_rate": 0.5025842973172533
+    },
+    {
+      "template_id": "treasury_comparative",
+      "target": "",
+      "horizon": "H2",
+      "n": 4075,
+      "yes": 2049,
+      "base_rate": 0.5028220858895706
+    },
+    {
+      "template_id": "score_comparative",
+      "target": "",
+      "horizon": "H2",
+      "n": 4075,
+      "yes": 2053,
+      "base_rate": 0.5038036809815951
+    },
+    {
+      "template_id": "tech_discovered",
+      "target": "tech_name=Steam Engine",
+      "horizon": "H4",
+      "n": 740,
+      "yes": 373,
+      "base_rate": 0.504054054054054
+    },
+    {
+      "template_id": "city_count_comparative",
+      "target": "",
+      "horizon": "H6",
+      "n": 4055,
+      "yes": 2059,
+      "base_rate": 0.5077681874229346
+    },
+    {
+      "template_id": "government_at",
+      "target": "government_type=Democracy",
+      "horizon": "H5",
+      "n": 1288,
+      "yes": 656,
+      "base_rate": 0.5093167701863354
+    },
+    {
+      "template_id": "treasury_comparative",
+      "target": "",
+      "horizon": "H6",
+      "n": 4055,
+      "yes": 2067,
+      "base_rate": 0.5097410604192355
+    },
+    {
+      "template_id": "treasury_comparative",
+      "target": "",
+      "horizon": "H7",
+      "n": 4031,
+      "yes": 2055,
+      "base_rate": 0.5097990573058795
+    },
+    {
+      "template_id": "treasury_comparative",
+      "target": "",
+      "horizon": "H5",
+      "n": 4063,
+      "yes": 2075,
+      "base_rate": 0.5107063746000492
+    },
+    {
+      "template_id": "treasury_comparative",
+      "target": "",
+      "horizon": "H1",
+      "n": 4079,
+      "yes": 2090,
+      "base_rate": 0.5123804854130914
+    },
+    {
+      "template_id": "treasury_comparative",
+      "target": "",
+      "horizon": "H4",
+      "n": 4075,
+      "yes": 2092,
+      "base_rate": 0.5133742331288343
+    },
+    {
+      "template_id": "tech_comparative",
+      "target": "",
+      "horizon": "H1",
+      "n": 4079,
+      "yes": 2096,
+      "base_rate": 0.5138514341750429
+    },
+    {
+      "template_id": "government_at",
+      "target": "government_type=Democracy",
+      "horizon": "H6",
+      "n": 1288,
+      "yes": 662,
+      "base_rate": 0.5139751552795031
+    },
+    {
+      "template_id": "population_comparative",
+      "target": "",
+      "horizon": "H7",
+      "n": 4031,
+      "yes": 2099,
+      "base_rate": 0.5207144629124287
+    },
+    {
+      "template_id": "city_count_comparative",
+      "target": "",
+      "horizon": "H5",
+      "n": 4063,
+      "yes": 2128,
+      "base_rate": 0.5237509229633276
+    },
+    {
+      "template_id": "tech_discovered",
+      "target": "tech_name=Economics",
+      "horizon": "H4",
+      "n": 635,
+      "yes": 338,
+      "base_rate": 0.5322834645669291
+    },
+    {
+      "template_id": "population_comparative",
+      "target": "",
+      "horizon": "H6",
+      "n": 4055,
+      "yes": 2163,
+      "base_rate": 0.5334155363748458
+    },
+    {
+      "template_id": "territory_comparative",
+      "target": "",
+      "horizon": "H7",
+      "n": 4031,
+      "yes": 2168,
+      "base_rate": 0.5378318035226991
+    },
+    {
+      "template_id": "tech_discovered",
+      "target": "tech_name=Medicine",
+      "horizon": "H3",
+      "n": 1048,
+      "yes": 564,
+      "base_rate": 0.5381679389312977
+    },
+    {
+      "template_id": "tech_discovered",
+      "target": "tech_name=Industrialization",
+      "horizon": "H5",
+      "n": 50,
+      "yes": 27,
+      "base_rate": 0.54
+    },
+    {
+      "template_id": "city_count_comparative",
+      "target": "",
+      "horizon": "H4",
+      "n": 4075,
+      "yes": 2221,
+      "base_rate": 0.5450306748466258
+    },
+    {
+      "template_id": "tech_discovered",
+      "target": "tech_name=Philosophy",
+      "horizon": "H2",
+      "n": 174,
+      "yes": 95,
+      "base_rate": 0.5459770114942529
+    },
+    {
+      "template_id": "territory_comparative",
+      "target": "",
+      "horizon": "H6",
+      "n": 4055,
+      "yes": 2217,
+      "base_rate": 0.5467324290998767
+    },
+    {
+      "template_id": "population_comparative",
+      "target": "",
+      "horizon": "H5",
+      "n": 4063,
+      "yes": 2227,
+      "base_rate": 0.5481171548117155
+    },
+    {
+      "template_id": "tech_discovered",
+      "target": "tech_name=Metallurgy",
+      "horizon": "H3",
+      "n": 20,
+      "yes": 11,
+      "base_rate": 0.55
+    },
+    {
+      "template_id": "wonder_completed",
+      "target": "wonder_name=Sun Tzu's War Academy",
+      "horizon": "H5",
+      "n": 74,
+      "yes": 41,
+      "base_rate": 0.5540540540540541
+    },
+    {
+      "template_id": "tech_discovered",
+      "target": "tech_name=Explosives",
+      "horizon": "H7",
+      "n": 605,
+      "yes": 336,
+      "base_rate": 0.5553719008264463
+    },
+    {
+      "template_id": "wonder_completed",
+      "target": "wonder_name=Pyramids",
+      "horizon": "H5",
+      "n": 100,
+      "yes": 56,
+      "base_rate": 0.56
+    },
+    {
+      "template_id": "territory_comparative",
+      "target": "",
+      "horizon": "H5",
+      "n": 4063,
+      "yes": 2294,
+      "base_rate": 0.5646074329313315
+    },
+    {
+      "template_id": "city_count_comparative",
+      "target": "",
+      "horizon": "H3",
+      "n": 4075,
+      "yes": 2307,
+      "base_rate": 0.5661349693251534
+    },
+    {
+      "template_id": "population_comparative",
+      "target": "",
+      "horizon": "H4",
+      "n": 4075,
+      "yes": 2321,
+      "base_rate": 0.5695705521472393
+    },
+    {
+      "template_id": "city_count_comparative",
+      "target": "",
+      "horizon": "H1",
+      "n": 4079,
+      "yes": 2328,
+      "base_rate": 0.570728119637166
+    },
+    {
+      "template_id": "wonder_completed",
+      "target": "wonder_name=Marco Polo's Embassy",
+      "horizon": "H2",
+      "n": 466,
+      "yes": 269,
+      "base_rate": 0.5772532188841202
+    },
+    {
+      "template_id": "population_comparative",
+      "target": "",
+      "horizon": "H1",
+      "n": 4079,
+      "yes": 2356,
+      "base_rate": 0.5775925471929394
+    },
+    {
+      "template_id": "tech_discovered",
+      "target": "tech_name=The Republic",
+      "horizon": "H1",
+      "n": 630,
+      "yes": 368,
+      "base_rate": 0.5841269841269842
+    },
+    {
+      "template_id": "territory_comparative",
+      "target": "",
+      "horizon": "H4",
+      "n": 4075,
+      "yes": 2382,
+      "base_rate": 0.5845398773006135
+    },
+    {
+      "template_id": "city_count_comparative",
+      "target": "",
+      "horizon": "H2",
+      "n": 4075,
+      "yes": 2383,
+      "base_rate": 0.5847852760736196
+    },
+    {
+      "template_id": "population_comparative",
+      "target": "",
+      "horizon": "H3",
+      "n": 4075,
+      "yes": 2393,
+      "base_rate": 0.587239263803681
+    },
+    {
+      "template_id": "tech_discovered",
+      "target": "tech_name=Atomic Theory",
+      "horizon": "H7",
+      "n": 530,
+      "yes": 316,
+      "base_rate": 0.5962264150943396
+    },
+    {
+      "template_id": "territory_comparative",
+      "target": "",
+      "horizon": "H3",
+      "n": 4075,
+      "yes": 2432,
+      "base_rate": 0.5968098159509202
+    },
+    {
+      "template_id": "population_comparative",
+      "target": "",
+      "horizon": "H2",
+      "n": 4075,
+      "yes": 2441,
+      "base_rate": 0.5990184049079754
+    },
+    {
+      "template_id": "wonder_completed",
+      "target": "wonder_name=Isaac Newton's College",
+      "horizon": "H7",
+      "n": 70,
+      "yes": 42,
+      "base_rate": 0.6
+    },
+    {
+      "template_id": "tech_discovered",
+      "target": "tech_name=Chemistry",
+      "horizon": "H5",
+      "n": 600,
+      "yes": 360,
+      "base_rate": 0.6
+    },
+    {
+      "template_id": "wonder_completed",
+      "target": "wonder_name=Colossus",
+      "horizon": "H4",
+      "n": 125,
+      "yes": 75,
+      "base_rate": 0.6
+    },
+    {
+      "template_id": "wonder_completed",
+      "target": "wonder_name=Michelangelo's Chapel",
+      "horizon": "H6",
+      "n": 589,
+      "yes": 354,
+      "base_rate": 0.601018675721562
+    },
+    {
+      "template_id": "wonder_completed",
+      "target": "wonder_name=Copernicus' Observatory",
+      "horizon": "H4",
+      "n": 402,
+      "yes": 242,
+      "base_rate": 0.6019900497512438
+    },
+    {
+      "template_id": "territory_comparative",
+      "target": "",
+      "horizon": "H2",
+      "n": 4075,
+      "yes": 2515,
+      "base_rate": 0.6171779141104294
+    },
+    {
+      "template_id": "wonder_completed",
+      "target": "wonder_name=Pyramids",
+      "horizon": "H6",
+      "n": 100,
+      "yes": 62,
+      "base_rate": 0.62
+    },
+    {
+      "template_id": "tech_discovered",
+      "target": "tech_name=Steel",
+      "horizon": "H7",
+      "n": 595,
+      "yes": 369,
+      "base_rate": 0.6201680672268908
+    },
+    {
+      "template_id": "territory_comparative",
+      "target": "",
+      "horizon": "H1",
+      "n": 4079,
+      "yes": 2544,
+      "base_rate": 0.6236822750674185
+    },
+    {
+      "template_id": "wonder_completed",
+      "target": "wonder_name=Darwin's Voyage",
+      "horizon": "H6",
+      "n": 307,
+      "yes": 193,
+      "base_rate": 0.6286644951140065
+    },
+    {
+      "template_id": "tech_discovered",
+      "target": "tech_name=Tactics",
+      "horizon": "H5",
+      "n": 175,
+      "yes": 113,
+      "base_rate": 0.6457142857142857
+    },
+    {
+      "template_id": "wonder_completed",
+      "target": "wonder_name=A.Smith's Trading Co.",
+      "horizon": "H6",
+      "n": 587,
+      "yes": 381,
+      "base_rate": 0.6490630323679727
+    },
+    {
+      "template_id": "tech_discovered",
+      "target": "tech_name=Warrior Code",
+      "horizon": "H1",
+      "n": 3,
+      "yes": 2,
+      "base_rate": 0.6666666666666666
+    },
+    {
+      "template_id": "wonder_completed",
+      "target": "wonder_name=King Richard's Crusade",
+      "horizon": "H7",
+      "n": 58,
+      "yes": 39,
+      "base_rate": 0.6724137931034483
+    },
+    {
+      "template_id": "government_at",
+      "target": "government_type=Republic",
+      "horizon": "H2",
+      "n": 3880,
+      "yes": 2674,
+      "base_rate": 0.6891752577319588
+    },
+    {
+      "template_id": "wonder_completed",
+      "target": "wonder_name=Pyramids",
+      "horizon": "H7",
+      "n": 100,
+      "yes": 69,
+      "base_rate": 0.69
+    },
+    {
+      "template_id": "wonder_completed",
+      "target": "wonder_name=Palace",
+      "horizon": "H4",
+      "n": 911,
+      "yes": 650,
+      "base_rate": 0.7135016465422612
+    },
+    {
+      "template_id": "tech_discovered",
+      "target": "tech_name=Ceremonial Burial",
+      "horizon": "H1",
+      "n": 125,
+      "yes": 90,
+      "base_rate": 0.72
+    },
+    {
+      "template_id": "tech_discovered",
+      "target": "tech_name=Amphibious Warfare",
+      "horizon": "H6",
+      "n": 620,
+      "yes": 447,
+      "base_rate": 0.7209677419354839
+    },
+    {
+      "template_id": "tech_discovered",
+      "target": "tech_name=Steam Engine",
+      "horizon": "H5",
+      "n": 740,
+      "yes": 535,
+      "base_rate": 0.722972972972973
+    },
+    {
+      "template_id": "wonder_completed",
+      "target": "wonder_name=Michelangelo's Chapel",
+      "horizon": "H7",
+      "n": 586,
+      "yes": 424,
+      "base_rate": 0.7235494880546075
+    },
+    {
+      "template_id": "tech_discovered",
+      "target": "tech_name=Leadership",
+      "horizon": "H4",
+      "n": 15,
+      "yes": 11,
+      "base_rate": 0.7333333333333333
+    },
+    {
+      "template_id": "tech_discovered",
+      "target": "tech_name=Economics",
+      "horizon": "H5",
+      "n": 635,
+      "yes": 466,
+      "base_rate": 0.7338582677165354
+    },
+    {
+      "template_id": "tech_discovered",
+      "target": "tech_name=Industrialization",
+      "horizon": "H6",
+      "n": 50,
+      "yes": 37,
+      "base_rate": 0.74
+    },
+    {
+      "template_id": "wonder_completed",
+      "target": "wonder_name=Copernicus' Observatory",
+      "horizon": "H5",
+      "n": 402,
+      "yes": 298,
+      "base_rate": 0.7412935323383084
+    },
+    {
+      "template_id": "wonder_completed",
+      "target": "wonder_name=Colossus",
+      "horizon": "H5",
+      "n": 125,
+      "yes": 96,
+      "base_rate": 0.768
+    },
+    {
+      "template_id": "tech_discovered",
+      "target": "tech_name=Chemistry",
+      "horizon": "H6",
+      "n": 600,
+      "yes": 462,
+      "base_rate": 0.77
+    },
+    {
+      "template_id": "tech_discovered",
+      "target": "tech_name=Medicine",
+      "horizon": "H4",
+      "n": 1048,
+      "yes": 808,
+      "base_rate": 0.7709923664122137
+    },
+    {
+      "template_id": "tech_discovered",
+      "target": "tech_name=Industrialization",
+      "horizon": "H7",
+      "n": 50,
+      "yes": 39,
+      "base_rate": 0.78
+    },
+    {
+      "template_id": "wonder_completed",
+      "target": "wonder_name=Sun Tzu's War Academy",
+      "horizon": "H6",
+      "n": 74,
+      "yes": 58,
+      "base_rate": 0.7837837837837838
+    },
+    {
+      "template_id": "wonder_completed",
+      "target": "wonder_name=Leonardo's Workshop",
+      "horizon": "H6",
+      "n": 31,
+      "yes": 25,
+      "base_rate": 0.8064516129032258
+    },
+    {
+      "template_id": "wonder_completed",
+      "target": "wonder_name=Darwin's Voyage",
+      "horizon": "H7",
+      "n": 306,
+      "yes": 247,
+      "base_rate": 0.8071895424836601
+    },
+    {
+      "template_id": "tech_discovered",
+      "target": "tech_name=Mathematics",
+      "horizon": "H2",
+      "n": 640,
+      "yes": 521,
+      "base_rate": 0.8140625
+    },
+    {
+      "template_id": "wonder_completed",
+      "target": "wonder_name=A.Smith's Trading Co.",
+      "horizon": "H7",
+      "n": 584,
+      "yes": 476,
+      "base_rate": 0.815068493150685
+    },
+    {
+      "template_id": "wonder_completed",
+      "target": "wonder_name=Copernicus' Observatory",
+      "horizon": "H6",
+      "n": 402,
+      "yes": 335,
+      "base_rate": 0.8333333333333334
+    },
+    {
+      "template_id": "tech_discovered",
+      "target": "tech_name=University",
+      "horizon": "H3",
+      "n": 490,
+      "yes": 412,
+      "base_rate": 0.8408163265306122
+    },
+    {
+      "template_id": "wonder_completed",
+      "target": "wonder_name=Palace",
+      "horizon": "H5",
+      "n": 908,
+      "yes": 770,
+      "base_rate": 0.8480176211453745
+    },
+    {
+      "template_id": "tech_discovered",
+      "target": "tech_name=Navigation",
+      "horizon": "H4",
+      "n": 20,
+      "yes": 17,
+      "base_rate": 0.85
+    },
+    {
+      "template_id": "tech_discovered",
+      "target": "tech_name=Economics",
+      "horizon": "H6",
+      "n": 630,
+      "yes": 540,
+      "base_rate": 0.8571428571428571
+    },
+    {
+      "template_id": "tech_discovered",
+      "target": "tech_name=Invention",
+      "horizon": "H2",
+      "n": 1203,
+      "yes": 1039,
+      "base_rate": 0.8636741479634248
+    },
+    {
+      "template_id": "tech_discovered",
+      "target": "tech_name=Steam Engine",
+      "horizon": "H6",
+      "n": 735,
+      "yes": 636,
+      "base_rate": 0.8653061224489796
+    },
+    {
+      "template_id": "tech_discovered",
+      "target": "tech_name=Map Making",
+      "horizon": "H2",
+      "n": 15,
+      "yes": 13,
+      "base_rate": 0.8666666666666667
+    },
+    {
+      "template_id": "tech_discovered",
+      "target": "tech_name=Chemistry",
+      "horizon": "H7",
+      "n": 595,
+      "yes": 516,
+      "base_rate": 0.8672268907563025
+    },
+    {
+      "template_id": "tech_discovered",
+      "target": "tech_name=Literacy",
+      "horizon": "H1",
+      "n": 670,
+      "yes": 585,
+      "base_rate": 0.8731343283582089
+    },
+    {
+      "template_id": "tech_discovered",
+      "target": "tech_name=Tactics",
+      "horizon": "H6",
+      "n": 175,
+      "yes": 153,
+      "base_rate": 0.8742857142857143
+    },
+    {
+      "template_id": "tech_discovered",
+      "target": "tech_name=Medicine",
+      "horizon": "H5",
+      "n": 1048,
+      "yes": 917,
+      "base_rate": 0.875
+    },
+    {
+      "template_id": "wonder_completed",
+      "target": "wonder_name=Colossus",
+      "horizon": "H6",
+      "n": 125,
+      "yes": 111,
+      "base_rate": 0.888
+    },
+    {
+      "template_id": "wonder_completed",
+      "target": "wonder_name=Sun Tzu's War Academy",
+      "horizon": "H7",
+      "n": 73,
+      "yes": 65,
+      "base_rate": 0.8904109589041096
+    },
+    {
+      "template_id": "tech_discovered",
+      "target": "tech_name=Amphibious Warfare",
+      "horizon": "H7",
+      "n": 615,
+      "yes": 548,
+      "base_rate": 0.8910569105691057
+    },
+    {
+      "template_id": "wonder_completed",
+      "target": "wonder_name=Great Library",
+      "horizon": "H2",
+      "n": 1008,
+      "yes": 901,
+      "base_rate": 0.8938492063492064
+    },
+    {
+      "template_id": "wonder_completed",
+      "target": "wonder_name=Marco Polo's Embassy",
+      "horizon": "H3",
+      "n": 466,
+      "yes": 418,
+      "base_rate": 0.8969957081545065
+    },
+    {
+      "template_id": "wonder_completed",
+      "target": "wonder_name=Great Wall",
+      "horizon": "H2",
+      "n": 802,
+      "yes": 723,
+      "base_rate": 0.9014962593516209
+    },
+    {
+      "template_id": "tech_discovered",
+      "target": "tech_name=Steam Engine",
+      "horizon": "H7",
+      "n": 730,
+      "yes": 662,
+      "base_rate": 0.9068493150684932
+    },
+    {
+      "template_id": "wonder_completed",
+      "target": "wonder_name=Palace",
+      "horizon": "H6",
+      "n": 906,
+      "yes": 833,
+      "base_rate": 0.9194260485651214
+    },
+    {
+      "template_id": "tech_discovered",
+      "target": "tech_name=Economics",
+      "horizon": "H7",
+      "n": 625,
+      "yes": 576,
+      "base_rate": 0.9216
+    },
+    {
+      "template_id": "wonder_completed",
+      "target": "wonder_name=Copernicus' Observatory",
+      "horizon": "H7",
+      "n": 400,
+      "yes": 370,
+      "base_rate": 0.925
+    },
+    {
+      "template_id": "tech_discovered",
+      "target": "tech_name=Iron Working",
+      "horizon": "H2",
+      "n": 621,
+      "yes": 577,
+      "base_rate": 0.92914653784219
+    },
+    {
+      "template_id": "tech_discovered",
+      "target": "tech_name=Medicine",
+      "horizon": "H6",
+      "n": 1043,
+      "yes": 972,
+      "base_rate": 0.9319271332694151
+    },
+    {
+      "template_id": "tech_discovered",
+      "target": "tech_name=Pottery",
+      "horizon": "H2",
+      "n": 30,
+      "yes": 28,
+      "base_rate": 0.9333333333333333
+    },
+    {
+      "template_id": "tech_discovered",
+      "target": "tech_name=Leadership",
+      "horizon": "H5",
+      "n": 15,
+      "yes": 14,
+      "base_rate": 0.9333333333333333
+    },
+    {
+      "template_id": "tech_discovered",
+      "target": "tech_name=Monotheism",
+      "horizon": "H3",
+      "n": 650,
+      "yes": 609,
+      "base_rate": 0.936923076923077
+    },
+    {
+      "template_id": "wonder_completed",
+      "target": "wonder_name=Colossus",
+      "horizon": "H7",
+      "n": 125,
+      "yes": 118,
+      "base_rate": 0.944
+    },
+    {
+      "template_id": "tech_discovered",
+      "target": "tech_name=The Republic",
+      "horizon": "H2",
+      "n": 625,
+      "yes": 592,
+      "base_rate": 0.9472
+    },
+    {
+      "template_id": "tech_discovered",
+      "target": "tech_name=Philosophy",
+      "horizon": "H3",
+      "n": 174,
+      "yes": 165,
+      "base_rate": 0.9482758620689655
+    },
+    {
+      "template_id": "tech_discovered",
+      "target": "tech_name=Metallurgy",
+      "horizon": "H4",
+      "n": 20,
+      "yes": 19,
+      "base_rate": 0.95
+    },
+    {
+      "template_id": "tech_discovered",
+      "target": "tech_name=Medicine",
+      "horizon": "H7",
+      "n": 1038,
+      "yes": 987,
+      "base_rate": 0.9508670520231214
+    },
+    {
+      "template_id": "tech_discovered",
+      "target": "tech_name=Trade",
+      "horizon": "H2",
+      "n": 608,
+      "yes": 582,
+      "base_rate": 0.9572368421052632
+    },
+    {
+      "template_id": "tech_discovered",
+      "target": "tech_name=Tactics",
+      "horizon": "H7",
+      "n": 175,
+      "yes": 168,
+      "base_rate": 0.96
+    },
+    {
+      "template_id": "tech_discovered",
+      "target": "tech_name=University",
+      "horizon": "H4",
+      "n": 490,
+      "yes": 472,
+      "base_rate": 0.963265306122449
+    },
+    {
+      "template_id": "wonder_completed",
+      "target": "wonder_name=Marco Polo's Embassy",
+      "horizon": "H4",
+      "n": 466,
+      "yes": 449,
+      "base_rate": 0.9635193133047211
+    },
+    {
+      "template_id": "wonder_completed",
+      "target": "wonder_name=Palace",
+      "horizon": "H7",
+      "n": 901,
+      "yes": 869,
+      "base_rate": 0.9644839067702553
+    },
+    {
+      "template_id": "tech_discovered",
+      "target": "tech_name=Pottery",
+      "horizon": "H3",
+      "n": 30,
+      "yes": 29,
+      "base_rate": 0.9666666666666667
+    },
+    {
+      "template_id": "wonder_completed",
+      "target": "wonder_name=Leonardo's Workshop",
+      "horizon": "H7",
+      "n": 31,
+      "yes": 30,
+      "base_rate": 0.967741935483871
+    },
+    {
+      "template_id": "tech_discovered",
+      "target": "tech_name=Mathematics",
+      "horizon": "H3",
+      "n": 640,
+      "yes": 624,
+      "base_rate": 0.975
+    },
+    {
+      "template_id": "tech_discovered",
+      "target": "tech_name=Writing",
+      "horizon": "H1",
+      "n": 506,
+      "yes": 494,
+      "base_rate": 0.9762845849802372
+    },
+    {
+      "template_id": "tech_discovered",
+      "target": "tech_name=Invention",
+      "horizon": "H3",
+      "n": 1203,
+      "yes": 1177,
+      "base_rate": 0.9783873649210307
+    },
+    {
+      "template_id": "tech_discovered",
+      "target": "tech_name=Monotheism",
+      "horizon": "H4",
+      "n": 650,
+      "yes": 638,
+      "base_rate": 0.9815384615384616
+    },
+    {
+      "template_id": "tech_discovered",
+      "target": "tech_name=University",
+      "horizon": "H5",
+      "n": 490,
+      "yes": 482,
+      "base_rate": 0.9836734693877551
+    },
+    {
+      "template_id": "wonder_completed",
+      "target": "wonder_name=Great Library",
+      "horizon": "H3",
+      "n": 1008,
+      "yes": 993,
+      "base_rate": 0.9851190476190477
+    },
+    {
+      "template_id": "tech_discovered",
+      "target": "tech_name=University",
+      "horizon": "H6",
+      "n": 490,
+      "yes": 483,
+      "base_rate": 0.9857142857142858
+    },
+    {
+      "template_id": "tech_discovered",
+      "target": "tech_name=Invention",
+      "horizon": "H4",
+      "n": 1203,
+      "yes": 1188,
+      "base_rate": 0.9875311720698254
+    },
+    {
+      "template_id": "tech_discovered",
+      "target": "tech_name=Literacy",
+      "horizon": "H2",
+      "n": 670,
+      "yes": 662,
+      "base_rate": 0.9880597014925373
+    },
+    {
+      "template_id": "tech_discovered",
+      "target": "tech_name=Literacy",
+      "horizon": "H3",
+      "n": 670,
+      "yes": 662,
+      "base_rate": 0.9880597014925373
+    },
+    {
+      "template_id": "tech_discovered",
+      "target": "tech_name=Literacy",
+      "horizon": "H4",
+      "n": 670,
+      "yes": 662,
+      "base_rate": 0.9880597014925373
+    },
+    {
+      "template_id": "tech_discovered",
+      "target": "tech_name=Philosophy",
+      "horizon": "H4",
+      "n": 174,
+      "yes": 172,
+      "base_rate": 0.9885057471264368
+    },
+    {
+      "template_id": "tech_discovered",
+      "target": "tech_name=Philosophy",
+      "horizon": "H5",
+      "n": 174,
+      "yes": 172,
+      "base_rate": 0.9885057471264368
+    },
+    {
+      "template_id": "tech_discovered",
+      "target": "tech_name=The Republic",
+      "horizon": "H3",
+      "n": 625,
+      "yes": 618,
+      "base_rate": 0.9888
+    },
+    {
+      "template_id": "tech_discovered",
+      "target": "tech_name=Monotheism",
+      "horizon": "H5",
+      "n": 645,
+      "yes": 638,
+      "base_rate": 0.9891472868217054
+    },
+    {
+      "template_id": "tech_discovered",
+      "target": "tech_name=Mathematics",
+      "horizon": "H4",
+      "n": 640,
+      "yes": 634,
+      "base_rate": 0.990625
+    },
+    {
+      "template_id": "wonder_completed",
+      "target": "wonder_name=Marco Polo's Embassy",
+      "horizon": "H5",
+      "n": 465,
+      "yes": 461,
+      "base_rate": 0.9913978494623656
+    },
+    {
+      "template_id": "wonder_completed",
+      "target": "wonder_name=Marco Polo's Embassy",
+      "horizon": "H6",
+      "n": 465,
+      "yes": 461,
+      "base_rate": 0.9913978494623656
+    },
+    {
+      "template_id": "tech_discovered",
+      "target": "tech_name=University",
+      "horizon": "H7",
+      "n": 485,
+      "yes": 481,
+      "base_rate": 0.9917525773195877
+    },
+    {
+      "template_id": "tech_discovered",
+      "target": "tech_name=Iron Working",
+      "horizon": "H3",
+      "n": 621,
+      "yes": 617,
+      "base_rate": 0.9935587761674718
+    },
+    {
+      "template_id": "tech_discovered",
+      "target": "tech_name=The Republic",
+      "horizon": "H4",
+      "n": 625,
+      "yes": 621,
+      "base_rate": 0.9936
+    },
+    {
+      "template_id": "tech_discovered",
+      "target": "tech_name=Mathematics",
+      "horizon": "H5",
+      "n": 640,
+      "yes": 636,
+      "base_rate": 0.99375
+    },
+    {
+      "template_id": "tech_discovered",
+      "target": "tech_name=Mathematics",
+      "horizon": "H6",
+      "n": 640,
+      "yes": 636,
+      "base_rate": 0.99375
+    },
+    {
+      "template_id": "tech_discovered",
+      "target": "tech_name=Philosophy",
+      "horizon": "H7",
+      "n": 169,
+      "yes": 168,
+      "base_rate": 0.9940828402366864
+    },
+    {
+      "template_id": "tech_discovered",
+      "target": "tech_name=Philosophy",
+      "horizon": "H6",
+      "n": 174,
+      "yes": 173,
+      "base_rate": 0.9942528735632183
+    },
+    {
+      "template_id": "tech_discovered",
+      "target": "tech_name=Mathematics",
+      "horizon": "H7",
+      "n": 635,
+      "yes": 632,
+      "base_rate": 0.9952755905511811
+    },
+    {
+      "template_id": "tech_discovered",
+      "target": "tech_name=Monotheism",
+      "horizon": "H6",
+      "n": 640,
+      "yes": 637,
+      "base_rate": 0.9953125
+    },
+    {
+      "template_id": "tech_discovered",
+      "target": "tech_name=Trade",
+      "horizon": "H3",
+      "n": 608,
+      "yes": 606,
+      "base_rate": 0.9967105263157895
+    },
+    {
+      "template_id": "tech_discovered",
+      "target": "tech_name=Monotheism",
+      "horizon": "H7",
+      "n": 640,
+      "yes": 638,
+      "base_rate": 0.996875
+    },
+    {
+      "template_id": "wonder_completed",
+      "target": "wonder_name=Great Wall",
+      "horizon": "H3",
+      "n": 802,
+      "yes": 800,
+      "base_rate": 0.9975062344139651
+    },
+    {
+      "template_id": "wonder_completed",
+      "target": "wonder_name=Marco Polo's Embassy",
+      "horizon": "H7",
+      "n": 463,
+      "yes": 462,
+      "base_rate": 0.9978401727861771
+    },
+    {
+      "template_id": "wonder_completed",
+      "target": "wonder_name=Great Library",
+      "horizon": "H4",
+      "n": 1008,
+      "yes": 1006,
+      "base_rate": 0.998015873015873
+    },
+    {
+      "template_id": "tech_discovered",
+      "target": "tech_name=Invention",
+      "horizon": "H5",
+      "n": 1203,
+      "yes": 1201,
+      "base_rate": 0.99833748960931
+    },
+    {
+      "template_id": "tech_discovered",
+      "target": "tech_name=Iron Working",
+      "horizon": "H5",
+      "n": 614,
+      "yes": 613,
+      "base_rate": 0.998371335504886
+    },
+    {
+      "template_id": "tech_discovered",
+      "target": "tech_name=The Republic",
+      "horizon": "H7",
+      "n": 615,
+      "yes": 614,
+      "base_rate": 0.9983739837398374
+    },
+    {
+      "template_id": "tech_discovered",
+      "target": "tech_name=The Republic",
+      "horizon": "H5",
+      "n": 620,
+      "yes": 619,
+      "base_rate": 0.9983870967741936
+    },
+    {
+      "template_id": "tech_discovered",
+      "target": "tech_name=The Republic",
+      "horizon": "H6",
+      "n": 620,
+      "yes": 619,
+      "base_rate": 0.9983870967741936
+    },
+    {
+      "template_id": "tech_discovered",
+      "target": "tech_name=Iron Working",
+      "horizon": "H4",
+      "n": 621,
+      "yes": 620,
+      "base_rate": 0.998389694041868
+    },
+    {
+      "template_id": "wonder_completed",
+      "target": "wonder_name=Great Wall",
+      "horizon": "H4",
+      "n": 802,
+      "yes": 801,
+      "base_rate": 0.9987531172069826
+    },
+    {
+      "template_id": "wonder_completed",
+      "target": "wonder_name=Great Library",
+      "horizon": "H5",
+      "n": 1005,
+      "yes": 1004,
+      "base_rate": 0.9990049751243781
+    },
+    {
+      "template_id": "tech_discovered",
+      "target": "tech_name=Literacy",
+      "horizon": "H5",
+      "n": 665,
+      "yes": 665,
+      "base_rate": 1.0
+    },
+    {
+      "template_id": "tech_discovered",
+      "target": "tech_name=Invention",
+      "horizon": "H6",
+      "n": 1203,
+      "yes": 1203,
+      "base_rate": 1.0
+    },
+    {
+      "template_id": "tech_discovered",
+      "target": "tech_name=Literacy",
+      "horizon": "H6",
+      "n": 665,
+      "yes": 665,
+      "base_rate": 1.0
+    },
+    {
+      "template_id": "tech_discovered",
+      "target": "tech_name=Invention",
+      "horizon": "H7",
+      "n": 1198,
+      "yes": 1198,
+      "base_rate": 1.0
+    },
+    {
+      "template_id": "tech_discovered",
+      "target": "tech_name=Literacy",
+      "horizon": "H7",
+      "n": 665,
+      "yes": 665,
+      "base_rate": 1.0
+    },
+    {
+      "template_id": "wonder_completed",
+      "target": "wonder_name=Great Wall",
+      "horizon": "H5",
+      "n": 799,
+      "yes": 799,
+      "base_rate": 1.0
+    },
+    {
+      "template_id": "wonder_completed",
+      "target": "wonder_name=Great Wall",
+      "horizon": "H6",
+      "n": 798,
+      "yes": 798,
+      "base_rate": 1.0
+    },
+    {
+      "template_id": "wonder_completed",
+      "target": "wonder_name=Great Library",
+      "horizon": "H6",
+      "n": 1003,
+      "yes": 1003,
+      "base_rate": 1.0
+    },
+    {
+      "template_id": "wonder_completed",
+      "target": "wonder_name=Great Wall",
+      "horizon": "H7",
+      "n": 793,
+      "yes": 793,
+      "base_rate": 1.0
+    },
+    {
+      "template_id": "wonder_completed",
+      "target": "wonder_name=Great Library",
+      "horizon": "H7",
+      "n": 997,
+      "yes": 997,
+      "base_rate": 1.0
+    },
+    {
+      "template_id": "tech_discovered",
+      "target": "tech_name=Writing",
+      "horizon": "H2",
+      "n": 501,
+      "yes": 501,
+      "base_rate": 1.0
+    },
+    {
+      "template_id": "tech_discovered",
+      "target": "tech_name=Ceremonial Burial",
+      "horizon": "H2",
+      "n": 125,
+      "yes": 125,
+      "base_rate": 1.0
+    },
+    {
+      "template_id": "tech_discovered",
+      "target": "tech_name=Writing",
+      "horizon": "H3",
+      "n": 501,
+      "yes": 501,
+      "base_rate": 1.0
+    },
+    {
+      "template_id": "tech_discovered",
+      "target": "tech_name=Ceremonial Burial",
+      "horizon": "H3",
+      "n": 125,
+      "yes": 125,
+      "base_rate": 1.0
+    },
+    {
+      "template_id": "tech_discovered",
+      "target": "tech_name=Writing",
+      "horizon": "H4",
+      "n": 501,
+      "yes": 501,
+      "base_rate": 1.0
+    },
+    {
+      "template_id": "tech_discovered",
+      "target": "tech_name=Ceremonial Burial",
+      "horizon": "H4",
+      "n": 125,
+      "yes": 125,
+      "base_rate": 1.0
+    },
+    {
+      "template_id": "tech_discovered",
+      "target": "tech_name=Writing",
+      "horizon": "H5",
+      "n": 493,
+      "yes": 493,
+      "base_rate": 1.0
+    },
+    {
+      "template_id": "tech_discovered",
+      "target": "tech_name=Ceremonial Burial",
+      "horizon": "H5",
+      "n": 119,
+      "yes": 119,
+      "base_rate": 1.0
+    },
+    {
+      "template_id": "tech_discovered",
+      "target": "tech_name=Iron Working",
+      "horizon": "H6",
+      "n": 609,
+      "yes": 609,
+      "base_rate": 1.0
+    },
+    {
+      "template_id": "tech_discovered",
+      "target": "tech_name=Writing",
+      "horizon": "H6",
+      "n": 489,
+      "yes": 489,
+      "base_rate": 1.0
+    },
+    {
+      "template_id": "tech_discovered",
+      "target": "tech_name=Ceremonial Burial",
+      "horizon": "H6",
+      "n": 118,
+      "yes": 118,
+      "base_rate": 1.0
+    },
+    {
+      "template_id": "tech_discovered",
+      "target": "tech_name=Iron Working",
+      "horizon": "H7",
+      "n": 609,
+      "yes": 609,
+      "base_rate": 1.0
+    },
+    {
+      "template_id": "tech_discovered",
+      "target": "tech_name=Writing",
+      "horizon": "H7",
+      "n": 489,
+      "yes": 489,
+      "base_rate": 1.0
+    },
+    {
+      "template_id": "tech_discovered",
+      "target": "tech_name=Ceremonial Burial",
+      "horizon": "H7",
+      "n": 118,
+      "yes": 118,
+      "base_rate": 1.0
+    },
+    {
+      "template_id": "tech_discovered",
+      "target": "tech_name=Trade",
+      "horizon": "H4",
+      "n": 608,
+      "yes": 608,
+      "base_rate": 1.0
+    },
+    {
+      "template_id": "tech_discovered",
+      "target": "tech_name=Trade",
+      "horizon": "H5",
+      "n": 608,
+      "yes": 608,
+      "base_rate": 1.0
+    },
+    {
+      "template_id": "tech_discovered",
+      "target": "tech_name=Trade",
+      "horizon": "H6",
+      "n": 608,
+      "yes": 608,
+      "base_rate": 1.0
+    },
+    {
+      "template_id": "tech_discovered",
+      "target": "tech_name=Trade",
+      "horizon": "H7",
+      "n": 603,
+      "yes": 603,
+      "base_rate": 1.0
+    },
+    {
+      "template_id": "tech_discovered",
+      "target": "tech_name=Pottery",
+      "horizon": "H4",
+      "n": 30,
+      "yes": 30,
+      "base_rate": 1.0
+    },
+    {
+      "template_id": "tech_discovered",
+      "target": "tech_name=Pottery",
+      "horizon": "H5",
+      "n": 30,
+      "yes": 30,
+      "base_rate": 1.0
+    },
+    {
+      "template_id": "tech_discovered",
+      "target": "tech_name=Pottery",
+      "horizon": "H6",
+      "n": 30,
+      "yes": 30,
+      "base_rate": 1.0
+    },
+    {
+      "template_id": "tech_discovered",
+      "target": "tech_name=Pottery",
+      "horizon": "H7",
+      "n": 30,
+      "yes": 30,
+      "base_rate": 1.0
+    },
+    {
+      "template_id": "tech_discovered",
+      "target": "tech_name=Horseback Riding",
+      "horizon": "H2",
+      "n": 35,
+      "yes": 35,
+      "base_rate": 1.0
+    },
+    {
+      "template_id": "tech_discovered",
+      "target": "tech_name=Horseback Riding",
+      "horizon": "H3",
+      "n": 35,
+      "yes": 35,
+      "base_rate": 1.0
+    },
+    {
+      "template_id": "tech_discovered",
+      "target": "tech_name=Horseback Riding",
+      "horizon": "H4",
+      "n": 35,
+      "yes": 35,
+      "base_rate": 1.0
+    },
+    {
+      "template_id": "tech_discovered",
+      "target": "tech_name=Horseback Riding",
+      "horizon": "H5",
+      "n": 35,
+      "yes": 35,
+      "base_rate": 1.0
+    },
+    {
+      "template_id": "tech_discovered",
+      "target": "tech_name=Horseback Riding",
+      "horizon": "H6",
+      "n": 35,
+      "yes": 35,
+      "base_rate": 1.0
+    },
+    {
+      "template_id": "tech_discovered",
+      "target": "tech_name=Horseback Riding",
+      "horizon": "H7",
+      "n": 35,
+      "yes": 35,
+      "base_rate": 1.0
+    },
+    {
+      "template_id": "wonder_completed",
+      "target": "wonder_name=Oracle",
+      "horizon": "H3",
+      "n": 3,
+      "yes": 3,
+      "base_rate": 1.0
+    },
+    {
+      "template_id": "wonder_completed",
+      "target": "wonder_name=Oracle",
+      "horizon": "H4",
+      "n": 3,
+      "yes": 3,
+      "base_rate": 1.0
+    },
+    {
+      "template_id": "wonder_completed",
+      "target": "wonder_name=Oracle",
+      "horizon": "H5",
+      "n": 3,
+      "yes": 3,
+      "base_rate": 1.0
+    },
+    {
+      "template_id": "wonder_completed",
+      "target": "wonder_name=Oracle",
+      "horizon": "H6",
+      "n": 3,
+      "yes": 3,
+      "base_rate": 1.0
+    },
+    {
+      "template_id": "wonder_completed",
+      "target": "wonder_name=Oracle",
+      "horizon": "H7",
+      "n": 3,
+      "yes": 3,
+      "base_rate": 1.0
+    },
+    {
+      "template_id": "tech_discovered",
+      "target": "tech_name=The Wheel",
+      "horizon": "H1",
+      "n": 1,
+      "yes": 1,
+      "base_rate": 1.0
+    },
+    {
+      "template_id": "tech_discovered",
+      "target": "tech_name=The Wheel",
+      "horizon": "H2",
+      "n": 1,
+      "yes": 1,
+      "base_rate": 1.0
+    },
+    {
+      "template_id": "tech_discovered",
+      "target": "tech_name=The Wheel",
+      "horizon": "H3",
+      "n": 1,
+      "yes": 1,
+      "base_rate": 1.0
+    },
+    {
+      "template_id": "tech_discovered",
+      "target": "tech_name=The Wheel",
+      "horizon": "H4",
+      "n": 1,
+      "yes": 1,
+      "base_rate": 1.0
+    },
+    {
+      "template_id": "tech_discovered",
+      "target": "tech_name=The Wheel",
+      "horizon": "H5",
+      "n": 1,
+      "yes": 1,
+      "base_rate": 1.0
+    },
+    {
+      "template_id": "tech_discovered",
+      "target": "tech_name=The Wheel",
+      "horizon": "H6",
+      "n": 1,
+      "yes": 1,
+      "base_rate": 1.0
+    },
+    {
+      "template_id": "tech_discovered",
+      "target": "tech_name=The Wheel",
+      "horizon": "H7",
+      "n": 1,
+      "yes": 1,
+      "base_rate": 1.0
+    },
+    {
+      "template_id": "tech_discovered",
+      "target": "tech_name=Navigation",
+      "horizon": "H5",
+      "n": 20,
+      "yes": 20,
+      "base_rate": 1.0
+    },
+    {
+      "template_id": "tech_discovered",
+      "target": "tech_name=Navigation",
+      "horizon": "H6",
+      "n": 20,
+      "yes": 20,
+      "base_rate": 1.0
+    },
+    {
+      "template_id": "tech_discovered",
+      "target": "tech_name=Leadership",
+      "horizon": "H6",
+      "n": 15,
+      "yes": 15,
+      "base_rate": 1.0
+    },
+    {
+      "template_id": "tech_discovered",
+      "target": "tech_name=Navigation",
+      "horizon": "H7",
+      "n": 20,
+      "yes": 20,
+      "base_rate": 1.0
+    },
+    {
+      "template_id": "tech_discovered",
+      "target": "tech_name=Leadership",
+      "horizon": "H7",
+      "n": 15,
+      "yes": 15,
+      "base_rate": 1.0
+    },
+    {
+      "template_id": "tech_discovered",
+      "target": "tech_name=Map Making",
+      "horizon": "H3",
+      "n": 15,
+      "yes": 15,
+      "base_rate": 1.0
+    },
+    {
+      "template_id": "tech_discovered",
+      "target": "tech_name=Map Making",
+      "horizon": "H4",
+      "n": 15,
+      "yes": 15,
+      "base_rate": 1.0
+    },
+    {
+      "template_id": "tech_discovered",
+      "target": "tech_name=Map Making",
+      "horizon": "H5",
+      "n": 14,
+      "yes": 14,
+      "base_rate": 1.0
+    },
+    {
+      "template_id": "tech_discovered",
+      "target": "tech_name=Map Making",
+      "horizon": "H6",
+      "n": 14,
+      "yes": 14,
+      "base_rate": 1.0
+    },
+    {
+      "template_id": "tech_discovered",
+      "target": "tech_name=Map Making",
+      "horizon": "H7",
+      "n": 14,
+      "yes": 14,
+      "base_rate": 1.0
+    },
+    {
+      "template_id": "tech_discovered",
+      "target": "tech_name=Engineering",
+      "horizon": "H2",
+      "n": 5,
+      "yes": 5,
+      "base_rate": 1.0
+    },
+    {
+      "template_id": "tech_discovered",
+      "target": "tech_name=Engineering",
+      "horizon": "H3",
+      "n": 5,
+      "yes": 5,
+      "base_rate": 1.0
+    },
+    {
+      "template_id": "tech_discovered",
+      "target": "tech_name=Engineering",
+      "horizon": "H4",
+      "n": 5,
+      "yes": 5,
+      "base_rate": 1.0
+    },
+    {
+      "template_id": "tech_discovered",
+      "target": "tech_name=Engineering",
+      "horizon": "H5",
+      "n": 5,
+      "yes": 5,
+      "base_rate": 1.0
+    },
+    {
+      "template_id": "tech_discovered",
+      "target": "tech_name=Engineering",
+      "horizon": "H6",
+      "n": 5,
+      "yes": 5,
+      "base_rate": 1.0
+    },
+    {
+      "template_id": "tech_discovered",
+      "target": "tech_name=Engineering",
+      "horizon": "H7",
+      "n": 5,
+      "yes": 5,
+      "base_rate": 1.0
+    },
+    {
+      "template_id": "tech_discovered",
+      "target": "tech_name=Warrior Code",
+      "horizon": "H2",
+      "n": 3,
+      "yes": 3,
+      "base_rate": 1.0
+    },
+    {
+      "template_id": "tech_discovered",
+      "target": "tech_name=Warrior Code",
+      "horizon": "H3",
+      "n": 3,
+      "yes": 3,
+      "base_rate": 1.0
+    },
+    {
+      "template_id": "tech_discovered",
+      "target": "tech_name=Warrior Code",
+      "horizon": "H4",
+      "n": 3,
+      "yes": 3,
+      "base_rate": 1.0
+    },
+    {
+      "template_id": "tech_discovered",
+      "target": "tech_name=Metallurgy",
+      "horizon": "H5",
+      "n": 20,
+      "yes": 20,
+      "base_rate": 1.0
+    },
+    {
+      "template_id": "tech_discovered",
+      "target": "tech_name=Metallurgy",
+      "horizon": "H6",
+      "n": 20,
+      "yes": 20,
+      "base_rate": 1.0
+    },
+    {
+      "template_id": "tech_discovered",
+      "target": "tech_name=Metallurgy",
+      "horizon": "H7",
+      "n": 20,
+      "yes": 20,
+      "base_rate": 1.0
+    }
+  ]
+}

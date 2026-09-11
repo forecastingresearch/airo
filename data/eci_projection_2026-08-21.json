@@ -1,0 +1,225 @@
+{
+ "what": "Projected US-frontier Epoch Capabilities Index (ECI) score by date, percentiles over Monte Carlo trajectories",
+ "source": {
+  "repo": "https://github.com/peterhurford/metr_graph",
+  "app": "https://metrgraph.streamlit.app/?tab=eci",
+  "csv": "data/epoch_capabilities_index_2026-08-21.csv",
+  "csv_refreshed": "2026-08-21",
+  "repo_commit": "b934b67"
+ },
+ "method": "metr_graph ECI tab defaults: US-best running-max frontier since 2024-02-29; single OLS -> pts/yr; pts/yr lognormal over 80% CI [PPY/2, PPY*2]; start normal around fitted-trend score, 80% CI +/-2; score(t) = start + t/DPP. Replica in code/eci_projection_metrgraph.py, verified against the app via AppTest 2026-08-28.",
+ "fit": {
+  "n_frontier": 20,
+  "pts_per_year": 15.3,
+  "pts_per_year_ci80": [
+   7.6,
+   30.6
+  ],
+  "anchor": {
+   "model": "Claude Fable 5 (high)",
+   "date": "2026-06-09",
+   "score": 162.49
+  },
+  "fitted_trend_score_at_anchor": 162.06,
+  "start_sd": 1.56
+ },
+ "run": {
+  "n_samples": 400000,
+  "seed": 1,
+  "computed": "2026-08-28"
+ },
+ "frontier": [
+  {
+   "date": "2024-02-29",
+   "score": 126.68,
+   "model": "Claude 3 Opus",
+   "org": "Anthropic"
+  },
+  {
+   "date": "2024-04-09",
+   "score": 127.3,
+   "model": "GPT-4 Turbo (Apr 2024)",
+   "org": "OpenAI"
+  },
+  {
+   "date": "2024-06-20",
+   "score": 130.0,
+   "model": "Claude 3.5 Sonnet (Jun 2024)",
+   "org": "Anthropic"
+  },
+  {
+   "date": "2024-09-12",
+   "score": 135.68,
+   "model": "o1-preview",
+   "org": "OpenAI"
+  },
+  {
+   "date": "2024-09-12",
+   "score": 136.47,
+   "model": "o1-mini (high)",
+   "org": "OpenAI"
+  },
+  {
+   "date": "2024-12-17",
+   "score": 142.57,
+   "model": "o1 (medium)",
+   "org": "OpenAI"
+  },
+  {
+   "date": "2025-03-31",
+   "score": 144.53,
+   "model": "Gemini 2.5 Pro Preview (Mar 2025)",
+   "org": "Google DeepMind"
+  },
+  {
+   "date": "2025-04-16",
+   "score": 147.0,
+   "model": "o3 (medium)",
+   "org": "OpenAI"
+  },
+  {
+   "date": "2025-06-10",
+   "score": 147.44,
+   "model": "o3-pro",
+   "org": "OpenAI"
+  },
+  {
+   "date": "2025-08-07",
+   "score": 150.0,
+   "model": "GPT-5 (high)",
+   "org": "OpenAI"
+  },
+  {
+   "date": "2025-10-07",
+   "score": 150.27,
+   "model": "GPT-5 Pro",
+   "org": "OpenAI"
+  },
+  {
+   "date": "2025-11-18",
+   "score": 153.06,
+   "model": "Gemini 3 Pro Preview",
+   "org": "Google DeepMind"
+  },
+  {
+   "date": "2025-12-11",
+   "score": 153.31,
+   "model": "GPT-5.2 (high)",
+   "org": "OpenAI"
+  },
+  {
+   "date": "2025-12-11",
+   "score": 155.09,
+   "model": "GPT-5.2 Pro",
+   "org": "OpenAI"
+  },
+  {
+   "date": "2026-02-05",
+   "score": 155.61,
+   "model": "GPT-5.3 Codex (high)",
+   "org": "OpenAI"
+  },
+  {
+   "date": "2026-03-05",
+   "score": 156.5,
+   "model": "GPT-5.4 (high)",
+   "org": "OpenAI"
+  },
+  {
+   "date": "2026-03-05",
+   "score": 158.57,
+   "model": "GPT-5.4 Pro (xhigh)",
+   "org": "OpenAI"
+  },
+  {
+   "date": "2026-04-23",
+   "score": 158.67,
+   "model": "GPT-5.5 (medium)",
+   "org": "OpenAI"
+  },
+  {
+   "date": "2026-04-23",
+   "score": 161.73,
+   "model": "GPT-5.5 Pro (xhigh)",
+   "org": "OpenAI"
+  },
+  {
+   "date": "2026-06-09",
+   "score": 162.49,
+   "model": "Claude Fable 5 (high)",
+   "org": "Anthropic"
+  }
+ ],
+ "projection": {
+  "today": {
+   "date": "2026-08-28",
+   "p5": 162.1,
+   "p10": 162.8,
+   "p25": 164.1,
+   "p50": 165.6,
+   "p75": 167.4,
+   "p90": 169.4,
+   "p95": 170.8
+  },
+  "2026EOY": {
+   "date": "2026-12-31",
+   "p5": 164.9,
+   "p10": 165.9,
+   "p25": 167.9,
+   "p50": 170.8,
+   "p75": 174.6,
+   "p90": 179.4,
+   "p95": 183.2
+  },
+  "2027-Jun": {
+   "date": "2027-06-30",
+   "p5": 168.3,
+   "p10": 169.9,
+   "p25": 173.2,
+   "p50": 178.3,
+   "p75": 185.4,
+   "p90": 194.5,
+   "p95": 201.5
+  },
+  "2027EOY": {
+   "date": "2027-12-31",
+   "p5": 171.6,
+   "p10": 173.8,
+   "p25": 178.6,
+   "p50": 185.9,
+   "p75": 196.5,
+   "p90": 209.8,
+   "p95": 220.2
+  },
+  "2028EOY": {
+   "date": "2028-12-31",
+   "p5": 177.9,
+   "p10": 181.5,
+   "p25": 189.2,
+   "p50": 201.2,
+   "p75": 218.5,
+   "p90": 240.4,
+   "p95": 257.5
+  },
+  "2029EOY": {
+   "date": "2029-12-31",
+   "p5": 184.2,
+   "p10": 189.2,
+   "p25": 199.8,
+   "p50": 216.5,
+   "p75": 240.5,
+   "p90": 271.0,
+   "p95": 294.8
+  },
+  "2030EOY": {
+   "date": "2030-12-31",
+   "p5": 190.5,
+   "p10": 196.8,
+   "p25": 210.4,
+   "p50": 231.7,
+   "p75": 262.5,
+   "p90": 301.5,
+   "p95": 332.0
+  }
+ }
+}

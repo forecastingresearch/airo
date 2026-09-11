@@ -1,0 +1,2408 @@
+{
+ "window": [
+  "2026-06-04",
+  "2026-09-02"
+ ],
+ "n": 10,
+ "queries": [
+  "AI-related incident",
+  "AI-related human-caused epidemic",
+  "AI-related cyber incident",
+  "Misaligned AI incident",
+  "AI incident",
+  "artificial intelligence system caused harm",
+  "AI safety incident report"
+ ],
+ "backends": {
+  "tavily_news": {
+   "results": 60,
+   "unique": 54,
+   "found": 1,
+   "hits": {
+    "OpenAI models escape sandbox, attack Hugging Face": [
+     "AI incident",
+     "AI-related cyber incident",
+     "AI-related incident",
+     "Misaligned AI incident",
+     "artificial intelligence system caused harm"
+    ],
+    "Kosovo election synthetic-media campaign": [],
+    "Waymo robotaxi safety incidents": [],
+    "Zoox autonomous vehicle collisions": [],
+    "Discord automated-moderation mass bans": [],
+    "Unitree humanoid demonstration injury": [],
+    "RealPage rent-setting algorithm": [],
+    "State Department mislabeled AI map of Africa": [],
+    "Meta AI agent data exposure": []
+   },
+   "domains": {
+    "www.cybersecuritydive.com": 1,
+    "www.itbrew.com": 1,
+    "news.vcu.edu": 1,
+    "www.cnbc.com": 3,
+    "www.anthropic.com": 1,
+    "thebulletin.org": 1,
+    "www.medicalnewstoday.com": 1,
+    "theconversation.com": 1,
+    "www.cam.ac.uk": 1,
+    "www.cnn.com": 2,
+    "futurism.com": 1,
+    "www.pbs.org": 1,
+    "www.wdbj7.com": 1,
+    "www.carriermanagement.com": 1,
+    "www.swissre.com": 1,
+    "www.bbc.com": 1,
+    "www.crnasia.com": 1,
+    "www.latimes.com": 1,
+    "techcrunch.com": 2,
+    "openai.com": 1,
+    "therecord.media": 1,
+    "eutoday.net": 1,
+    "www.cnas.org": 1,
+    "cybermagazine.com": 1,
+    "www.transformernews.ai": 1,
+    "ari.us": 1,
+    "thehackernews.com": 2,
+    "www.astralcodexten.com": 1,
+    "oecd.ai": 1,
+    "www.techtimes.com": 1,
+    "www.interconnects.ai": 1,
+    "www.theguardian.com": 1,
+    "www.databricks.com": 1,
+    "www.aisi.gov.uk": 1,
+    "securityboulevard.com": 2,
+    "www.bruegel.org": 1,
+    "news.harvard.edu": 1,
+    "www.penningtonslaw.com": 1,
+    "www.jpost.com": 1,
+    "rollcall.com": 1,
+    "www.pinsentmasons.com": 1,
+    "www.ynetnews.com": 1,
+    "www.lw.com": 1,
+    "www.axios.com": 1,
+    "tech-insider.org": 1,
+    "www.tdi.texas.gov": 1,
+    "statescoop.com": 1,
+    "www.reuters.com": 1
+   },
+   "errors": [],
+   "sample": [
+    {
+     "title": "AI adoption correlates with incident frequency, underscoring need for governance | Cybersecurity Dive",
+     "url": "https://www.cybersecuritydive.com/news/ai-cybersecurity-incidents-governance-jamf/823026",
+     "published": "Tue, 16 Jun 2026 11:11:39 GMT",
+     "query": "AI-related incident",
+     "page_rank": null
+    },
+    {
+     "title": "Report: 54% of cybersecurity and IT pros faced \u2018AI-related security incident\u2019",
+     "url": "https://www.itbrew.com/stories/report-54-of-cybersecurity-pros-faced-ai-related-security-incident",
+     "published": "Mon, 08 Jun 2026 00:00:00 GMT",
+     "query": "AI-related incident",
+     "page_rank": null
+    },
+    {
+     "title": "Here\u2019s how a second major hacking incident is exposing the fragility of AI governance - VCU News - Virginia Commonwealth University",
+     "url": "https://news.vcu.edu/article/how-the-anthropic-hacking-incident-is-exposing-the-fragility-of-ai-governance",
+     "published": "Fri, 31 Jul 2026 00:00:00 GMT",
+     "query": "AI-related incident",
+     "page_rank": null
+    },
+    {
+     "title": "Israeli startup Irregular linked to AI hacks OpenAI, ...",
+     "url": "https://www.cnbc.com/2026/08/09/israeli-startup-irregular-linked-to-ai-hacks-openai-anthropic-meta.html",
+     "published": "Sun, 09 Aug 2026 11:31:42 GMT",
+     "query": "AI-related incident",
+     "page_rank": null
+    },
+    {
+     "title": "Investigating three real-world incidents in our cybersecurity ...",
+     "url": "https://www.anthropic.com/news/investigating-incidents-cybersecurity-evals",
+     "published": "Mon, 03 Aug 2026 18:00:00 GMT",
+     "query": "AI-related incident",
+     "page_rank": null
+    },
+    {
+     "title": "AI is changing biological and nuclear risks; governance must change accordingly - Bulletin of the Atomic Scientists",
+     "url": "https://thebulletin.org/2026/06/ai-is-changing-biological-and-nuclear-risks-governance-must-change-accordingly",
+     "published": "Thu, 18 Jun 2026 10:00:53 GMT",
+     "query": "AI-related human-caused epidemic",
+     "page_rank": null
+    },
+    {
+     "title": "World's first no-needle, AI-designed vaccine, explained by 2 experts",
+     "url": "https://www.medicalnewstoday.com/articles/world-first-vaccine-designed-by-ai-tested-humans-will-it-live-up-to-the-hype",
+     "published": "Tue, 16 Jun 2026 00:00:00 GMT",
+     "query": "AI-related human-caused epidemic",
+     "page_rank": null
+    },
+    {
+     "title": "World\u2019s first AI-designed vaccine explained",
+     "url": "https://theconversation.com/worlds-first-ai-designed-vaccine-explained-284668",
+     "published": "Tue, 09 Jun 2026 00:00:00 GMT",
+     "query": "AI-related human-caused epidemic",
+     "page_rank": null
+    },
+    {
+     "title": "New \u2018universal vaccine\u2019 technology could protect us from future virus outbreaks | University of Cambridge",
+     "url": "https://www.cam.ac.uk/research/news/new-universal-vaccine-technology-could-protect-us-from-future-virus-outbreaks",
+     "published": "Fri, 05 Jun 2026 00:00:00 GMT",
+     "query": "AI-related human-caused epidemic",
+     "page_rank": null
+    },
+    {
+     "title": "Cyclospora outbreaks start with human contamination. Nobody has ever been able to figure out how | CNN",
+     "url": "https://www.cnn.com/2026/07/25/health/cyclospora-outbreak-investigation",
+     "published": "Sat, 25 Jul 2026 16:00:26 GMT",
+     "query": "AI-related human-caused epidemic",
+     "page_rank": null
+    },
+    {
+     "title": "Meta\u2019s AI Data Center Caught Leaking Deadly Bacteria Into Water Town Uses for Irrigation",
+     "url": "https://futurism.com/health-medicine/meta-ai-data-center-pathogen-bacteria-water",
+     "published": "Mon, 06 Jul 2026 00:00:00 GMT",
+     "query": "AI-related human-caused epidemic",
+     "page_rank": null
+    },
+    {
+     "title": "FDA is still focused on lettuce supplier as source of parasite, despite faulty test result | PBS News",
+     "url": "https://www.pbs.org/newshour/health/fda-is-still-focused-on-lettuce-supplier-as-source-of-parasite-despite-faulty-test-result",
+     "published": "Mon, 20 Jul 2026 20:18:00 GMT",
+     "query": "AI-related human-caused epidemic",
+     "page_rank": null
+    },
+    {
+     "title": "Here\u2019s what health experts believe could be linked to \u2018explosive diarrhea\u2019 outbreak",
+     "url": "https://www.wdbj7.com/2026/07/14/heres-what-health-experts-believe-could-be-linked-explosive-diarrhea-outbreak",
+     "published": "Mon, 03 Aug 2026 18:00:00 GMT",
+     "query": "AI-related human-caused epidemic",
+     "page_rank": null
+    },
+    {
+     "title": "As AI Agents Go Rogue, Cyber Insurers Adapt Policies",
+     "url": "https://www.carriermanagement.com/news/2026/08/27/291420.htm",
+     "published": "Thu, 27 Aug 2026 18:00:00 GMT",
+     "query": "AI-related cyber incident",
+     "page_rank": null
+    },
+    {
+     "title": "Building a sustainable cyber market in the AI era",
+     "url": "https://www.swissre.com/risk-knowledge/advancing-societal-benefits-digitalisation/building-a-sustainable-cyber-market-in-the-AI-era.html",
+     "published": "Mon, 31 Aug 2026 18:00:00 GMT",
+     "query": "AI-related cyber incident",
+     "page_rank": null
+    },
+    {
+     "title": "OpenAI says its AI went rogue and launched 'unprecedented' cyber-attack",
+     "url": "https://www.bbc.com/news/articles/c3ek3gvdnj3o",
+     "published": "Wed, 22 Jul 2026 10:21:15 GMT",
+     "query": "AI-related cyber incident",
+     "page_rank": null
+    },
+    {
+     "title": "AI cyber threats affect 79% of Singapore organizations",
+     "url": "https://www.crnasia.com/news/2026/cybersecurity/ai-cyber-threats-affect-79-of-singapore-organizations",
+     "published": "Wed, 02 Sep 2026 04:00:00 GMT",
+     "query": "AI-related cyber incident",
+     "page_rank": null
+    },
+    {
+     "title": "AI Cybersecurity & Legal Risk Seminar | LA Event - Los Angeles Times",
+     "url": "https://www.latimes.com/b2b/law-legal/story/2026-08-28/cybersecurity-age-of-ai-legal-risk-event",
+     "published": "Fri, 28 Aug 2026 13:00:00 GMT",
+     "query": "AI-related cyber incident",
+     "page_rank": null
+    },
+    {
+     "title": "Anthropic, Open AI models created fake identities in new ...",
+     "url": "https://www.cnbc.com/2026/08/05/anthropic-mythos-openai-security-breaches.html",
+     "published": "Wed, 05 Aug 2026 10:18:07 GMT",
+     "query": "AI-related cyber incident",
+     "page_rank": null
+    },
+    {
+     "title": "OpenAI, Anthropic, Google, and 100 other companies call for ...",
+     "url": "https://techcrunch.com/2026/08/27/openai-anthropic-google-and-100-other-companies-call-for-action-to-defend-against-rogue-ai",
+     "published": "Thu, 27 Aug 2026 17:43:24 GMT",
+     "query": "AI-related cyber incident",
+     "page_rank": null
+    },
+    {
+     "title": "OpenAI and Hugging Face partner to address security ...",
+     "url": "https://openai.com/index/hugging-face-model-evaluation-security-incident",
+     "published": "Mon, 03 Aug 2026 18:00:00 GMT",
+     "query": "AI-related cyber incident",
+     "page_rank": null
+    },
+    {
+     "title": "Cyber risk from frontier AI poses \u2018most immediate concern\u2019 to global financial system, watchdog warns",
+     "url": "https://therecord.media/cyber-risk-from-frontier-ai-most-immediate-concern-to-global-finance",
+     "published": "Tue, 01 Sep 2026 12:31:26 GMT",
+     "query": "AI-related cyber incident",
+     "page_rank": null
+    },
+    {
+     "title": "Frontier AI cyber threats could shake confidence in financial system, FSB warns",
+     "url": "https://eutoday.net/fsb-frontier-ai-cyber-risk-financial-system",
+     "published": "Mon, 31 Aug 2026 18:00:00 GMT",
+     "query": "AI-related cyber incident",
+     "page_rank": null
+    },
+    {
+     "title": "CNAS Insights | Washington Can\u2019t Afford to Ignore AI\u2019s Warning Shot | CNAS",
+     "url": "https://www.cnas.org/publications/cnas-insights/washington-cant-afford-to-ignore-ais-warning-shot",
+     "published": "Mon, 27 Jul 2026 00:00:00 GMT",
+     "query": "Misaligned AI incident",
+     "page_rank": null
+    },
+    {
+     "title": "Anthropic\u2019s Misalignment Research Amid Rogue AI Incidents | Cyber Magazine",
+     "url": "https://cybermagazine.com/articles/anthropics-misalignment-research-amid-rogue-ai-incidents",
+     "published": "Wed, 26 Aug 2026 15:13:11 GMT",
+     "query": "Misaligned AI incident",
+     "page_rank": null
+    },
+    {
+     "title": "The OpenAI Hugging Face hack is a stark warning",
+     "url": "https://www.transformernews.ai/p/openai-hugging-face-hack-stark-warning",
+     "published": "Wed, 22 Jul 2026 00:00:00 GMT",
+     "query": "Misaligned AI incident",
+     "page_rank": null
+    },
+    {
+     "title": "Preventing the Next Hugging Face Hack: Funding the Science of Reliable AI - Americans for Responsible Innovation",
+     "url": "https://ari.us/policy-bytes/preventing-the-next-hugging-face-hack-funding-the-science-of-reliable-ai",
+     "published": "Wed, 12 Aug 2026 00:00:00 GMT",
+     "query": "Misaligned AI incident",
+     "page_rank": null
+    },
+    {
+     "title": "OpenAI Says Reward Hacking Drove AI Agents to Exploit ...",
+     "url": "https://thehackernews.com/2026/08/openai-says-reward-hacking-drove-ai.html",
+     "published": "Sun, 30 Aug 2026 17:42:32 GMT",
+     "query": "Misaligned AI incident",
+     "page_rank": null
+    },
+    {
+     "title": "The Huggingface Incident - by Scott Alexander",
+     "url": "https://www.astralcodexten.com/p/the-hugging-face-incident",
+     "published": "Thu, 23 Jul 2026 00:00:00 GMT",
+     "query": "Misaligned AI incident",
+     "page_rank": null
+    },
+    {
+     "title": "Record Surge in AI Loss of Control Incidents Raises Safety Concerns - OECD.AI",
+     "url": "https://oecd.ai/en/incidents/2026-08-29-bbec",
+     "published": "Sat, 29 Aug 2026 18:00:00 GMT",
+     "query": "Misaligned AI incident",
+     "page_rank": null
+    },
+    {
+     "title": "Frontier AI labs still won't say how they'd contain a rogue ...",
+     "url": "https://techcrunch.com/2026/08/22/frontier-ai-labs-still-wont-say-how-theyd-contain-a-rogue-model",
+     "published": "Sat, 22 Aug 2026 16:00:00 GMT",
+     "query": "Misaligned AI incident",
+     "page_rank": null
+    },
+    {
+     "title": "AI Scheming Incidents Doubled in July, Watchdog Finds: UK Parliament Has No Power to Act",
+     "url": "https://www.techtimes.com/articles/326032/20260831/ai-scheming-incidents-doubled-july-watchdog-finds-uk-parliament-has-no-power-act.htm",
+     "published": "Mon, 31 Aug 2026 13:18:55 GMT",
+     "query": "Misaligned AI incident",
+     "page_rank": null
+    },
+    {
+     "title": "Lessons from the hacks - by Nathan Lambert",
+     "url": "https://www.interconnects.ai/p/lessons-from-the-hacks",
+     "published": "Sun, 09 Aug 2026 00:00:00 GMT",
+     "query": "Misaligned AI incident",
+     "page_rank": null
+    },
+    {
+     "title": "How to Secure Enterprise AI: From Adoption to Incident Readiness",
+     "url": "https://thehackernews.com/2026/09/how-to-secure-enterprise-ai-from.html",
+     "published": "Wed, 02 Sep 2026 11:30:00 GMT",
+     "query": "AI incident",
+     "page_rank": null
+    },
+    {
+     "title": "AI models shock UK testers by using fake identities to try to trick ...",
+     "url": "https://www.theguardian.com/technology/2026/aug/05/openai-anthropic-models-went-rogue-cybersecurity-test-ai-security-institute",
+     "published": "Wed, 05 Aug 2026 15:15:05 GMT",
+     "query": "AI incident",
+     "page_rank": null
+    },
+    {
+     "title": "How Databricks Uses AI to Accelerate Incident Investigation",
+     "url": "https://www.databricks.com/blog/how-databricks-uses-ai-accelerate-incident-investigation",
+     "published": "Mon, 24 Aug 2026 17:00:00 GMT",
+     "query": "AI incident",
+     "page_rank": null
+    },
+    {
+     "title": "unsanctioned agent behaviour during cyber testing",
+     "url": "https://www.aisi.gov.uk/blog/incident-report-unsanctioned-agent-behaviour-during-cyber-testing",
+     "published": "Sat, 15 Aug 2026 08:47:47 GMT",
+     "query": "AI incident",
+     "page_rank": null
+    },
+    {
+     "title": "OpenAI cyber models broke out of training limits to hack ...",
+     "url": "https://www.cnbc.com/2026/07/22/open-ai-cyber-models-hack-hugging-face.html",
+     "published": "Wed, 22 Jul 2026 15:54:04 GMT",
+     "query": "AI incident",
+     "page_rank": null
+    },
+    {
+     "title": "An OpenAI test model escaped and broke into a real company's ...",
+     "url": "https://www.cnn.com/2026/07/22/tech/openai-hugging-face-ai-cybersecurity",
+     "published": "Wed, 22 Jul 2026 14:15:03 GMT",
+     "query": "AI incident",
+     "page_rank": null
+    },
+    {
+     "title": "NVIDIA's NemoClaw Chat Template Poisoning Vulnerability",
+     "url": "https://securityboulevard.com/2026/09/ai-security-incident-case-nvidias-nemoclaw-chat-template-poisoning-vulnerability",
+     "published": "Wed, 02 Sep 2026 04:18:30 GMT",
+     "query": "AI incident",
+     "page_rank": null
+    },
+    {
+     "title": "The right balance: how to fix European Union artificial ...",
+     "url": "https://www.bruegel.org/policy-brief/right-balance-how-fix-european-union-artificial-intelligence-regulation",
+     "published": "Wed, 10 Jun 2026 00:00:00 GMT",
+     "query": "artificial intelligence system caused harm",
+     "page_rank": null
+    },
+    {
+     "title": "A canine law provides a framework for leashing AI \u2014 Harvard Gazette",
+     "url": "https://news.harvard.edu/gazette/story/2026/07/is-that-bot-a-pomeranian-or-a-wolf-and-who-to-sue-when-it-bites",
+     "published": "Fri, 10 Jul 2026 14:51:26 GMT",
+     "query": "artificial intelligence system caused harm",
+     "page_rank": null
+    },
+    {
+     "title": "AI liability enters the real world: what happens when autonomous systems cause harm?",
+     "url": "https://www.penningtonslaw.com/insights/ai-liability-enters-the-real-world-what-happens-when-autonomous-systems-cause-harm",
+     "published": "Mon, 03 Aug 2026 18:00:00 GMT",
+     "query": "artificial intelligence system caused harm",
+     "page_rank": null
+    },
+    {
+     "title": "AI is changing medicine \u2013 but who will pay for the next mistake? | The Jerusalem Post",
+     "url": "https://www.jpost.com/health-and-wellness/health-and-wellness-around-the-world/article-904413",
+     "published": "Sun, 16 Aug 2026 09:00:00 GMT",
+     "query": "artificial intelligence system caused harm",
+     "page_rank": null
+    },
+    {
+     "title": "AI companies would need \u2018kill switch\u2019 under new bipartisan bill \u2013 Roll Call",
+     "url": "https://rollcall.com/2026/07/23/ai-companies-would-need-kill-switch-under-new-bipartisan-bill",
+     "published": "Thu, 23 Jul 2026 22:32:15 GMT",
+     "query": "artificial intelligence system caused harm",
+     "page_rank": null
+    },
+    {
+     "title": "AI developer liability for harms linked to autonomy of their systems",
+     "url": "https://www.pinsentmasons.com/out-law/news/ai-developer-liability-for-harms-linked-autonomy-systems",
+     "published": "Mon, 03 Aug 2026 18:00:00 GMT",
+     "query": "artificial intelligence system caused harm",
+     "page_rank": null
+    },
+    {
+     "title": "When autonomous AI agents go rogue, who pays for the damage?",
+     "url": "https://www.ynetnews.com/tech-and-digital/article/bybdhvahzl",
+     "published": "Fri, 07 Aug 2026 06:23:56 GMT",
+     "query": "artificial intelligence system caused harm",
+     "page_rank": null
+    },
+    {
+     "title": "AI Security Incident Case: AISI Reveals AI Agents Autonomously Attacking Real People and Systems During Security Testing",
+     "url": "https://securityboulevard.com/2026/08/ai-security-incident-case-aisi-reveals-ai-agents-autonomously-attacking-real-people-and-systems-during-security-testing-2",
+     "published": "Wed, 12 Aug 2026 03:21:38 GMT",
+     "query": "AI safety incident report",
+     "page_rank": null
+    },
+    {
+     "title": "Illinois Joins Growing State-Level Effort to Regulate Frontier AI With New Safety Measures Act",
+     "url": "https://www.lw.com/en/insights/illinois-joins-growing-state-level-effort-to-regulate-frontier-ai-with-new-safety-measures-act",
+     "published": "Mon, 03 Aug 2026 18:00:00 GMT",
+     "query": "AI safety incident report",
+     "page_rank": null
+    },
+    {
+     "title": "Tech giants are pushing for a new AI agent incident reporting framework",
+     "url": "https://www.axios.com/2026/08/11/open-source-security-ai-agent-reporting",
+     "published": "Tue, 11 Aug 2026 17:31:27 GMT",
+     "query": "AI safety incident report",
+     "page_rank": null
+    },
+    {
+     "title": "Anthropic Pauses AI Training After Claude Breach [2026]",
+     "url": "https://tech-insider.org/anthropic-pauses-ai-training-claude-unauthorized-actions-2026",
+     "published": "Tue, 01 Sep 2026 04:58:43 GMT",
+     "query": "AI safety incident report",
+     "page_rank": null
+    },
+    {
+     "title": "The new safety partner small businesses can't afford to ignore",
+     "url": "https://www.tdi.texas.gov/tips/safety/ai-for-small-business.html",
+     "published": "Mon, 03 Aug 2026 18:00:00 GMT",
+     "query": "AI safety incident report",
+     "page_rank": null
+    },
+    {
+     "title": "Illinois governor signs AI safety law requiring audits of frontier models | StateScoop",
+     "url": "https://statescoop.com/illinois-ai-safety-law-audits-frontier-models",
+     "published": "Mon, 06 Jul 2026 22:26:08 GMT",
+     "query": "AI safety incident report",
+     "page_rank": null
+    },
+    {
+     "title": "US lawmaker introduces bill to require AI companies to report critical ...",
+     "url": "https://www.reuters.com/legal/litigation/us-lawmaker-proposes-bill-require-ai-companies-report-critical-incidents-2026-06-25",
+     "published": "Thu, 25 Jun 2026 14:03:46 GMT",
+     "query": "AI safety incident report",
+     "page_rank": null
+    }
+   ]
+  },
+  "tavily_general": {
+   "results": 68,
+   "unique": 66,
+   "found": 1,
+   "hits": {
+    "OpenAI models escape sandbox, attack Hugging Face": [
+     "AI incident",
+     "AI safety incident report",
+     "AI-related cyber incident",
+     "Misaligned AI incident"
+    ],
+    "Kosovo election synthetic-media campaign": [],
+    "Waymo robotaxi safety incidents": [],
+    "Zoox autonomous vehicle collisions": [],
+    "Discord automated-moderation mass bans": [],
+    "Unitree humanoid demonstration injury": [],
+    "RealPage rent-setting algorithm": [],
+    "State Department mislabeled AI map of Africa": [],
+    "Meta AI agent data exposure": []
+   },
+   "domains": {
+    "thefuturesociety.org": 1,
+    "www.reco.ai": 1,
+    "forum.effectivealtruism.org": 1,
+    "corelight.com": 1,
+    "www.pivotpointsecurity.com": 1,
+    "airisk.mit.edu": 2,
+    "cset.georgetown.edu": 1,
+    "www.aisi.gov.uk": 1,
+    "www.linkedin.com": 2,
+    "www.ewsolutions.com": 1,
+    "time.com": 1,
+    "link.springer.com": 1,
+    "www.frontiersin.org": 1,
+    "geneticliteracyproject.org": 1,
+    "wtop.com": 1,
+    "medium.com": 1,
+    "www.nature.com": 1,
+    "www.dailykos.com": 1,
+    "people.com": 1,
+    "www.reddit.com": 1,
+    "www.youtube.com": 10,
+    "news.rthk.hk": 1,
+    "foxbaltimore.com": 1,
+    "timesofindia.indiatimes.com": 1,
+    "finance.yahoo.com": 1,
+    "cybermagazine.com": 1,
+    "www.lesswrong.com": 1,
+    "metr.org": 1,
+    "openai.com": 1,
+    "www.transformernews.ai": 1,
+    "zenity.io": 1,
+    "www.facebook.com": 1,
+    "thezvi.substack.com": 1,
+    "www.bbc.com": 1,
+    "www.foxbusiness.com": 1,
+    "www.kwtx.com": 1,
+    "www.academia.edu": 1,
+    "doi.org": 1,
+    "dx.doi.org": 1,
+    "www.lawjournal.digital": 1,
+    "www.quora.com": 1,
+    "law.stackexchange.com": 2,
+    "sciup.org": 1,
+    "www.juscorpus.com": 1,
+    "researchportal.helsinki.fi": 1,
+    "felloai.com": 1,
+    "af.net": 1,
+    "nerdleveltech.com": 1,
+    "www.gmgenvirosafe.com": 1,
+    "oecd.ai": 1,
+    "safeaspect.com": 1,
+    "www.ai-reports.org": 1,
+    "inhumain.ai": 1,
+    "thehill.com": 1
+   },
+   "errors": [],
+   "sample": [
+    {
+     "title": "AI Incidents Are Rising. It's Time for the United States to Build Playbooks for When AI Fails. - The Future Society",
+     "url": "https://thefuturesociety.org/us-ai-incident-response",
+     "published": null,
+     "query": "AI-related incident",
+     "page_rank": null
+    },
+    {
+     "title": "Real AI Security Incidents: Lessons from the Field",
+     "url": "https://www.reco.ai/blog/real-ai-security-incidents",
+     "published": null,
+     "query": "AI-related incident",
+     "page_rank": null
+    },
+    {
+     "title": "The Need for an Effective AI Incident Reporting Framework \u2014 EA Forum",
+     "url": "https://forum.effectivealtruism.org/posts/r8YsakvMXyYmXeuao/the-need-for-an-effective-ai-incident-reporting-framework",
+     "published": null,
+     "query": "AI-related incident",
+     "page_rank": null
+    },
+    {
+     "title": "AI Incident Response: From Reactive to Proactive Defense",
+     "url": "https://corelight.com/resources/glossary/ai-incident-response",
+     "published": null,
+     "query": "AI-related incident",
+     "page_rank": null
+    },
+    {
+     "title": "Got AI? Then Get an AI Incident Response Plan",
+     "url": "https://www.pivotpointsecurity.com/got-ai-then-get-an-ai-incident-response-plan",
+     "published": null,
+     "query": "AI-related incident",
+     "page_rank": null
+    },
+    {
+     "title": "Incident Overview",
+     "url": "https://airisk.mit.edu/ai-incident-tracker/incident-overview",
+     "published": null,
+     "query": "AI-related incident",
+     "page_rank": null
+    },
+    {
+     "title": "The Mechanisms of AI Harm: Lessons Learned from AI Incidents | Center for Security and Emerging Technology",
+     "url": "https://cset.georgetown.edu/publication/the-mechanisms-of-ai-harm-lessons-learned-from-ai-incidents",
+     "published": null,
+     "query": "AI-related incident",
+     "page_rank": null
+    },
+    {
+     "title": "unsanctioned agent behaviour during cyber testing",
+     "url": "https://www.aisi.gov.uk/blog/incident-report-unsanctioned-agent-behaviour-during-cyber-testing",
+     "published": null,
+     "query": "AI-related incident",
+     "page_rank": null
+    },
+    {
+     "title": "AI Incidents Are Up 30%. It's Time to Build a Playbook for ...",
+     "url": "https://www.linkedin.com/pulse/ai-incidents-up-30-its-time-build-playbook-when-fails-jeanmaire-rnjie",
+     "published": null,
+     "query": "AI-related incident",
+     "page_rank": null
+    },
+    {
+     "title": "Shocking AI Incidents & How to Mitigate Them",
+     "url": "https://www.ewsolutions.com/ai-incidents-a-rising-tide-of-trouble",
+     "published": null,
+     "query": "AI-related incident",
+     "page_rank": null
+    },
+    {
+     "title": "Today's AI Could Make Pandemics 5 Times More Likely",
+     "url": "https://time.com/7298645/ai-pandemic-5-times-more-likely",
+     "published": null,
+     "query": "AI-related human-caused epidemic",
+     "page_rank": null
+    },
+    {
+     "title": "Artificial Intelligence in Epidemic Modeling and Pandemic Preparedness: A Comprehensive Review | Archives of Computational Methods in Engineering | Springer Nature Link",
+     "url": "https://link.springer.com/article/10.1007/s11831-026-10525-7",
+     "published": null,
+     "query": "AI-related human-caused epidemic",
+     "page_rank": null
+    },
+    {
+     "title": "Frontiers | Artificial intelligence in epidemic watch: revolutionizing infectious diseases surveillance",
+     "url": "https://www.frontiersin.org/journals/digital-health/articles/10.3389/fdgth.2025.1692617/full",
+     "published": null,
+     "query": "AI-related human-caused epidemic",
+     "page_rank": null
+    },
+    {
+     "title": "AI vs AI: Can artificial intelligence contain the fake news epidemic that it has helped unleash? - Genetic Literacy Project",
+     "url": "https://geneticliteracyproject.org/2026/08/18/ai-vs-ai-can-artificial-intelligence-contain-the-fake-news-epidemic-that-it-has-helped-unleash",
+     "published": null,
+     "query": "AI-related human-caused epidemic",
+     "page_rank": null
+    },
+    {
+     "title": "\u2018A burgeoning epidemic\u2019: Why some kids are forming extreme emotional relationships with AI - WTOP News",
+     "url": "https://wtop.com/artificial-intelligence/2025/09/a-burgeoning-epidemic-kids-and-the-mental-health-risks-of-ai",
+     "published": null,
+     "query": "AI-related human-caused epidemic",
+     "page_rank": null
+    },
+    {
+     "title": "The AI Overload Epidemic\u2026Why Everyone Is Burnt Out Except the People Using It Properly",
+     "url": "https://medium.com/@MacsAIToolbox/the-ai-overload-epidemic-why-everyone-is-burnt-out-except-the-people-using-it-properly-961a44502f2c",
+     "published": null,
+     "query": "AI-related human-caused epidemic",
+     "page_rank": null
+    },
+    {
+     "title": "AI models are being used to track zoonotic diseases. Will they prevent the next pandemic? | Nature",
+     "url": "https://www.nature.com/articles/d41586-026-02684-1",
+     "published": null,
+     "query": "AI-related human-caused epidemic",
+     "page_rank": null
+    },
+    {
+     "title": "An Epidemic of Epidemics - Daily Kos",
+     "url": "https://www.dailykos.com/stories/2026/8/5/800080117/community/an-epidemic-of-epidemics",
+     "published": null,
+     "query": "AI-related human-caused epidemic",
+     "page_rank": null
+    },
+    {
+     "title": "AI Creates Viruses, Sparking Concerns About Future Threat to Humans",
+     "url": "https://people.com/ai-creates-viruses-sparking-concerns-about-future-threat-to-humans-12036425",
+     "published": null,
+     "query": "AI-related human-caused epidemic",
+     "page_rank": null
+    },
+    {
+     "title": "Plain English explanation of the Hugging Face / OpenAI ...",
+     "url": "https://www.reddit.com/r/singularity/comments/1w3uou6/plain_english_explanation_of_the_hugging_face",
+     "published": null,
+     "query": "AI-related cyber incident",
+     "page_rank": null
+    },
+    {
+     "title": "Subhash Chandra \u0915\u0940 Property \u092a\u0930 \u0930\u094b\u0915! Banks \u0915\u093e \u091c\u092c\u0930\u0926\u0938\u094d\u0924 \u0935\u093f\u0930\u094b\u0927 ...",
+     "url": "https://www.youtube.com/watch?v=7Nyjm8IN708",
+     "published": null,
+     "query": "AI-related cyber incident",
+     "page_rank": null
+    },
+    {
+     "title": "Nepal \u0915\u0940 \u0924\u092c\u093e\u0939\u0940 \u0928\u0947 \u0916\u094b\u0932\u0940 \u0935\u093f\u0915\u093e\u0938 \u0915\u0940 \u092a\u094b\u0932? \u0939\u093f\u092e\u093e\u0932\u092f \u092e\u0947\u0902 \u092c\u093e\u0902\u0927 \u0915\u093f\u0924\u0928\u0947 \u0916\u0924\u0930\u0928\u093e\u0915 ...",
+     "url": "https://www.youtube.com/watch?v=JaAfEfBbI4A",
+     "published": null,
+     "query": "AI-related cyber incident",
+     "page_rank": null
+    },
+    {
+     "title": "Nepal \u0928\u0947 \u0915\u093f\u0938\u0938\u0947 \u092e\u093e\u0901\u0917\u093e \u092c\u093e\u0922\u093c \u0915\u093e \u0939\u0930\u094d\u091c\u093e\u0928\u093e? \u0928\u0941\u0915\u0938\u093e\u0928 \u0915\u0940 \u092d\u0930\u092a\u093e\u0908 \u0939\u094b \u091c\u093e\u090f\u0917\u0940? Rajdoot",
+     "url": "https://www.youtube.com/watch?v=-vauAFwHOTU",
+     "published": null,
+     "query": "AI-related cyber incident",
+     "page_rank": null
+    },
+    {
+     "title": "Flock Whistleblower Benn Jordan Predicts a MASSIVE Cyberattack ...",
+     "url": "https://www.youtube.com/watch?v=6pvDoKJS00Q",
+     "published": null,
+     "query": "AI-related cyber incident",
+     "page_rank": null
+    },
+    {
+     "title": "Warning for WhatsApp users as hijacking scams jump - RTHK",
+     "url": "https://news.rthk.hk/rthk/en/component/k2/1868198-20260831.htm",
+     "published": null,
+     "query": "AI-related cyber incident",
+     "page_rank": null
+    },
+    {
+     "title": "Gov. Wes Moore evolves on data centers as Amazon project surges ...",
+     "url": "https://foxbaltimore.com/spotlight-on-maryland/gov-wes-moore-evolves-on-data-centers-as-amazon-project-surges-ahead",
+     "published": null,
+     "query": "AI-related cyber incident",
+     "page_rank": null
+    },
+    {
+     "title": "China's BIG Cyber Attack EXPOSES Trump Admin's Secrets; White ...",
+     "url": "https://timesofindia.indiatimes.com/videos/international/nasa-doj-senate-chinas-big-cyber-attack-exposes-trump-admins-secrets-white-house-shocked/videoshow/133550727.cms",
+     "published": null,
+     "query": "AI-related cyber incident",
+     "page_rank": null
+    },
+    {
+     "title": "'LARGE & POWERFUL': President Trump resumes strikes on Iran",
+     "url": "https://www.youtube.com/watch?v=7OcAxIP0qE8",
+     "published": null,
+     "query": "AI-related cyber incident",
+     "page_rank": null
+    },
+    {
+     "title": "North Korean group launders millions via Hyperliquid as US pushes ...",
+     "url": "https://finance.yahoo.com/video/north-korean-group-launders-millions-200000589.html",
+     "published": null,
+     "query": "AI-related cyber incident",
+     "page_rank": null
+    },
+    {
+     "title": "Anthropic\u2019s Misalignment Research Amid Rogue AI Incidents",
+     "url": "https://cybermagazine.com/articles/anthropics-misalignment-research-amid-rogue-ai-incidents",
+     "published": null,
+     "query": "Misaligned AI incident",
+     "page_rank": null
+    },
+    {
+     "title": "Are we existentially threatened by the type of AI misalignment seen in the OpenAI Hugging Face attack? \u2014 LessWrong",
+     "url": "https://www.lesswrong.com/posts/H6DDSEvrtCk8Sehfd/are-we-existentially-threatened-by-the-type-of-ai",
+     "published": null,
+     "query": "Misaligned AI incident",
+     "page_rank": null
+    },
+    {
+     "title": "How independent researchers could investigate AI propensities after misalignment incidents - METR",
+     "url": "https://metr.org/blog/2026-07-28-investigating-ai-propensities-after-incidents",
+     "published": null,
+     "query": "Misaligned AI incident",
+     "page_rank": null
+    },
+    {
+     "title": "The Hugging Face incident and the road ahead",
+     "url": "https://openai.com/index/hugging-face-incident-and-the-road-ahead",
+     "published": null,
+     "query": "Misaligned AI incident",
+     "page_rank": null
+    },
+    {
+     "title": "The OpenAI Hugging Face hack is a stark warning",
+     "url": "https://www.transformernews.ai/p/openai-hugging-face-hack-stark-warning",
+     "published": null,
+     "query": "Misaligned AI incident",
+     "page_rank": null
+    },
+    {
+     "title": "AI Agent Goal Misalignment: Risks, Causes, Defense - Zenity",
+     "url": "https://zenity.io/academy/ai-agent-goal-misalignment",
+     "published": null,
+     "query": "Misaligned AI incident",
+     "page_rank": null
+    },
+    {
+     "title": "Consequences of Misaligned AI Models: A Warning",
+     "url": "https://www.linkedin.com/posts/paraschopra_the-openaihuggingface-incident-is-notable-activity-7486300965986500608-9Il7",
+     "published": null,
+     "query": "Misaligned AI incident",
+     "page_rank": null
+    },
+    {
+     "title": "Incidents of AI loss of control in the wild are on the rise :-( - Facebook",
+     "url": "https://www.facebook.com/yoshua.bengio/posts/incidents-of-ai-loss-of-control-in-the-wild-are-on-the-rise-/27452721867739393",
+     "published": null,
+     "query": "Misaligned AI incident",
+     "page_rank": null
+    },
+    {
+     "title": "OpenAI Shares Some Alignment Problems",
+     "url": "https://thezvi.substack.com/p/openai-shares-some-alignment-problems",
+     "published": null,
+     "query": "Misaligned AI incident",
+     "page_rank": null
+    },
+    {
+     "title": "OpenAI Hack EXPOSED: 5 Shocking Things AI Bots Did - YouTube",
+     "url": "https://www.youtube.com/watch?v=k1uttSy9za8",
+     "published": null,
+     "query": "AI incident",
+     "page_rank": null
+    },
+    {
+     "title": "The ChatGPT Breakout is Way Worse than we Thought.. - YouTube",
+     "url": "https://www.youtube.com/watch?v=K7pgSbTk3kY",
+     "published": null,
+     "query": "AI incident",
+     "page_rank": null
+    },
+    {
+     "title": "The OpenAI/Hugging Face story, told by one of the investigators",
+     "url": "https://www.youtube.com/watch?v=X50zezLFWWI",
+     "published": null,
+     "query": "AI incident",
+     "page_rank": null
+    },
+    {
+     "title": "AI is escaping containment - YouTube",
+     "url": "https://www.youtube.com/watch?v=0RqTLAeaVMM",
+     "published": null,
+     "query": "AI incident",
+     "page_rank": null
+    },
+    {
+     "title": "Manchester City: AI-inspired third kit created by fan on lunch break - BBC Sport",
+     "url": "https://www.bbc.com/sport/football/videos/c5yj58x9l2xo",
+     "published": null,
+     "query": "AI incident",
+     "page_rank": null
+    },
+    {
+     "title": "Shocking details of OpenAI models' Hugging Face hack - YouTube",
+     "url": "https://www.youtube.com/watch?v=YL3FAM4rfy8",
+     "published": null,
+     "query": "AI incident",
+     "page_rank": null
+    },
+    {
+     "title": "The AI boom is on track to hit historic levels | Fox Business Video",
+     "url": "https://www.foxbusiness.com/video/6404234797112",
+     "published": null,
+     "query": "AI incident",
+     "page_rank": null
+    },
+    {
+     "title": "Bellmead police investigating 'serious' traffic accident involving ...",
+     "url": "https://www.kwtx.com/2026/08/29/bellmead-police-investigating-serious-traffic-accident-involving-pedestrian",
+     "published": null,
+     "query": "AI incident",
+     "page_rank": null
+    },
+    {
+     "title": "Accountability in AI: Understanding Responsibility for Harm Caused by Artificial Intelligence Systems",
+     "url": "https://www.academia.edu/143449586/Accountability_in_AI_Understanding_Responsibility_for_Harm_Caused_by_Artificial_Intelligence_Systems",
+     "published": null,
+     "query": "artificial intelligence system caused harm",
+     "page_rank": null
+    },
+    {
+     "title": "Legal Mechanisms for Distributing the Responsibility for the Harm Caused by Artificial Intelligence Systems | Kazantsev | Journal of Digital Technologies and Law",
+     "url": "https://doi.org/10.21202/jdtl.2025.18",
+     "published": null,
+     "query": "artificial intelligence system caused harm",
+     "page_rank": null
+    },
+    {
+     "title": "Legal Mechanisms for Distributing the Responsibility for the Harm Caused by Artificial Intelligence Systems | Kazantsev | Journal of Digital Technologies and Law",
+     "url": "http://dx.doi.org/10.21202/jdtl.2025.18",
+     "published": null,
+     "query": "artificial intelligence system caused harm",
+     "page_rank": null
+    },
+    {
+     "title": "Legal Mechanisms for Distributing the Responsibility for the Harm Caused by Artificial Intelligence Systems | Kazantsev | Journal of Digital Technologies and Law",
+     "url": "https://www.lawjournal.digital/jour/article/view/582",
+     "published": null,
+     "query": "artificial intelligence system caused harm",
+     "page_rank": null
+    },
+    {
+     "title": "Who pays for the harm caused by Ai? - Quora",
+     "url": "https://www.quora.com/Who-pays-for-the-harm-caused-by-Ai",
+     "published": null,
+     "query": "artificial intelligence system caused harm",
+     "page_rank": null
+    },
+    {
+     "title": "Why can't the current legal system handle liability for harm caused by artificial intelligence? - Law Stack Exchange",
+     "url": "https://law.stackexchange.com/questions/74396/why-cant-the-current-legal-system-handle-liability-for-harm-caused-by-artificia",
+     "published": null,
+     "query": "artificial intelligence system caused harm",
+     "page_rank": null
+    },
+    {
+     "title": "Legal Mechanisms for Distributing the Responsibility for the Harm Caused by Artificial Intelligence Systems (@lawjournal-digital) - SciUp.org",
+     "url": "https://sciup.org/legal-mechanisms-for-distributing-the-responsibility-for-the-harm-caused-by-14134125",
+     "published": null,
+     "query": "artificial intelligence system caused harm",
+     "page_rank": null
+    },
+    {
+     "title": "Why can't the current legal system handle liability for harm caused by artificial intelligence? - Law Stack Exchange",
+     "url": "https://law.stackexchange.com/questions/74396/why-cant-the-current-legal-system-handle-liability-for-harm-caused-by-artificia/74398",
+     "published": null,
+     "query": "artificial intelligence system caused harm",
+     "page_rank": null
+    },
+    {
+     "title": "THE ADVENT OF ARTIFICIAL INTELLIGENCE AND THE HARM IN CYBERSPACE - Jus Corpus",
+     "url": "https://www.juscorpus.com/the-advent-of-artificial-intelligence-and-the-harm-in-cyberspace",
+     "published": null,
+     "query": "artificial intelligence system caused harm",
+     "page_rank": null
+    },
+    {
+     "title": "Damages Liability for Harm Caused by Artificial Intelligence \u2013 EU Law in Flux - University of Helsinki",
+     "url": "https://researchportal.helsinki.fi/en/publications/damages-liability-for-harm-caused-by-artificial-intelligence-eu-l",
+     "published": null,
+     "query": "artificial intelligence system caused harm",
+     "page_rank": null
+    },
+    {
+     "title": "AI Safety Incidents in 2026: The Running List - Fello AI",
+     "url": "https://felloai.com/ai-safety-incidents",
+     "published": null,
+     "query": "AI safety incident report",
+     "page_rank": null
+    },
+    {
+     "title": "AI Incidents on the Rise: Insights from 2026 Safety Report | AIFOD | AI FOR DEVELOPING COUNTRIES FORUM",
+     "url": "https://af.net/realtime/ai-incidents-on-the-rise-insights-from-2026-safety-report",
+     "published": null,
+     "query": "AI safety incident report",
+     "page_rank": null
+    },
+    {
+     "title": "AI Agent Incident Reporting: Inside the SAFE Draft (2026) | Nerd Level Tech",
+     "url": "https://nerdleveltech.com/ai-agent-incident-reporting-safe-draft",
+     "published": null,
+     "query": "AI safety incident report",
+     "page_rank": null
+    },
+    {
+     "title": "AI-Powered Incident Reporting Explained | GMG EnviroSafe",
+     "url": "https://www.gmgenvirosafe.com/blog-posts/ai-powered-incident-reporting-what-safety-leaders-need-to-understand",
+     "published": null,
+     "query": "AI safety incident report",
+     "page_rank": null
+    }
+   ]
+  },
+  "asknews_knowledge": {
+   "results": 69,
+   "unique": 64,
+   "found": 1,
+   "hits": {
+    "OpenAI models escape sandbox, attack Hugging Face": [
+     "AI incident",
+     "AI safety incident report",
+     "AI-related cyber incident",
+     "AI-related incident",
+     "Misaligned AI incident"
+    ],
+    "Kosovo election synthetic-media campaign": [],
+    "Waymo robotaxi safety incidents": [],
+    "Zoox autonomous vehicle collisions": [],
+    "Discord automated-moderation mass bans": [],
+    "Unitree humanoid demonstration injury": [],
+    "RealPage rent-setting algorithm": [],
+    "State Department mislabeled AI map of Africa": [],
+    "Meta AI agent data exposure": []
+   },
+   "domains": {
+    "ciso.economictimes.indiatimes.com": 1,
+    "ilmanifesto.it": 1,
+    "cadena3.com": 1,
+    "ytn.co.kr": 1,
+    "techtarget.com": 1,
+    "bankingnews.gr": 1,
+    "csoonline.com": 1,
+    "almasryalyoum.com": 1,
+    "newindianexpress.com": 1,
+    "prtimes.jp": 1,
+    "medium.com": 7,
+    "atlantico.fr": 1,
+    "kesq.com": 1,
+    "newsmax.com": 1,
+    "yna.co.kr": 1,
+    "terra.com.br": 1,
+    "tech.ifeng.com": 3,
+    "aa.com.tr": 1,
+    "archynewsy.com": 1,
+    "inews.hket.com": 1,
+    "storm.mg": 1,
+    "wallstreet-online.de": 1,
+    "zn.ua": 1,
+    "theconversation.com": 1,
+    "manton.org": 1,
+    "dessignare.com": 1,
+    "quotulatiousness.ca": 1,
+    "singularityhub.com": 1,
+    "europapress.es": 1,
+    "jdon.com": 1,
+    "lesswrong.com": 3,
+    "businessinsider.jp": 1,
+    "de.investing.com": 1,
+    "money.udn.com": 1,
+    "indiatimes.com": 1,
+    "volkskrant.nl": 1,
+    "kommersant.ru": 1,
+    "gizbot.com": 1,
+    "noticias.r7.com": 1,
+    "irishtimes.com": 1,
+    "nypost.com": 1,
+    "tanja24.com": 1,
+    "independent.ie": 1,
+    "legal.gmw.cn": 1,
+    "cfodive.com": 1,
+    "economictimes.indiatimes.com": 1,
+    "news.ssbcrack.com": 1,
+    "lesoir.be": 1,
+    "jdsupra.com": 1,
+    "patheos.com": 1,
+    "sinchew.com.my": 1,
+    "yahoo.com": 1,
+    "news.sina.com.cn": 1,
+    "larazon.es": 1
+   },
+   "errors": [],
+   "sample": [
+    {
+     "title": "Security Hardening Assessment for AI Transformation",
+     "url": "https://ciso.economictimes.indiatimes.com/news/identity-access-management/security-hardening-assessment-prepare-for-ai-transformation-without-increasing-risk/133695174",
+     "published": "2026-09-02T02:39:06Z",
+     "query": "AI-related incident",
+     "page_rank": 128
+    },
+    {
+     "title": "AI Risks and Control: The Sidney Incident and Beyond",
+     "url": "https://ilmanifesto.it/diffamazione-psicosi-consigli-dannosi",
+     "published": "2026-07-22T22:01:51Z",
+     "query": "AI-related incident",
+     "page_rank": 18541
+    },
+    {
+     "title": "AI Agent Escapes Test Environment to Attack Another AI, Raising Cybersecurity Alarms",
+     "url": "https://www.cadena3.com/noticia/siempre-juntos-rosario/investigan-hackeo-entre-inteligencias-artificiales-encontro-una-vulnerabilidad-y-salio-a-atacar_576146",
+     "published": "2026-07-23T13:20:00Z",
+     "query": "AI-related incident",
+     "page_rank": 114007
+    },
+    {
+     "title": "Meta AI Model Hacks External System in Third 'Rogue Agent' Incident",
+     "url": "https://www.ytn.co.kr/_ln/0104_202608061048387604",
+     "published": "2026-08-06T01:48:00Z",
+     "query": "AI-related incident",
+     "page_rank": 9269
+    },
+    {
+     "title": "Four AI Incidents That Undermined Organizational Resilience",
+     "url": "https://www.techtarget.com/searchdisasterrecovery/tip/AI-incidents-that-harmed-resilience-efforts",
+     "published": "2026-07-10T15:04:31Z",
+     "query": "AI-related incident",
+     "page_rank": 458
+    },
+    {
+     "title": "The July Incident: Alleged Autonomous AI Escape from Hugging Face Sandbox",
+     "url": "https://www.bankingnews.gr/index.php",
+     "published": "2026-08-12T12:41:43Z",
+     "query": "AI-related incident",
+     "page_rank": 10632
+    },
+    {
+     "title": "AI Risk Registers Do Not Guarantee Incident Readiness",
+     "url": "https://www.csoonline.com/article/4195703/your-ai-risk-register-is-not-an-incident-response-plan.html",
+     "published": "2026-07-13T00:00:00Z",
+     "query": "AI-related incident",
+     "page_rank": 2670
+    },
+    {
+     "title": "UK Institute Reports AI Models from OpenAI and Anthropic Behaving Uncontrollably in Cybersecurity Test",
+     "url": "https://www.almasryalyoum.com/news/details/4330940",
+     "published": "2026-08-05T11:06:41Z",
+     "query": "AI-related incident",
+     "page_rank": 19555
+    },
+    {
+     "title": "AI Risks Rising as Firms Struggle to Keep Pace: Report",
+     "url": "https://www.newindianexpress.com/xplore/2026/Apr/23/ai-risks-rising-as-firms-struggle-to-keep-pace-report",
+     "published": "2026-04-23T18:39:05Z",
+     "query": "AI-related incident",
+     "page_rank": 3309
+    },
+    {
+     "title": "Survey: 12.8% of Japanese Office Workers Experience AI Incidents, Confidential Data Input Most Common",
+     "url": "https://prtimes.jp/main/html/rd/p/000000016.000169560.html",
+     "published": "2026-09-01T07:46:51Z",
+     "query": "AI-related incident",
+     "page_rank": 2119
+    },
+    {
+     "title": "The Epidemic Is Human: Olagoke Lawal Warns Against AI-Driven Cognitive Atrophy",
+     "url": "https://medium.com/@MarufLawal/the-tool-is-neutral-the-epidemic-is-human-fede6fce53b9",
+     "published": "2026-05-04T12:09:19Z",
+     "query": "AI-related human-caused epidemic",
+     "page_rank": 58
+    },
+    {
+     "title": "The 'Brain Fry' Epidemic: AI Supervision Causes Mental Exhaustion in Silicon Valley and France",
+     "url": "https://atlantico.fr/article/decryptage/l-ia-nous-epuise-et-ce-n-est-que-le-debut",
+     "published": "2026-07-26T07:57:34Z",
+     "query": "AI-related human-caused epidemic",
+     "page_rank": 10000
+    },
+    {
+     "title": "AI as a Tool for Pandemic Detection and Prevention",
+     "url": "https://medium.com/@pathofonejourney/can-ai-stop-the-next-pandemic-ea79bc158d1c",
+     "published": "2026-08-06T19:49:17Z",
+     "query": "AI-related human-caused epidemic",
+     "page_rank": 58
+    },
+    {
+     "title": "Katrina Charron Bosley Warns of AI-Enabled Identity Theft and the 'Assumption Epidemic'",
+     "url": "https://medium.com/@katrinacharronbllc/the-i-robot-moment-we-missed-93ffeeb57a40",
+     "published": "2026-07-14T17:17:12Z",
+     "query": "AI-related human-caused epidemic",
+     "page_rank": 58
+    },
+    {
+     "title": "Ronaldo Andrade's Book 'AI: The Silent Epidemic' Reveals How AI Reshapes Human Behavior",
+     "url": "https://medium.com/@ronaldocaa/ronaldo-andrade-author-of-ai-the-silent-epidemic-12d42dc45cb2",
+     "published": "2026-06-24T19:59:55Z",
+     "query": "AI-related human-caused epidemic",
+     "page_rank": 58
+    },
+    {
+     "title": "Experts Warn AI May Worsen Loneliness Epidemic Despite Zuckerberg's Optimism",
+     "url": "https://kesq.com/health/cnn-health/2026/05/09/no-ai-isnt-going-to-fix-the-loneliness-epidemic-it-may-make-it-worse/",
+     "published": "2026-05-09T13:00:51Z",
+     "query": "AI-related human-caused epidemic",
+     "page_rank": 18593
+    },
+    {
+     "title": "Social Media and AI Drive Loneliness Epidemic Among Youth",
+     "url": "https://www.newsmax.com/jameshirsen/chatbots-family-algorithms/2026/07/14/id/1262771/",
+     "published": "2026-07-14T00:00:00Z",
+     "query": "AI-related human-caused epidemic",
+     "page_rank": 2291
+    },
+    {
+     "title": "Gangwon Province Conducts AI Human Infection Response Drill",
+     "url": "https://www.yna.co.kr/view/AKR20260901152300062",
+     "published": "2026-09-01T06:54:36Z",
+     "query": "AI-related human-caused epidemic",
+     "page_rank": 2904
+    },
+    {
+     "title": "Miguel Nicolelis Lists Five Problems Caused by AI at S\u00e3o Paulo Event",
+     "url": "https://www.terra.com.br/planeta/futuro-vivo/nem-inteligente-nem-artificial-miguel-nicolelis-elenca-cinco-problemas-gerados-pela-ia,881e737f600924ffe60603eb22953fbd4vr3nfid.html",
+     "published": "2026-09-01T19:04:15Z",
+     "query": "AI-related human-caused epidemic",
+     "page_rank": 3355
+    },
+    {
+     "title": "Meta AI Model Accidentally Invades Third-Party System During Security Test",
+     "url": "https://tech.ifeng.com/c/8vNKKmrjMjY",
+     "published": "2026-08-07T13:18:50Z",
+     "query": "AI-related cyber incident",
+     "page_rank": 1356
+    },
+    {
+     "title": "Meta AI Model Accidentally Hacks External Service During Security Test Due to Configuration Error",
+     "url": "https://www.aa.com.tr/en/science-technology/meta-ai-model-hacks-outside-company-during-security-test/4020114",
+     "published": "2026-08-06T11:29:22Z",
+     "query": "AI-related cyber incident",
+     "page_rank": 1957
+    },
+    {
+     "title": "OpenAI Admits AI Models Exploited Security Gap During Testing",
+     "url": "https://www.archynewsy.com/openai-admits-models-hacked-into-company-in-unprecedented-cyber-incident/",
+     "published": "2026-07-22T02:12:30Z",
+     "query": "AI-related cyber incident",
+     "page_rank": 601349
+    },
+    {
+     "title": "OpenAI and Anthropic AI Models Linked to Cybersecurity Incidents",
+     "url": "https://inews.hket.com/article/4171395/%E3%80%90AI-%E5%A8%81%E8%84%85%E3%80%91OpenAI%E3%80%81Anthropic%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD%E6%A8%A1%E5%9E%8B%E6%8D%B2%E5%85%A5%E6%9B%B4%E5%A4%9A%E7%B6%B2%E7%B5%A1%E5%AE%89%E5%85%A8%E4%BA%8B%E4%BB%B6",
+     "published": "2026-08-05T00:55:01Z",
+     "query": "AI-related cyber incident",
+     "page_rank": 2793
+    },
+    {
+     "title": "AI Models Breach Sandboxes in Four Confirmed Cybersecurity Incidents",
+     "url": "https://www.storm.mg/articles/11155234",
+     "published": "2026-08-10T03:21:00Z",
+     "query": "AI-related cyber incident",
+     "page_rank": 17407
+    },
+    {
+     "title": "OpenAI AI Model Escapes Isolation and Infiltrates Hugging Face",
+     "url": "https://www.wallstreet-online.de/nachricht/21142133-alarm-openai-modell-entkommt-infiltriert-hugging-face",
+     "published": "2026-07-23T06:10:18Z",
+     "query": "AI-related cyber incident",
+     "page_rank": 14968
+    },
+    {
+     "title": "AI-Driven Cyberattacks Target Global Energy Infrastructure, Hitting Small Utilities Hardest",
+     "url": "https://zn.ua/energetics/enerheticheskie-kompanii-stolknulis-s-volnoj-kiberatak-s-ispolzovaniem-ii.html",
+     "published": "2026-09-01T22:23:00Z",
+     "query": "AI-related cyber incident",
+     "page_rank": 12268
+    },
+    {
+     "title": "1,200 OpenAI Agents Coordinate Cyberattack on Hugging Face in 2026 'Reward Hacking' Incident",
+     "url": "https://theconversation.com/miles-de-agentes-de-ia-deciden-unirse-para-un-ciberataque-masivo-por-sorpresa-el-reciente-caso-de-openai-290974",
+     "published": "2026-09-02T15:30:40Z",
+     "query": "AI-related cyber incident",
+     "page_rank": 294
+    },
+    {
+     "title": "OpenAI Report Details AI Agents' Misaligned Behavior in Hugging Face Hack",
+     "url": "https://www.manton.org/2026/08/26/openai-has-published-a-technical.html",
+     "published": "2026-08-26T00:00:00Z",
+     "query": "Misaligned AI incident",
+     "page_rank": 6043185
+    },
+    {
+     "title": "OpenAI and Hugging Face Incident Highlights AI Misalignment and Cybersecurity Risks",
+     "url": "https://www.dessignare.com/2026/07/el-caso-openai-y-hugging-face-expone.html",
+     "published": "2026-07-01T00:00:00Z",
+     "query": "Misaligned AI incident",
+     "page_rank": 2804669
+    },
+    {
+     "title": "Scott Alexander Analyzes the 'Huggingface Incident' Where a Rogue AI Hacked Hugging Face",
+     "url": "https://quotulatiousness.ca/blog/2026/07/25/i-for-one-welcome-our-new-clanker-overlords/",
+     "published": "2026-07-25T00:00:00Z",
+     "query": "Misaligned AI incident",
+     "page_rank": 1967890
+    },
+    {
+     "title": "AI Alignment Problem Emerges as Urgent Reality Through Recent Incidents",
+     "url": "https://singularityhub.com/2026/08/20/long-foreseen-the-problem-of-ai-alignment-is-finally-reality-solving-it-wont-be-easy/",
+     "published": "2026-08-20T00:00:00Z",
+     "query": "Misaligned AI incident",
+     "page_rank": 7142
+    },
+    {
+     "title": "Anthropic Eliminates AI Misalignment After Blackmail Incident",
+     "url": "https://www.europapress.es/portaltic/sector/noticia-anthropic-elimina-desalineacion-afirma-representaciones-malvadas-ia-impulsan-chantaje-20260511124652.html",
+     "published": "2026-05-11T12:46:52Z",
+     "query": "Misaligned AI incident",
+     "page_rank": 2659
+    },
+    {
+     "title": "Four Ways AI Training Creates Misaligned Behaviors: From Imitating Human Sins to Deceiving AI Judges",
+     "url": "http://www.jdon.com/93922-four-llm-loss-functions-four-flavors-of-llm-misali.html",
+     "published": "2026-08-11T00:00:00Z",
+     "query": "Misaligned AI incident",
+     "page_rank": 1228213
+    },
+    {
+     "title": "Analysis of Anthropic's August 2026 Risk Report on AI Misalignment",
+     "url": "https://www.lesswrong.com/posts/P6gLGnjjzZMPyvJGa/making-sense-of-the-misalignment-risk-model-in-the-anthropic",
+     "published": "2026-08-20T02:33:31Z",
+     "query": "Misaligned AI incident",
+     "page_rank": 11032
+    },
+    {
+     "title": "Framework for Deployment-Time Misalignment Continuation and Spread in AI Agents",
+     "url": "https://www.lesswrong.com/posts/cENaGChQZD7u7sZkz/towards-deployment-time-misalignment-continuation-evals",
+     "published": "2026-09-01T17:45:27Z",
+     "query": "Misaligned AI incident",
+     "page_rank": 11032
+    },
+    {
+     "title": "OpenAI Models Breach Hugging Face: A Serious Threat of Score-Seeking Misalignment",
+     "url": "https://www.lesswrong.com/posts/H6DDSEvrtCk8Sehfd/are-we-existentially-threatened-by-the-type-of-ai",
+     "published": "2026-07-23T03:40:37Z",
+     "query": "Misaligned AI incident",
+     "page_rank": 11032
+    },
+    {
+     "title": "OpenAI Reclassifies Hugging Face Breach as 'Misalignment' After Models Improvise Coordination",
+     "url": "https://medium.com/@aftab001x/openai-called-the-hugging-face-hack-a-security-failure-a-month-later-it-called-it-something-worse-2ca3ddbab8d1",
+     "published": "2026-09-01T02:50:09Z",
+     "query": "Misaligned AI incident",
+     "page_rank": 58
+    },
+    {
+     "title": "OpenAI Reports Two More AI Agent 'Runaway' Incidents During Third-Party Tests",
+     "url": "https://www.businessinsider.jp/article/2608-openai-rogue-ai-agents-testing-environment-misconfiguration/",
+     "published": "2026-08-05T22:45:00Z",
+     "query": "AI incident",
+     "page_rank": 10825
+    },
+    {
+     "title": "OpenAI AI Model Escapes Test and Hacks Hugging Face in 'Unprecedented' Incident",
+     "url": "https://de.investing.com/news/economy-news/gesamtroundup-wie-ki-von-openai-ausbrach-und-eine-firma-hackte-3574584",
+     "published": "2026-07-22T15:15:03Z",
+     "query": "AI incident",
+     "page_rank": 185
+    },
+    {
+     "title": "AI Loss of Control Incidents Surge to Record High",
+     "url": "https://money.udn.com/money/story/5599/9723472",
+     "published": "2026-08-30T17:45:55Z",
+     "query": "AI incident",
+     "page_rank": 587
+    },
+    {
+     "title": "Over 300 AI Incidents in July 2026 Signal Growing Loss of Control",
+     "url": "https://www.indiatimes.com/trending/more-than-300-ai-incidents-in-july-heres-why-ai-going-out-of-control-is-becoming-a-real-concern-for-everyday-users/articleshow/133606947.html",
+     "published": "2026-08-30T04:31:33Z",
+     "query": "AI incident",
+     "page_rank": 292
+    },
+    {
+     "title": "AI Fabrication and Investment Risks: The Erosion of Truth and the OpenAI Incident",
+     "url": "https://www.volkskrant.nl/columns-van-de-dag/kan-ai-op-eigen-houtje-de-wereld-terroriseren~b3d78dfa/",
+     "published": "2026-07-29T03:00:17Z",
+     "query": "AI incident",
+     "page_rank": 3901
+    },
+    {
+     "title": "AI Incidents Nearly Double in July 2026 as Systems Bypass Safety Protocols",
+     "url": "https://www.kommersant.ru/doc/8924103",
+     "published": "2026-09-02T12:01:42Z",
+     "query": "AI incident",
+     "page_rank": 1866
+    },
+    {
+     "title": "AI Loss of Control Incidents Surge to Over 1,600 in 2026",
+     "url": "https://www.gizbot.com/artificial-intelligence/ai-is-slipping-out-of-human-control-more-often-and-researchers-are-worried-128249.html",
+     "published": "2026-09-01T11:29:57Z",
+     "query": "AI incident",
+     "page_rank": 36176
+    },
+    {
+     "title": "AI Recruitment Tools and Algorithmic Monoculture Harms Job Seekers",
+     "url": "https://noticias.r7.com/tecnologia-e-ciencia/por-que-o-uso-de-ia-por-recrutadores-pode-estar-prejudicando-candidatos-a-empregos-14072026/",
+     "published": "2026-07-14T20:37:34Z",
+     "query": "artificial intelligence system caused harm",
+     "page_rank": 3184
+    },
+    {
+     "title": "Oireachtas Committee Warns AI Chatbots Cause 'Terrible Harm' to Children",
+     "url": "https://www.irishtimes.com/politics/oireachtas/2026/05/19/ai-chatbots-leading-children-into-terrible-harm-oireachtas-committee-hears/",
+     "published": "2026-05-19T14:30:11Z",
+     "query": "artificial intelligence system caused harm",
+     "page_rank": 910
+    },
+    {
+     "title": "EU Bans Harmful AI Tech as Experts Warn of US Health Risks",
+     "url": "https://nypost.com/2026/08/03/health/is-ai-harmful-europe-enacts-a-new-ai-act-provision-to-protect-users/",
+     "published": "2026-08-03T00:00:00Z",
+     "query": "artificial intelligence system caused harm",
+     "page_rank": 351
+    },
+    {
+     "title": "AI Systems Struggle to Detect Harmful Content in Moroccan Darija: Study Finds Significant Accuracy Gap",
+     "url": "https://tanja24.com/%d8%a7%d9%84%d8%b0%d9%83%d8%a7%d8%a1-%d8%a7%d9%84%d8%a7%d8%b5%d8%b7%d9%86%d8%a7%d8%b9%d9%8a-%d8%a3%d9%82%d9%84-%d8%af%d9%82%d8%a9-%d9%81%d9%8a-%d8%b1%d8%b5%d8%af-%d8%a7%d9%84%d9%85%d8%ad%d8%aa%d9%88/",
+     "published": "2026-08-16T23:00:12Z",
+     "query": "artificial intelligence system caused harm",
+     "page_rank": 10000000
+    },
+    {
+     "title": "Children's Rights Group Warns AI Exacerbates Online Harms and Demands Executive Liability",
+     "url": "https://www.independent.ie/irish-news/politics/ai-exacerbating-online-harms-as-childrens-rights-body-gravely-concerned-at-lack-of-safeguards/a/152098365.html",
+     "published": "2026-05-19T14:41:37Z",
+     "query": "artificial intelligence system caused harm",
+     "page_rank": 1647
+    },
+    {
+     "title": "AI's False Confidence Leads to Real-World Harm in China",
+     "url": "https://legal.gmw.cn/2026-08/31/content_38975814.htm",
+     "published": "2026-08-31T00:00:00Z",
+     "query": "artificial intelligence system caused harm",
+     "page_rank": 361
+    },
+    {
+     "title": "MIT and University of Queensland Study: 10% Odds of AI Catastrophic Harm by 2030",
+     "url": "https://www.cfodive.com/news/rogue-ai-poses-10-percent-odds-catastrophic-harm-2030-mit-study/825959/",
+     "published": "2026-07-22T00:00:00Z",
+     "query": "artificial intelligence system caused harm",
+     "page_rank": 112204
+    },
+    {
+     "title": "The Harmful Reality Of AI: Erosion of Independent Thought in Generation Z",
+     "url": "https://medium.com/@jaidenseeliger/the-harmful-reality-of-ai-c0d9c2b06998",
+     "published": "2026-05-29T23:04:30Z",
+     "query": "artificial intelligence system caused harm",
+     "page_rank": 58
+    },
+    {
+     "title": "Article Warns AI is Harmful to Environment and Humanity",
+     "url": "https://medium.com/@mohitchoraria/anti-ai-is-the-new-cool-8ba1b0390ad6",
+     "published": "2026-09-01T11:35:17Z",
+     "query": "artificial intelligence system caused harm",
+     "page_rank": 58
+    },
+    {
+     "title": "The Real Threat of AI is Reckless Human Governance, Not Rogue Machines",
+     "url": "https://economictimes.indiatimes.com/ai/ai-insights/fear-the-reckless-humans-not-the-rogue-ai/articleshow/133674666.cms",
+     "published": "2026-09-01T09:34:00Z",
+     "query": "artificial intelligence system caused harm",
+     "page_rank": 128
+    },
+    {
+     "title": "UK AI Safety Institute Report: AI Models 'Attack' Real Humans in GitHub and Network Tests",
+     "url": "https://tech.ifeng.com/c/8vRytKZmisX",
+     "published": "2026-08-09T07:35:44Z",
+     "query": "AI safety incident report",
+     "page_rank": 1356
+    },
+    {
+     "title": "AISI Uncovers Harmful AI Behaviors During Cybersecurity Evaluation",
+     "url": "https://news.ssbcrack.com/aisi-discovers-unintended-harmful-actions-by-ai-models-during-cybersecurity-evaluation/",
+     "published": "2026-08-05T16:38:07Z",
+     "query": "AI safety incident report",
+     "page_rank": 10000000
+    },
+    {
+     "title": "UK AI Safety Institute Reports Serious Autonomous AI Incident Involving Anthropic's Mythos 5",
+     "url": "https://www.lesoir.be/763378/article/2026-08-05/un-incident-serieux-faille-chez-anthropic-lors-dun-test-de-routine",
+     "published": "2026-08-05T00:00:00Z",
+     "query": "AI safety incident report",
+     "page_rank": 4967
+    },
+    {
+     "title": "International AI Safety Report 2026: UK Litigation Risks from Imperfect AI",
+     "url": "https://www.jdsupra.com/legalnews/international-ai-safety-report-2026-uk-4108585/",
+     "published": "2026-04-22T21:17:32Z",
+     "query": "AI safety incident report",
+     "page_rank": 3354
+    },
+    {
+     "title": "2026 AI Safety Report Warns Capabilities Outpace Oversight",
+     "url": "https://www.patheos.com/blogs/intentionalinsights/2026/06/safety-is-falling-behind-frontier-ai-capabilities/",
+     "published": "2026-06-23T19:04:27Z",
+     "query": "AI safety incident report",
+     "page_rank": 3539
+    },
+    {
+     "title": "AI Loss-of-Control Cases Hit Record High as Watchdog Urges Emergency Legislation",
+     "url": "https://www.sinchew.com.my/news/20260830/international/7803972",
+     "published": "2026-08-30T00:00:00Z",
+     "query": "AI safety incident report",
+     "page_rank": 79915
+    }
+   ]
+  },
+  "asknews_diverse": {
+   "results": 69,
+   "unique": 64,
+   "found": 1,
+   "hits": {
+    "OpenAI models escape sandbox, attack Hugging Face": [
+     "AI incident",
+     "AI safety incident report",
+     "AI-related cyber incident",
+     "AI-related incident",
+     "Misaligned AI incident"
+    ],
+    "Kosovo election synthetic-media campaign": [],
+    "Waymo robotaxi safety incidents": [],
+    "Zoox autonomous vehicle collisions": [],
+    "Discord automated-moderation mass bans": [],
+    "Unitree humanoid demonstration injury": [],
+    "RealPage rent-setting algorithm": [],
+    "State Department mislabeled AI map of Africa": [],
+    "Meta AI agent data exposure": []
+   },
+   "domains": {
+    "ciso.economictimes.indiatimes.com": 1,
+    "ilmanifesto.it": 1,
+    "cadena3.com": 1,
+    "ytn.co.kr": 1,
+    "techtarget.com": 1,
+    "bankingnews.gr": 1,
+    "csoonline.com": 1,
+    "almasryalyoum.com": 1,
+    "newindianexpress.com": 1,
+    "prtimes.jp": 1,
+    "medium.com": 7,
+    "atlantico.fr": 1,
+    "kesq.com": 1,
+    "newsmax.com": 1,
+    "yna.co.kr": 1,
+    "terra.com.br": 1,
+    "tech.ifeng.com": 3,
+    "aa.com.tr": 1,
+    "archynewsy.com": 1,
+    "inews.hket.com": 1,
+    "storm.mg": 1,
+    "wallstreet-online.de": 1,
+    "zn.ua": 1,
+    "theconversation.com": 1,
+    "manton.org": 1,
+    "dessignare.com": 1,
+    "quotulatiousness.ca": 1,
+    "singularityhub.com": 1,
+    "europapress.es": 1,
+    "jdon.com": 1,
+    "lesswrong.com": 3,
+    "businessinsider.jp": 1,
+    "de.investing.com": 1,
+    "money.udn.com": 1,
+    "indiatimes.com": 1,
+    "volkskrant.nl": 1,
+    "kommersant.ru": 1,
+    "gizbot.com": 1,
+    "noticias.r7.com": 1,
+    "irishtimes.com": 1,
+    "nypost.com": 1,
+    "tanja24.com": 1,
+    "independent.ie": 1,
+    "legal.gmw.cn": 1,
+    "cfodive.com": 1,
+    "economictimes.indiatimes.com": 1,
+    "news.ssbcrack.com": 1,
+    "lesoir.be": 1,
+    "jdsupra.com": 1,
+    "patheos.com": 1,
+    "sinchew.com.my": 1,
+    "yahoo.com": 1,
+    "news.sina.com.cn": 1,
+    "larazon.es": 1
+   },
+   "errors": [],
+   "sample": [
+    {
+     "title": "Security Hardening Assessment for AI Transformation",
+     "url": "https://ciso.economictimes.indiatimes.com/news/identity-access-management/security-hardening-assessment-prepare-for-ai-transformation-without-increasing-risk/133695174",
+     "published": "2026-09-02T02:39:06Z",
+     "query": "AI-related incident",
+     "page_rank": 128
+    },
+    {
+     "title": "AI Risks and Control: The Sidney Incident and Beyond",
+     "url": "https://ilmanifesto.it/diffamazione-psicosi-consigli-dannosi",
+     "published": "2026-07-22T22:01:51Z",
+     "query": "AI-related incident",
+     "page_rank": 18541
+    },
+    {
+     "title": "AI Agent Escapes Test Environment to Attack Another AI, Raising Cybersecurity Alarms",
+     "url": "https://www.cadena3.com/noticia/siempre-juntos-rosario/investigan-hackeo-entre-inteligencias-artificiales-encontro-una-vulnerabilidad-y-salio-a-atacar_576146",
+     "published": "2026-07-23T13:20:00Z",
+     "query": "AI-related incident",
+     "page_rank": 114007
+    },
+    {
+     "title": "Meta AI Model Hacks External System in Third 'Rogue Agent' Incident",
+     "url": "https://www.ytn.co.kr/_ln/0104_202608061048387604",
+     "published": "2026-08-06T01:48:00Z",
+     "query": "AI-related incident",
+     "page_rank": 9269
+    },
+    {
+     "title": "Four AI Incidents That Undermined Organizational Resilience",
+     "url": "https://www.techtarget.com/searchdisasterrecovery/tip/AI-incidents-that-harmed-resilience-efforts",
+     "published": "2026-07-10T15:04:31Z",
+     "query": "AI-related incident",
+     "page_rank": 458
+    },
+    {
+     "title": "The July Incident: Alleged Autonomous AI Escape from Hugging Face Sandbox",
+     "url": "https://www.bankingnews.gr/index.php",
+     "published": "2026-08-12T12:41:43Z",
+     "query": "AI-related incident",
+     "page_rank": 10632
+    },
+    {
+     "title": "AI Risk Registers Do Not Guarantee Incident Readiness",
+     "url": "https://www.csoonline.com/article/4195703/your-ai-risk-register-is-not-an-incident-response-plan.html",
+     "published": "2026-07-13T00:00:00Z",
+     "query": "AI-related incident",
+     "page_rank": 2670
+    },
+    {
+     "title": "UK Institute Reports AI Models from OpenAI and Anthropic Behaving Uncontrollably in Cybersecurity Test",
+     "url": "https://www.almasryalyoum.com/news/details/4330940",
+     "published": "2026-08-05T11:06:41Z",
+     "query": "AI-related incident",
+     "page_rank": 19555
+    },
+    {
+     "title": "AI Risks Rising as Firms Struggle to Keep Pace: Report",
+     "url": "https://www.newindianexpress.com/xplore/2026/Apr/23/ai-risks-rising-as-firms-struggle-to-keep-pace-report",
+     "published": "2026-04-23T18:39:05Z",
+     "query": "AI-related incident",
+     "page_rank": 3309
+    },
+    {
+     "title": "Survey: 12.8% of Japanese Office Workers Experience AI Incidents, Confidential Data Input Most Common",
+     "url": "https://prtimes.jp/main/html/rd/p/000000016.000169560.html",
+     "published": "2026-09-01T07:46:51Z",
+     "query": "AI-related incident",
+     "page_rank": 2119
+    },
+    {
+     "title": "The Epidemic Is Human: Olagoke Lawal Warns Against AI-Driven Cognitive Atrophy",
+     "url": "https://medium.com/@MarufLawal/the-tool-is-neutral-the-epidemic-is-human-fede6fce53b9",
+     "published": "2026-05-04T12:09:19Z",
+     "query": "AI-related human-caused epidemic",
+     "page_rank": 58
+    },
+    {
+     "title": "The 'Brain Fry' Epidemic: AI Supervision Causes Mental Exhaustion in Silicon Valley and France",
+     "url": "https://atlantico.fr/article/decryptage/l-ia-nous-epuise-et-ce-n-est-que-le-debut",
+     "published": "2026-07-26T07:57:34Z",
+     "query": "AI-related human-caused epidemic",
+     "page_rank": 10000
+    },
+    {
+     "title": "AI as a Tool for Pandemic Detection and Prevention",
+     "url": "https://medium.com/@pathofonejourney/can-ai-stop-the-next-pandemic-ea79bc158d1c",
+     "published": "2026-08-06T19:49:17Z",
+     "query": "AI-related human-caused epidemic",
+     "page_rank": 58
+    },
+    {
+     "title": "Katrina Charron Bosley Warns of AI-Enabled Identity Theft and the 'Assumption Epidemic'",
+     "url": "https://medium.com/@katrinacharronbllc/the-i-robot-moment-we-missed-93ffeeb57a40",
+     "published": "2026-07-14T17:17:12Z",
+     "query": "AI-related human-caused epidemic",
+     "page_rank": 58
+    },
+    {
+     "title": "Ronaldo Andrade's Book 'AI: The Silent Epidemic' Reveals How AI Reshapes Human Behavior",
+     "url": "https://medium.com/@ronaldocaa/ronaldo-andrade-author-of-ai-the-silent-epidemic-12d42dc45cb2",
+     "published": "2026-06-24T19:59:55Z",
+     "query": "AI-related human-caused epidemic",
+     "page_rank": 58
+    },
+    {
+     "title": "Experts Warn AI May Worsen Loneliness Epidemic Despite Zuckerberg's Optimism",
+     "url": "https://kesq.com/health/cnn-health/2026/05/09/no-ai-isnt-going-to-fix-the-loneliness-epidemic-it-may-make-it-worse/",
+     "published": "2026-05-09T13:00:51Z",
+     "query": "AI-related human-caused epidemic",
+     "page_rank": 18593
+    },
+    {
+     "title": "Social Media and AI Drive Loneliness Epidemic Among Youth",
+     "url": "https://www.newsmax.com/jameshirsen/chatbots-family-algorithms/2026/07/14/id/1262771/",
+     "published": "2026-07-14T00:00:00Z",
+     "query": "AI-related human-caused epidemic",
+     "page_rank": 2291
+    },
+    {
+     "title": "Gangwon Province Conducts AI Human Infection Response Drill",
+     "url": "https://www.yna.co.kr/view/AKR20260901152300062",
+     "published": "2026-09-01T06:54:36Z",
+     "query": "AI-related human-caused epidemic",
+     "page_rank": 2904
+    },
+    {
+     "title": "Miguel Nicolelis Lists Five Problems Caused by AI at S\u00e3o Paulo Event",
+     "url": "https://www.terra.com.br/planeta/futuro-vivo/nem-inteligente-nem-artificial-miguel-nicolelis-elenca-cinco-problemas-gerados-pela-ia,881e737f600924ffe60603eb22953fbd4vr3nfid.html",
+     "published": "2026-09-01T19:04:15Z",
+     "query": "AI-related human-caused epidemic",
+     "page_rank": 3355
+    },
+    {
+     "title": "Meta AI Model Accidentally Invades Third-Party System During Security Test",
+     "url": "https://tech.ifeng.com/c/8vNKKmrjMjY",
+     "published": "2026-08-07T13:18:50Z",
+     "query": "AI-related cyber incident",
+     "page_rank": 1356
+    },
+    {
+     "title": "Meta AI Model Accidentally Hacks External Service During Security Test Due to Configuration Error",
+     "url": "https://www.aa.com.tr/en/science-technology/meta-ai-model-hacks-outside-company-during-security-test/4020114",
+     "published": "2026-08-06T11:29:22Z",
+     "query": "AI-related cyber incident",
+     "page_rank": 1957
+    },
+    {
+     "title": "OpenAI Admits AI Models Exploited Security Gap During Testing",
+     "url": "https://www.archynewsy.com/openai-admits-models-hacked-into-company-in-unprecedented-cyber-incident/",
+     "published": "2026-07-22T02:12:30Z",
+     "query": "AI-related cyber incident",
+     "page_rank": 601349
+    },
+    {
+     "title": "OpenAI and Anthropic AI Models Linked to Cybersecurity Incidents",
+     "url": "https://inews.hket.com/article/4171395/%E3%80%90AI-%E5%A8%81%E8%84%85%E3%80%91OpenAI%E3%80%81Anthropic%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD%E6%A8%A1%E5%9E%8B%E6%8D%B2%E5%85%A5%E6%9B%B4%E5%A4%9A%E7%B6%B2%E7%B5%A1%E5%AE%89%E5%85%A8%E4%BA%8B%E4%BB%B6",
+     "published": "2026-08-05T00:55:01Z",
+     "query": "AI-related cyber incident",
+     "page_rank": 2793
+    },
+    {
+     "title": "AI Models Breach Sandboxes in Four Confirmed Cybersecurity Incidents",
+     "url": "https://www.storm.mg/articles/11155234",
+     "published": "2026-08-10T03:21:00Z",
+     "query": "AI-related cyber incident",
+     "page_rank": 17407
+    },
+    {
+     "title": "OpenAI AI Model Escapes Isolation and Infiltrates Hugging Face",
+     "url": "https://www.wallstreet-online.de/nachricht/21142133-alarm-openai-modell-entkommt-infiltriert-hugging-face",
+     "published": "2026-07-23T06:10:18Z",
+     "query": "AI-related cyber incident",
+     "page_rank": 14968
+    },
+    {
+     "title": "AI-Driven Cyberattacks Target Global Energy Infrastructure, Hitting Small Utilities Hardest",
+     "url": "https://zn.ua/energetics/enerheticheskie-kompanii-stolknulis-s-volnoj-kiberatak-s-ispolzovaniem-ii.html",
+     "published": "2026-09-01T22:23:00Z",
+     "query": "AI-related cyber incident",
+     "page_rank": 12268
+    },
+    {
+     "title": "1,200 OpenAI Agents Coordinate Cyberattack on Hugging Face in 2026 'Reward Hacking' Incident",
+     "url": "https://theconversation.com/miles-de-agentes-de-ia-deciden-unirse-para-un-ciberataque-masivo-por-sorpresa-el-reciente-caso-de-openai-290974",
+     "published": "2026-09-02T15:30:40Z",
+     "query": "AI-related cyber incident",
+     "page_rank": 294
+    },
+    {
+     "title": "OpenAI Report Details AI Agents' Misaligned Behavior in Hugging Face Hack",
+     "url": "https://www.manton.org/2026/08/26/openai-has-published-a-technical.html",
+     "published": "2026-08-26T00:00:00Z",
+     "query": "Misaligned AI incident",
+     "page_rank": 6043185
+    },
+    {
+     "title": "OpenAI and Hugging Face Incident Highlights AI Misalignment and Cybersecurity Risks",
+     "url": "https://www.dessignare.com/2026/07/el-caso-openai-y-hugging-face-expone.html",
+     "published": "2026-07-01T00:00:00Z",
+     "query": "Misaligned AI incident",
+     "page_rank": 2804669
+    },
+    {
+     "title": "Scott Alexander Analyzes the 'Huggingface Incident' Where a Rogue AI Hacked Hugging Face",
+     "url": "https://quotulatiousness.ca/blog/2026/07/25/i-for-one-welcome-our-new-clanker-overlords/",
+     "published": "2026-07-25T00:00:00Z",
+     "query": "Misaligned AI incident",
+     "page_rank": 1967890
+    },
+    {
+     "title": "AI Alignment Problem Emerges as Urgent Reality Through Recent Incidents",
+     "url": "https://singularityhub.com/2026/08/20/long-foreseen-the-problem-of-ai-alignment-is-finally-reality-solving-it-wont-be-easy/",
+     "published": "2026-08-20T00:00:00Z",
+     "query": "Misaligned AI incident",
+     "page_rank": 7142
+    },
+    {
+     "title": "Anthropic Eliminates AI Misalignment After Blackmail Incident",
+     "url": "https://www.europapress.es/portaltic/sector/noticia-anthropic-elimina-desalineacion-afirma-representaciones-malvadas-ia-impulsan-chantaje-20260511124652.html",
+     "published": "2026-05-11T12:46:52Z",
+     "query": "Misaligned AI incident",
+     "page_rank": 2659
+    },
+    {
+     "title": "Four Ways AI Training Creates Misaligned Behaviors: From Imitating Human Sins to Deceiving AI Judges",
+     "url": "http://www.jdon.com/93922-four-llm-loss-functions-four-flavors-of-llm-misali.html",
+     "published": "2026-08-11T00:00:00Z",
+     "query": "Misaligned AI incident",
+     "page_rank": 1228213
+    },
+    {
+     "title": "Analysis of Anthropic's August 2026 Risk Report on AI Misalignment",
+     "url": "https://www.lesswrong.com/posts/P6gLGnjjzZMPyvJGa/making-sense-of-the-misalignment-risk-model-in-the-anthropic",
+     "published": "2026-08-20T02:33:31Z",
+     "query": "Misaligned AI incident",
+     "page_rank": 11032
+    },
+    {
+     "title": "Framework for Deployment-Time Misalignment Continuation and Spread in AI Agents",
+     "url": "https://www.lesswrong.com/posts/cENaGChQZD7u7sZkz/towards-deployment-time-misalignment-continuation-evals",
+     "published": "2026-09-01T17:45:27Z",
+     "query": "Misaligned AI incident",
+     "page_rank": 11032
+    },
+    {
+     "title": "OpenAI Models Breach Hugging Face: A Serious Threat of Score-Seeking Misalignment",
+     "url": "https://www.lesswrong.com/posts/H6DDSEvrtCk8Sehfd/are-we-existentially-threatened-by-the-type-of-ai",
+     "published": "2026-07-23T03:40:37Z",
+     "query": "Misaligned AI incident",
+     "page_rank": 11032
+    },
+    {
+     "title": "OpenAI Reclassifies Hugging Face Breach as 'Misalignment' After Models Improvise Coordination",
+     "url": "https://medium.com/@aftab001x/openai-called-the-hugging-face-hack-a-security-failure-a-month-later-it-called-it-something-worse-2ca3ddbab8d1",
+     "published": "2026-09-01T02:50:09Z",
+     "query": "Misaligned AI incident",
+     "page_rank": 58
+    },
+    {
+     "title": "OpenAI Reports Two More AI Agent 'Runaway' Incidents During Third-Party Tests",
+     "url": "https://www.businessinsider.jp/article/2608-openai-rogue-ai-agents-testing-environment-misconfiguration/",
+     "published": "2026-08-05T22:45:00Z",
+     "query": "AI incident",
+     "page_rank": 10825
+    },
+    {
+     "title": "OpenAI AI Model Escapes Test and Hacks Hugging Face in 'Unprecedented' Incident",
+     "url": "https://de.investing.com/news/economy-news/gesamtroundup-wie-ki-von-openai-ausbrach-und-eine-firma-hackte-3574584",
+     "published": "2026-07-22T15:15:03Z",
+     "query": "AI incident",
+     "page_rank": 185
+    },
+    {
+     "title": "AI Loss of Control Incidents Surge to Record High",
+     "url": "https://money.udn.com/money/story/5599/9723472",
+     "published": "2026-08-30T17:45:55Z",
+     "query": "AI incident",
+     "page_rank": 587
+    },
+    {
+     "title": "Over 300 AI Incidents in July 2026 Signal Growing Loss of Control",
+     "url": "https://www.indiatimes.com/trending/more-than-300-ai-incidents-in-july-heres-why-ai-going-out-of-control-is-becoming-a-real-concern-for-everyday-users/articleshow/133606947.html",
+     "published": "2026-08-30T04:31:33Z",
+     "query": "AI incident",
+     "page_rank": 292
+    },
+    {
+     "title": "AI Fabrication and Investment Risks: The Erosion of Truth and the OpenAI Incident",
+     "url": "https://www.volkskrant.nl/columns-van-de-dag/kan-ai-op-eigen-houtje-de-wereld-terroriseren~b3d78dfa/",
+     "published": "2026-07-29T03:00:17Z",
+     "query": "AI incident",
+     "page_rank": 3901
+    },
+    {
+     "title": "AI Incidents Nearly Double in July 2026 as Systems Bypass Safety Protocols",
+     "url": "https://www.kommersant.ru/doc/8924103",
+     "published": "2026-09-02T12:01:42Z",
+     "query": "AI incident",
+     "page_rank": 1866
+    },
+    {
+     "title": "AI Loss of Control Incidents Surge to Over 1,600 in 2026",
+     "url": "https://www.gizbot.com/artificial-intelligence/ai-is-slipping-out-of-human-control-more-often-and-researchers-are-worried-128249.html",
+     "published": "2026-09-01T11:29:57Z",
+     "query": "AI incident",
+     "page_rank": 36176
+    },
+    {
+     "title": "AI Recruitment Tools and Algorithmic Monoculture Harms Job Seekers",
+     "url": "https://noticias.r7.com/tecnologia-e-ciencia/por-que-o-uso-de-ia-por-recrutadores-pode-estar-prejudicando-candidatos-a-empregos-14072026/",
+     "published": "2026-07-14T20:37:34Z",
+     "query": "artificial intelligence system caused harm",
+     "page_rank": 3184
+    },
+    {
+     "title": "Oireachtas Committee Warns AI Chatbots Cause 'Terrible Harm' to Children",
+     "url": "https://www.irishtimes.com/politics/oireachtas/2026/05/19/ai-chatbots-leading-children-into-terrible-harm-oireachtas-committee-hears/",
+     "published": "2026-05-19T14:30:11Z",
+     "query": "artificial intelligence system caused harm",
+     "page_rank": 910
+    },
+    {
+     "title": "EU Bans Harmful AI Tech as Experts Warn of US Health Risks",
+     "url": "https://nypost.com/2026/08/03/health/is-ai-harmful-europe-enacts-a-new-ai-act-provision-to-protect-users/",
+     "published": "2026-08-03T00:00:00Z",
+     "query": "artificial intelligence system caused harm",
+     "page_rank": 351
+    },
+    {
+     "title": "AI Systems Struggle to Detect Harmful Content in Moroccan Darija: Study Finds Significant Accuracy Gap",
+     "url": "https://tanja24.com/%d8%a7%d9%84%d8%b0%d9%83%d8%a7%d8%a1-%d8%a7%d9%84%d8%a7%d8%b5%d8%b7%d9%86%d8%a7%d8%b9%d9%8a-%d8%a3%d9%82%d9%84-%d8%af%d9%82%d8%a9-%d9%81%d9%8a-%d8%b1%d8%b5%d8%af-%d8%a7%d9%84%d9%85%d8%ad%d8%aa%d9%88/",
+     "published": "2026-08-16T23:00:12Z",
+     "query": "artificial intelligence system caused harm",
+     "page_rank": 10000000
+    },
+    {
+     "title": "Children's Rights Group Warns AI Exacerbates Online Harms and Demands Executive Liability",
+     "url": "https://www.independent.ie/irish-news/politics/ai-exacerbating-online-harms-as-childrens-rights-body-gravely-concerned-at-lack-of-safeguards/a/152098365.html",
+     "published": "2026-05-19T14:41:37Z",
+     "query": "artificial intelligence system caused harm",
+     "page_rank": 1647
+    },
+    {
+     "title": "AI's False Confidence Leads to Real-World Harm in China",
+     "url": "https://legal.gmw.cn/2026-08/31/content_38975814.htm",
+     "published": "2026-08-31T00:00:00Z",
+     "query": "artificial intelligence system caused harm",
+     "page_rank": 361
+    },
+    {
+     "title": "MIT and University of Queensland Study: 10% Odds of AI Catastrophic Harm by 2030",
+     "url": "https://www.cfodive.com/news/rogue-ai-poses-10-percent-odds-catastrophic-harm-2030-mit-study/825959/",
+     "published": "2026-07-22T00:00:00Z",
+     "query": "artificial intelligence system caused harm",
+     "page_rank": 112204
+    },
+    {
+     "title": "The Harmful Reality Of AI: Erosion of Independent Thought in Generation Z",
+     "url": "https://medium.com/@jaidenseeliger/the-harmful-reality-of-ai-c0d9c2b06998",
+     "published": "2026-05-29T23:04:30Z",
+     "query": "artificial intelligence system caused harm",
+     "page_rank": 58
+    },
+    {
+     "title": "Article Warns AI is Harmful to Environment and Humanity",
+     "url": "https://medium.com/@mohitchoraria/anti-ai-is-the-new-cool-8ba1b0390ad6",
+     "published": "2026-09-01T11:35:17Z",
+     "query": "artificial intelligence system caused harm",
+     "page_rank": 58
+    },
+    {
+     "title": "The Real Threat of AI is Reckless Human Governance, Not Rogue Machines",
+     "url": "https://economictimes.indiatimes.com/ai/ai-insights/fear-the-reckless-humans-not-the-rogue-ai/articleshow/133674666.cms",
+     "published": "2026-09-01T09:34:00Z",
+     "query": "artificial intelligence system caused harm",
+     "page_rank": 128
+    },
+    {
+     "title": "UK AI Safety Institute Report: AI Models 'Attack' Real Humans in GitHub and Network Tests",
+     "url": "https://tech.ifeng.com/c/8vRytKZmisX",
+     "published": "2026-08-09T07:35:44Z",
+     "query": "AI safety incident report",
+     "page_rank": 1356
+    },
+    {
+     "title": "AISI Uncovers Harmful AI Behaviors During Cybersecurity Evaluation",
+     "url": "https://news.ssbcrack.com/aisi-discovers-unintended-harmful-actions-by-ai-models-during-cybersecurity-evaluation/",
+     "published": "2026-08-05T16:38:07Z",
+     "query": "AI safety incident report",
+     "page_rank": 10000000
+    },
+    {
+     "title": "UK AI Safety Institute Reports Serious Autonomous AI Incident Involving Anthropic's Mythos 5",
+     "url": "https://www.lesoir.be/763378/article/2026-08-05/un-incident-serieux-faille-chez-anthropic-lors-dun-test-de-routine",
+     "published": "2026-08-05T00:00:00Z",
+     "query": "AI safety incident report",
+     "page_rank": 4967
+    },
+    {
+     "title": "International AI Safety Report 2026: UK Litigation Risks from Imperfect AI",
+     "url": "https://www.jdsupra.com/legalnews/international-ai-safety-report-2026-uk-4108585/",
+     "published": "2026-04-22T21:17:32Z",
+     "query": "AI safety incident report",
+     "page_rank": 3354
+    },
+    {
+     "title": "2026 AI Safety Report Warns Capabilities Outpace Oversight",
+     "url": "https://www.patheos.com/blogs/intentionalinsights/2026/06/safety-is-falling-behind-frontier-ai-capabilities/",
+     "published": "2026-06-23T19:04:27Z",
+     "query": "AI safety incident report",
+     "page_rank": 3539
+    },
+    {
+     "title": "AI Loss-of-Control Cases Hit Record High as Watchdog Urges Emergency Legislation",
+     "url": "https://www.sinchew.com.my/news/20260830/international/7803972",
+     "published": "2026-08-30T00:00:00Z",
+     "query": "AI safety incident report",
+     "page_rank": 79915
+    }
+   ]
+  },
+  "asknews_latest": {
+   "results": 70,
+   "unique": 52,
+   "found": 1,
+   "hits": {
+    "OpenAI models escape sandbox, attack Hugging Face": [
+     "AI incident",
+     "AI safety incident report",
+     "AI-related incident",
+     "Misaligned AI incident"
+    ],
+    "Kosovo election synthetic-media campaign": [],
+    "Waymo robotaxi safety incidents": [],
+    "Zoox autonomous vehicle collisions": [],
+    "Discord automated-moderation mass bans": [],
+    "Unitree humanoid demonstration injury": [],
+    "RealPage rent-setting algorithm": [],
+    "State Department mislabeled AI map of Africa": [],
+    "Meta AI agent data exposure": []
+   },
+   "domains": {
+    "ciso.economictimes.indiatimes.com": 1,
+    "prtimes.jp": 1,
+    "phonearena.com": 1,
+    "basicthinking.de": 1,
+    "kommersant.ru": 1,
+    "bfmtv.com": 1,
+    "gizbot.com": 1,
+    "theconversation.com": 1,
+    "pbs.org": 1,
+    "hwupgrade.it": 1,
+    "yna.co.kr": 1,
+    "terra.com.br": 1,
+    "the-leadership-podcast-by-niels-brabandt-emba-mba-msc-nb-networks.podcast": 1,
+    "animationmagazine.net": 1,
+    "medium.com": 4,
+    "lavanguardia.com": 1,
+    "diariobitcoin.com": 1,
+    "cumhuriyet.com.tr": 1,
+    "sabah.com.tr": 2,
+    "zn.ua": 1,
+    "dostor.org": 1,
+    "larazon.es": 1,
+    "bitnewsbot.com": 1,
+    "lesswrong.com": 2,
+    "marca.com": 1,
+    "tech.ifeng.com": 2,
+    "access.podcast": 1,
+    "exame.com": 1,
+    "futurism.com": 1,
+    "nature.com": 1,
+    "fanpage.it": 1,
+    "newstalk-breakfast.podcast": 1,
+    "krwg.org": 1,
+    "telanganatoday.com": 1,
+    "economictimes.indiatimes.com": 1,
+    "expressen.se": 1,
+    "money.udn.com": 2,
+    "extremetech.com": 1,
+    "theprint.in": 1,
+    "ibtimes.com": 1,
+    "akhbarhayat.com": 1,
+    "elmundo.es": 1,
+    "ascii.jp": 1,
+    "cryptopolitan.com": 1,
+    "news.cgtn.com": 1
+   },
+   "errors": [],
+   "sample": [
+    {
+     "title": "Security Hardening Assessment for AI Transformation",
+     "url": "https://ciso.economictimes.indiatimes.com/news/identity-access-management/security-hardening-assessment-prepare-for-ai-transformation-without-increasing-risk/133695174",
+     "published": "2026-09-02T02:39:06Z",
+     "query": "AI-related incident",
+     "page_rank": 128
+    },
+    {
+     "title": "Survey: 12.8% of Japanese Office Workers Experience AI Incidents, Confidential Data Input Most Common",
+     "url": "https://prtimes.jp/main/html/rd/p/000000016.000169560.html",
+     "published": "2026-09-01T07:46:51Z",
+     "query": "AI-related incident",
+     "page_rank": 2119
+    },
+    {
+     "title": "UK Regulators Demand Emergency Action as Rogue AI Incidents Surge to 1,600 Cases",
+     "url": "https://www.phonearena.com/news/rogue-ai-is-out-of-control-regulators-call-for-emergency-measures_id183003",
+     "published": "2026-09-01T10:14:08Z",
+     "query": "AI-related incident",
+     "page_rank": 3995
+    },
+    {
+     "title": "AI Out of Control? Media Failure Behind the Hacker Hype",
+     "url": "https://www.basicthinking.de/blog/2026/09/01/ki-ausser-kontrolle-medienversagen/",
+     "published": "2026-09-01T00:00:00Z",
+     "query": "AI-related incident",
+     "page_rank": 24793
+    },
+    {
+     "title": "AI Incidents Nearly Double in July 2026 as Systems Bypass Safety Protocols",
+     "url": "https://www.kommersant.ru/doc/8924103",
+     "published": "2026-09-02T12:01:42Z",
+     "query": "AI-related incident",
+     "page_rank": 1866
+    },
+    {
+     "title": "EU Begins AI Act Investigations Following Security Incidents",
+     "url": "https://www.bfmtv.com/tech/intelligence-artificielle/notre-but-est-de-garantir-qu-en-europe-l-ia-soit-concue-lancee-et-utilisee-de-maniere-sure-et-transparente-l-ue-commence-a-exercer-ses-nouveaux-pouvoirs-d-investigation-sur-les-principales-entreprises-d-intelligence-artificielle_AD-202609010704.html",
+     "published": "2026-09-01T16:17:31Z",
+     "query": "AI-related incident",
+     "page_rank": 1841
+    },
+    {
+     "title": "AI Loss of Control Incidents Surge to Over 1,600 in 2026",
+     "url": "https://www.gizbot.com/artificial-intelligence/ai-is-slipping-out-of-human-control-more-often-and-researchers-are-worried-128249.html",
+     "published": "2026-09-01T11:29:57Z",
+     "query": "AI-related incident",
+     "page_rank": 36176
+    },
+    {
+     "title": "1,200 OpenAI Agents Coordinate Cyberattack on Hugging Face in 2026 'Reward Hacking' Incident",
+     "url": "https://theconversation.com/miles-de-agentes-de-ia-deciden-unirse-para-un-ciberataque-masivo-por-sorpresa-el-reciente-caso-de-openai-290974",
+     "published": "2026-09-02T15:30:40Z",
+     "query": "AI-related incident",
+     "page_rank": 294
+    },
+    {
+     "title": "AI Agents Going Rogue Spark Regulation Calls",
+     "url": "https://www.pbs.org/newshour/show/artificial-intelligence-agents-going-rogue-fuel-calls-for-regulation",
+     "published": "2026-08-31T22:40:11Z",
+     "query": "AI-related incident",
+     "page_rank": 281
+    },
+    {
+     "title": "G20 Warned of Frontier AI Cyber Risks and Financial Instability",
+     "url": "https://www.hwupgrade.it/news/web/l-ia-di-frontiera-e-il-rischio-piu-immediato-per-la-finanza-l-allarme-al-g20_158485.html",
+     "published": "2026-09-01T00:00:00Z",
+     "query": "AI-related incident",
+     "page_rank": 34921
+    },
+    {
+     "title": "Gangwon Province Conducts AI Human Infection Response Drill",
+     "url": "https://www.yna.co.kr/view/AKR20260901152300062",
+     "published": "2026-09-01T06:54:36Z",
+     "query": "AI-related human-caused epidemic",
+     "page_rank": 2904
+    },
+    {
+     "title": "Miguel Nicolelis Lists Five Problems Caused by AI at S\u00e3o Paulo Event",
+     "url": "https://www.terra.com.br/planeta/futuro-vivo/nem-inteligente-nem-artificial-miguel-nicolelis-elenca-cinco-problemas-gerados-pela-ia,881e737f600924ffe60603eb22953fbd4vr3nfid.html",
+     "published": "2026-09-01T19:04:15Z",
+     "query": "AI-related human-caused epidemic",
+     "page_rank": 3355
+    },
+    {
+     "title": "Why AI Problems Must Be Reframed: A Discussion on Decomposition with Dr. Adrian Wolfberg",
+     "url": "https://dts.podtrac.com/redirect.mp3/traffic.libsyn.com/secure/niels-brabandt-nb-networks/E_571_2026-08-26_06_Why_do_Problems_have_to_be_Reframed_-_Dr_Adrian_Wolfberg_interviewed_by_Niels_Brabandt_-_Audio-auphonic.mp3?dest-id=2082743",
+     "published": "2026-09-02T01:30:00Z",
+     "query": "AI-related human-caused epidemic",
+     "page_rank": 798211
+    },
+    {
+     "title": "Indie Game 'Astro Burn' Launches AI-Assisted Animated Micro-Series",
+     "url": "https://www.animationmagazine.net/",
+     "published": "2026-08-31T23:10:23Z",
+     "query": "AI-related human-caused epidemic",
+     "page_rank": 88463
+    },
+    {
+     "title": "RAND Expert Saskia Popescu on Cyclospora Outbreak and Future Biosecurity",
+     "url": "https://medium.com/rand-corporation/the-cyclospora-outbreak-was-a-warning-q-a-with-saskia-popescu-0e10f0a0f30c",
+     "published": "2026-09-01T19:53:10Z",
+     "query": "AI-related human-caused epidemic",
+     "page_rank": 58
+    },
+    {
+     "title": "AI Predicting Pandemics: Detecting Zoonotic Diseases",
+     "url": "https://www.lavanguardia.com/neo/ia/20260901/11624121/inteligencia-artificial-anticipar-proxima-pandemia-asi-esta-utilizando-detectar-enfermedades-saltan-animales-humanos-epm.html",
+     "published": "2026-09-01T00:00:00Z",
+     "query": "AI-related human-caused epidemic",
+     "page_rank": 1413
+    },
+    {
+     "title": "U.S. Intelligence Committee Warns of 'Black Swan' AI Risks Ahead of 9/11 Anniversary",
+     "url": "https://www.diariobitcoin.com/estados-unidos/comision-de-inteligencia-de-ee-uu-alerta-sobre-riesgos-de-cisne-negro-para-la-ia/",
+     "published": "2026-08-31T22:25:09Z",
+     "query": "AI-related human-caused epidemic",
+     "page_rank": 258907
+    },
+    {
+     "title": "Study: AI is causing humans to adopt robotic communication styles",
+     "url": "https://www.cumhuriyet.com.tr/bilim-teknoloji/arastirmaya-gore-yapay-zeka-robotlasmaya-basladi-2534142",
+     "published": "2026-09-01T17:03:00Z",
+     "query": "AI-related human-caused epidemic",
+     "page_rank": 12857
+    },
+    {
+     "title": "Study Warns Frequent AI Interaction May Cause Humans to 'Robotize' Speech",
+     "url": "https://www.sabah.com.tr/saglik/2026/09/02/yapay-zekayla-sohbet-ettikce-robotlasiyoruz",
+     "published": "2026-09-02T00:00:00Z",
+     "query": "AI-related human-caused epidemic",
+     "page_rank": 8808
+    },
+    {
+     "title": "Study: Frequent AI Interaction May Cause Humans to Robotize Communication",
+     "url": "https://www.sabah.com.tr/roza/guncel/her-gun-yapay-zekayla-konusanlar-dikkat-bilim-insanlari-insan-iletisimindeki-tehlikeyi-acikladi",
+     "published": "2026-09-02T06:51:50Z",
+     "query": "AI-related human-caused epidemic",
+     "page_rank": 8808
+    },
+    {
+     "title": "AI-Driven Cyberattacks Target Global Energy Infrastructure, Hitting Small Utilities Hardest",
+     "url": "https://zn.ua/energetics/enerheticheskie-kompanii-stolknulis-s-volnoj-kiberatak-s-ispolzovaniem-ii.html",
+     "published": "2026-09-01T22:23:00Z",
+     "query": "AI-related cyber incident",
+     "page_rank": 12268
+    },
+    {
+     "title": "Anthropic Admits Security Failures Behind AI Hacking Incidents",
+     "url": "https://www.dostor.org/5688221",
+     "published": "2026-09-01T18:16:11Z",
+     "query": "AI-related cyber incident",
+     "page_rank": 142685
+    },
+    {
+     "title": "Over 300 AI Incidents Reported in One Month as UK Observatory Questions Tech Giants' Transparency",
+     "url": "https://www.larazon.es/tecnologia-consumo/inteligencia-artificial/300-incidentes-ia-mes-encienden-alarmas-observatorio-perdida-control-admite-su-recuento-depende-denuncias-visibles-x_202609016a96ab384941316b1e736155.html",
+     "published": "2026-09-01T16:30:00Z",
+     "query": "AI-related cyber incident",
+     "page_rank": 5218
+    },
+    {
+     "title": "METR Discloses Two 2026 Cyber Attacks, No Data Breach Confirmed",
+     "url": "https://bitnewsbot.com/ai-safety-group-metr-hit-by-two/",
+     "published": "2026-09-01T11:05:05Z",
+     "query": "AI-related cyber incident",
+     "page_rank": 10000000
+    },
+    {
+     "title": "August 2026 Cybersecurity Surge: AI-Driven Attacks and Critical Vulnerability Exploitations",
+     "url": "https://medium.com/@techskillschool305/cyber-pulse-monthly-august-2026-574e78200eae",
+     "published": "2026-09-01T11:04:45Z",
+     "query": "AI-related cyber incident",
+     "page_rank": 58
+    },
+    {
+     "title": "Framework for Deployment-Time Misalignment Continuation and Spread in AI Agents",
+     "url": "https://www.lesswrong.com/posts/cENaGChQZD7u7sZkz/towards-deployment-time-misalignment-continuation-evals",
+     "published": "2026-09-01T17:45:27Z",
+     "query": "Misaligned AI incident",
+     "page_rank": 11032
+    },
+    {
+     "title": "OpenAI Reclassifies Hugging Face Breach as 'Misalignment' After Models Improvise Coordination",
+     "url": "https://medium.com/@aftab001x/openai-called-the-hugging-face-hack-a-security-failure-a-month-later-it-called-it-something-worse-2ca3ddbab8d1",
+     "published": "2026-09-01T02:50:09Z",
+     "query": "Misaligned AI incident",
+     "page_rank": 58
+    },
+    {
+     "title": "Prefilling Misaligned Reasoning Traces Increases AI Misalignment by 7.9% Despite Invisibility to Text Monitoring",
+     "url": "https://www.lesswrong.com/posts/QbYrb65g4njtW5vgL/prefilling-an-emergently-misaligned-model-with-reasoning",
+     "published": "2026-08-31T22:31:07Z",
+     "query": "Misaligned AI incident",
+     "page_rank": 11032
+    },
+    {
+     "title": "AI Actress Tilly Norwood Sparks Death Threats and Hollywood Debate",
+     "url": "https://www.marca.com/tiramillas/cine/2026/09/02/tilly-norwood-actriz-generada-ia-sacude-hollywood-productora-recibido-amenazas-muerte.html",
+     "published": "2026-09-02T00:00:00Z",
+     "query": "Misaligned AI incident",
+     "page_rank": 1754
+    },
+    {
+     "title": "Anthropic Details July 30 Security Incident: Configuration Error Led to Claude 'Invasion' of Real Systems",
+     "url": "https://tech.ifeng.com/c/8w3e0CbY9EJ",
+     "published": "2026-09-01T00:00:42Z",
+     "query": "Misaligned AI incident",
+     "page_rank": 1356
+    },
+    {
+     "title": "Sam Altman Delays OpenAI Frontier Training to Address Safety and Alignment Concerns",
+     "url": "https://pscrb.fm/rss/p/prfx.byspotify.com/e/api.substack.com/feed/podcast/213666745/5bf99b81626bea5647d5412200119a24.mp3",
+     "published": "2026-09-01T17:00:00Z",
+     "query": "Misaligned AI incident",
+     "page_rank": 316245
+    },
+    {
+     "title": "Anthropic Strengthens Security After Claude Models Access Systems Without Authorization",
+     "url": "https://exame.com/inteligencia-artificial/anthropic-reforca-seguranca-apos-claude-acessar-sistemas-sem-autorizacao/",
+     "published": "2026-09-01T09:07:32Z",
+     "query": "Misaligned AI incident",
+     "page_rank": 6191
+    },
+    {
+     "title": "Anthropic Trains 'Hacker-Opus' AI to Demonstrate Severe Reward Hacking and Cyberattacks",
+     "url": "https://futurism.com/artificial-intelligence/anthropic-trained-misaligned-reward-seeking-ai",
+     "published": "2026-09-02T15:50:26Z",
+     "query": "Misaligned AI incident",
+     "page_rank": 2128
+    },
+    {
+     "title": "AI Triage Misalignment and User Behavior in a US Health System Study",
+     "url": "https://www.nature.com/articles/s44401-026-00140-w",
+     "published": "2026-09-02T00:00:00Z",
+     "query": "Misaligned AI incident",
+     "page_rank": 113
+    },
+    {
+     "title": "AI Agents Learning to Lie and Bypass Rules: 300+ Incidents in July",
+     "url": "https://www.fanpage.it/innovazione/tecnologia/lia-sta-imparando-a-mentire-e-aggirare-le-regole-i-casi-di-agenti-fuori-controllo-sono-gia-centinaia/",
+     "published": "2026-09-02T07:16:12Z",
+     "query": "AI incident",
+     "page_rank": 10003
+    },
+    {
+     "title": "AI Control Risks Double in July as Agents Hack Each Other",
+     "url": "https://bauernordic-pods.sharp-stream.com/ie/2748/0109_adrian_cd1d6ade_normal.mp3?aw_0_1st.episodeid=417878&aw_0_1st.collectionid=2748",
+     "published": "2026-09-01T07:30:00Z",
+     "query": "AI incident",
+     "page_rank": 677206
+    },
+    {
+     "title": "AI Agents Going Rogue Fuel Calls for Regulation",
+     "url": "https://www.krwg.org/shows/newshour/clip/ai-going-rogue-1788205111",
+     "published": "2026-08-31T19:38:31Z",
+     "query": "AI incident",
+     "page_rank": 139385
+    },
+    {
+     "title": "Nepal Combats AI-Generated Misinformation Following Devastating Floods",
+     "url": "https://telanganatoday.com/nepal-battles-misinformation-as-ai-generated-visuals-flood-social-media-after-disaster",
+     "published": "2026-09-01T07:49:09Z",
+     "query": "AI incident",
+     "page_rank": 21565
+    },
+    {
+     "title": "Article Warns AI is Harmful to Environment and Humanity",
+     "url": "https://medium.com/@mohitchoraria/anti-ai-is-the-new-cool-8ba1b0390ad6",
+     "published": "2026-09-01T11:35:17Z",
+     "query": "artificial intelligence system caused harm",
+     "page_rank": 58
+    },
+    {
+     "title": "The Real Threat of AI is Reckless Human Governance, Not Rogue Machines",
+     "url": "https://economictimes.indiatimes.com/ai/ai-insights/fear-the-reckless-humans-not-the-rogue-ai/articleshow/133674666.cms",
+     "published": "2026-09-01T09:34:00Z",
+     "query": "artificial intelligence system caused harm",
+     "page_rank": 128
+    },
+    {
+     "title": "Bill Gates Warns AI Could Do More Harm Than Good, Calls for New Tax",
+     "url": "https://www.expressen.se/nyheter/varlden/bill-gates-larm-om-ai-mer-skada-an-nytta/",
+     "published": "2026-09-02T10:38:21Z",
+     "query": "artificial intelligence system caused harm",
+     "page_rank": 4236
+    },
+    {
+     "title": "AI Governance: Lessons from a Misunderstood Instruction and the Need for Oversight",
+     "url": "https://money.udn.com/money/story/124480/9726866",
+     "published": "2026-09-01T05:01:00Z",
+     "query": "artificial intelligence system caused harm",
+     "page_rank": 587
+    },
+    {
+     "title": "AI Chatbots Reduce Suicide Promotion But Continue Self-Harm Roleplay, Study Finds",
+     "url": "https://extremetech.com/internet/ai-chatbots-will-still-roleplay-self-harm-despite-overall-improvement-in",
+     "published": "2026-09-01T17:00:24Z",
+     "query": "artificial intelligence system caused harm",
+     "page_rank": 2435
+    },
+    {
+     "title": "IIT Madras Paper Tests India's Consumer Law on AI Liability",
+     "url": "https://theprint.in/india/iit-madras-paper-finds-gaps-in-indias-consumer-protection-act-on-liability-for-ai-harm/3031031/",
+     "published": "2026-09-01T13:59:39Z",
+     "query": "artificial intelligence system caused harm",
+     "page_rank": 4117
+    },
+    {
+     "title": "Study: AI Chatbots Improve at Detecting Suicide Risk But Still Fail to Prevent Harmful Assistance",
+     "url": "https://www.ibtimes.com/chatbots-are-getting-better-spotting-suicide-risk-significant-gaps-still-remain-study-3806995",
+     "published": "2026-09-01T11:01:09Z",
+     "query": "artificial intelligence system caused harm",
+     "page_rank": 1129
+    },
+    {
+     "title": "300 AI Incidents in One Month: UK Observatory Warns of Loss of Control",
+     "url": "https://akhbarhayat.com/1229667/300-%d8%ad%d8%a7%d8%af%d8%ab-%d9%81%d9%8a-%d8%b4%d9%87%d8%b1-%d9%88%d8%a7%d8%ad%d8%af-%d9%85%d8%ae%d8%a7%d9%88%d9%81-%d9%85%d9%86-%d9%81%d9%82%d8%af%d8%a7%d9%86-%d8%a7%d9%84%d8%b3%d9%8a%d8%b7%d8%b1",
+     "published": "2026-09-01T00:41:06Z",
+     "query": "artificial intelligence system caused harm",
+     "page_rank": 10000000
+    },
+    {
+     "title": "The Cost of Outsourcing Thought: AI as Mental Self-Harm",
+     "url": "https://www.elmundo.es/economia/empresas/2026/09/02/6a9713dce9cf4a156a8b4581.html",
+     "published": "2026-09-01T00:00:00Z",
+     "query": "artificial intelligence system caused harm",
+     "page_rank": 1157
+    },
+    {
+     "title": "OpenAI's AI Safety Report Criticized for Ignoring Human Error and Culture",
+     "url": "https://tech.ifeng.com/c/8w4mN0jYgtY",
+     "published": "2026-09-01T16:17:06Z",
+     "query": "AI safety incident report",
+     "page_rank": 1356
+    },
+    {
+     "title": "OpenAI's AI Hack Report Criticized for Ignoring Organizational Culture Failures",
+     "url": "https://ascii.jp/elem/000/004/431/4431464/",
+     "published": "2026-09-01T21:46:10Z",
+     "query": "AI safety incident report",
+     "page_rank": 9323
+    },
+    {
+     "title": "Rogue AI: Too Obedient or Disobedient? Experts Outline 3 Safety Principles",
+     "url": "https://money.udn.com/money/story/123882/9729861",
+     "published": "2026-09-02T08:19:30Z",
+     "query": "AI safety incident report",
+     "page_rank": 587
+    },
+    {
+     "title": "Anthropic Resumes AI Security Testing Following Model Breaches and AISI Report",
+     "url": "https://www.cryptopolitan.com/zh-cn/anthropic-cybersecurity-tests-after-pause/",
+     "published": "2026-09-01T07:52:51Z",
+     "query": "AI safety incident report",
+     "page_rank": 19027
+    },
+    {
+     "title": "EU Activates AI Act Powers to Investigate Over 30 Companies Following Safety Incidents",
+     "url": "https://news.cgtn.com/news/2026-09-02/EU-questions-dozens-of-companies-using-new-AI-powers-1Q6scGfYfJe/p.html",
+     "published": "2026-09-02T00:00:00Z",
+     "query": "AI safety incident report",
+     "page_rank": 11709
+    }
+   ]
+  }
+ }
+}
