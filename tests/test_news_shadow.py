@@ -133,7 +133,7 @@ class Shadow(unittest.TestCase):
             path = Path(folder) / "snapshot.json"
             path.write_text(json.dumps(data))
             condition["_news_snapshot"] = news_shadow.pin(path, condition["url_block_patterns"], Path(folder) / "pins")
-            with patch.object(ru, "loop_for", return_value=fake):
+            with patch.object(ru, "call_tools", fake):
                 rows = ru.run_one_joint("fake", "fake/model", groups, batch, horizons, "test", 0,
                     instrument, [], policies, condition, "recent-shadow-noairo", today=date(2026, 10, 13))
             self.assertEqual(seen["env"][news_shadow.HASH_ENV], condition["_news_snapshot"]["sha256"])
