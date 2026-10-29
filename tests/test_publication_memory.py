@@ -7,6 +7,7 @@ import subprocess
 import sys
 import tempfile
 import unittest
+from unittest.mock import patch
 
 from redlines.conditional import latest_conditional, load_conditional, newest_protocol
 from redlines.export import _sorted_csv
@@ -15,6 +16,18 @@ from redlines.runlog import elicitation_date
 
 
 class TestPublicationMemory(unittest.TestCase):
+    def test_export_does_not_collect_the_source_history(self):
+        from redlines.export import _published_rows
+
+        def history():
+            yield {'question_id': 'first'}
+            raise AssertionError('history was read ahead instead of streamed')
+
+        with patch('redlines.export.iter_runlog', side_effect=history):
+            rows = _published_rows()
+            self.assertEqual(next(rows), {'question_id': 'first'})
+            rows.close()
+
     def test_disk_sort_matches_stable_python_csv_bytes(self):
         rows = [
             {'key': 'é', 'value': 'comma, quote" and\nnewline'},
