@@ -96,3 +96,20 @@ test('timeline rejects shadow/unknown conditions in retained snapshots and aggre
   context.clean = clean;
   assert.equal(vm.runInContext('tlPublicQuestion(clean) === clean', context), true);
 });
+
+test('tooltip model medians summarize public conditions rather than pooled means', () => {
+  const source = fs.readFileSync(path.join(__dirname, '../web/demo/19-live-timeline.jsx'), 'utf8')
+    .split('/* ---------------- time-series chart ---------------- */')[0];
+  const context = vm.createContext({ window: {} });
+  context.q = {
+    series: [{ label: 'A', ps: { '2030': [40] } }, { label: 'B', ps: { '2030': [6] } }],
+    variantModels: Object.fromEntries([
+      ['none', 1], ['independent', 2], ['recent', 90], ['ai-banned', 999],
+    ].map(([id, value]) => [id, { '2030': [{ A: value }] }])),
+  };
+  vm.runInContext(source, context);
+  assert.equal(vm.runInContext('tlModelMedians(q, "2030", 0)[0].value', context), 2);
+  assert.equal(vm.runInContext('tlModelMedians(q, "2030", 0)[1].value', context), 6);
+  vm.runInContext('delete q.variantModels.recent', context);
+  assert.equal(vm.runInContext('tlModelMedians(q, "2030", 0)[0].value', context), 1.5);
+});

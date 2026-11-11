@@ -50,6 +50,21 @@ const tlVariants = (q, horizon, snapshots) => {
   })).filter(v => v.vals.some(val => val != null));
 };
 
+// Tooltip model summaries use the median across public conditions. The chart's
+// published ensemble continues to use its existing mean-within-model pooling.
+function tlModelMedians(q, horizon, index) {
+  return q.series.map(s => {
+    const values = Object.keys(TL_CONDITIONS).map(id =>
+      q.variantModels?.[id]?.[horizon]?.[index]?.[s.label])
+      .filter(v => v != null).sort((a, b) => a - b);
+    const mid = Math.floor(values.length / 2);
+    const value = values.length
+      ? (values.length % 2 ? values[mid] : (values[mid - 1] + values[mid]) / 2)
+      : (s.ps[horizon] || [])[index];
+    return { ...s, value };
+  }).filter(s => s.value != null);
+}
+
 // Old published snapshots may include a shadow in both condition dots and
 // pooled model means. Repair the displayed aggregates from public condition
 // answers on affected dates only; leave the immutable snapshot/downloads alone.
@@ -83,9 +98,9 @@ function tlPublicQuestion(q) {
 }
 
 /* ---------------- time-series chart ---------------- */
-// Before Oct 21 the Baseline median is blue until hovered or selected; then
-// model answers appear as ink-gray circles. Since Oct 21 each prompt condition
-// has a colored dot, with model answers in its details. No connecting lines.
+// Before Oct 21 the Baseline median is blue. Since Oct 21 each prompt condition
+// has a colored dot. Both show model answers only in their tooltip, with no
+// extra model marks or connecting lines.
 // The ensemble median remains an ink mark, for the ONE horizon
 // the panel's picker selects (Nick, 2026-09-09: a horizon picker, Graph 2's,
 // in place of the six shaded lines of the day before). No line joins the
@@ -162,7 +177,13 @@ function TimelineChart({ q, snapshots, horizon, scale }) {
   const variants = tlVariants(q, h, snapshots);
   const hasVar = i => variants.some(v => v.vals[i] != null);
   const hovered = hvar && variants.find(v => v.id === hvar.id);
-  const hoveredModels = hovered ? Object.entries(hovered.models[hvar.i] || {}) : [];
+  const conditionName = hovered ? hovered.label : hv != null && isBaseline(hv) ? "Baseline" : null;
+  const tooltipModels = hovered
+    ? Object.entries(hovered.models[hvar.i] || {}).filter(([, value]) => value != null)
+      .map(([label, value]) => ({ label, value }))
+    : hv != null ? (isBaseline(hv)
+      ? series.filter(s => s.vals[hv] != null).map(s => ({ ...s, value: s.vals[hv] }))
+      : tlModelMedians(q, h, hv)) : [];
 
   let y, yticks, tickText, tickSub;
   if (loss) {
@@ -253,15 +274,6 @@ function TimelineChart({ q, snapshots, horizon, scale }) {
             <tspan x={xDay(changeDay) + 8} dy="14">more prompting strategies</tspan>
           </text>
         </g>}
-        {/* Historical model answers are revealed only for the active date. */}
-        {series.map(s => (
-          <g key={s.label}>
-            {s.vals.map((v, i) => v == null || hasVar(i) || hv !== i ? null : (
-              <circle key={"d" + i} cx={x(i)} cy={y(v)} r="4" fill="var(--ink-soft)" stroke="var(--panel)" strokeWidth="1.5" />
-            ))}
-          </g>
-        ))}
-
         {!narrow && endLabel && (
           <text x={Math.max(x(endLabel.xi), ...variantDots.filter(d => d.i === endLabel.xi).map(d => d.cx)) + 10} y={endLabel.y + 4} fontSize="11.5" fill="var(--ink)" className="mono" fontWeight="700">
             by {h} {fmtV(endLabel.v)}
@@ -304,46 +316,29 @@ function TimelineChart({ q, snapshots, horizon, scale }) {
         ))}
       </svg>
 
-      {hovered && (
+      {hv != null && (
         <PointTooltip anchor={active.anchor}>
-          {hoveredModels.map(([label, val]) => (
-            <div key={label} style={{ display: "flex", justifyContent: "space-between", gap: 14, fontSize: 12 }}>
-              <span style={{ display: "flex", alignItems: "center", gap: 6 }}>
-                <span style={{ width: 9, height: 9, borderRadius: "50%", background: "var(--ink-soft)", flexShrink: 0 }}></span>{label}
-              </span>
-              <span className="mono">{fmtV(val)}</span>
-            </div>
-          ))}
-        </PointTooltip>
-      )}
-      {hv != null && !hovered && (
-        <PointTooltip anchor={active.anchor}>
+          {conditionName ? <div style={{ fontSize: 12.5, fontWeight: 600, marginBottom: 4 }}>{conditionName}</div> : <>
           <div style={{ fontSize: 11, color: "var(--ink-faint)", marginBottom: 6 }}>
-            {snapshots[hv].date} · <span style={{ color: "var(--ink)", fontWeight: 600 }}>by {h}</span>
-            {hasVar(hv) ? ` · ${variants.filter(v => v.vals[hv] != null).length} prompts per model · each model = mean of its prompts`
-              : snapshots[hv].draws > 1 ? ` · ${snapshots[hv].draws} draws per model · point = mean` : ""}{loss ? " · deaths" : ""}
+            {snapshots[hv].date}
           </div>
-          <div style={{ display: "flex", justifyContent: "space-between", gap: 14, fontSize: 12.5, fontWeight: 600, marginBottom: 4 }}>
-            <span>{isBaseline(hv) ? "Baseline prompt · ensemble median" : "Ensemble median"}</span>
-            <span className="mono">
-              {fmtV(med[hv])}
-            </span>
-          </div>
+          <div style={{ fontSize: 12.5, fontWeight: 600, marginBottom: 4 }}>Conditions</div>
           {variants.filter(v => v.vals[hv] != null).map(v => (
             <div key={"tv" + v.id} style={{ display: "flex", justifyContent: "space-between", gap: 14, fontSize: 12, color: "var(--ink-soft)" }}>
               <span style={{ display: "flex", alignItems: "center", gap: 6 }}>
-                <span style={{ width: 9, height: 9, borderRadius: "50%", background: v.color, flexShrink: 0 }}></span>{v.label} prompt
+                <span style={{ width: 9, height: 9, borderRadius: "50%", background: v.color, flexShrink: 0 }}></span>{v.label}
               </span><span className="mono">{fmtV(v.vals[hv])}</span>
             </div>
           ))}
-          {series.filter(s => s.vals[hv] != null).map(s => (
+          <div style={{ fontSize: 12.5, fontWeight: 600, marginTop: 10, marginBottom: 4 }}>Models</div>
+          </>}
+          {tooltipModels.map(s => (
             <div key={s.label} style={{ display: "flex", justifyContent: "space-between", gap: 14, fontSize: 12 }}>
               <span style={{ display: "flex", alignItems: "center", gap: 6 }}>
                 <span style={{ width: 9, height: 9, borderRadius: "50%", background: "var(--ink-soft)", flexShrink: 0 }}></span>{s.label}
-                {s.legacy && <span style={{ color: "var(--ink-faint)" }}>· earlier panel</span>}
               </span>
               <span className="mono">
-                {fmtV(s.vals[hv])}
+                {fmtV(s.value)}
               </span>
             </div>
           ))}
