@@ -28,14 +28,14 @@ test = [
 ]
 
 [tool.pytest.ini_options]
-# Two test suites: AIRO's and the harness's (packages/fri-forecaster/tests,
+# Three test suites: AIRO's, EEAI's (eeai/tests) and the harness's (packages/fri-forecaster/tests,
 # which runs pi_tools.ts through the pinned pi against a scripted model --
 # `npm ci` in that directory first, else those tests skip). archive/ and the
 # vendored archive/causal/ carry files pytest would otherwise try to collect.
-testpaths = ["tests", "packages/fri-forecaster/tests"]
+testpaths = ["tests", "eeai/tests", "packages/fri-forecaster/tests"]
 
 [tool.setuptools]
-packages = ["redlines", "redlines.views", "redlines.paper"]
+packages = ["redlines", "redlines.views", "redlines.paper", "eeai"]
 
 # One repository, two distributions: this one (redlines, the dashboard
 # pipeline) and packages/fri-forecaster (the harness), which other projects

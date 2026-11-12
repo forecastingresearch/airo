@@ -53,3 +53,12 @@ web/fonts/
 
 # Private RSS items, Jev decisions and generated news exports
 .local/recent-news/
+
+# EEAI (eeai/, one self-contained directory). Not tracked: the survey documents
+# (internal to FRI; eeai/data/questions.json and history.csv are derived from
+# them by eeai/make_questions.py), the run files, the built site, and the
+# licensed fonts a box copies in beside the page's source.
+eeai/data/source/
+eeai/results/
+eeai/site/
+eeai/web/fonts/
