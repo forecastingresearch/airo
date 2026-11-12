@@ -280,6 +280,9 @@ packages/fri-forecaster/    the FRI Forecaster harness -- pi, the research tools
                             driver -- as its own distribution, pip-installable from this repository
                             (its README). It was the agent-box repository from 2026-10-11 to
                             2026-10-19 and rejoined with its history.
+eeai/                       EEAI, the Economic Effects of AI dashboard: FRI's survey asked of the same
+                            panel. The whole dashboard is in this one directory (eeai/README.md): code,
+                            questions, page source, tests. It uses the harness and nothing of AIRO's.
 redlines/                   the pipeline package (stdlib only)
   __main__.py               CLI: build / assemble / export-fb / paper
   config.py                 paths (env-overridable), round pins, thresholds
@@ -396,6 +399,7 @@ archive/jason-demo.html     the original mock dashboard the live page grew from 
 
 - `docs/architecture.md` — the acquire → artifact → build → render pipeline, its invariants, external boundaries and open items.
 - `docs/methodology.md` — Graph 3 comparability (why one ForecastBench round), the grounding tools, the simulator corpora and the Graph 4 subsetting.
+- `eeai/README.md` — EEAI, the second dashboard in this repository: what is asked, how, and what is open.
 - `docs/model-set.md` — model selection: the top-k-by-ECI panel, one seat per family, reachability and Graph 4's roster.
 - `docs/conditional-forecasts.md` — the LEAP Wave 12 policy conditionals, the capability and self-elicited capability conditionals, the combined and axes instruments.
 - `docs/conditional-benches.md` — Graphs 5 and 6: can the models forecast conditionals? (observational weather pairs; Starsim interventions).
