@@ -31,6 +31,7 @@ function act(ev, change) {
   if (!b) return;
   window.scrollBy(0, b.getBoundingClientRect().top - top);
   b.focus({ preventScroll: true });
+  b.classList.add("just");        // the one control that changed gets a small press animation
 }
 function seg(where, label, options, key, untitled) {
   return h("div", { class: "seg", role: "group", "aria-label": label }, !untitled && h("span", { class: "lab" }, label),
@@ -206,6 +207,7 @@ function render() {
   // Hold the page's height while it is rebuilt: a chart measures its box as it
   // is drawn, and a page that is briefly shorter would lose its scroll position.
   root.style.minHeight = root.offsetHeight + "px";
+  root.classList.remove("still");
   const gdp = D.questions.find(q => q.id === "gdp"), rest = D.questions.filter(q => q.id !== "gdp");
   const L = D.latest;
   // replaceChildren would print a `false` as text, so the absent sections are filtered out.
@@ -237,5 +239,6 @@ function render() {
   root.style.minHeight = "";
 }
 let timer;
-window.addEventListener("resize", () => { clearTimeout(timer); timer = setTimeout(() => charts.forEach(d => d()), 120); });
+// (a resize redraws the charts where they stand: "still", so the forecasts do not fade in again)
+window.addEventListener("resize", () => { clearTimeout(timer); timer = setTimeout(() => { root.classList.add("still"); charts.forEach(d => d()); }, 120); });
 render();

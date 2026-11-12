@@ -116,6 +116,10 @@ column per series shown. On the small charts, the links under each chart
 ("Model forecasts and rationale", "Question and definition") open full-screen:
 the forecasts for every date, each model's rationale, the question as asked.
 
+Motion is small and optional: the modal fades in and out, the control just
+used presses in, and the forecasts (not the record or the axes) fade in when a
+control redraws a chart. A reader who asks for reduced motion gets none.
+
 One control switches every chart between the unconditional forecast and the
 forecasts conditional on AI progress (the three scenarios, with no
 unconditional line). `eeai-data.zip` (`eeai/export.py`) holds the forecasts, rationales and AI progress answers as CSV,

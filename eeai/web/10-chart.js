@@ -85,7 +85,8 @@ function frame(box, q, size, x0, x1, ys) {
   const path = pts => pts.map((p, i) => (i ? "L" : "M") + X(p[0]).toFixed(1) + " " + Y(p[1]).toFixed(1)).join(" ");
   return { svg, X, Y, W, H, m, hero, labels, x0, x1, path,
     tick: (x, text) => svg.append(s("text", { x: X(x), y: H - 6, "text-anchor": "middle" }, text)),
-    dot: (x, y, sc, ring) => svg.append(s("circle", { cx: X(x), cy: Y(y), r: hero ? 4.5 : 3.5,
+    // (class "fc": a forecast mark; the page fades those in when a control redraws the chart)
+    dot: (x, y, sc, ring) => svg.append(s("circle", { class: "fc", cx: X(x), cy: Y(y), r: hero ? 4.5 : 3.5,
       fill: ring ? "var(--panel)" : sc.color, stroke: ring ? sc.color : "var(--panel)", "stroke-width": 2 })) };
 }
 
@@ -163,7 +164,7 @@ function drawTimeline(box, q, opts) {
   if (band.length) {
     const up = [[last[0], last[1]]].concat(band.map(z => [+z.id, val(q, z.id, "unconditional", "p90")]));
     const dn = band.map(z => [+z.id, val(q, z.id, "unconditional", "p10")]).reverse();
-    svg.append(s("path", { d: f.path(up.concat(dn)) + " Z", fill: "var(--band)" }));
+    svg.append(s("path", { class: "fc", d: f.path(up.concat(dn)) + " Z", fill: "var(--band)" }));
   }
   if (hist.length > 1) svg.append(s("path", { d: f.path(hist), fill: "none", stroke: "var(--ink)", "stroke-width": hero ? 2 : 1.6, "stroke-linejoin": "round" }));
   svg.append(s("circle", { cx: X(last[0]), cy: Y(last[1]), r: hero ? 4 : 3, fill: "var(--ink)", stroke: "var(--panel)", "stroke-width": 2 }));
@@ -174,13 +175,13 @@ function drawTimeline(box, q, opts) {
       const v = val(q, z.id, sc.id), xa = yearOf(z.actual.date);
       if (v == null) continue;
       const p10 = val(q, z.id, sc.id, "p10"), p90 = val(q, z.id, sc.id, "p90");
-      if (un && p10 != null && p90 != null) svg.append(s("line", { x1: X(xa), x2: X(xa), y1: Y(p10), y2: Y(p90), stroke: "var(--band)", "stroke-width": 7, "stroke-linecap": "round" }));
-      svg.append(s("line", { x1: X(xa), x2: X(xa), y1: Y(z.actual.value), y2: Y(v), stroke: sc.color, "stroke-width": 1.5, opacity: 0.6 }));
+      if (un && p10 != null && p90 != null) svg.append(s("line", { class: "fc", x1: X(xa), x2: X(xa), y1: Y(p10), y2: Y(p90), stroke: "var(--band)", "stroke-width": 7, "stroke-linecap": "round" }));
+      svg.append(s("line", { class: "fc", x1: X(xa), x2: X(xa), y1: Y(z.actual.value), y2: Y(v), stroke: sc.color, "stroke-width": 1.5, opacity: 0.6 }));
       f.dot(xa, v, sc, true);
     }
     const pts = ahead.map(z => [+z.id, val(q, z.id, sc.id)]).filter(p => p[1] != null);
     if (!pts.length) continue;
-    svg.append(s("path", { d: f.path([[last[0], last[1]]].concat(pts)), fill: "none", stroke: sc.color,
+    svg.append(s("path", { class: "fc", d: f.path([[last[0], last[1]]].concat(pts)), fill: "none", stroke: sc.color,
       "stroke-width": 2, "stroke-dasharray": un ? "6 5" : null, "stroke-linecap": "round" }));
     for (const p of pts) f.dot(p[0], p[1], sc);
     ends.push({ sc, y: Y(pts[pts.length - 1][1]), x: X(pts[pts.length - 1][0]), v: pts[pts.length - 1][1] });
@@ -226,9 +227,9 @@ function drawHistory(box, q, opts) {
     f.tick(r.x, name(r)); edge = X(r.x) + w / 2;
   }
   const band = opts.split ? [] : runs.filter(r => at(r, UNCOND, "p10") != null && at(r, UNCOND, "p90") != null);
-  if (band.length > 1) svg.append(s("path", { fill: "var(--band)",
+  if (band.length > 1) svg.append(s("path", { class: "fc", fill: "var(--band)",
     d: f.path(band.map(r => [r.x, at(r, UNCOND, "p90")]).concat(band.map(r => [r.x, at(r, UNCOND, "p10")]).reverse())) + " Z" }));
-  else for (const r of band) svg.append(s("line", { x1: X(r.x), x2: X(r.x), y1: Y(at(r, UNCOND, "p10")), y2: Y(at(r, UNCOND, "p90")),
+  else for (const r of band) svg.append(s("line", { class: "fc", x1: X(r.x), x2: X(r.x), y1: Y(at(r, UNCOND, "p10")), y2: Y(at(r, UNCOND, "p90")),
     stroke: "var(--band)", "stroke-width": 9, "stroke-linecap": "round" }));
   if (z.actual) {
     svg.append(s("line", { x1: f.m.l, x2: f.W - f.m.r, y1: Y(z.actual.value), y2: Y(z.actual.value), stroke: "var(--ink)", "stroke-width": 1.6 }));
@@ -238,7 +239,7 @@ function drawHistory(box, q, opts) {
   for (const sc of series) {
     const pts = runs.filter(r => at(r, sc) != null).map(r => [r.x, at(r, sc)]);
     if (!pts.length) continue;
-    if (pts.length > 1) svg.append(s("path", { d: f.path(pts), fill: "none", stroke: sc.color, "stroke-width": 2,
+    if (pts.length > 1) svg.append(s("path", { class: "fc", d: f.path(pts), fill: "none", stroke: sc.color, "stroke-width": 2,
       "stroke-dasharray": sc.id === "unconditional" ? "6 5" : null, "stroke-linecap": "round", "stroke-linejoin": "round" }));
     for (const p of pts) f.dot(p[0], p[1], sc);
     ends.push({ sc, y: Y(pts[pts.length - 1][1]), x: X(pts[pts.length - 1][0]), v: pts[pts.length - 1][1] });
