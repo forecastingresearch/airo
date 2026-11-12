@@ -28,12 +28,10 @@ from .llm import reasoning_for
 DEFAULT_TIMEOUT = 3 * 3600
 
 
-def pi_model(model):
-    """The registry's id -> pi's. The registry's ids name OpenAI's Responses
-    API by a path segment (`openai/responses/...`, the route the litellm loop
-    took, and what rows and data/auto_models.json record); pi picks the API
-    itself."""
-    return model.replace("openai/responses/", "openai/", 1)
+# The registry's id -> pi's: the registry's ids name OpenAI's Responses API by a
+# path segment (`openai/responses/...`, what rows and data/auto_models.json
+# record); pi picks the API itself. Shared with every dashboard's panel.
+from fri_forecaster.panel import pi_model  # noqa: E402,F401
 
 
 def call_tools(model, prompt, tools, final_tool, *, max_iters=6, system=None,

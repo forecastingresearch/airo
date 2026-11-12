@@ -283,7 +283,8 @@ packages/fri-forecaster/    the FRI Forecaster harness -- pi, the research tools
 redlines/                   the pipeline package (stdlib only)
   __main__.py               CLI: build / assemble / export-fb / paper
   config.py                 paths (env-overridable), round pins, thresholds
-  registry.py               the single model table (ids, labels, ECI, colors) + panel()
+  registry.py               AIRO's model table (colors, chart roles, pinned ECI) over the shared rows and
+                            panel rule in packages/fri-forecaster (fri_forecaster.panel)
   eci.py                    the Epoch Capabilities Index: fri_forecaster.eci (one implementation,
                             shared with the ForecastBench rounds) bound to data/ and the pinned vintages
   questions.py              schema-checked loaders for the Auto-ARC question set
