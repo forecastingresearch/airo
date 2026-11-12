@@ -103,6 +103,7 @@ from redlines.instrument import counting_windows  # noqa: E402
 from redlines.config import UNBATCHED                      # noqa: E402
 from redlines.questions import (horizon_label, horizon_sort_key,  # noqa: E402
                                 resolves_on, severity_label)
+from fri_forecaster import baseline as _baseline  # noqa: E402  (on the path through redlines.eci)
 
 LADDER = os.path.join(ROOT, "data", "autoarc_ladder.json")
 CROSS = os.path.join(ROOT, "data", "autoarc_crosscutting.json")
@@ -388,8 +389,12 @@ def apply_variant(prompt, variant):
 # far above any call seen (64 turns); it also keeps agent-box's nudge on, so a
 # reply cut at the output limit with no submission (Opus 5.5, 2026-10-19)
 # does not end the call.
-MINIMAL_SYSTEM = " "
-MINIMAL_MAX_TURNS = 100
+#
+# Since 2026-11-11 this is the Baseline condition every dashboard shares
+# (fri_forecaster.baseline, packages/fri-forecaster): the system prompt, the
+# turn limit and the web_search description are read from there.
+MINIMAL_SYSTEM = _baseline.SYSTEM
+MINIMAL_MAX_TURNS = _baseline.MAX_TURNS
 MINIMAL_JOINT_HEAD = ("forecasting questions, grouped by cause of catastrophe. Forecast\n"
                       "all of them together, in one pass -- and forecast every")
 MINIMAL_JOINT_RESEARCH = re.compile(r"Research before answering, in rounds:.*?applied to the same evidence\.\n", re.S)
@@ -397,10 +402,7 @@ MINIMAL_JOINT_RATIONALE = ("a 3-6 sentence rationale covering the whole set, the
                            "you relied on (only pages you read), and any cells not yet delivered.")
 DEBRIEF_SENTENCE = re.compile(r" ?After it is accepted you will be asked one more thing.*?"
                               r"research with those questions in mind\.", re.S)
-MINIMAL_TOOLS = {
-    "web_search": "Search the web. Returns titled snippets with URLs and publication dates. "
-                  "recent_days limits results to the last N days.",
-}
+MINIMAL_TOOLS = {"web_search": _baseline.WEB_SEARCH}
 
 
 def minimal_joint_prompt(prompt, variant=DEFAULT_VARIANT):

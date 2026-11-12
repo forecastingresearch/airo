@@ -157,6 +157,20 @@ The result `harness.run` returns, folded from the outbox:
 Only the answers asked for (`allowed_keys`) are kept; anything else the model sends is
 dropped.
 
+## The panel and the Baseline condition
+
+What FRI's dashboards share when they ask a standing panel of models (AIRO, EEAI):
+
+- `fri_forecaster.eci` fetches and ranks Epoch's Capabilities Index.
+- `fri_forecaster.panel` picks the panel from it: the top 4 models we can run, one
+  seat per model family. The table of runnable models is in that file; a box may add
+  rows on its own in `auto_models.json` beside the snapshots (AIRO's `redlines.autoreg`).
+  `python -m fri_forecaster.panel --dir DIR [K]` prints it.
+- `fri_forecaster.baseline` is how the panel is asked: no system prompt, web search
+  offered and never required, reasoning at the top level, no debrief.
+  `baseline.run(model, prompt, ...)` makes one such call with the caller's own answer
+  schema. AIRO's published `none` condition reads its constants from here.
+
 ## Requirements
 
 - Python ≥ 3.11, stdlib only.

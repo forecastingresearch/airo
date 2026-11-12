@@ -91,8 +91,9 @@ def load_keys():
 # effort also governs how many tool calls the model makes, which is the
 # point. REDLINES_REASONING overrides for an experiment ("none" turns
 # thinking off).
-REASONING = {"anthropic": "max", "openai": "xhigh"}
-REASONING_DEFAULT = "high"
+# The table is the shared panel's (fri_forecaster.panel, since 2026-11-11).
+from . import eci as _eci  # noqa: E402,F401  (puts packages/fri-forecaster on the path in a bare checkout)
+from fri_forecaster.panel import REASONING, REASONING_DEFAULT  # noqa: E402
 
 
 def reasoning_for(model):

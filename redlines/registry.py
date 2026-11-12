@@ -23,6 +23,12 @@ PANEL_K highest-ECI models in the NEWEST snapshot that this table can run
 3-4 by ECI; the specific list goes stale fast, so never inherit one. The
 hand-typed frontier five survive as the named set `frontier5`, the panel the
 series ran on until then.
+
+Since 2026-11-11 the rule (top k, one seat per family) and the rows every
+dashboard shares (key, family, label, id, Epoch name) are
+fri_forecaster.panel, beside the index reader; this module adds AIRO's
+columns (colors, chart roles, the pinned ECI vintage) and binds the rule to
+AIRO's snapshots under data/.
 """
 from datetime import date
 import functools
@@ -31,7 +37,8 @@ import sys
 from pathlib import Path
 
 from . import autoreg as _autoreg
-from . import eci as _eci
+from . import eci as _eci   # also puts packages/fri-forecaster on the path
+from fri_forecaster import panel as _panel
 
 REPO_ROOT = Path(__file__).resolve().parent.parent
 # Graph 4's vintage. Models already in this file keep its values, so the
@@ -98,57 +105,63 @@ def load_epoch_index(csv_path: Path = EPOCH_CSV, supplement: Path | None = None)
 # into the panel, the views can draw it -- none of those has been drawn yet,
 # and they are chosen only to sit apart from the eight above and from the
 # cause palette (CATEGORIES, data/autoarc_ladder.json).
-# family: the line whose versions supersede one another, for the panel's
-# within-family rule (project lead, 2026-09-08: skip Fable 5 when Fable 5.1
-# is seated). One seat per family, the highest-ranked member takes it. The
-# assignment is by hand and is a judgement: Claude's tiers (Fable, Opus,
-# Sonnet, Haiku) are separate lines; OpenAI's plain GPT-n are one line, the
-# Pro tier another, and the code-named GPT-5.6 Sol / GPT-6 Astra each their
-# own -- so the 2026-09-08 panel seats Astra beside GPT-5.5 Pro. Fold two
-# families into one here if that ever reads wrong; nothing else changes.
-_ROWS = [
-    # key,                  family,          label,             litellm_id,                                                fb_name,                       epoch_name,                   color,      architecture,  roles
-    ("gpt-3.5-turbo",       "gpt",           "GPT-3.5",         "openai/gpt-3.5-turbo-0125",                                None,                          "GPT-3.5 Turbo (Jan 2024)",  "#6b7280",       "undisclosed", ["g4_ladder", "pandemic_smoke"]),
-    ("llama-3.3-70b",       "llama",         "Llama-3.3-70B",   "deepinfra/meta-llama/Llama-3.3-70B-Instruct-Turbo",        None,                          "Llama 3.3 70B",             "#5b8c2a",       "dense",       ["g4_ladder", "pandemic_smoke"]),
-    ("gpt-4o",              "gpt",           "GPT-4o",          "openai/gpt-4o",                                            None,                          "GPT-4o (Nov 2024)",         "#b8860b",       "undisclosed", ["g4_ladder", "pandemic_smoke"]),
-    ("deepseek-v3",         "deepseek",      "DeepSeek-V3",     "deepinfra/deepseek-ai/DeepSeek-V3",                        None,                          "DeepSeek-V3",               "#1b5e9e",       "moe",         ["g4_ladder", "pandemic_smoke"]),
-    ("claude-sonnet-4-5",   "claude-sonnet", "Sonnet 4.5",      "anthropic/claude-sonnet-4-5-20250929",                     None,                          "Claude Sonnet 4.5",         "#c2185b",       "undisclosed", ["g4_ladder", "pandemic_smoke"]),
-    ("gpt-5",               "gpt",           "GPT-5",           "openai/gpt-5-2025-08-07",                                  None,                          "GPT-5",                     "#2e7d32",       "undisclosed", ["g4_ladder", "pandemic_smoke"]),
-    ("claude-opus-4-6",     "claude-opus",   "Opus 4.6",        "anthropic/claude-opus-4-6",                                None,                          "Claude Opus 4.6",           "#795548",       "undisclosed", ["g4_ladder", "pandemic_smoke"]),
-    ("claude-opus-4-8",     "claude-opus",   "Opus 4.8",        "anthropic/claude-opus-4-8",                                "Claude-Opus-4-8",             "Claude Opus 4.8",           "#d97e2e",  "undisclosed", ["g4_ladder", "frontier5", "graph3_dash"]),
-    ("claude-fable-5",      "claude-fable",  "Fable 5",         "anthropic/claude-fable-5",                                 None,                          "Claude Fable 5",            "#b52a55",  "undisclosed", ["g4_ladder", "frontier5"]),
-    ("gpt-4.1",             "gpt",           "GPT-4.1",         "openai/gpt-4.1-2025-04-14",                                None,                          "GPT-4.1",                   "#00838f",       "undisclosed", ["g4_gapfiller", "pandemic_smoke"]),
-    ("claude-haiku-4-5",   "claude-haiku",  "Haiku 4.5",       "anthropic/claude-haiku-4-5-20251001",                      None,                          "Claude Haiku 4.5",          "#e0a020",       "undisclosed", ["g4_gapfiller", "pandemic_smoke"]),
-    ("gpt-5.5-pro",         "gpt-pro",       "GPT-5.5 Pro",     "openai/gpt-5.5-pro",                                       None,                          "GPT-5.5 Pro",               "#c25a2e",  "undisclosed", []),  # ALT_HIGH_ANCHOR; in the ECI panel since 2026-08-28
-    ("gpt-5.5",             "gpt",           "GPT-5.5",         "openai/gpt-5.5",                                           "GPT-5.5-2026-04-23",          "GPT-5.5",                   "#4a76c9",  "undisclosed", ["g4_ladder", "pandemic_smoke", "frontier5", "graph3_dash"]),
-    ("gemini-3.1-pro",      "gemini-pro",    "Gemini 3.1 Pro",  "gemini/gemini-3.1-pro-preview",                            "Gemini-3.1-Pro-Preview",      "Gemini 3.1 Pro",            "#1f8a70",  "undisclosed", ["g4_ladder", "pandemic_smoke", "frontier5", "graph3_dash"]),
-    ("grok-4.20",           "grok",          "Grok 4.20",       "xai/grok-4.20",                                            "Grok-4.20-0309-Reasoning",    "Grok 4.20",                 "#8a63c9",  "undisclosed", ["g4_ladder", "pandemic_smoke", "frontier5", "graph3_dash"]),
+# The rows themselves -- which models there are, their families, their ids --
+# are fri_forecaster.panel.MODELS (packages/fri-forecaster), shared by every
+# dashboard since 2026-11-11. What is AIRO's is below, by the row's key:
+# fb_name, color, architecture, roles. A shared row with no entry here fails
+# the import by name: any runnable row can be ranked into the panel and must
+# be drawable.
+_AIRO = {
+    # key:                (fb_name,                     color,      architecture,  roles)
+    "gpt-3.5-turbo":      (None,                        "#6b7280",  "undisclosed", ["g4_ladder", "pandemic_smoke"]),
+    "llama-3.3-70b":      (None,                        "#5b8c2a",  "dense",       ["g4_ladder", "pandemic_smoke"]),
+    "gpt-4o":             (None,                        "#b8860b",  "undisclosed", ["g4_ladder", "pandemic_smoke"]),
+    "deepseek-v3":        (None,                        "#1b5e9e",  "moe",         ["g4_ladder", "pandemic_smoke"]),
+    "claude-sonnet-4-5":  (None,                        "#c2185b",  "undisclosed", ["g4_ladder", "pandemic_smoke"]),
+    "gpt-5":              (None,                        "#2e7d32",  "undisclosed", ["g4_ladder", "pandemic_smoke"]),
+    "claude-opus-4-6":    (None,                        "#795548",  "undisclosed", ["g4_ladder", "pandemic_smoke"]),
+    "claude-opus-4-8":    ("Claude-Opus-4-8",           "#d97e2e",  "undisclosed", ["g4_ladder", "frontier5", "graph3_dash"]),
+    "claude-fable-5":     (None,                        "#b52a55",  "undisclosed", ["g4_ladder", "frontier5"]),
+    "gpt-4.1":            (None,                        "#00838f",  "undisclosed", ["g4_gapfiller", "pandemic_smoke"]),
+    "claude-haiku-4-5":   (None,                        "#e0a020",  "undisclosed", ["g4_gapfiller", "pandemic_smoke"]),
+    "gpt-5.5-pro":        (None,                        "#c25a2e",  "undisclosed", []),  # ALT_HIGH_ANCHOR; in the ECI panel since 2026-08-28
+    "gpt-5.5":            ("GPT-5.5-2026-04-23",        "#4a76c9",  "undisclosed", ["g4_ladder", "pandemic_smoke", "frontier5", "graph3_dash"]),
+    "gemini-3.1-pro":     ("Gemini-3.1-Pro-Preview",    "#1f8a70",  "undisclosed", ["g4_ladder", "pandemic_smoke", "frontier5", "graph3_dash"]),
+    "grok-4.20":          ("Grok-4.20-0309-Reasoning",  "#8a63c9",  "undisclosed", ["g4_ladder", "pandemic_smoke", "frontier5", "graph3_dash"]),
     # Added 2026-08-28 with the ECI top-4 arm (docs/eci-top4-arm.md), now
     # panel members by rank. On Graph 4's ladder since 2026-08-28 evening
     # (project lead: Graph 4 should get Opus 5 and GPT-5.6 Sol) -- run through both
     # simulators exactly as the rest. Their ECI is the newest snapshot's, not
     # the pinned vintage (neither existed on 2026-07-07); the gap is about a
     # point (docs/model-set.md). GPT-5.5 Pro stays off: ~$100-250 per sim.
-    ("claude-opus-5",       "claude-opus",   "Opus 5",          "anthropic/claude-opus-5",                                  None,                          "Claude Opus 5",             "#7a4fa3",  "undisclosed", ["g4_ladder", "pandemic_smoke"]),
-    ("gpt-5.6-sol",         "gpt-sol",       "GPT-5.6 Sol",     "openai/gpt-5.6-sol",                                       None,                          "GPT-5.6 Sol",               "#2f6f9f",  "undisclosed", ["g4_ladder", "pandemic_smoke"]),
+    "claude-opus-5":      (None,                        "#7a4fa3",  "undisclosed", ["g4_ladder", "pandemic_smoke"]),
+    "gpt-5.6-sol":        (None,                        "#2f6f9f",  "undisclosed", ["g4_ladder", "pandemic_smoke"]),
     # Added 2026-09-08 with the ECI snapshot of that day: the index's new top
     # two. Panel members by rank from the first run after; not on Graph 4's
-    # ladder (never run through the simulators). GPT-6 Astra goes through
-    # litellm's Responses bridge (openai/responses/...): on /v1/chat/completions
-    # OpenAI refuses function tools for it under any reasoning_effort, and the
-    # grounding tools are the point (probed on the box 2026-09-08).
-    ("claude-fable-5-1",    "claude-fable",  "Fable 5.1",       "anthropic/claude-fable-5-1",                               None,                          "Claude Fable 5.1",          "#8e2a63",  "undisclosed", []),
-    ("gpt-6-astra",         "gpt-astra",     "GPT-6 Astra",     "openai/responses/gpt-6-astra",                             None,                          "GPT-6 Astra",               "#0e7c7b",  "undisclosed", []),
+    # ladder (never run through the simulators).
+    "claude-fable-5-1":   (None,                        "#8e2a63",  "undisclosed", []),
+    "gpt-6-astra":        (None,                        "#0e7c7b",  "undisclosed", []),
     # Added 2026-10-01: Epoch's index of that day ranks them first and third
     # (167.3 and 165.2), so they take the claude-opus seat from Opus 5 and a
     # claude-sonnet seat of their own; GPT-5.5 Pro leaves the panel. Probed on
-    # the box the same day: max (adaptive) reasoning accepted, priced by
-    # litellm 1.96.2, and -- like Fable 5.1 -- a forced tool_choice refused
-    # (the litellm loop's NO_FORCED_TOOL_CHOICE; pi never forces one). Not on
+    # the box the same day: max (adaptive) reasoning accepted, and -- like
+    # Fable 5.1 -- a forced tool_choice refused (pi never forces one). Not on
     # Graph 4's ladder.
-    ("claude-opus-5-5",     "claude-opus",   "Opus 5.5",        "anthropic/claude-opus-5-5",                                None,                          "Claude Opus 5.5",           "#4f5bd5",  "undisclosed", []),
-    ("claude-sonnet-5-5",   "claude-sonnet", "Sonnet 5.5",      "anthropic/claude-sonnet-5-5",                              None,                          "Claude Sonnet 5.5",         "#d4892a",  "undisclosed", []),
-]
+    "claude-opus-5-5":    (None,                        "#4f5bd5",  "undisclosed", []),
+    "claude-sonnet-5-5":  (None,                        "#d4892a",  "undisclosed", []),
+}
+
+
+def _rows():
+    missing = [m["key"] for m in _panel.MODELS if m["key"] not in _AIRO]
+    if missing:
+        raise KeyError(f"fri_forecaster.panel.MODELS rows with no entry in redlines/registry.py _AIRO "
+                       f"(fb_name, color, architecture, roles): {', '.join(missing)}")
+    return [(m["key"], m["family"], m["label"], m["model"], _AIRO[m["key"]][0], m["epoch_name"],
+             *_AIRO[m["key"]][1:]) for m in _panel.MODELS]
+
+
+_ROWS = _rows()
 
 # Graph-4 clean-subset rule (TODO.md Phase 2). A model is excluded from the
 # "clean subset" trend iff its architecture is a known-confounded one -- see
@@ -263,9 +276,9 @@ def frontier_models() -> list[tuple[str, str]]:
 # a coin-flip says so in the log. ONE SEAT PER FAMILY (2026-09-08): a model
 # whose family already holds a seat is passed over, named in a WARN, and the
 # next runnable model takes the seat -- two versions of one model are one
-# opinion twice, not two members (see `family` on _ROWS).
-PANEL_K = 4
-PANEL_SET = "eci_topk"
+# opinion twice, not two members (see `family` in fri_forecaster.panel).
+PANEL_K = _panel.PANEL_K
+PANEL_SET = _panel.PANEL_SET
 
 
 def _warn(msg):
@@ -275,48 +288,11 @@ def _warn(msg):
 @functools.lru_cache(maxsize=None)
 def _select(k, snapshot):
     """-> (members, warnings): members are (registry row, index record) pairs,
-    best first. Cached per (k, snapshot) so a build that asks five views'
-    worth of times reads the CSV once and warns once."""
+    best first. The rule is fri_forecaster.panel.select; this binds it to
+    AIRO's rows and snapshots. Cached per (k, snapshot) so a build that asks
+    five views' worth of times reads the CSV once and warns once."""
     day, path = snapshot
-    by_epoch = {m["epoch_name"]: m for m in MODELS}
-    ranked = _eci.ranked(path)
-    chosen, unrunnable, passed, warnings = [], [], [], []
-    msg = _eci.stale_message()
-    if msg:
-        warnings.append(msg)
-    seated = {}
-    for r in ranked:
-        m = by_epoch.get(r["model"])
-        if m is None:
-            unrunnable.append(r)
-            continue
-        if m["family"] in seated:
-            passed.append((m, r, seated[m["family"]]))
-            continue
-        chosen.append((m, r))
-        seated[m["family"]] = m
-        if len(chosen) == k:
-            break
-    for m, r, holder in passed:
-        warnings.append(f"passed over {r['model']} ({r['eci']:g}): its family "
-                        f"({m['family']}) already holds a seat through {holder['epoch_name']}; "
-                        f"the next runnable model took the seat")
-    if len(chosen) < k:
-        warnings.append(f"only {len(chosen)} of the top {k} in {path.name} are models the "
-                        f"registry can run; the panel is short")
-    if chosen:
-        cut = chosen[-1][1]
-        above = [r["model"] for r in unrunnable if (r["eci"], -r["rank"]) > (cut["eci"], -cut["rank"])]
-        if above:
-            warnings.append(f"the index ranks {', '.join(above)} above the panel's cut but the "
-                            f"registry cannot run them (no row in redlines/registry.py, and redlines.autoreg "
-                            f"could not add one -- its log line says why); "
-                            f"skipped, the next runnable model took the seat")
-        tied = [r["model"] for r in ranked if r["eci"] == cut["eci"]
-                and r["model"] not in {m["epoch_name"] for m, _ in chosen}]
-        if tied:
-            warnings.append(f"tie at the cut: {cut['model']} ({cut['eci']:g}) is in the panel "
-                            f"and {', '.join(tied)} ({cut['eci']:g}) out, on Epoch's rank order")
+    chosen, warnings = _panel.select(_eci.ranked(path), MODELS, k, path.name, _eci.stale_message())
     for w in warnings:
         _warn(w)
     return tuple(chosen), tuple(warnings)
