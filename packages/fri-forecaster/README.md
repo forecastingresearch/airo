@@ -170,6 +170,10 @@ What FRI's dashboards share when they ask a standing panel of models (AIRO, EEAI
   offered and never required, reasoning at the top level, no debrief.
   `baseline.run(model, prompt, ...)` makes one such call with the caller's own answer
   schema. AIRO's published `none` condition reads its constants from here.
+- `fri_forecaster.variants` holds the other conditions: the same call with one
+  instruction added to the prompt (`independent`, `recent`, `critical`, `two-step`, and
+  `ai-banned`). AIRO's experiments and the ForecastBench driver's `airo-*` members read
+  the text from here.
 
 ## Requirements
 

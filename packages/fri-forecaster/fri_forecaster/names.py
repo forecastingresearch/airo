@@ -18,11 +18,24 @@ this machine can run, best by ECI first), a condition whose members are not
 the panel's top N, or whose code no longer matches its fingerprint, is
 registered under its next place with the panel's top N and the live code.
 
+An entry asks its members under the ForecastBench prompt (`research` says
+whether with research) or, when it has `prompts`, under each of those AIRO
+conditions (forecastbench.AIRO_CONDITIONS): its forecast is then the mean
+over every member under every prompt.
+
+A condition is submitted unless it says `"submit": false` (its members still
+run, and their forecasts are kept for scoring afterwards), and anonymously
+unless it says `"public": true`. ForecastBench takes at most 3 sets a round,
+at most one of them public (2026-11-13); `conditions` refuses a registry
+that breaks either.
+
 The registry is private (it ties leaderboard names to a team) and lives
 outside the repo: $FORECASTER_NAMES, else ~/.config/fri-forecaster/names.json.
 examples/names.example.json shows its shape.
 
-    python -m fri_forecaster.names conditions          # the conditions, in submission order
+    python -m fri_forecaster.names conditions          # the submitted conditions, in set-number order
+    python -m fri_forecaster.names conditions --all    # and those that only run
+    python -m fri_forecaster.names public              # the condition submitted under the team's name, if any
     python -m fri_forecaster.names current <cond>      # its current name, or exit 1 if the code drifted
     python -m fri_forecaster.names members <cond>      # --member specs for `forecastbench build`
     python -m fri_forecaster.names sync [--dry-run] < panel   # register what the panel changed
@@ -42,8 +55,13 @@ import os
 import sys
 from datetime import date
 
+from fri_forecaster import baseline
 from fri_forecaster import forecastbench as fb
-from fri_forecaster import harness
+from fri_forecaster import harness, panel
+from fri_forecaster.variants import VARIANTS
+
+MAX_SETS = 3     # ForecastBench: at most 3 sets per round,
+MAX_PUBLIC = 1   # at most one of them under the team's name (2026-11-13)
 
 
 def registry_path():
@@ -65,17 +83,27 @@ def save(reg, path=None):
     os.replace(path + ".tmp", path)
 
 
-def code_of(research):
+def code_of(research, prompts=None):
     """The code-side settings: what the registry entry cannot spell out."""
+    if prompts:   # AIRO conditions: the Baseline loop, the question prompt, each instruction
+        return {"system": baseline.SYSTEM, "loop": baseline.LOOP,
+                "build_prompt": inspect.getsource(fb.build_prompt), "airo_prompt": inspect.getsource(fb.airo_prompt),
+                "instructions": {p: VARIANTS[p] for p in prompts},
+                "tool_descriptions": {**{t["name"]: t["description"] for t in baseline.research_tools()},
+                                      "submit_forecast": fb.TOOL_DESCRIPTIONS["submit_forecast"]}}
     return {"system": fb.SYSTEM if research else fb.SYSTEM_NO_RESEARCH,
             "build_prompt": inspect.getsource(fb.build_prompt),
             "tool_descriptions": fb.TOOL_DESCRIPTIONS if research else {}}
 
 
+def prompt_version(entry):
+    return fb.AIRO_PROMPT_VERSION if entry.get("prompts") else fb.PROMPT_VERSION
+
+
 def fingerprint(entry):
     """Hash of a name's recorded settings plus the live code they run with."""
-    settings = {k: v for k, v in entry.items() if k in ("aggregate", "research", "harness", "members")}
-    blob = json.dumps({"settings": settings, "code": code_of(entry["research"])}, sort_keys=True)
+    settings = {k: v for k, v in entry.items() if k in ("aggregate", "research", "harness", "members", "prompts")}
+    blob = json.dumps({"settings": settings, "code": code_of(entry["research"], entry.get("prompts"))}, sort_keys=True)
     return hashlib.sha256(blob.encode()).hexdigest()[:16]
 
 
@@ -89,8 +117,8 @@ def drift(entry):
     problems = []
     if entry["harness"]["pi"] != harness.PINNED_PI_VERSION:
         problems.append(f"pi {harness.PINNED_PI_VERSION}, registered {entry['harness']['pi']}")
-    if entry["harness"]["prompt_version"] != fb.PROMPT_VERSION:
-        problems.append(f"prompt {fb.PROMPT_VERSION}, registered {entry['harness']['prompt_version']}")
+    if entry["harness"]["prompt_version"] != prompt_version(entry):
+        problems.append(f"prompt {prompt_version(entry)}, registered {entry['harness']['prompt_version']}")
     if fingerprint(entry) != entry["fingerprint"]:
         problems.append(f"fingerprint {fingerprint(entry)}, registered {entry['fingerprint']}")
     return problems
@@ -107,10 +135,28 @@ def current(reg, condition):
 
 
 def member_specs(reg, condition):
-    """`forecastbench build --member` specs: MODEL@THINKING,research|noresearch."""
+    """`forecastbench build --member` specs, MODEL@THINKING,MODE: one per member
+    under the ForecastBench prompt, one per member and prompt under AIRO's."""
     entry = reg["names"][current(reg, condition)]
-    flag = "research" if entry["research"] else "noresearch"
-    return [f"{m['pi_model']}@{m['options']['thinking']},{flag}" for m in entry["members"]]
+    modes = [f"airo-{p}" for p in entry.get("prompts") or []] or ["research" if entry["research"] else "noresearch"]
+    return [f"{m['pi_model']}@{m['options']['thinking']},{mode}" for mode in modes for m in entry["members"]]
+
+
+def submitted(reg):
+    """The conditions a round uploads, in set-number order, after checking
+    ForecastBench's limits on them."""
+    conds = [c for c, v in reg["conditions"].items() if v.get("submit", True)]
+    public = public_of(reg)
+    if len(conds) > MAX_SETS or len(public) > MAX_PUBLIC:
+        sys.exit(f"the registry submits {len(conds)} conditions ({', '.join(conds)}), {len(public)} of them public "
+                 f"({', '.join(public) or 'none'}): ForecastBench takes at most {MAX_SETS} sets a round and at most "
+                 f"{MAX_PUBLIC} under the team's name. Mark the others \"submit\": false, or not public.")
+    return conds
+
+
+def public_of(reg):
+    """The submitted conditions that go up under the team's name, not its anonymous one."""
+    return [c for c, v in reg["conditions"].items() if v.get("submit", True) and v.get("public")]
 
 
 def parse_panel(lines):
@@ -124,13 +170,14 @@ def parse_panel(lines):
     return panel
 
 
-def known_members(reg, research):
+def known_members(reg, research, airo=False):
     """pi model id -> the member record an earlier name with the same research
-    setting gave that model (a one-shot baseline is a baseline for one setting),
-    preferring a record that names its baseline."""
+    setting and the same prompt (ForecastBench's or AIRO's) gave that model (a
+    one-shot baseline is a baseline for one setting), preferring a record that
+    names its baseline."""
     known = {}
     for e in reg["names"].values():
-        if e["research"] != research:
+        if e["research"] != research or bool(e.get("prompts")) != airo:
             continue
         for m in e["members"]:
             if m["pi_model"] not in known or (m.get("one_shot_baseline") and not known[m["pi_model"]].get("one_shot_baseline")):
@@ -138,16 +185,20 @@ def known_members(reg, research):
     return known
 
 
-def member_for(model, like, known):
+def member_for(model, like, known, airo=False):
     """A registry member for a panel model: its fri-utils identity from the
     record an earlier name gave the same pi model when there is one
     (known_members), else from its pi id; the options are `like`'s (one
-    condition, one thinking level and tool set for every member)."""
+    condition, one thinking level and tool set for every member), but for the
+    thinking level under AIRO's prompts: each model's own top one."""
     old = known.get(model["pi_model"]) or {}
     provider, _, pid = model["pi_model"].partition("/")
+    options = copy.deepcopy(like["options"])
+    if airo:
+        options["thinking"] = panel.reasoning_for(model["pi_model"])
     return {"pi_model": model["pi_model"], "model_key": old.get("model_key", pid), "provider": provider,
             "provider_model_id": old.get("provider_model_id", pid), "lab": old.get("lab") or model["lab"],
-            "options": copy.deepcopy(like["options"]), "one_shot_baseline": old.get("one_shot_baseline"),
+            "options": options, "one_shot_baseline": old.get("one_shot_baseline"),
             "eci_name": model["eci_name"]}
 
 
@@ -167,7 +218,8 @@ def sync(reg, condition, panel, today=None):
     if set(have) != set(want):
         if len(top) == n and all(m["pi_model"] for m in top):
             changes.append(f"members {', '.join(have)} -> {', '.join(want)}")
-            members = [member_for(m, entry["members"][0], known_members(reg, entry["research"])) for m in top]
+            airo = bool(entry.get("prompts"))
+            members = [member_for(m, entry["members"][0], known_members(reg, entry["research"], airo), airo) for m in top]
         else:
             warning = (f"WARNING: the top {n} is {', '.join(want) or 'unknown'} but the panel gives no pi ids "
                        f"to register; {name} keeps {', '.join(have)}")
@@ -179,7 +231,8 @@ def sync(reg, condition, panel, today=None):
     new_name = f"{condition}-{place}"
     new = {"condition": condition, "reason": f"sync {today or date.today().isoformat()}: {'; '.join(changes)}",
            "aggregate": entry["aggregate"], "research": entry["research"],
-           "harness": dict(entry["harness"], pi=harness.PINNED_PI_VERSION, prompt_version=fb.PROMPT_VERSION),
+           **({"prompts": list(entry["prompts"])} if entry.get("prompts") else {}),
+           "harness": dict(entry["harness"], pi=harness.PINNED_PI_VERSION, prompt_version=prompt_version(entry)),
            "members": members}
     new["fingerprint"] = fingerprint(new)
     reg["names"][new_name] = new
@@ -192,7 +245,9 @@ def main(argv=None, stdin=None):
     reg = load()
     cmd, arg = ([a for a in argv if not a.startswith("--")] + [None, None])[:2]
     if cmd == "conditions":
-        print("\n".join(reg["conditions"]))
+        print("\n".join(reg["conditions"] if "--all" in argv else submitted(reg)))
+    elif cmd == "public":
+        print("\n".join(public_of(reg)))
     elif cmd == "current" and arg:
         print(current(reg, arg))
     elif cmd == "members" and arg:
@@ -210,10 +265,12 @@ def main(argv=None, stdin=None):
     elif cmd == "show":
         for ch, cond in reg["conditions"].items():
             e = reg["names"][cond["current"]]
-            print(f"{cond['current']:18} {len(e['members'])} member(s), research {e['research']}: {cond['description']}")
+            how = ("not submitted" if not cond.get("submit", True) else "public" if cond.get("public") else "anonymous")
+            asked = f"AIRO {', '.join(e['prompts'])}" if e.get("prompts") else f"research {e['research']}"
+            print(f"{cond['current']:18} {how:13} {len(e['members'])} member(s), {asked}: {cond['description']}")
     else:
         sys.exit("usage: python -m fri_forecaster.names current|members|fingerprint <condition> "
-                 "| sync [--dry-run] | conditions | show")
+                 "| sync [--dry-run] | conditions [--all] | public | show")
 
 
 if __name__ == "__main__":

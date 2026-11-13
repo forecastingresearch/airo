@@ -7,6 +7,7 @@ Factored out of AIRO (forecastingresearch/airo, commit 3be3b93) on 2026-10-05.
     tools.py         web_search / read_page (Tavily), stdlib only
     tool_cli.py      the research tools as a CLI, for pi_tools.ts
     keys.py          API keys from the environment or an env file
+    variants.py      the prompt variants (AIRO's conditions): one instruction each
     forecastbench.py ForecastBench driver: members (run) and arms (build)
 """
 __version__ = "0.1.0"

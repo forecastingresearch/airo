@@ -17,21 +17,41 @@ shape.
                        code registers the condition's next place, then and there
              3 check   each condition's name matches the code (it does, after sync)
              4 run     each member forecasts every question: one pi call each
-             5 build   each condition = the mean of its members' forecasts
+             5 build   each submitted condition = the mean of its members' forecasts
                        ──> <due>.<team>.<N>.json, ready to upload
              6 report  summary.txt: coverage, files, API cost per member
 ```
 
 ## 1. Picking models by ECI
 
-A **condition** is a rule for what to submit, defined by rank on Epoch's ECI (Epoch
-Capabilities Index). The example registry has three:
+A **condition** is a rule for what to forecast with, defined by rank on Epoch's ECI
+(Epoch Capabilities Index). The example registry has four:
 
-| condition  | members                          | research |
-|------------|----------------------------------|----------|
-| `ensemble` | the top 4 models by ECI          | yes      |
-| `unaided`  | the same 4 models                | no       |
-| `solo`     | the top model by ECI             | yes      |
+| condition  | members                 | asked under                              | submitted          |
+|------------|-------------------------|------------------------------------------|--------------------|
+| `ensemble` | the top 4 models by ECI | the ForecastBench prompt, with research  | yes, **publicly**  |
+| `unaided`  | the same 4 models       | the ForecastBench prompt, no research    | no: it only runs   |
+| `solo`     | the top model by ECI    | the ForecastBench prompt, with research  | yes                |
+| `pooled`   | the top 4 models by ECI | each of AIRO's five conditions           | yes                |
+
+**How a member is asked** is its *mode*:
+
+- `research`, `noresearch`: the ForecastBench prompt, a forecaster's system prompt with
+  research required (two calls before submitting) or not offered.
+- `airo-<condition>`: one of AIRO's conditions (`none`, `independent`, `recent`,
+  `critical`, `two-step`). No system prompt, research offered and never required,
+  reasoning at each model's top level (`fri_forecaster.baseline`), and the condition's
+  one instruction, verbatim, as a paragraph before the question's last line
+  (`fri_forecaster.variants`; `none`, AIRO's Baseline, adds nothing). An entry lists them
+  in `prompts`, and its forecast is the mean over every member under every prompt.
+
+**What goes up.** ForecastBench takes at most 3 sets a round and, since 2026-11-13, at
+most one under the team's own name; the rest carry its anonymous one (`Anonymous N`). A
+condition is submitted unless the registry says `"submit": false`, and anonymously unless
+it says `"public": true`. A condition that is not submitted still runs, and its members'
+forecasts stay in the round's folder for scoring afterwards. The registry's order is the
+round's: the submitted conditions run first, in set-number order, so put first the one
+that must not miss the day.
 
 The pick happens **every round, at sync**: the round reads the panel (the models this
 machine can run, best by ECI first) and a condition whose members are not the panel's
@@ -77,24 +97,31 @@ logged, not registered, because a name alone does not say how to run the model.
 **Check.** After sync, every condition's registered fingerprint is compared with the
 code once more; a mismatch stops the round (exit 3).
 
-**Run.** A **member** is one model at one thinking level, with research on or off. The
-three conditions above need 8: four models with research, the same four without (solo's
-model is one of the four). Each member forecasts every question in the set (about 500)
-with `forecastbench run`, one pi call per question
-([the call itself](../README.md#how-it-works)):
+**Run.** A **member** is one model at one thinking level in one mode. The four
+conditions above need 28: four models with research, the same four without (solo's
+model is one of the four), and the four under each of five AIRO conditions. Each member
+forecasts every question in the set (about 500) with `forecastbench run`, one pi call per
+question ([the call itself](../README.md#how-it-works)):
 
 - a market question gets one forecast; a dataset question one per resolution date;
-- research members get `web_search` and `read_page` and must make 2 successful research
-  calls before `submit_forecast` unlocks; others get only `submit_forecast`;
+- `research` members get `web_search` and `read_page` and must make 2 successful research
+  calls before `submit_forecast` unlocks; `noresearch` members get only
+  `submit_forecast`; `airo-*` members get all three and no floor;
 - every member writes `manifest.json` with its settings, and resuming under different
   settings is refused;
-- research members run in parallel, then the others; a second pass retries whatever the
-  first left unanswered.
+- the conditions run one after another, each one's members together and sharing `CALLS`
+  pi calls at once (`round.env`; 12 by default), and a member two conditions share runs
+  once; a second pass retries whatever the first left unanswered;
+- a provider that refuses the API key stops its member at once (`run` exits 2) and the
+  round pages (`NTFY_TOPIC`) there and then, once per provider: nothing else mends it.
 
-**Build.** Each condition becomes one forecast set: per question and resolution date, the
-mean of its members' forecasts. A set covering less than 95% of the market questions or
-of the dataset questions is written but marked not ready (`build` exits 1). The upload
-looks like this:
+**Build.** Each submitted condition becomes one forecast set, as soon as its members are
+in and again after the second pass: per question and resolution date, the mean of its
+members' forecasts. A set covering less than 95% of the market questions or of the
+dataset questions is written but marked not ready (`build` exits 1), and so is one with a
+member below 95%: every cell would still have a forecast, but from another ensemble than
+the name says. The upload looks like this (`<team>` is the team's own name for the public
+condition, its anonymous one for the others):
 
 ```json
 {
@@ -109,27 +136,28 @@ looks like this:
 }
 ```
 
-**Report.** `summary.txt`: what sync found, coverage for each set, the files to upload, and
-API cost per member.
+**Report.** `summary.txt`: what sync found, coverage for each set, any member that fell
+short, the files to upload, and API cost per member.
 
 ## On disk
 
 ```
 <ROUNDS_DIR>/<due>/
   question_set.json                       the round's questions, fetched once
-  members/<model>--<thinking>--<research|noresearch>/
+  members/<model>--<thinking>--<mode>/     mode: research, noresearch, airo-<condition>
     manifest.json                         the member's settings, pinned
     results.jsonl                         one line per question answered
     calls/<source>__<id>/attempt-N/       one pi call's inbox and outbox
   <due>.<team>.<N>.json                   forecast set N, ready to upload
-  <due>.<team>.<N>.json.provenance.json   its members and how they were combined
+  <due>.<team>.<N>.json.provenance.json   its members, their coverage, how they were combined
   logs/  summary.txt
 ```
 
 ## Setup
 
 Copy `examples/round.env.example` to `~/.config/fri-forecaster/round.env` and set
-`FB_ORG` (the team name ForecastBench assigned) and `FORECASTER_NAMES` (the registry). API
+`FB_ORG` (the anonymous name ForecastBench assigned the team), `FB_PUBLIC_ORG` (its own
+name, for the one public condition) and `FORECASTER_NAMES` (the registry). API
 keys go in `~/.config/fri-forecaster/env`. Every call is billed to API keys: the harness
 refuses an agent folder that holds a `pi /login`, drops bearer and OAuth tokens from pi's
 environment, and requires the model's provider key.

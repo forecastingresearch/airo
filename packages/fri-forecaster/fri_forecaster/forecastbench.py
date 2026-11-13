@@ -5,20 +5,33 @@ and write forecast sets ready to upload.
 Two steps, both resumable:
 
   run     forecast every question with ONE member (a model, a thinking
-          level, research on or off) and cache it under
+          level, and a MODE: how it is asked) and cache it under
           <root>/members/<member>/. A member's folder carries a manifest
-          (model, thinking, research, prompts, question set, pi version);
+          (model, thinking, mode, prompts, question set, pi version);
           resuming with different settings is refused.
 
   build   combine members into one forecast set: the per-cell MEAN of the
           members that answered it (pre-committed 2026-10-05; the median
           was the alternative). One member = a single-model arm. Writes
           <root>/<due>.<org>.<N>.json and fails (exit 1) below the 95%
-          coverage rule.
+          coverage rule, for the set or for any one member (a member that
+          answered nothing must not drop out of a mean unnoticed).
+
+A member's mode is one of:
+
+  research, noresearch   the ForecastBench prompt (SYSTEM below): a forecaster's
+                         system prompt, and research required (two calls) or
+                         not offered.
+  airo-<condition>       an AIRO condition (2026-11-13): no system prompt,
+                         research offered and never required, reasoning at the
+                         top level (fri_forecaster.baseline), and the condition's
+                         one instruction in the prompt (fri_forecaster.variants).
+                         airo-none is the Baseline condition.
 
     M=openai-codex/gpt-6-astra
     python -m fri_forecaster.forecastbench run   --root R --model $M
     python -m fri_forecaster.forecastbench run   --root R --model $M --no-research
+    python -m fri_forecaster.forecastbench run   --root R --model $M --airo two-step
     python -m fri_forecaster.forecastbench build --root R --set-number 2 \
         --member $M --name "<leaderboard name>" --org "<team name>"   # -> <due>.<team-name>.<N>.json
 
@@ -42,8 +55,9 @@ import threading
 import urllib.request
 from concurrent.futures import ThreadPoolExecutor, as_completed
 
-from fri_forecaster import harness
+from fri_forecaster import baseline, harness, panel
 from fri_forecaster.keys import load_keys
+from fri_forecaster.variants import VARIANTS
 
 QSETS = "https://raw.githubusercontent.com/forecastingresearch/forecastbench-datasets/main/datasets/question_sets"
 MARKET = {"kalshi", "manifold", "metaculus", "polymarket", "infer"}
@@ -133,23 +147,65 @@ def build_prompt(q, due):
 
 PROMPT_VERSION = "fb-v1"   # bump when SYSTEM / build_prompt change
 
+# AIRO's conditions, asked of ForecastBench questions (2026-11-13): the five
+# whose mean is each model's published AIRO number (experiments/airo.toml
+# `pooled`). The question prompt is build_prompt's; there is no system prompt,
+# so the condition's instruction is the only guidance a call carries.
+AIRO_CONDITIONS = ("none", "independent", "recent", "critical", "two-step")
+AIRO_PROMPT_VERSION = "fb-airo-v1"   # bump when airo_prompt or what an airo call offers changes
+MODES = ("research", "noresearch") + tuple(f"airo-{c}" for c in AIRO_CONDITIONS)
+
+
+def airo_prompt(q, due, condition):
+    """build_prompt as an AIRO condition asks it: the condition's instruction,
+    verbatim, as a plain paragraph before the delivery line (where AIRO's
+    minimal instrument puts it). `none` adds nothing."""
+    prompt = build_prompt(q, due)
+    text = VARIANTS[condition]
+    if not text:
+        return prompt
+    head, _, delivery = prompt.rpartition("\n")
+    return f"{head}\n{text}\n\n{delivery}"
+
+
+def airo_of(mode):
+    """The AIRO condition of a mode, or None for the ForecastBench prompt's two."""
+    if mode not in MODES:
+        raise ValueError(f"unknown mode {mode!r}; have {', '.join(MODES)}")
+    return mode[len("airo-"):] if mode.startswith("airo-") else None
+
+
+def thinking_of(model, mode, thinking=None):
+    """A member's thinking level: as given (default high) under the ForecastBench
+    prompt; under an AIRO condition the top level, the only one it runs at."""
+    if not airo_of(mode):
+        return thinking or "high"
+    top = panel.reasoning_for(model)
+    if thinking not in (None, top):
+        sys.exit(f"{model} under {mode} runs at thinking {top} (fri_forecaster.baseline), not {thinking}")
+    return top
+
 
 def slug(s):
     return "".join(c if c.isalnum() or c in "-._" else "_" for c in s)
 
 
-def member_dir(root, model, thinking, research):
-    return os.path.join(root, "members", slug(f"{model}--{thinking}--{'research' if research else 'noresearch'}"))
+def member_dir(root, model, thinking, mode):
+    return os.path.join(root, "members", slug(f"{model}--{thinking}--{mode}"))
 
 
-def manifest_of(qset, model, thinking, research, min_research, pi):
-    system = SYSTEM if research else SYSTEM_NO_RESEARCH
-    return {"model": model, "thinking": thinking, "research": research,
-            "min_research": min_research if research else 0,
+def manifest_of(qset, model, thinking, mode, min_research, pi):
+    airo = airo_of(mode)
+    system = baseline.SYSTEM if airo else SYSTEM if mode == "research" else SYSTEM_NO_RESEARCH
+    return {"model": model, "thinking": thinking, "research": mode != "noresearch",
+            "min_research": min_research if mode == "research" else 0,
             "question_set": qset["question_set"],
             "question_set_sha256": hashlib.sha256(json.dumps(qset, sort_keys=True).encode()).hexdigest(),
             "system_sha256": hashlib.sha256(system.encode()).hexdigest(),
-            "prompt_version": PROMPT_VERSION, "pi": pi, "pi_version": harness.pi_version(pi)}
+            "prompt_version": AIRO_PROMPT_VERSION if airo else PROMPT_VERSION,
+            "pi": pi, "pi_version": harness.pi_version(pi),
+            **({"condition": airo, "instruction_sha256": hashlib.sha256((VARIANTS[airo] or "").encode()).hexdigest()}
+               if airo else {})}
 
 
 def check_manifest(path, want):
@@ -185,15 +241,21 @@ def complete(r):
 
 def forecast_one(q, due, mdir, args):
     dates = dates_of(q)
-    research = not args.no_research
-    res = harness.run(model=args.model, system=SYSTEM if research else SYSTEM_NO_RESEARCH,
-                      prompt=build_prompt(q, due),
-                      workdir=os.path.join(mdir, "calls", slug(f"{q['source']}__{q['id']}")),
-                      cell_schema=CELL_SCHEMA, key_fields=["resolution_date"], allowed_keys=dates,
-                      cells_tool=False, tool_descriptions=TOOL_DESCRIPTIONS,
-                      research_tools=harness.RESEARCH_TOOLS if research else (),
-                      min_research=args.min_research if research else 0,
-                      thinking=args.thinking, pi=args.pi, timeout=args.timeout, retries=3)
+    workdir = os.path.join(mdir, "calls", slug(f"{q['source']}__{q['id']}"))
+    airo, research = airo_of(args.mode), args.mode == "research"
+    if airo:   # the Baseline loop; the one answer tool is ours, the research tools are its own
+        res = baseline.run(args.model, airo_prompt(q, due, airo), workdir=workdir, cell_schema=CELL_SCHEMA,
+                           key_fields=["resolution_date"], allowed_keys=dates,
+                           submit_forecast={"description": TOOL_DESCRIPTIONS["submit_forecast"]},
+                           pi=args.pi, timeout=args.timeout, retries=3)
+    else:
+        res = harness.run(model=args.model, system=SYSTEM if research else SYSTEM_NO_RESEARCH,
+                          prompt=build_prompt(q, due), workdir=workdir,
+                          cell_schema=CELL_SCHEMA, key_fields=["resolution_date"], allowed_keys=dates,
+                          cells_tool=False, tool_descriptions=TOOL_DESCRIPTIONS,
+                          research_tools=harness.RESEARCH_TOOLS if research else (),
+                          min_research=args.min_research if research else 0,
+                          thinking=args.thinking, pi=args.pi, timeout=args.timeout, retries=3)
     probs = {}
     for d in dates:
         c = res["cells"].get(d)
@@ -290,11 +352,14 @@ def cmd_run(args):
         qset = load_question_set(args.question_set)
         json.dump(qset, open(qpath, "w"))
     due = qset["forecast_due_date"]
-    research = not args.no_research
-    mdir = member_dir(root, args.model, args.thinking, research)
+    if args.airo and args.no_research:
+        sys.exit("--airo and --no-research are two modes: choose one")
+    args.mode = f"airo-{args.airo}" if args.airo else "noresearch" if args.no_research else "research"
+    args.thinking = thinking_of(args.model, args.mode, args.thinking)
+    mdir = member_dir(root, args.model, args.thinking, args.mode)
     os.makedirs(mdir, exist_ok=True)
     check_manifest(os.path.join(mdir, "manifest.json"),
-                   manifest_of(qset, args.model, args.thinking, research, args.min_research, args.pi))
+                   manifest_of(qset, args.model, args.thinking, args.mode, args.min_research, args.pi))
     qs = questions_of(qset)[: args.limit]
     if args.sample:
         qs = sample_of(qs, args.sample)
@@ -314,6 +379,14 @@ def cmd_run(args):
             except Exception as e:  # one bad call must not sink the round
                 print(f"  [{i}/{len(todo)}] {q['source']}/{q['id']}: ERROR {e!r}")
                 continue
+            if not r["probabilities"] and harness.auth_error(r["usage"]):
+                # The key is refused: every other call would be too (2026-11-08: a
+                # rotated key cost a member all 500 questions and the round 17 hours
+                # of backoff). Stop the member and say so.
+                pool.shutdown(wait=False, cancel_futures=True)
+                print(f"STOPPED: {args.model}'s key was refused ({r['usage']['api_error']}); "
+                      f"fix it in the keys file and run the member again")
+                return 2
             with lock:
                 with open(log, "a") as f:
                     f.write(json.dumps(r) + "\n")
@@ -322,8 +395,16 @@ def cmd_run(args):
             print(f"  [{i}/{len(todo)}] {q['source']}/{q['id']}: {len(r['probabilities'])}/{len(r['wanted'])} forecasts, "
                   f"research {u.get('research_ok')} ok / {u.get('research_failed')} failed, "
                   f"{u.get('seconds')}s, ${u.get('cost_usd')} (total ${spent[0]:.2f})")
-    for kind, (done, n) in coverage(qset, read_results(log)).items():
+    results = read_results(log)
+    for kind, (done, n) in coverage(qset, results).items():
         print(f"  {kind}: {done}/{n} complete")
+    # exit 1 when the member is short of the 95% rule on what it was asked
+    return int(sum(complete(results.get((q["source"], str(q["id"])))) for q in qs) < 0.95 * len(qs))
+
+
+def short_kinds(cov):
+    """The kinds (market, dataset) a coverage is below the 95% rule on."""
+    return [k for k, (done, n) in cov.items() if n and done / n < 0.95]
 
 
 def cmd_build(args):
@@ -333,12 +414,13 @@ def cmd_build(args):
     for spec in args.member:
         head, *flags = spec.split(",")
         model, _, thinking = head.partition("@")
-        thinking, research = thinking or args.thinking, not args.no_research
+        mode = "noresearch" if args.no_research else "research"
         for part in flags:
-            if part not in ("research", "noresearch"):
-                sys.exit(f"--member {spec!r}: unknown flag {part!r}")
-            research = part == "research"
-        mdir = member_dir(root, model, thinking, research)
+            if part not in MODES:
+                sys.exit(f"--member {spec!r}: unknown mode {part!r} (have {', '.join(MODES)})")
+            mode = part
+        thinking = thinking_of(model, mode, thinking or (None if airo_of(mode) else args.thinking))
+        mdir = member_dir(root, model, thinking, mode)
         if not os.path.exists(os.path.join(mdir, "manifest.json")):
             sys.exit(f"no member run at {mdir}")
         members[os.path.basename(mdir)] = read_results(os.path.join(mdir, "results.jsonl"))
@@ -347,19 +429,29 @@ def cmd_build(args):
     fs = build_forecast_set(qset, results, args.org, args.name, model_org, args.reasoning)
     path = os.path.join(root, f"{qset['forecast_due_date']}.{file_org(args.org)}.{args.set_number}.json")
     json.dump(fs, open(path, "w"), indent=1)
-    json.dump({"members": list(members), "aggregate": "mean", "name": args.name},
+    member_cov = {m: coverage(qset, r) for m, r in members.items()}
+    json.dump({"members": list(members), "aggregate": "mean", "name": args.name, "organization": args.org,
+               "member_coverage": member_cov},
               open(path + ".provenance.json", "w"), indent=1)
     print(f"{len(fs['forecasts'])} forecasts from {len(members)} member(s) -> {path}")
     errs = validate(fs, qset)
     cov = coverage(qset, results)
     for kind, (done, n) in cov.items():
         print(f"  {kind}: {done}/{n} complete")
-    short = [k for k, (done, n) in cov.items() if n and done / n < 0.95]
+    short = short_kinds(cov)
+    # A cell is the mean of the members that answered it, so the set can be
+    # complete while a member is missing from every mean: that is another
+    # configuration than the name says, and is not ready either.
+    short_members = [m for m, c in member_cov.items() if short_kinds(c)]
+    everyone = bool(short) and len(short_members) == len(members)   # then the set's own lines say it
+    for m in [] if everyone else short_members:
+        print("  SHORT MEMBER " + m + ": " + ", ".join(f"{k} {done}/{n}" for k, (done, n) in member_cov[m].items()))
     for e in errs:
         print(f"  INVALID: {e}")
-    if errs or short:
-        print(f"NOT READY TO UPLOAD: {'invalid rows' if errs else ''}{' and ' if errs and short else ''}"
-              f"{'below 95% on ' + ', '.join(short) if short else ''}")
+    if errs or short or short_members:
+        why = (["invalid rows"] if errs else []) + (["below 95% on " + ", ".join(short)] if short else []) + \
+              ([f"{len(short_members)} member(s) below 95%"] if short_members and not short else [])
+        print(f"NOT READY TO UPLOAD: {' and '.join(why)}")
         return 1
     print("ready to upload")
     return 0
@@ -372,8 +464,11 @@ def main(argv=None):
     r.add_argument("--root", required=True, help="the round's folder, shared by every member and arm")
     r.add_argument("--question-set", default="latest-llm.json", help="file name in forecastbench-datasets, a URL, or a local path")
     r.add_argument("--model", required=True, help="pi model id, e.g. openai-codex/gpt-6-astra")
-    r.add_argument("--thinking", default="high")
+    r.add_argument("--thinking", default=None, help="default: high (an --airo condition runs at its model's top level)")
     r.add_argument("--no-research", action="store_true", help="no research tools, only submit_forecast")
+    r.add_argument("--airo", choices=AIRO_CONDITIONS, default=None,
+                   help="ask under this AIRO condition instead of the ForecastBench prompt: no system prompt, "
+                        "research offered and never required, the condition's instruction in the prompt")
     r.add_argument("--min-research", type=int, default=2, help="successful research calls before submitting")
     r.add_argument("--workers", type=int, default=8)
     r.add_argument("--limit", type=int, default=None, help="only the first N questions (smoke test)")
@@ -383,7 +478,8 @@ def main(argv=None):
     b = sub.add_parser("build", help="combine members into a forecast set (mean per cell)")
     b.add_argument("--root", required=True)
     b.add_argument("--member", action="append", required=True,
-                   help="MODEL[@THINKING][,research|,noresearch]; repeat for an ensemble")
+                   help="MODEL[@THINKING][,MODE]; MODE is research, noresearch or airo-<condition>; "
+                        "repeat for an ensemble")
     b.add_argument("--thinking", default="high", help="default thinking for --member")
     b.add_argument("--no-research", action="store_true", help="default research mode for --member: off")
     b.add_argument("--name", required=True, help="the leaderboard `model` field (cannot be changed later); 'ensemble' for ensembles")
