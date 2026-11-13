@@ -40,7 +40,8 @@ npm ci --prefix packages/forecaster     # pi, pinned; the engine's tests skip wi
 ```
 
 Building a dashboard needs nothing installed. Forecasting costs money and needs
-API keys, which live outside the repository; each project's README says how.
+API keys. They live outside the repository, in one file every project reads:
+`~/.config/fri-forecaster/env` (`KEY=value` lines, mode 600).
 
 Production runs from a separate release, never from a checkout. See
 `packages/ops/README.md` for deployment, schedules and alerts.

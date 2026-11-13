@@ -51,8 +51,8 @@ class TestCronDispatch(unittest.TestCase):
         py = t / "py"
         py.write_text(STUB_PY)
         py.chmod(0o755)
-        (self.home / ".config" / "redlines").mkdir(parents=True)
-        (self.home / ".config" / "redlines" / "env").write_text("TAVILY_API_KEY=x\n")
+        (self.home / ".config" / "fri-forecaster").mkdir(parents=True)
+        (self.home / ".config" / "fri-forecaster" / "env").write_text("TAVILY_API_KEY=x\n")
         self.calls, self.due = t / "calls", t / "due"
         self.env = {"PATH": os.environ["PATH"], "HOME": str(self.home), "REDLINES_PY": str(py),
                     "CALLS": str(self.calls), "DUE_FILE": str(self.due)}

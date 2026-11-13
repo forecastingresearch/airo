@@ -109,6 +109,16 @@ and run `airo deploy --publish-data` to validate and publish the saved forecasts
 do not repeat the paid forecast job. `airo status` lists receipts newest first
 by their start timestamp, including failures.
 
+## Keys
+
+Every API key the installation holds is in one file in the runtime's private
+home, `.config/fri-forecaster/env` (mode 0600, `KEY=value` lines): the model
+providers', the search key and the news classifier's. Every job reads it
+(`FORECASTER_ENV_FILE`), through `fri_forecaster.keys`, so two jobs cannot hold
+different keys for one provider. `python -m fri_forecaster.keys` prints the
+names it holds, never a value. A model whose lab's key is not in the file is
+left out of the ensemble; a key that is there and refused fails the run.
+
 ## Scheduling
 
 Change `packages/ops/jobs.json` and merge/deploy it. The daily UTC wake-up delegates
@@ -176,9 +186,8 @@ and failure/retry policy still apply.
 
 ### Prerequisites before enabling the release
 
-1. In the production runtime's private home, provide `TYPESAFE_API_KEY` in
-   `.config/airo-news/env` with mode 0600 (or set it in the private forecasting
-   environment). `AIRO_NEWS_ENV_FILE` may name another private file. Do not copy
+1. Provide `TYPESAFE_API_KEY` in the installation's keys file (see Keys
+   above). Do not copy
    a coding-provider login; this is the Jev classifier's API key only.
 2. Have the host operator grant the configured feed hosts and `api.typesafe.ai`:
    `www.ft.com`, `www.nytimes.com`, `rss.nytimes.com`, `news.google.com`,
