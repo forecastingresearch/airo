@@ -1,0 +1,15 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "forecastbench-submission"
+version = "0.1.0"
+description = "ForecastBench rounds: members (run), sets (build) and their leaderboard names"
+requires-python = ">=3.11"
+# Stdlib only, plus the engine installed beside it
+# (pip install -e ../../packages/forecaster).
+dependencies = []
+
+[tool.setuptools]
+packages = ["forecastbench"]
