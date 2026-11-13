@@ -13,6 +13,12 @@ No forecast jobs run during deployment. A successful activation switches code,
 website and schedules together.
 The development checkout is never served or run by the production scheduler.
 
+The live release fetches, checks and checks out the commit; the candidate then
+builds itself with its own copy of `code/production.py` (`build-release`, which
+only `deploy` calls). So a commit that moves files or changes the build deploys
+without the live release knowing how. A commit from before this is built by the
+live release, as before.
+
 Commands:
 
 - `airo status`: selected commit, schedules, and recent run receipts.

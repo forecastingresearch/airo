@@ -547,3 +547,62 @@ def test_deployment_refuses_a_release_with_no_alert_channel(runtime, monkeypatch
     with pytest.raises(subprocess.CalledProcessError):
         runtime.deploy('a' * 40)
     assert checked and runtime.current.resolve() == before
+
+
+def test_a_candidate_that_can_build_releases_builds_itself(runtime, monkeypatch):
+    """The live release clones and checks out; the candidate's own script does the rest."""
+    published_release(runtime)
+    fake_install(runtime, monkeypatch)
+    runtime.config_path = '/private/runtime.json'
+    install, handed = p.run, []
+    def command(argv, **kw):
+        install(argv, **kw)
+        if argv[:2] == ['git', 'clone']:
+            (Path(argv[-1]) / 'code').mkdir()
+            (Path(argv[-1]) / 'code/production.py').write_text('# the candidate')
+        if 'build-release' in argv:
+            handed.append([str(a) for a in argv])
+    monkeypatch.setattr(p, 'run', command)
+    monkeypatch.setattr(p, 'output', lambda argv, **kw: 'usage: {deploy,build-release}' if '--help' in argv else 'dependencies')
+    monkeypatch.setattr(runtime, 'build_release', lambda *a, **kw: pytest.fail('the live release built the candidate'))
+    runtime.deploy('a' * 40, keep_publication=True)
+    [argv] = handed
+    name = argv[argv.index('--release') + 1]
+    assert argv[1] == str(runtime.root / 'releases' / name / 'code/code/production.py')
+    assert argv[2:4] == ['--config', '/private/runtime.json'] and argv[-3:] == ['--commit', 'a' * 40, '--keep-publication']
+
+
+def test_a_candidate_without_a_builder_is_built_by_the_live_release(runtime, monkeypatch):
+    old = published_release(runtime)
+    fake_install(runtime, monkeypatch)
+    runtime.config_path = '/private/runtime.json'
+    install = p.run
+    def command(argv, **kw):
+        install(argv, **kw)
+        if argv[:2] == ['git', 'clone']:
+            (Path(argv[-1]) / 'code').mkdir()
+            (Path(argv[-1]) / 'code/production.py').write_text('# an older commit')
+    monkeypatch.setattr(p, 'run', command)
+    monkeypatch.setattr(p, 'output', lambda argv, **kw: 'usage: {deploy,rollback}' if '--help' in argv else 'dependencies')
+    runtime.deploy('a' * 40)
+    assert runtime.current.resolve() != old and json.loads((runtime.current / 'release.json').read_text())['commit'] == 'a' * 40
+
+
+def test_a_failed_handover_marks_the_candidate_and_keeps_the_live_release(runtime, monkeypatch):
+    old = published_release(runtime)
+    fake_install(runtime, monkeypatch)
+    runtime.config_path = '/private/runtime.json'
+    install = p.run
+    def command(argv, **kw):
+        if 'build-release' in argv:
+            raise subprocess.CalledProcessError(1, 'build-release')
+        install(argv, **kw)
+        if argv[:2] == ['git', 'clone']:
+            (Path(argv[-1]) / 'code').mkdir()
+            (Path(argv[-1]) / 'code/production.py').write_text('# the candidate')
+    monkeypatch.setattr(p, 'run', command)
+    monkeypatch.setattr(p, 'output', lambda argv, **kw: 'usage: {deploy,build-release}' if '--help' in argv else 'dependencies')
+    with pytest.raises(subprocess.CalledProcessError):
+        runtime.deploy('a' * 40)
+    assert runtime.current.resolve() == old
+    assert [f.parent.name for f in (runtime.root / 'releases').glob('*/failed.json')]
