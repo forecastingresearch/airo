@@ -109,9 +109,10 @@ question ([the call itself](../README.md#how-it-works)):
   `submit_forecast`; `airo-*` members get all three and no floor;
 - every member writes `manifest.json` with its settings, and resuming under different
   settings is refused;
-- the conditions run one after another, each one's members together and sharing `CALLS`
-  pi calls at once (`round.env`; 12 by default), and a member two conditions share runs
-  once; a second pass retries whatever the first left unanswered;
+- the conditions run one after another, each one's members sharing `CALLS` pi calls at
+  once (`round.env`; 12 by default; with more members than that allows they take turns),
+  and a member two conditions share runs once; a second pass retries whatever the first
+  left unanswered;
 - a provider that refuses the API key stops its member at once (`run` exits 2) and the
   round pages (`NTFY_TOPIC`) there and then, once per provider: nothing else mends it.
 

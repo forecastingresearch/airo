@@ -122,11 +122,14 @@ for pass in 1 2; do                         # pass 2 resumes whatever pass 1 lef
     done
     # CALLS is the machine's (a pi process is some 130 MB) and the providers'
     # rate limits': the members of one condition share it evenly, and when
-    # there are more members than calls they take turns.
-    workers=$(( ${#todo[@]} ? CALLS / ${#todo[@]} : 1 )); (( workers >= 1 )) || workers=1
-    log "pass $pass: $c, ${#todo[@]} member(s) to run, $workers call(s) at once each"
+    # it does not go round (16 members, 24 calls) they take turns, two calls
+    # each, rather than leave a third of it idle.
+    k=${#todo[@]}
+    workers=$(( k ? (CALLS + k - 1) / k : 1 )); at_once=$(( CALLS / workers )); (( at_once >= 1 )) || at_once=1
+    if (( k )); then log "pass $pass: $c, $k member(s) to run, $workers call(s) at once each, $at_once member(s) at a time"
+    else log "pass $pass: $c, its members have run"; fi
     for spec in ${todo[@]+"${todo[@]}"}; do
-      while (( $(jobs -rp | wc -l) >= CALLS )); do wait -n; done
+      while (( $(jobs -rp | wc -l) >= at_once )); do wait -n; done
       run_member "$spec" "$workers" &
     done; wait
     if [[ " ${SETS[*]} " == *" $c "* ]]; then n=$((n + 1)); build "$pass" "$n" "$c"; fi
