@@ -9,6 +9,7 @@ import sys
 import tempfile
 import textwrap
 import unittest
+import unittest.mock
 
 from fri_forecaster import forecastbench as fb
 from fri_forecaster import harness
@@ -285,12 +286,10 @@ class ForecastBenchTest(unittest.TestCase):
         from fri_forecaster.variants import VARIANTS
         with tempfile.TemporaryDirectory() as d:
             qpath, root = self._round(d)
-            os.environ["FAKE_ALL"] = "1"
-            try:
+            # a known provider needs its key set (harness.pi_env); the fake pi never uses it
+            with unittest.mock.patch.dict(os.environ, {"FAKE_ALL": "1", "OPENAI_API_KEY": "unused"}):
                 self.assertEqual(fb.main(["run", "--root", root, "--question-set", qpath, "--model", "openai/one",
                                           "--airo", "two-step", "--pi", fake_pi(d)]), 0)
-            finally:
-                os.environ.pop("FAKE_ALL")
             mdir = os.path.join(root, "members", "openai_one--xhigh--airo-two-step")   # openai's top level
             man = json.load(open(os.path.join(mdir, "manifest.json")))
             self.assertEqual((man["condition"], man["prompt_version"], man["thinking"], man["min_research"]),
