@@ -4,7 +4,7 @@ that are not tracked -- results/ (the run files) and site/ (the built page).
 EEAI_RESULTS moves the results (a production box keeps them outside the
 release); EEAI_ECI_DIR names another directory of Epoch snapshots and automatic
 model rows. Outside this directory EEAI uses only the harness
-(packages/forecaster) and AIRO's Epoch snapshots (dashboards/airo/data)."""
+(packages/forecaster), the dashboard kit (packages/dashboard) and AIRO's Epoch snapshots (dashboards/airo/data)."""
 import os
 import sys
 from pathlib import Path
@@ -12,11 +12,12 @@ from pathlib import Path
 HERE = Path(__file__).resolve().parent
 REPO_ROOT = HERE.parents[2]
 try:
+    import dashboard  # noqa: F401
     import fri_forecaster  # noqa: F401
 except ImportError:
-    # One repository: the harness's source is at packages/forecaster, so a bare
-    # checkout works without installing it (pip install -e packages/forecaster).
-    sys.path.insert(0, str(REPO_ROOT / "packages" / "forecaster"))
+    # One repository: the harness and the dashboard kit are under packages/, so
+    # a bare checkout works without installing them (pip install -e packages/...).
+    sys.path[:0] = [str(REPO_ROOT / "packages" / "forecaster"), str(REPO_ROOT / "packages" / "dashboard")]
 
 DATA = HERE / "data"
 QUESTIONS = DATA / "questions.json"

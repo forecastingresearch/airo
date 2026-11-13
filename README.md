@@ -11,6 +11,8 @@ format, where the output goes and when it runs.
 packages/
   forecaster/       the engine (fri_forecaster): the agent loop, the panel, the
                     Baseline condition, research tools, keys, alerts
+  dashboard/        the dashboard kit (dashboard): a page from its chunks and
+                    data, the download, the site folder
   ops/              production: releases, the scheduler, the schedule (jobs.json)
 dashboards/         forecasts published as a site
   airo/             AIRO, the Automated AI Risk Outlook (redlines)
@@ -21,7 +23,7 @@ code/production.py  the production launcher's fixed path; it runs packages/ops
 ```
 
 Each directory has its own README. Dependencies point one way: a project uses
-the engine, and no project imports another's code. A finished one-off stays here
+the engine and the kit, and no project imports another's code. A finished one-off stays here
 as a frozen directory.
 
 Only public data belongs in this repository: no participant data, no personal
@@ -31,7 +33,8 @@ information, no credentials, no production receipts.
 
 ```sh
 python3 -m venv .venv
-.venv/bin/pip install -e 'packages/forecaster[dev]' -e 'dashboards/airo[test]' -e dashboards/eeai -e submissions/forecastbench
+.venv/bin/pip install -e 'packages/forecaster[dev]' -e packages/dashboard -e 'dashboards/airo[test]' \
+    -e dashboards/eeai -e submissions/forecastbench
 npm ci --prefix packages/forecaster     # pi, pinned; the engine's tests skip without it
 .venv/bin/python -m pytest -q           # every project's tests; no API key needed
 ```

@@ -504,23 +504,15 @@ def _bundle_members():
 def bundle_zip(out=BUNDLE_OUT, forecasts=OUT, rationales=RATIONALES_OUT, debriefs=DEBRIEFS_OUT):
     """Write the zip: the CSVs (already written), the raw logs, the
     questions and scenarios, and the README. Returns the member count."""
-    import zipfile
     from datetime import datetime, timezone
-    out = Path(out)
-    out.parent.mkdir(parents=True, exist_ok=True)
+    from dashboard import download
     members = _bundle_members()
     readme = BUNDLE_README.format(
         built=datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%MZ"),
         forecast_columns=", ".join(COLUMNS), rationale_columns=", ".join(RATIONALE_COLUMNS),
         debrief_columns=", ".join(DEBRIEF_COLUMNS),
         superseded=superseded_note())
-    with zipfile.ZipFile(out, "w", compression=zipfile.ZIP_DEFLATED, compresslevel=6) as z:
-        z.writestr("README.md", readme)
-        z.write(forecasts, "forecasts.csv")
-        z.write(rationales, "rationales.csv")
-        if Path(debriefs).exists():
-            z.write(debriefs, "debriefs.csv")
-        for name, p in members:
-            z.write(p, name)
+    download.bundle(out, [("README.md", readme), ("forecasts.csv", Path(forecasts)), ("rationales.csv", Path(rationales)),
+                          *([("debriefs.csv", Path(debriefs))] if Path(debriefs).exists() else []), *members])
     # The README, the two CSVs, the debriefs CSV when there is one, the members.
     return 3 + int(Path(debriefs).exists()) + len(members)

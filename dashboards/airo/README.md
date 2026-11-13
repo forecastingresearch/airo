@@ -111,7 +111,7 @@ repository root, in a fresh clone:
 ```bash
 python3 -m venv .venv
 . .venv/bin/activate
-python -m pip install -e './packages/forecaster[dev]' -e './dashboards/airo[test,paper]' \
+python -m pip install -e './packages/forecaster[dev]' -e ./packages/dashboard -e './dashboards/airo[test,paper]' \
     -e ./dashboards/eeai -e ./submissions/forecastbench
 (cd packages/forecaster && npm ci)
 

@@ -9,6 +9,9 @@ layout this module reads:
      "blobs": ["GRAPH4", "GRAPH1", "GRAPH2", "DATABANK", "GRAPH3"],
      "chunks": ["00-head.html", "01-shell-open.html", ...]}
 
+The assembly itself is the dashboard kit's (packages/dashboard, dashboard.page),
+shared with the other dashboards; this module binds it to AIRO's paths.
+
 Two functions matter to callers:
 
     assemble(page_dir) -> str
@@ -33,10 +36,10 @@ is not called anywhere yet -- callers invoke it explicitly.
 from __future__ import annotations
 
 import json
-import re
 from pathlib import Path
 
-from .config import REPO_ROOT
+from .config import REPO_ROOT   # also puts packages/dashboard on the path
+from dashboard import page as _kit
 
 
 def _resolve(page_dir) -> Path:
@@ -51,16 +54,7 @@ def _manifest(page_dir) -> dict:
 
 def assemble(page_dir) -> str:
     """Concatenate page_dir's chunks (manifest order) into the skeleton."""
-    d = _resolve(page_dir)
-    manifest = _manifest(page_dir)
-    return "".join((d / name).read_text(encoding="utf-8") for name in manifest["chunks"])
-
-
-def _block(name: str, blob) -> str:
-    """The exact block redlines.hydrate.inject() writes for window.__NAME__."""
-    start, end = f"<!--{name}_DATA-->", f"<!--/{name}_DATA-->"
-    blob_json = json.dumps(blob).replace("</", "<\\/")
-    return f"{start}\n<script>window.__{name}__ = {blob_json};</script>\n{end}"
+    return _kit.skeleton(_resolve(page_dir))
 
 
 def hydrate_page(page_dir, blobs: dict) -> str:
@@ -70,19 +64,7 @@ def hydrate_page(page_dir, blobs: dict) -> str:
     manifest blob name's marker pair isn't found in the assembled skeleton
     (e.g. a chunking bug dropped or duplicated it).
     """
-    manifest = _manifest(page_dir)
-    html = assemble(page_dir)
-    for name in manifest["blobs"]:
-        start, end = f"<!--{name}_DATA-->", f"<!--/{name}_DATA-->"
-        block = _block(name, blobs[name])
-        pattern = re.escape(start) + r".*?" + re.escape(end)
-        html, n = re.subn(pattern, lambda m: block, html, count=1, flags=re.S)
-        if n != 1:
-            raise ValueError(
-                f"hydrate_page({page_dir!r}): marker pair for {name!r} "
-                f"not found exactly once in assembled skeleton (found {n})"
-            )
-    return html
+    return _kit.render(_resolve(page_dir), blobs)
 
 
 def write_skeleton(page_dir, out_path=None) -> Path:

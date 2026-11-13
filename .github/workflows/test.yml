@@ -39,7 +39,7 @@ jobs:
           python-version: ${{ matrix.python-version }}
       - run: npm ci
         working-directory: packages/forecaster
-      - run: pip install -e './packages/forecaster[dev]' -e './dashboards/airo[test]' -e ./dashboards/eeai -e ./submissions/forecastbench
+      - run: pip install -e './packages/forecaster[dev]' -e ./packages/dashboard -e './dashboards/airo[test]' -e ./dashboards/eeai -e ./submissions/forecastbench
       - run: python -m pytest -q -rs
       - run: node --test dashboards/airo/tests/test_tooltips.cjs
 
@@ -49,8 +49,8 @@ jobs:
   # reproduction only, never what the blobs contain.
   #
   # Nothing is installed: the build stage is stdlib-only, so running it straight
-  # from dashboards/airo also enforces that (redlines.eci finds fri_forecaster
-  # in packages/forecaster on its own; an editable install would also leave an
+  # from dashboards/airo also enforces that (redlines finds fri_forecaster and
+  # the dashboard kit under packages/ on its own; an editable install would also leave an
   # untracked redlines.egg-info/ behind). The ForecastBench sets and the forecastbench-sim
   # corpus are absent here, so Graph 3 and Graph 4 read their tracked mirrors
   # (results/graph3_data.json, results/graph4_combined.json), as on any fresh

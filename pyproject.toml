@@ -1,9 +1,10 @@
 # automated-forecasting-monorepo: the workspace root. Nothing is built from
 # here; each project is its own distribution, installed from its directory:
 #
-#   pip install -e packages/forecaster -e dashboards/airo -e dashboards/eeai -e submissions/forecastbench
+#   pip install -e packages/forecaster -e packages/dashboard -e dashboards/airo -e dashboards/eeai -e submissions/forecastbench
 #
 #   packages/forecaster         fri-forecaster: the engine every project forecasts with
+#   packages/dashboard          fri-dashboard: the kit every dashboard's site is made of
 #   dashboards/airo             redlines: the AIRO dashboard
 #   dashboards/eeai             eeai: the Economic Effects of AI dashboard
 #   submissions/forecastbench   forecastbench: the ForecastBench rounds
@@ -15,6 +16,7 @@
 # skip. dashboards/airo/archive carries files pytest would otherwise collect.
 testpaths = [
     "packages/forecaster/tests",
+    "packages/dashboard/tests",
     "packages/ops/tests",
     "dashboards/airo/tests",
     "dashboards/eeai/eeai/tests",
@@ -22,4 +24,4 @@ testpaths = [
 ]
 
 [tool.uv.workspace]
-members = ["packages/forecaster", "dashboards/airo", "dashboards/eeai", "submissions/forecastbench"]
+members = ["packages/forecaster", "packages/dashboard", "dashboards/airo", "dashboards/eeai", "submissions/forecastbench"]

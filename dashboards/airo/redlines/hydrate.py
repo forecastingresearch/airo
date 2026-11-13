@@ -31,8 +31,10 @@ changes versus the original inject():
     `python3 -m redlines assemble` is the way to create the page.)
 """
 import json
-import re
 from pathlib import Path
+
+from . import config  # noqa: F401  (puts packages/dashboard on the path)
+from dashboard import page as _kit
 
 REPO = Path(__file__).resolve().parent.parent
 LIVE = REPO / "index.html"
@@ -47,16 +49,7 @@ def inject(name, blob, html_path=LIVE, json_out=None):
         raise FileNotFoundError(
             f"{path} does not exist; build it with `python3 -m redlines assemble` "
             "(web/demo/ is the page source) before injecting blobs")
-    html = path.read_text()
-    start, end = f"<!--{name}_DATA-->", f"<!--/{name}_DATA-->"
-    blob_json = json.dumps(blob).replace("</", "<\\/")
-    block = f"{start}\n<script>window.__{name}__ = {blob_json};</script>\n{end}"
-    if start in html:
-        html = re.sub(re.escape(start) + r".*?" + re.escape(end),
-                      lambda m: block, html, flags=re.S)
-    else:
-        html = html.replace("</head>", block + "\n</head>", 1)
-    path.write_text(html)
+    path.write_text(_kit.splice(path.read_text(), name, blob))
     if json_out:
         out = REPO / json_out
         out.write_text(json.dumps(blob, indent=2) + "\n")

@@ -17,7 +17,7 @@ date has passed, so a past date keeps its last forecast. When the record
 (eeai/data/history.csv) has a value for a date, that is the outcome the
 forecast is set against.
 
-The page is assembled from eeai/web/ by eeai/pages.py.
+The page is assembled from eeai/web/ by the dashboard kit (packages/dashboard).
 """
 import json
 import statistics
@@ -146,8 +146,8 @@ def build(survey=None, history=None, runs=None):
 
 def page(blob):
     """The page's text: eeai/web/'s chunks with the data spliced in."""
-    from . import pages
-    return pages.hydrate_page(config.PAGE_DIR, {"EEAI": blob})
+    from dashboard import page as kit
+    return kit.render(config.PAGE_DIR, {"EEAI": blob})
 
 
 def main(args):
@@ -156,18 +156,15 @@ def main(args):
     blob = build(survey, runs=runs)
     if args.out:
         out = Path(args.out)
+        out.parent.mkdir(parents=True, exist_ok=True)
+        out.write_text(page(blob), encoding="utf-8")
     else:
         # The whole site in one folder: the page as index.html, the download
         # (written below), and the files the page links to (the logo; the
         # licensed fonts when a box has them under eeai/web/fonts).
-        import shutil
-        site = Path(args.site) if args.site else config.SITE
-        out = site / "index.html"
-        for sub in ("img", "fonts"):
-            if (config.PAGE_DIR / sub).is_dir():
-                shutil.copytree(config.PAGE_DIR / sub, site / "web" / sub, dirs_exist_ok=True)
-    out.parent.mkdir(parents=True, exist_ok=True)
-    out.write_text(page(blob), encoding="utf-8")
+        from dashboard import site as kit
+        out = kit.write_site(Path(args.site) if args.site else config.SITE, page(blob),
+                             assets={f"web/{sub}": config.PAGE_DIR / sub for sub in ("img", "fonts")}) / "index.html"
     if runs:
         export.bundle(out.with_name(export.NAME), survey, runs, args.runs)
     if args.json:
