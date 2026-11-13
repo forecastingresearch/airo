@@ -2,7 +2,7 @@
 """Explicit releases and durable UTC jobs. Configuration and data stay outside git."""
 import argparse
 from contextlib import contextmanager
-from datetime import datetime, timezone
+from datetime import datetime, timedelta, timezone
 import fcntl
 import http.client
 import hashlib
@@ -22,6 +22,9 @@ REQUIRED_CHECKS = {'test (py3.11)', 'test (py3.12)', 'test (py3.13)', 'reproduce
 GENERATED_DATA = ('epoch_capabilities_index_*.csv', 'auto_models.json',
                   'eci_self_conditions.json', 'eci_self6mo_conditions.json', 'combined_conditions.json')
 
+
+# What a job kind's alerts are filed under (fri_forecaster.alert's `deployment`).
+DEPLOYMENT = {'forecast': 'airo', 'news-poll': 'airo', 'forecastbench': 'forecastbench', 'smoke': 'scheduler'}
 
 DATA_BLOCK = re.compile(rb'<!--([A-Z][A-Z0-9_]*_DATA)-->(.*?)<!--/\1-->', re.S)
 DATA_MARKER = re.compile(rb'<!--(/?[A-Z][A-Z0-9_]*_DATA)-->')
@@ -129,6 +132,29 @@ def due_jobs(jobs, now):
             yield key, job
 
 
+def scheduled_between(jobs, after, before):
+    """(key, job, time) for each scheduled minute with after < time < before."""
+    for job in validate_jobs(jobs):
+        if 'at' in job:
+            times = [datetime.fromisoformat(job['at'].replace('Z', '+00:00'))]
+        else:
+            hour, minute = map(int, job['daily_utc'].split(':'))
+            days = (before.date() - after.date()).days
+            times = [datetime.combine(after.date() + timedelta(days=d), datetime.min.time(), timezone.utc).replace(hour=hour, minute=minute)
+                     for d in range(days + 1)]
+        for at in times:
+            if after < at < before:
+                yield job['id'] + '-' + at.strftime('%Y%m%dT%H%M' if 'at' in job else '%Y%m%d'), job, at
+
+
+def paged(ledger):
+    """Did the job itself already page? (the ledger fri_forecaster.alert keeps for it)"""
+    try:
+        return any(json.loads(line).get('severity') == 'page' for line in ledger.read_text().splitlines() if line.strip())
+    except OSError:
+        return False
+
+
 class Runtime:
     def __init__(self, config):
         self.config = config
@@ -163,6 +189,21 @@ class Runtime:
                    TMPDIR=str(self.root / 'tmp'), TZ='UTC', NODE_USE_ENV_PROXY='1',
                    NO_PROXY='localhost,127.0.0.1,::1', no_proxy='localhost,127.0.0.1,::1')
         return env
+
+    def alert(self, job, message, log=None, title='run FAILED'):
+        """One alert through the release's shared sender (fri_forecaster.alert):
+        a page that the run (or its publication) failed; for the news poll, a
+        notice that the news fetch failed. Never raises."""
+        try:
+            code = self.current.resolve(strict=True) / 'code'
+            env = self.environment(code, self.root / 'tmp')
+            news = job['kind'] == 'news-poll'
+            argv = [code / '.venv/bin/python', '-m', 'fri_forecaster.alert', 'send', '--deployment', DEPLOYMENT[job['kind']],
+                    '--severity', 'notice' if news else 'page', '--title', 'news fetch failed' if news else title,
+                    *(['--log', str(log)] if log else []), message]
+            subprocess.run(argv, cwd=code, env=env, timeout=120, check=False)
+        except Exception as exc:
+            print(f'Alert not sent ({type(exc).__name__}): {title}', file=sys.stderr)
 
     def storage_status(self):
         disk = shutil.disk_usage(self.root)
@@ -387,6 +428,8 @@ class Runtime:
                 run([code / '.venv/bin/pip', 'install', '-e', code, '-e', code / 'packages/fri-forecaster'], env=env)
                 run(['npm', 'ci', '--prefix', code / 'packages/fri-forecaster'], env=env)
                 (release / 'python-packages.txt').write_text(output([code / '.venv/bin/pip', 'freeze']))
+                # A release whose failures would reach nobody does not go live.
+                run([code / '.venv/bin/python', '-m', 'fri_forecaster.alert', 'check'], cwd=code, env=self.environment(code, self.root / 'tmp'))
                 self.stage_data(code, copy_results=publish_data)
                 site = self.root / 'sites' / name
                 metadata = {'release': name, 'commit': sha, 'publication': 'frontend', 'publication_commit': sha, 'frontend_commit': sha}
@@ -445,10 +488,13 @@ class Runtime:
             site = self.root / 'sites' / ('job-' + key)
             site.mkdir()
             env = self.environment(code, site)
+            ledger = self.root / 'runs' / (key + '.alerts.jsonl')
+            env['FRI_ALERT_LEDGER'] = str(ledger)
             argv = {'forecast': ['bash', code / 'code/cron_run.sh'],
                     'news-poll': [code / '.venv/bin/python', code / 'code/recent_news.py', 'poll'],
                     'forecastbench': ['bash', code / 'packages/fri-forecaster/scripts/fb_cron.sh', job.get('due', '')],
                     'smoke': [code / '.venv/bin/python', '-c', 'import redlines, fri_forecaster; print("scheduled runtime smoke passed")']}[job['kind']]
+            stage = 'run FAILED'
             try:
                 expects_site = job['kind'] == 'forecast' and any(
                     len(row.split()) > 1 and row.split()[1] == 'publish'
@@ -463,6 +509,7 @@ class Runtime:
                     built = (round_root / 'logs/round.log').read_text().count('build exited 0')
                     if count == 0 or built < count:
                         raise RuntimeError('ForecastBench has incomplete submission sets')
+                stage = 'publish FAILED'   # the run succeeded; what follows only publishes it
                 if expects_site or (site / 'index.html').exists():
                     self.verify_site(site)
                     meta = json.loads((release / 'release.json').read_text())
@@ -474,6 +521,9 @@ class Runtime:
                 started.update(status='succeeded')
             except Exception as exc:
                 started.update(status='failed', error=type(exc).__name__)
+                if job['kind'] != 'smoke' and not paged(ledger):  # the job's own page says more than this one
+                    self.alert(job, f"{key} failed ({type(exc).__name__}). It is not retried.",
+                               log=self.root / 'logs' / (key + '.log'), title=stage)
                 raise
             finally:
                 self.save_generated_data(code)
@@ -481,11 +531,42 @@ class Runtime:
                 write_json(receipt, started)
             return True
 
+    def report_unrun(self, jobs, now):
+        """Page, once each, for a job that died mid-run and for one whose minute
+        passed with no start (the scheduler was down, or busy with another job:
+        jobs run one at a time). Neither is run late; the receipt says what happened."""
+        with self.lock():   # held, so no job is running: a receipt that says so is a dead one
+            runs = self.root / 'runs'
+            for receipt in runs.glob('*.json'):
+                if now.timestamp() - receipt.stat().st_mtime > 7 * 86400:
+                    continue
+                record = json.loads(receipt.read_text())
+                if record.get('status') != 'running':
+                    continue
+                record.update(status='interrupted', finished=now.isoformat())
+                write_json(receipt, record)
+                job = next((j for j in jobs if j['id'] == record.get('job')), None)
+                if job and job['kind'] != 'smoke':
+                    self.alert(job, f"{record['key']} was running when the scheduler stopped. It is not resumed.",
+                               log=self.root / 'logs' / (record['key'] + '.log'))
+            # Only since this release and schedule were switched on: a job added with a past time was never due here.
+            since = max(datetime.fromtimestamp(max(os.lstat(self.current).st_mtime, (self.root / 'jobs-enabled').stat().st_mtime), timezone.utc),
+                        now - timedelta(days=2))
+            for key, job, at in scheduled_between(jobs, since, now.replace(second=0, microsecond=0)):
+                receipt = runs / (key + '.json')
+                if receipt.exists():
+                    continue
+                write_json(receipt, {'key': key, 'job': job['id'], 'status': 'missed', 'started': at.isoformat(), 'finished': now.isoformat()})
+                self.alert(job, f"{key} was due at {at:%Y-%m-%d %H:%M} UTC and never started: "
+                           'the scheduler was not running, or was busy with another job. It is not run late.')
+
     def tick(self):
         if not self.current.exists() or not (self.root / 'jobs-enabled').exists():
             return
         jobs = json.loads((self.current / 'code/deploy/jobs.json').read_text())
-        for key, job in due_jobs(jobs, datetime.now(timezone.utc)):
+        now = datetime.now(timezone.utc)
+        self.report_unrun(jobs, now)
+        for key, job in due_jobs(jobs, now):
             self.execute_job(key, job)
 
     def status(self):

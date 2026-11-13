@@ -3,8 +3,8 @@ first, the AIRO cron or a ForecastBench round.
 
 The script runs from a copy under a temp root, with a stub interpreter whose
 panel is $BEFORE until the stub's fetch has run and $AFTER from then on (the
-fetched snapshot stays on disk, as data/ does), and a stub curl that records
-each page. No model, network or snapshot is touched."""
+fetched snapshot stays on disk, as data/ does) and which records each alert
+sent through it. No model, network or snapshot is touched."""
 import os
 from pathlib import Path
 import shutil
@@ -15,6 +15,7 @@ import unittest
 ROOT = Path(__file__).resolve().parents[1]
 
 STUB_PY = r'''#!/usr/bin/env bash
+if [ "$1 $2" = "-m fri_forecaster.alert" ]; then echo "$*" >> "$PAGES"; exit 0; fi
 if [ "$1 $2" = "-m redlines.eci" ]; then
     [ -n "${FETCH_FAILS:-}" ] && exit 1
     touch "$FETCHED"; exit 0
@@ -30,7 +31,6 @@ fi
 exit 0
 '''
 
-STUB_CURL = '#!/usr/bin/env bash\necho "$*" >> "$PAGES"\n'
 
 
 class TestRefreshPanel(unittest.TestCase):
@@ -43,12 +43,12 @@ class TestRefreshPanel(unittest.TestCase):
         for f in ("refresh_panel.sh", "notify.sh"):
             shutil.copy(ROOT / "code" / f, root / "code" / f)
         self.script = root / "code" / "refresh_panel.sh"
-        for path, text in ((t / "py", STUB_PY), (bin_ / "curl", STUB_CURL)):
+        for path, text in ((t / "py", STUB_PY),):
             path.write_text(text)
             path.chmod(0o755)
         self.pages = t / "pages"
         self.env = {"PATH": f"{bin_}:{os.environ['PATH']}", "HOME": str(t / "home"),
-                    "REDLINES_PY": str(t / "py"), "NTFY_TOPIC": "test", "PAGES": str(self.pages),
+                    "REDLINES_PY": str(t / "py"), "PAGES": str(self.pages),
                     "FETCHED": str(t / "fetched"), "BEFORE": "A, B", "AFTER": "A, B"}
 
     def tearDown(self):
@@ -71,7 +71,7 @@ class TestRefreshPanel(unittest.TestCase):
         rc, out, pages = self.refresh(AFTER="A, C")
         self.assertEqual(rc, 0)
         self.assertIn("panel: A, C", out)
-        self.assertTrue(any("AIRO panel changed" in p for p in pages), pages)
+        self.assertTrue(any("--severity notice --title ensemble changed" in p for p in pages), pages)
         # The next job's refresh starts from the snapshot the first one fetched.
         _, _, pages = self.refresh(AFTER="A, C")
         self.assertEqual(pages, [])
@@ -80,17 +80,19 @@ class TestRefreshPanel(unittest.TestCase):
         rc, out, pages = self.refresh(FETCH_FAILS="1")
         self.assertEqual(rc, 0)
         self.assertIn("panel: A, B", out)
-        self.assertTrue(any("ECI fetch failed" in p for p in pages), pages)
+        self.assertTrue(any("--severity notice --title ECI fetch failed" in p for p in pages), pages)
 
-    def test_a_new_model_pages(self):
+    def test_a_new_model_is_logged_and_the_changed_ensemble_is_the_notice(self):
         rc, out, pages = self.refresh(ADDED="added Model X as x-1")
         self.assertEqual(rc, 0)
         self.assertIn("added Model X", out)
-        self.assertTrue(any("new model joins" in p for p in pages), pages)
+        self.assertEqual(pages, [])
 
-    def test_an_unrunnable_model_pages(self):
-        _, _, pages = self.refresh(UNRUNNABLE="the index ranks X above the panel's cut but the registry cannot run them")
-        self.assertTrue(any("no registry row" in p for p in pages), pages)
+    def test_an_unrunnable_top_model_fails_and_nothing_stands_in(self):
+        rc, out, pages = self.refresh(UNRUNNABLE="the index ranks X above the panel's cut but the registry cannot run them")
+        self.assertEqual(rc, 1)
+        self.assertIn("FATAL: the ensemble cannot be seated", out)
+        self.assertEqual(pages, [])   # the caller fails its run and pages that
 
 
 if __name__ == "__main__":

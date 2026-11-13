@@ -114,9 +114,32 @@ most one of them public.
 A single lock excludes deployment, rollback and jobs from one another. The
 scheduler records a run **before** starting it. Failed/interrupted runs require
 inspection and an explicit recovery action; reboot never retries paid work or
-catches up missed dates automatically. Check receipts and the existing job
-notifications. A timer outage during a scheduled minute means a missed run, not
-an automatic later bill. To start scheduling after migration, create the private
+catches up missed dates automatically. A timer outage during a scheduled minute
+means a missed run, not an automatic later bill. Jobs run one at a time, so a
+long job (a ForecastBench round) also costs any job whose minute falls inside it.
+
+**Alerts.** Every job alerts through one sender, `fri_forecaster.alert`: a caller
+says what happened (`page`: someone must act; `notice`: degraded, no deadline),
+and the installation's private `alerts.json`
+(`~/.config/fri-forecaster/alerts.json` under the runtime home) says where it
+goes. Deployment refuses a release when that file has no channel that takes
+every page (`python -m fri_forecaster.alert check`; `... alert test` sends one
+line down each channel).
+
+Pages, for every dashboard: **run FAILED** and **publish FAILED** (the run
+succeeded). The scheduler sends them for any job that failed without paging
+itself, was running when the scheduler stopped, or whose minute passed with no
+start; the receipt reads `failed`, `interrupted` or `missed`, and none is run
+late. A job sends its own when it knows more (a refused key, a set that is not
+ready). A run fails when any member of its ensemble cannot be reached: a model
+in the index's top four that cannot be run, or one whose calls fail. No other
+model stands in. ForecastBench adds a notice that the sets are ready, while
+upload is by hand.
+
+Notices: **condition failed** (outside the published number), **ECI fetch
+failed** (the last known ensemble is used), **news fetch failed**, **ensemble
+changed**. Nothing is sent on success, and nothing on the box can report that
+the box is down: watch that from outside. To start scheduling after migration, create the private
 `jobs-enabled` file only after disabling the old server's corresponding jobs.
 
 The website is published into a new directory. A frontend deploy verifies its

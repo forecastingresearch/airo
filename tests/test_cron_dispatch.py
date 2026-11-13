@@ -19,7 +19,10 @@ if [ "$1 $2" = "-m redlines.experiments" ]; then
     cat "$DUE_FILE"
     exit "${DUE_RC:-0}"
 fi
-if [ "$1" = "-c" ]; then echo "A, B"; exit 0; fi
+if [ "$1" = "-c" ]; then
+    case "$2" in *panel_warnings*) echo -n "${UNRUNNABLE:-}" ;; *) echo "A, B" ;; esac
+    exit 0
+fi
 if [ "$1" = "code/prepare_recent_news.py" ]; then
     if [[ "$*" == *"--condition recent-shadow-noairo"* ]]; then
         [ "${NEWS_FAIL:-0}" = 0 ] || exit 1
@@ -27,6 +30,7 @@ if [ "$1" = "code/prepare_recent_news.py" ]; then
     fi
 fi
 if [ "$1" = "code/run_unified.py" ]; then
+    [ -z "${ASIDE_FAILS:-}" ] || echo "23 ok, 0 failed; 1 call(s) outside the pooled conditions failed (not in the published number)"
     for e in ${FAIL:-}; do [ "$3" = "$e" ] && exit 1; done
 fi
 exit 0
@@ -67,6 +71,16 @@ class TestCronDispatch(unittest.TestCase):
     def runs(self, calls):
         return [c.split()[2] for c in calls if c.startswith("code/run_unified.py")]
 
+    def alerts(self, calls):
+        """(severity, title) of each alert sent, in order."""
+        sent = []
+        titles = ("run FAILED", "publish FAILED", "condition failed", "ECI fetch failed", "news fetch failed", "ensemble changed")
+        for c in calls:
+            if c.startswith("-m fri_forecaster.alert send"):
+                rest = c.split("--title ")[1]
+                sent.append((c.split("--severity ")[1].split()[0], next(t for t in titles if rest.startswith(t))))
+        return sent
+
     def test_nothing_due_is_a_quiet_day(self):
         rc, calls, log = self.run_cron("")
         self.assertEqual(rc, 0)
@@ -80,6 +94,7 @@ class TestCronDispatch(unittest.TestCase):
                       "--condition ai-banned --workers 10", calls)
         self.assertEqual(calls[-1], "publish")
         self.assertIn("code/check_eci_snapshot.py --rebuild", calls)   # the ECI preparation still runs
+        self.assertEqual(self.alerts(calls), [])                       # a good day says nothing
 
     def test_named_experiments_go_to_due(self):
         rc, calls, _ = self.run_cron("axes publish none\n", "axes")
@@ -92,11 +107,27 @@ class TestCronDispatch(unittest.TestCase):
         self.assertEqual(self.runs(calls), ["airo", "side"])       # the rest still run
         self.assertNotIn("publish", calls)
         self.assertIn("FATAL: airo did not complete", log)
+        self.assertEqual(self.alerts(calls), [("page", "run FAILED")])
+
+    def test_a_top_model_that_cannot_be_run_fails_the_run_and_nothing_stands_in(self):
+        rc, calls, log = self.run_cron("airo publish none\n", UNRUNNABLE="the index ranks X above the cut; cannot run them")
+        self.assertEqual(rc, 1)
+        self.assertEqual(self.runs(calls), [])
+        self.assertNotIn("publish", calls)
+        self.assertIn("FATAL: the ensemble cannot be seated", log)
+        self.assertEqual(self.alerts(calls), [("page", "run FAILED")])
+
+    def test_a_failed_call_outside_the_published_number_is_a_notice(self):
+        rc, calls, log = self.run_cron("airo publish none ai-banned\n", ASIDE_FAILS="1")
+        self.assertEqual(rc, 0, log)
+        self.assertEqual(calls[-1], "publish")
+        self.assertEqual(self.alerts(calls), [("notice", "condition failed")])
 
     def test_a_failed_unpublished_group_does_not(self):
         rc, calls, log = self.run_cron("airo publish none\nside aside a\n", FAIL="side")
         self.assertEqual(rc, 0, log)
         self.assertEqual(calls[-1], "publish")
+        self.assertEqual(self.alerts(calls), [("notice", "condition failed")])
 
     def test_friday_shadow_gets_snapshot_and_failure_does_not_hold_up_publication(self):
         due = "airo publish recent\nairo aside recent-shadow-noairo\n"
@@ -113,6 +144,7 @@ class TestCronDispatch(unittest.TestCase):
         self.assertEqual(runs, ["code/run_unified.py --experiment airo --condition recent --workers 10"])
         self.assertIn("no fallback", log)
         self.assertEqual(calls[-1], "publish")
+        self.assertEqual(self.alerts(calls), [("notice", "news fetch failed")])
 
     def test_only_unpublished_groups_publish_nothing(self):
         rc, calls, log = self.run_cron("side aside a b\n")
