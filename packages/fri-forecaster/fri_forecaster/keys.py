@@ -13,6 +13,24 @@ KEY_FOR = {"anthropic": "ANTHROPIC_API_KEY", "openai": "OPENAI_API_KEY", "google
 KEYS = ("TAVILY_API_KEY",) + tuple(KEY_FOR.values())
 
 
+# Epoch's `organization`, by substring -> pi provider id (the labs a key can be held for).
+LABS = ("anthropic", "openai", "google", "xai")
+
+
+def provider_of(organization):
+    """The pi provider for an index record's lab, or None when there is none."""
+    org = (organization or "").lower()
+    return next((p for p in LABS if p in org), None)
+
+
+def held(provider):
+    """Does this installation hold the API key `provider` (a pi provider id)
+    bills to? Reads the env files first, as a run would."""
+    load_keys()
+    name = KEY_FOR.get(provider)
+    return bool(name and os.environ.get(name))
+
+
 def env_paths():
     explicit = os.environ.get("FORECASTER_ENV_FILE")
     if explicit:

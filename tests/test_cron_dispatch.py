@@ -20,7 +20,7 @@ if [ "$1 $2" = "-m redlines.experiments" ]; then
     exit "${DUE_RC:-0}"
 fi
 if [ "$1" = "-c" ]; then
-    case "$2" in *panel_warnings*) echo -n "${UNRUNNABLE:-}" ;; *) echo "A, B" ;; esac
+    case "$2" in *unseated*) echo -n "${UNRUNNABLE:-}" ;; *) echo "A, B" ;; esac
     exit 0
 fi
 if [ "$1" = "code/prepare_recent_news.py" ]; then

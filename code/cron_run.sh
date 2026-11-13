@@ -41,8 +41,9 @@
 #   ranks into the panel that the registry has no row for is ADDED ON ITS OWN
 #   since 2026-10-07 (redlines.autoreg: matched to its provider's API id,
 #   probed with one request, recorded in data/auto_models.json). A model
-#   that cannot be added FAILS THE RUN (2026-11-13): no other model takes
-#   its seat. A hand row in redlines/registry.py, if one is ever wanted,
+#   that cannot be added though its lab's key is held FAILS THE RUN
+#   (2026-11-13): no other model takes its seat. One whose lab's key is not
+#   held is left out of the ensemble until there is a key. A hand row in redlines/registry.py, if one is ever wanted,
 #   takes precedence.
 #
 # ALERTS (2026-10-01; the shared sender since 2026-11-13). Pages: run FAILED

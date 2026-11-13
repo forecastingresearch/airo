@@ -43,21 +43,38 @@ class TestRule(unittest.TestCase):
         self.assertEqual(warnings[0], "old")
         self.assertTrue(any("only 2 of the top 4 in snap.csv" in w and "panel is short" in w for w in warnings))
 
-    def test_a_new_run_refuses_a_panel_that_is_not_the_top_k(self):
-        # X 9 ranks second and cannot be run: no other model stands in for it.
-        _, warnings = panel.select(self._ranked([("A 2", 170), ("X 9", 169), ("B 1", 160)]), self.TABLE, 2, "snap.csv")
+    def test_a_new_run_refuses_a_top_model_it_holds_a_key_for_and_cannot_run(self):
+        # X 9 ranks second, has no row, and its lab's key is held: no other model stands in for it.
+        ranked = self._ranked([("A 2", 170), ("X 9", 169), ("B 1", 160)])
+        ranked[1]["organization"] = "Google DeepMind"
         with self.assertRaises(panel.PanelError) as e:
-            panel.require(warnings)
+            panel.require(ranked, self.TABLE, 2, "snap.csv", held=lambda provider: True)
         self.assertIn("X 9", str(e.exception))
-        # A short panel is refused too; a family pass-over or a tie is the rule working.
-        _, warnings = panel.select(self._ranked([("B 1", 160)]), self.TABLE, 2, "snap.csv")
-        self.assertRaises(panel.PanelError, panel.require, warnings)
-        _, warnings = panel.select(self._ranked([("A 2", 170), ("A 1", 168), ("B 1", 160), ("C 1", 160)]), self.TABLE, 2)
-        self.assertTrue(warnings)
-        panel.require(warnings)
+        self.assertIn("GEMINI_API_KEY is set", str(e.exception))
+        # Without that key X 9 is not in the ensemble at all: left out, and the run goes ahead.
+        omitted = panel.require(ranked, self.TABLE, 2, "snap.csv", held=lambda provider: provider != "google")
+        self.assertEqual(len(omitted), 1)
+        self.assertIn("X 9 is left out of the ensemble: no API key for its lab (GEMINI_API_KEY)", omitted[0])
+        # So is a model from a lab no key can be held for.
+        ranked[1]["organization"] = "Moonshot"
+        self.assertIn("Moonshot", panel.require(ranked, self.TABLE, 2, held=lambda provider: True)[0])
+
+    def test_what_does_not_stop_a_new_run(self):
+        held = lambda provider: True   # noqa: E731
+        # A short panel is refused; a family pass-over or a tie is the rule working.
+        self.assertRaises(panel.PanelError, panel.require, self._ranked([("B 1", 160)]), self.TABLE, 2, "snap.csv", held)
+        ranked = self._ranked([("A 2", 170), ("A 1", 168), ("B 1", 160), ("C 1", 160)])
+        self.assertTrue(panel.select(ranked, self.TABLE, 2)[1])
+        self.assertEqual(panel.require(ranked, self.TABLE, 2, held=held), [])
         # An unrunnable model BELOW the cut costs nothing.
-        _, warnings = panel.select(self._ranked([("A 2", 170), ("B 1", 160), ("X 9", 150)]), self.TABLE, 2)
-        panel.require(warnings)
+        ranked = self._ranked([("A 2", 170), ("B 1", 160), ("X 9", 150)])
+        ranked[2]["organization"] = "OpenAI"
+        self.assertEqual(panel.require(ranked, self.TABLE, 2, held=held), [])
+
+    def test_gemini_goes_to_pi_under_its_own_provider_name(self):
+        self.assertEqual(panel.pi_model("gemini/gemini-4-carbon"), "google/gemini-4-carbon")
+        self.assertEqual(panel.pi_model("openai/responses/gpt-6-astra"), "openai/gpt-6-astra")
+        self.assertEqual(panel.pi_model("anthropic/claude-fable-5-2"), "anthropic/claude-fable-5-2")
 
     def test_rows_come_back_as_given(self):
         table = [dict(r, color="#123456") for r in self.TABLE]

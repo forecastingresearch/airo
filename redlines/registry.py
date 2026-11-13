@@ -350,6 +350,15 @@ def panel_warnings(k=PANEL_K, snapshot=None):
     return list(_select(k, snapshot)[1])
 
 
+def unseated(k=PANEL_K):
+    """Why a NEW run may not go ahead on the newest snapshot's panel
+    (fri_forecaster.panel.unseated). -> (problems, omitted): a top-k model
+    that cannot be run though its lab's key is held fails the run; one whose
+    lab's key is not held is left out of the ensemble."""
+    day, path = _eci.latest()
+    return _panel.unseated(_eci.ranked(path), MODELS, k, path.name)
+
+
 def eci_topk_models() -> list[tuple[str, str]]:
     """(label, litellm_id) pairs for the panel, ECI-descending."""
     return [(m["label"], m["litellm_id"]) for m, _ in panel()]
@@ -412,17 +421,25 @@ def main(argv=None):
     """`python -m redlines.registry [K]`: the panel's top K runnable models (default
     PANEL_K), best first, one per line as `<Epoch name> TAB <pi model id> TAB <lab>`:
     the panel as fri_forecaster.names sync reads it, so a ForecastBench round on
-    this machine runs the same ensemble as the AIRO runs do. Exits 1 when a
-    model in the index's top PANEL_K cannot be run: no other model stands in."""
+    this machine runs the same ensemble as the AIRO runs do, less any model
+    whose lab's key the caller's keys file lacks. Exits 1 when a model in the
+    index's top PANEL_K cannot be run though its key is held: no other model
+    stands in."""
     from .pi_loop import pi_model
     argv = sys.argv[1:] if argv is None else argv
     k = int(argv[0]) if argv else PANEL_K
-    try:   # the panel itself (PANEL_K), however many are printed
-        _panel.require(panel_warnings())
-    except _panel.PanelError as e:
-        sys.exit(f"FATAL: {e}")
+    from fri_forecaster import keys
+    problems, omitted = unseated()   # the panel itself (PANEL_K), however many are printed
+    for note in omitted:
+        print(f"NOTE: {note}", file=sys.stderr)
+    if problems:
+        sys.exit("FATAL: the ensemble cannot be seated, and no other model stands in: " + "; ".join(problems))
     for m, r in panel(k):
-        print(r["model"], pi_model(m["litellm_id"]), r.get("organization") or "", sep="\t")
+        model = pi_model(m["litellm_id"])
+        if not keys.held(model.split("/", 1)[0]):   # a row from another keys file (AIRO's), no key in this one
+            print(f"NOTE: {r['model']} is left out of the ensemble: no API key for {model.split('/', 1)[0]} here", file=sys.stderr)
+            continue
+        print(r["model"], model, r.get("organization") or "", sep="\t")
 
 
 if __name__ == "__main__":
