@@ -69,12 +69,12 @@
 #     rsync -avz <box>:Projects/redlines/data/{eci_self_conditions,eci_self6mo_conditions,combined_conditions,auto_models}.json data/
 #
 # SETUP
-#   Keys live in ~/.config/redlines/env (mode 600), one KEY=value per line:
-#   ANTHROPIC / OPENAI / GEMINI / GOOGLE / XAI / TAVILY (METACULUS is no
-#   longer read; the lookup left the toolset on 2026-09-02). They are
-#   sourced into the environment here; redlines.llm.load_keys() reads the SAME
-#   file (and never overrides a variable already set), so the run works whether
-#   or not this script sourced it first.
+#   Keys live in the installation's one keys file, which every project reads
+#   (fri_forecaster.keys): $FORECASTER_ENV_FILE, else ~/.config/fri-forecaster/env
+#   (mode 600), one KEY=value per line: ANTHROPIC / OPENAI / GEMINI / XAI /
+#   TAVILY. They are sourced into the environment here; the Python side reads
+#   the SAME file (and never overrides a variable already set), so the run
+#   works whether or not this script sourced it first.
 #
 #   PY just has to be an interpreter with fri-forecaster — `pip install -e .
 #   -e ./packages/forecaster` in any venv. Without one it falls back to the
@@ -89,7 +89,7 @@ if [ -z "${REDLINES_PY:-}" ] && [ -x "$REPO/../../.venv/bin/python" ]; then
     REDLINES_PY="$REPO/../../.venv/bin/python"
 fi
 PY="${REDLINES_PY:-$HOME/Projects/xrisk-canaries/.venv/bin/python}"
-ENVFILE="$HOME/.config/redlines/env"
+ENVFILE="${FORECASTER_ENV_FILE:-$HOME/.config/fri-forecaster/env}"
 
 # WHAT IS DUE: one line per group run_unified runs together,
 # "<experiment> <publish|aside> <condition>..." -- today's by cadence, or every

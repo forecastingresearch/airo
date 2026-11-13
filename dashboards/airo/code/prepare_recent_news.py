@@ -53,12 +53,11 @@ def main():
         guards = {c["url_block_patterns"] for c in required}
         if len(guards) != 1:
             raise ValueError("news group has different URL guards")
-        # Load only the news key, not coding-provider credentials. Environment
-        # wins; a private installation can also use the runtime home's file.
+        # Load only the news key, by name, from the installation's keys file
+        # (fri_forecaster.keys); the environment wins.
         if not os.environ.get("TYPESAFE_API_KEY"):
-            from fri_forecaster.keys import parse_env
-            envfile = Path(os.environ.get("AIRO_NEWS_ENV_FILE", Path.home() / ".config/airo-news/env"))
-            key = parse_env(envfile).get("TYPESAFE_API_KEY")
+            from fri_forecaster import keys
+            key = keys.value("TYPESAFE_API_KEY")
             if key:
                 os.environ["TYPESAFE_API_KEY"] = key
         print(prepare(args.state, guards.pop()))

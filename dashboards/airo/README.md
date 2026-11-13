@@ -178,12 +178,13 @@ that rather than let pi fail. pi has been the published loop since
 combined-v9 and the only one since 2026-10-22, when the litellm loop before it
 left the repo.
 
-Keys go in `~/.config/redlines/env` (mode 600), one `KEY=value` per line:
-`ANTHROPIC_API_KEY`, `OPENAI_API_KEY`, `GEMINI_API_KEY`, `GOOGLE_API_KEY`,
-`XAI_API_KEY`, `TAVILY_API_KEY`. A repo-local `.env` is read as a fallback;
-`REDLINES_ENV_FILE=<path>` pins the run to exactly one file. An already-set
-environment variable always beats every file. `code/cron_run.sh` sources the
-same file, and `tests/test_llm.py` pins the two parsers to agree.
+Keys go in the installation's one keys file, which every project in this
+repository reads (`fri_forecaster.keys`): `~/.config/fri-forecaster/env` (mode
+600), one `KEY=value` per line: `ANTHROPIC_API_KEY`, `OPENAI_API_KEY`,
+`GEMINI_API_KEY`, `XAI_API_KEY`, `TAVILY_API_KEY`. `FORECASTER_ENV_FILE=<path>`
+names another file. An already-set environment variable always beats the file.
+`code/cron_run.sh` sources the same file, and `tests/test_llm.py` pins the two
+parsers to agree.
 
 `TAVILY_API_KEY` is required rather than optional: without it every model still
 answers, from parametric memory with no current evidence, and the run looks

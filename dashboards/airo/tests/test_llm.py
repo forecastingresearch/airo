@@ -161,7 +161,7 @@ class TestTools(unittest.TestCase):
 class TestLoadKeys(unittest.TestCase):
     def setUp(self):
         self._env = dict(os.environ)
-        for k in llm.PROVIDER_KEYS + ("REDLINES_ENV_FILE",):
+        for k in llm.PROVIDER_KEYS + ("FORECASTER_ENV_FILE",):
             os.environ.pop(k, None)
 
     def tearDown(self):
@@ -172,7 +172,7 @@ class TestLoadKeys(unittest.TestCase):
         import tempfile
         p = Path(tempfile.mkdtemp()) / "env"
         p.write_text(text)
-        os.environ["REDLINES_ENV_FILE"] = str(p)
+        os.environ["FORECASTER_ENV_FILE"] = str(p)
         return p
 
     def test_parses_the_shapes_the_shell_accepts(self):
@@ -210,7 +210,7 @@ class TestLoadKeys(unittest.TestCase):
     def test_missing_file_is_not_an_error(self):
         """Best-effort by design: a caller that needs a specific key checks for it
         itself (run_unified.py refuses to start without TAVILY_API_KEY)."""
-        os.environ["REDLINES_ENV_FILE"] = "/nonexistent/redlines/env"
+        os.environ["FORECASTER_ENV_FILE"] = "/nonexistent/keys/env"
         self.assertEqual(llm.load_keys(), [])
 
 

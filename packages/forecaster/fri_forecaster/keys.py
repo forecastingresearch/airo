@@ -1,10 +1,18 @@
-"""API keys: from the environment, else from the first env file that has them.
+"""API keys: one file for the installation, read by every project.
 
-Env files (KEY=value lines, `export ` and quotes tolerated), in order:
-$FORECASTER_ENV_FILE if set (and only it), else ~/.config/fri-forecaster/env,
-then ~/.config/redlines/env (AIRO's cron box). A set variable is never
-overridden. Returns the names of the keys configured afterwards."""
+$FORECASTER_ENV_FILE, else ~/.config/fri-forecaster/env: KEY=value lines
+(`export ` and quotes tolerated), mode 600, outside the repository. Every
+dashboard and submission gets its keys here and nowhere else, so two jobs
+cannot hold different keys for one provider.
+
+load_keys() puts the model and search keys (KEYS) in the environment; a
+variable already set is never overridden. value() reads any one name without
+exporting it, for a key only one step needs.
+
+    python -m fri_forecaster.keys     # the file and the names it holds, never a value
+"""
 import os
+import sys
 from pathlib import Path
 
 # pi provider id -> the API key it bills to (harness.run requires the model's).
@@ -31,11 +39,14 @@ def held(provider):
     return bool(name and os.environ.get(name))
 
 
-def env_paths():
+def path():
+    """The installation's keys file."""
     explicit = os.environ.get("FORECASTER_ENV_FILE")
-    if explicit:
-        return [Path(explicit).expanduser()]
-    return [Path.home() / ".config" / "fri-forecaster" / "env", Path.home() / ".config" / "redlines" / "env"]
+    return Path(explicit).expanduser() if explicit else Path.home() / ".config" / "fri-forecaster" / "env"
+
+
+def env_paths():
+    return [path()]
 
 
 def parse_env(path):
@@ -66,3 +77,21 @@ def load_keys(extra_paths=()):
             if values.get(k):
                 os.environ.setdefault(k, values[k])
     return sorted(k for k in KEYS if os.environ.get(k))
+
+
+def value(name):
+    """One key by name, from the environment, else the keys file; None when it
+    is in neither. Not exported: for a key a single step needs."""
+    return os.environ.get(name) or parse_env(path()).get(name) or None
+
+
+def main(argv=None):
+    """Print the keys file and the names it holds (never a value). Exit 1 when
+    it cannot be read or holds none."""
+    names = sorted(k for k, v in parse_env(path()).items() if v)
+    print(f"{path()}: {', '.join(names) if names else 'no keys (missing, unreadable or empty)'}")
+    return 0 if names else 1
+
+
+if __name__ == "__main__":
+    sys.exit(main())
