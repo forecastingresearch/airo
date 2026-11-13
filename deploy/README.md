@@ -106,7 +106,10 @@ Change `deploy/jobs.json` and merge/deploy it. The daily UTC wake-up delegates
 experiment selection to `experiments/*.toml`; days with nothing due make no paid
 calls. ForecastBench entries have explicit years and due dates. Creating a new
 round means adding an entry, reviewing its cost/configuration, and deploying.
-Submission upload remains manual, as before.
+Submission upload remains manual, as before. What a round submits, and under
+which of the team's names, is the private name registry's
+(`packages/fri-forecaster/fri_forecaster/README.md`): at most three sets, at
+most one of them public.
 
 A single lock excludes deployment, rollback and jobs from one another. The
 scheduler records a run **before** starting it. Failed/interrupted runs require

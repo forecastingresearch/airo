@@ -55,6 +55,18 @@ AGENT_DIR = os.path.join(tempfile.gettempdir(), "fri-forecaster-agent")
 RETRY_BACKOFF = 20
 
 
+# ...but not when the provider refused the key: that is the key's fault, not
+# the moment's, and no wait mends it (2026-11-08: a rotated Anthropic key,
+# 500 questions, four attempts each).
+AUTH_ERRORS = ("authentication_error", "invalid x-api-key", "invalid_api_key", "incorrect api key")
+
+
+def auth_error(usage):
+    """Did the call end because the provider refused the API key?"""
+    e = (usage.get("api_error") or "").lower()
+    return e.startswith("401") or any(s in e for s in AUTH_ERRORS)
+
+
 def key_of(cell, key_fields):
     return "|".join(str(cell.get(k)) for k in key_fields)
 
@@ -226,7 +238,7 @@ def run(*, model, system, prompt, workdir, cell_schema, key_fields, allowed_keys
     environment is pi_env's: billed to API keys only. A call that ends in a
     provider error with no cells (usage["api_error"]) is made again, up to
     `retries` times, each in its own attempt folder, RETRY_BACKOFF seconds
-    times the attempt number apart."""
+    times the attempt number apart; a refused API key (auth_error) is not."""
     full_env = pi_env(model, env)
     for attempt in range(retries + 1):
         res = _call(model=model, system=system, prompt=prompt, workdir=workdir, cell_schema=cell_schema,
@@ -234,7 +246,7 @@ def run(*, model, system, prompt, workdir, cell_schema, key_fields, allowed_keys
                     min_research=min_research, research_tools=research_tools, final_extra=final_extra,
                     cells_tool=cells_tool, thinking=thinking, pi=pi, cwd=cwd, env=full_env, timeout=timeout,
                     tool_parameters=tool_parameters, **loop)
-        if res["cells"] or not res["usage"]["api_error"] or attempt == retries:
+        if res["cells"] or not res["usage"]["api_error"] or auth_error(res["usage"]) or attempt == retries:
             return res
         time.sleep(RETRY_BACKOFF * (attempt + 1))
 

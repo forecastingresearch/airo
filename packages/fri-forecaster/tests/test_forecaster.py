@@ -1,5 +1,7 @@
 """fri_forecaster: the shared pi harness and the ForecastBench driver, against a
 fake `pi` (no network, no spend)."""
+import contextlib
+import io
 import json
 import os
 import stat
@@ -278,6 +280,85 @@ class ForecastBenchTest(unittest.TestCase):
             with self.assertRaises(SystemExit):
                 fb.main(["build", "--root", root, "--member", "a/one", "--name", "x", "--model-org", "X", "--org", "Example Team", "--set-number", "1"])
 
+    def test_an_airo_condition_is_the_baseline_loop_plus_its_instruction(self):
+        from fri_forecaster import baseline
+        from fri_forecaster.variants import VARIANTS
+        with tempfile.TemporaryDirectory() as d:
+            qpath, root = self._round(d)
+            os.environ["FAKE_ALL"] = "1"
+            try:
+                self.assertEqual(fb.main(["run", "--root", root, "--question-set", qpath, "--model", "openai/one",
+                                          "--airo", "two-step", "--pi", fake_pi(d)]), 0)
+            finally:
+                os.environ.pop("FAKE_ALL")
+            mdir = os.path.join(root, "members", "openai_one--xhigh--airo-two-step")   # openai's top level
+            man = json.load(open(os.path.join(mdir, "manifest.json")))
+            self.assertEqual((man["condition"], man["prompt_version"], man["thinking"], man["min_research"]),
+                             ("two-step", fb.AIRO_PROMPT_VERSION, "xhigh", 0))
+            call = os.path.join(mdir, "calls", "metaculus__m1", "attempt-1")
+            self.assertEqual(open(os.path.join(call, "system.txt")).read(), baseline.SYSTEM)   # no system prompt
+            prompt = open(os.path.join(call, "prompt.txt")).read()
+            plain = fb.build_prompt(fb.questions_of(QSET)[0], "2026-10-11")
+            head, _, delivery = plain.rpartition("\n")
+            self.assertEqual(prompt, f"{head}\n{VARIANTS['two-step']}\n\n{delivery}")   # verbatim, before the delivery line
+            spec = json.load(open(os.path.join(call, "spec.json")))
+            self.assertEqual(list(spec["tools"]), ["web_search", "read_page", "submit_forecast"])  # one answer tool
+            self.assertEqual(spec["tools"]["web_search"]["description"], baseline.WEB_SEARCH)
+            self.assertEqual((spec["min_research"], spec["max_turns"]), (0, baseline.MAX_TURNS))
+            self.assertEqual(fb.main(["build", "--root", root, "--member", "openai/one,airo-two-step", "--name", "x",
+                                      "--org", "Example Team", "--set-number", "1"]), 0)
+
+    def test_airo_none_adds_nothing_and_other_settings_are_refused(self):
+        q = fb.questions_of(QSET)[0]
+        self.assertEqual(fb.airo_prompt(q, "2026-10-11", "none"), fb.build_prompt(q, "2026-10-11"))
+        with tempfile.TemporaryDirectory() as d:
+            qpath, root = self._round(d)
+            for extra in (["--thinking", "high"], ["--no-research"]):   # not the Baseline loop
+                with self.assertRaises(SystemExit):
+                    fb.main(["run", "--root", root, "--question-set", qpath, "--model", "openai/one", "--airo", "none",
+                             "--pi", fake_pi(d)] + extra)
+
+    def test_a_short_member_makes_a_complete_set_not_ready(self):
+        with tempfile.TemporaryDirectory() as d:
+            qpath, root = self._round(d)
+            pi = fake_pi(d)
+            os.environ["FAKE_ALL"] = "1"
+            try:
+                self.assertEqual(fb.main(["run", "--root", root, "--question-set", qpath, "--model", "a/one", "--pi", pi]), 0)
+            finally:
+                os.environ.pop("FAKE_ALL")
+            # b/two leaves the first key of each question unanswered: short, exit 1
+            self.assertEqual(fb.main(["run", "--root", root, "--question-set", qpath, "--model", "b/two", "--pi", pi]), 1)
+            out = io.StringIO()
+            with contextlib.redirect_stdout(out):
+                rc = fb.main(["build", "--root", root, "--member", "a/one", "--member", "b/two", "--name", "x",
+                              "--org", "Example Team", "--set-number", "1"])
+            self.assertEqual(rc, 1)                                   # every cell has a forecast, from a/one alone
+            self.assertIn("market: 1/1 complete", out.getvalue())
+            self.assertIn("SHORT MEMBER b_two--high--research: market 0/1, dataset 0/1", out.getvalue())
+            self.assertIn("NOT READY TO UPLOAD: 1 member(s) below 95%", out.getvalue())
+            prov = json.load(open(os.path.join(root, "2026-10-11.example-team.1.json.provenance.json")))
+            self.assertEqual(prov["member_coverage"]["a_one--high--research"], {"market": [1, 1], "dataset": [1, 1]})
+
+    def test_a_refused_key_stops_the_member_without_retries(self):
+        refused = '401 {"type":"error","error":{"type":"authentication_error","message":"invalid x-api-key"}}'
+        self.assertTrue(harness.auth_error({"api_error": refused}))
+        self.assertFalse(harness.auth_error({"api_error": "429 rate limit"}))
+        self.assertFalse(harness.auth_error({"api_error": None}))
+        with tempfile.TemporaryDirectory() as d:
+            qpath, root = self._round(d)
+            os.environ["FAKE_API_ERROR"] = refused
+            try:   # a retry would wait harness.RETRY_BACKOFF seconds: this returns at once
+                rc = fb.main(["run", "--root", root, "--question-set", qpath, "--model", "a/one", "--workers", "1",
+                              "--pi", fake_pi(d)])
+            finally:
+                os.environ.pop("FAKE_API_ERROR")
+            self.assertEqual(rc, 2)
+            mdir = os.path.join(root, "members", "a_one--high--research")
+            self.assertFalse(os.path.exists(os.path.join(mdir, "results.jsonl")))      # nothing to resume around
+            calls = os.path.join(mdir, "calls")                                        # a call under way may finish:
+            self.assertEqual({tuple(os.listdir(os.path.join(calls, c))) for c in os.listdir(calls)}, {("attempt-1",)})  # none is retried
+
     def test_torn_results_line_is_skipped(self):
         with tempfile.TemporaryDirectory() as d:
             p = os.path.join(d, "r.jsonl")
@@ -316,6 +397,40 @@ class NamesTest(unittest.TestCase):
 
     def test_places_unique(self):
         self.assertEqual(len(self.reg["places"]), len(set(self.reg["places"])))
+
+    def test_an_entry_with_prompts_runs_every_member_under_each(self):
+        specs = self.names.member_specs(self.reg, "pooled")
+        self.assertEqual(len(specs), 4 * 5)
+        self.assertEqual(specs[0], "anthropic/claude-opus-5-5@max,airo-none")          # each model's top level
+        self.assertEqual(specs[-1], "anthropic/claude-sonnet-5-5@max,airo-two-step")
+        self.assertIn("openai/gpt-6-astra@xhigh,airo-critical", specs)
+
+    def test_an_instruction_is_part_of_the_fingerprint(self):
+        from fri_forecaster import variants
+        old = variants.VARIANTS["recent"]
+        variants.VARIANTS["recent"] = old + " And cite them."
+        try:
+            with self.assertRaises(SystemExit):
+                self.names.current(self.reg, "pooled")
+            self.names.current(self.reg, "ensemble")       # the ForecastBench prompt's names do not move
+        finally:
+            variants.VARIANTS["recent"] = old
+
+    def test_submitted_and_public_conditions(self):
+        self.assertEqual(self.names.submitted(self.reg), ["ensemble", "solo", "pooled"])   # unaided only runs
+        self.assertEqual(self.names.public_of(self.reg), ["ensemble"])
+
+    def test_forecastbench_limits_are_refused(self):
+        import copy
+        four = copy.deepcopy(self.reg)
+        four["conditions"]["unaided"].pop("submit")
+        with self.assertRaises(SystemExit) as e:
+            self.names.submitted(four)
+        self.assertIn("at most 3 sets", str(e.exception))
+        two_public = copy.deepcopy(self.reg)
+        two_public["conditions"]["solo"]["public"] = True
+        with self.assertRaises(SystemExit):
+            self.names.submitted(two_public)
 
 
 class SyncTest(unittest.TestCase):
@@ -368,6 +483,14 @@ class SyncTest(unittest.TestCase):
                          ", ".join(self.have[:3] + ["Claude Fable 5.1"]))
         self.assertEqual(self.reg["names"]["ensemble-oak"]["members"][3]["eci_name"], self.have[3])  # never edited
         self.assertEqual(self.names.member_specs(self.reg, "ensemble")[3], "anthropic/claude-fable-5-1@high,research")
+        self.assertEqual(self.names.sync(self.reg, "pooled", panel)[0], "pooled-elm")
+        p = self.reg["names"]["pooled-elm"]
+        self.assertEqual(p["prompts"], self.reg["names"]["pooled-oak"]["prompts"])     # the same five prompts
+        self.assertEqual(p["harness"]["prompt_version"], fb.AIRO_PROMPT_VERSION)
+        self.assertEqual(p["members"][3]["options"]["thinking"], "max")                # Anthropic's top level, not a copy
+        self.assertEqual(p["members"][1]["options"]["thinking"], "xhigh")
+        self.assertEqual(self.names.current(self.reg, "pooled"), "pooled-elm")
+        self.assertEqual(self.names.member_specs(self.reg, "pooled")[3], "anthropic/claude-fable-5-1@max,airo-none")
 
     def test_names_alone_cannot_register_so_the_current_name_is_kept_with_a_warning(self):
         panel = self.names.parse_panel([f"{n}\n" for n in self.have[:3] + ["Claude Fable 5.1"]])

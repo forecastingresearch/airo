@@ -49,18 +49,21 @@ def research_tools():
     return [search, read]
 
 
-def run(model, prompt, *, workdir, cell_schema, key_fields, allowed_keys, submit_cells, submit_forecast,
-        env=None, timeout=TIMEOUT, cwd=None, retries=0, harness_run=None):
+def run(model, prompt, *, workdir, cell_schema, key_fields, allowed_keys, submit_forecast, submit_cells=None,
+        env=None, timeout=TIMEOUT, cwd=None, retries=0, pi=None, harness_run=None):
     """One Baseline call. `model` is a panel row's `model`; `submit_cells` and
     `submit_forecast` are the dashboard's two answer tools as {description,
     parameters} (the pieces along the way, and the final answer); the cells
     they carry are `cell_schema`, keyed by `key_fields`, and only
-    `allowed_keys` are kept. -> harness.run's result."""
+    `allowed_keys` are kept. A dashboard whose answer fits one call leaves
+    `submit_cells` out, and a tool without `parameters` keeps the harness's
+    own. `pi`: another pi than the harness's default. -> harness.run's result."""
     if harness_run is None:
         from . import harness
         harness_run = harness.run
     research = research_tools()
-    specs = {**{t["name"]: t for t in research}, "submit_cells": submit_cells, "submit_forecast": submit_forecast}
+    specs = {**{t["name"]: t for t in research}, **({"submit_cells": submit_cells} if submit_cells else {}),
+             "submit_forecast": submit_forecast}
     # pi writes its working directory into its system prompt: run it from an
     # empty directory whose name says nothing about the project.
     cwd = cwd or os.path.join(tempfile.gettempdir(), "w")
@@ -68,6 +71,7 @@ def run(model, prompt, *, workdir, cell_schema, key_fields, allowed_keys, submit
     return harness_run(model=panel.pi_model(model), system=SYSTEM, prompt=prompt, workdir=workdir, cwd=cwd,
                        cell_schema=cell_schema, key_fields=list(key_fields), allowed_keys=list(allowed_keys),
                        tool_descriptions={n: s["description"] for n, s in specs.items()},
-                       tool_parameters={n: s["parameters"] for n, s in specs.items()},
-                       research_tools=tuple(t["name"] for t in research), cells_tool=True,
-                       thinking=panel.reasoning_for(model), timeout=timeout, env=env, retries=retries, **LOOP)
+                       tool_parameters={n: s["parameters"] for n, s in specs.items() if s.get("parameters")},
+                       research_tools=tuple(t["name"] for t in research), cells_tool=bool(submit_cells),
+                       thinking=panel.reasoning_for(model), timeout=timeout, env=env, retries=retries,
+                       **({"pi": pi} if pi else {}), **LOOP)
