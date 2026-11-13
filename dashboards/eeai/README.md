@@ -16,7 +16,7 @@ eeai/
   survey.py            what the question set asks for
   instrument.py        the prompt, the answer tools, the cleaning
   run.py               ask the panel -> results/runs/<stamp>.jsonl
-  build.py, pages.py   the run files -> the page
+  build.py             the run files -> the page
   export.py            the download (eeai-data.zip)
   synthetic.py         made-up answers, for the page and the tests
   data/                questions.json, history.csv (tracked); source/ (FRI's documents, not tracked)
@@ -93,7 +93,7 @@ reads them (`fri_forecaster/keys.py`).
 ## The page
 
 `python3 -m eeai build` writes `eeai/site/`: `index.html` (assembled from
-`eeai/web/` by `eeai/pages.py`), `eeai-data.zip`, and the logo and fonts the
+`eeai/web/` by the dashboard kit, `packages/dashboard`), `eeai-data.zip`, and the logo and fonts the
 page links to. The folder is self-contained; any static web server can serve
 it. The panel's number is the median across models of each value. The page
 draws what is asked: points at each date, joined to the latest data by

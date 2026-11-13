@@ -5,11 +5,19 @@ before the package existed, so behavior is byte-identical. See the docstring
 on each constant for its prior home.
 """
 import os
+import sys
 from pathlib import Path
 
 # redlines/config.py -> redlines/ -> repo root. Same depth as the old
 # code/*.py scripts' `Path(__file__).resolve().parent.parent`.
 REPO_ROOT = Path(__file__).resolve().parent.parent
+
+try:
+    import dashboard  # noqa: F401
+except ImportError:
+    # One repository: the dashboard kit's source is at packages/dashboard, so a
+    # bare checkout builds without installing it (pip install -e packages/dashboard).
+    sys.path.insert(0, str(REPO_ROOT.parents[1] / "packages" / "dashboard"))
 
 # External sibling checkouts this pipeline reads from. Each is overridable via
 # an env var of the same name, for boxes (e.g. the exe.dev cron host) where

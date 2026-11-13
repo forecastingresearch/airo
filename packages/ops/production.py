@@ -5,7 +5,6 @@ from contextlib import contextmanager
 from datetime import datetime, timedelta, timezone
 import fcntl
 import http.client
-import hashlib
 from http.server import SimpleHTTPRequestHandler
 import json
 import os
@@ -18,12 +17,16 @@ import subprocess
 import sys
 import uuid
 
+# This script runs on the system interpreter, outside the release's venv.
+sys.path.insert(0, str(Path(__file__).resolve().parents[1] / 'dashboard'))
+from dashboard import page, site as site_kit  # noqa: E402
+
 # Where things are in a release: the repository's layout.
 AIRO = 'dashboards/airo'                    # its index.html, web/, data/, results/ and code/
 FORECASTER = 'packages/forecaster'          # the engine; pi is under its node_modules
 FORECASTBENCH = 'submissions/forecastbench'
 JOBS = 'packages/ops/jobs.json'
-PROJECTS = (FORECASTER, AIRO, 'dashboards/eeai', FORECASTBENCH)   # each installed into the release's venv
+PROJECTS = (FORECASTER, 'packages/dashboard', AIRO, 'dashboards/eeai', FORECASTBENCH)   # each installed into the release's venv
 # The installation's launcher runs this path in the live release, and deploy
 # runs it in a candidate (build-release): it stays put whatever else moves.
 LAUNCHER = 'code/production.py'
@@ -36,46 +39,17 @@ GENERATED_DATA = ('epoch_capabilities_index_*.csv', 'auto_models.json',
 # What a job kind's alerts are filed under (fri_forecaster.alert's `deployment`).
 DEPLOYMENT = {'forecast': 'airo', 'news-poll': 'airo', 'forecastbench': 'forecastbench', 'smoke': 'scheduler'}
 
-DATA_BLOCK = re.compile(rb'<!--([A-Z][A-Z0-9_]*_DATA)-->(.*?)<!--/\1-->', re.S)
-DATA_MARKER = re.compile(rb'<!--(/?[A-Z][A-Z0-9_]*_DATA)-->')
 DATA_FILES = ('forecasts.csv', 'rationales.csv', 'debriefs.csv', 'redlines-data.zip')
 
-
-def data_blocks(html):
-    """Read the published data boundary, rejecting missing/duplicate markers."""
-    matches = list(DATA_BLOCK.finditer(html))
-    markers = DATA_MARKER.findall(html)
-    expected = [tag for match in matches for tag in (match[1], b'/' + match[1])]
-    if not matches or markers != expected or len({m[1] for m in matches}) != len(matches):
-        raise RuntimeError('Invalid or duplicate dashboard data markers')
-    for match in matches:
-        name = match[1].removesuffix(b'_DATA')
-        assignment = re.fullmatch(rb'\s*<script>\s*window\.__' + name + rb'__\s*=\s*(.*?)\s*;\s*</script>\s*', match[2], re.S)
-        if not assignment:
-            raise RuntimeError('Invalid dashboard data assignment: ' + name.decode())
-        json.loads(assignment[1])
-    return {m[1].decode(): m[0] for m in matches}
-
-
-def frontend_html(template, published):
-    """New interface, byte-identical previously published data and labels."""
-    old, new = data_blocks(published), data_blocks(template)
-    if old.keys() != new.keys():
-        raise RuntimeError('Dashboard data blocks changed; publish validated data or migrate the snapshot explicitly')
-    return DATA_BLOCK.sub(lambda m: old[m[1].decode()], template)
+# The published data boundary is the dashboard kit's (packages/dashboard):
+# reading a page's data blocks, a new interface around byte-identical data,
+# and the hash of what a site publishes.
+data_blocks = page.blocks
+frontend_html = page.swap_frontend
 
 
 def data_snapshot(site):
-    blocks = {name: hashlib.sha256(block).hexdigest()
-              for name, block in data_blocks((site / 'index.html').read_bytes()).items()}
-    files = {}
-    for name in DATA_FILES:
-        path = site / name
-        if path.exists():
-            with path.open('rb') as f:
-                files[name] = hashlib.file_digest(f, 'sha256').hexdigest()
-    manifest = {'blocks': blocks, 'files': files}
-    return {**manifest, 'sha256': hashlib.sha256(json.dumps(manifest, sort_keys=True).encode()).hexdigest()}
+    return site_kit.snapshot(site, DATA_FILES)
 
 
 def write_json(path, value):
@@ -355,13 +329,7 @@ class Runtime:
                     p.symlink_to(dest)
 
     def verify_site(self, site):
-        for name in ('index.html', 'forecasts.csv', 'rationales.csv', 'redlines-data.zip'):
-            if not (site / name).is_file() or (site / name).stat().st_size == 0:
-                raise RuntimeError('Incomplete publication: ' + name)
-        if '<html' not in (site / 'index.html').read_text().lower():
-            raise RuntimeError('Publication has no HTML document')
-        if any(p.is_symlink() for p in site.rglob('*')):
-            raise RuntimeError('Publication must not contain symlinks')
+        site_kit.verify(site, required=('forecasts.csv', 'rationales.csv', 'redlines-data.zip'))
 
     def probe(self, release):
         """Check the actual serving process sees the newly selected release."""
@@ -537,7 +505,7 @@ class Runtime:
             argv = {'forecast': ['bash', airo / 'code/cron_run.sh'],
                     'news-poll': [code / '.venv/bin/python', airo / 'code/recent_news.py', 'poll'],
                     'forecastbench': ['bash', code / FORECASTBENCH / 'scripts/fb_cron.sh', job.get('due', '')],
-                    'smoke': [code / '.venv/bin/python', '-c', 'import redlines, eeai, forecastbench, fri_forecaster; print("scheduled runtime smoke passed")']}[job['kind']]
+                    'smoke': [code / '.venv/bin/python', '-c', 'import redlines, eeai, forecastbench, fri_forecaster, dashboard; print("scheduled runtime smoke passed")']}[job['kind']]
             cwd = code if job['kind'] in ('forecastbench', 'smoke') else airo
             stage = 'run FAILED'
             try:

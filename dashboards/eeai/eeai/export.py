@@ -10,12 +10,10 @@
 
 Written by `python3 -m eeai build`; the page's "Download data" button serves it.
 """
-import csv
-import io
-import zipfile
 from pathlib import Path
 
 from . import config, survey as S
+from dashboard import download
 
 NAME = "eeai-data.zip"
 FORECAST_COLUMNS = ["run_id", "run_date", "model", "model_id", "question_id", "question", "unit",
@@ -43,14 +41,6 @@ the models of a run. Instrument: {instrument}. Runs: {runs}.
   question. A call's first line carries the prompt, every search and page
   read, and the token usage.
 """
-
-
-def _csv(columns, lines):
-    out = io.StringIO()
-    w = csv.writer(out, lineterminator="\n")
-    w.writerow(columns)
-    w.writerows(lines)
-    return out.getvalue()
 
 
 def forecast_lines(survey, runs):
@@ -90,15 +80,12 @@ def bundle(out, survey, runs, runs_dir=None):
         note="PLACEHOLDER DATA: these numbers are made up to show the layout.\n\n" if synthetic else "",
         instrument=survey["instrument"], runs=", ".join(run_id for run_id, _ in runs),
         forecast_columns=", ".join(FORECAST_COLUMNS))
-    out = Path(out)
-    out.parent.mkdir(parents=True, exist_ok=True)
-    with zipfile.ZipFile(out, "w", compression=zipfile.ZIP_DEFLATED, compresslevel=6) as z:
-        z.writestr("README.md", readme)
-        z.writestr("forecasts.csv", _csv(FORECAST_COLUMNS, forecast_lines(survey, runs)))
-        z.writestr("rationales.csv", _csv(RATIONALE_COLUMNS, rationale_lines(survey, runs)))
-        z.writestr("ai_progress.csv", _csv(PROGRESS_COLUMNS, progress_lines(runs)))
-        z.write(config.QUESTIONS, "questions.json")
-        z.write(config.HISTORY, "history.csv")
-        for run_id, _ in runs:
-            z.write(Path(runs_dir or config.RUNS) / f"{run_id}.jsonl", f"runs/{run_id}.jsonl")
-        return z.namelist()
+    return download.bundle(out, [
+        ("README.md", readme),
+        ("forecasts.csv", download.csv_text(FORECAST_COLUMNS, forecast_lines(survey, runs))),
+        ("rationales.csv", download.csv_text(RATIONALE_COLUMNS, rationale_lines(survey, runs))),
+        ("ai_progress.csv", download.csv_text(PROGRESS_COLUMNS, progress_lines(runs))),
+        ("questions.json", config.QUESTIONS),
+        ("history.csv", config.HISTORY),
+        *((f"runs/{run_id}.jsonl", Path(runs_dir or config.RUNS) / f"{run_id}.jsonl") for run_id, _ in runs),
+    ])
