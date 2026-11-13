@@ -342,5 +342,44 @@ class TestTableInvariants(unittest.TestCase):
         self.assertNotIn(registry.RETIRED_COLOR, {m["color"] for m in registry.MODELS})
 
 
+class TestPanelForARound(unittest.TestCase):
+    """`python -m redlines.registry K`, the panel a ForecastBench round reads."""
+
+    ROWS = [({"litellm_id": "anthropic/a-1"}, {"model": "A 1", "organization": "Anthropic"}),
+            ({"litellm_id": "gemini/g-1"}, {"model": "G 1", "organization": "Google DeepMind"}),
+            ({"litellm_id": "openai/responses/o-1"}, {"model": "O 1", "organization": "OpenAI"})]
+
+    def run_main(self, held, unseated=([], [])):
+        import contextlib
+        import io
+        from unittest import mock
+        from fri_forecaster import keys
+        from redlines import registry
+        out, err = io.StringIO(), io.StringIO()
+        with mock.patch.object(registry, "panel", lambda k=4: self.ROWS[:k]), \
+                mock.patch.object(registry, "unseated", lambda: unseated), \
+                mock.patch.object(keys, "held", held), \
+                contextlib.redirect_stdout(out), contextlib.redirect_stderr(err):
+            try:
+                registry.main(["3"])
+                rc = 0
+            except SystemExit as e:
+                rc = e.code
+        return rc, out.getvalue().splitlines(), err.getvalue()
+
+    def test_a_model_goes_to_pi_under_its_provider_and_one_with_no_key_here_is_left_out(self):
+        rc, lines, _ = self.run_main(lambda provider: True)
+        self.assertEqual([l.split("\t")[1] for l in lines], ["anthropic/a-1", "google/g-1", "openai/o-1"])
+        rc, lines, err = self.run_main(lambda provider: provider != "google")
+        self.assertEqual(rc, 0)
+        self.assertEqual([l.split("\t")[0] for l in lines], ["A 1", "O 1"])
+        self.assertIn("G 1 is left out of the ensemble: no API key for google here", err)
+
+    def test_a_top_model_that_cannot_be_run_stops_the_round(self):
+        rc, lines, _ = self.run_main(lambda provider: True, unseated=(["X 9 is in the top 4 and cannot be run"], []))
+        self.assertEqual(lines, [])
+        self.assertIn("FATAL: the ensemble cannot be seated", str(rc))
+
+
 if __name__ == "__main__":
     unittest.main()

@@ -40,7 +40,9 @@ fi
 [ -z "$ADDED" ] || echo "$ADDED"
 "$PY" code/check_eci_snapshot.py --rebuild
 PANEL="$(panel_labels)"
-UNRUNNABLE="$("$PY" -c 'from redlines import registry; print("\n".join(w for w in registry.panel_warnings() if "cannot run" in w or "panel is short" in w))')"
+# A top model that cannot be run, though its lab's key is held (stdout); one
+# whose lab's key is not held is left out of the ensemble (a NOTE, stderr).
+UNRUNNABLE="$("$PY" -c 'import sys; from redlines import registry; problems, omitted = registry.unseated(); print("\n".join(problems)); [print("NOTE:", o, file=sys.stderr) for o in omitted]')"
 echo "panel: $PANEL"
 if [ -n "$PREV_PANEL" ] && [ "$PANEL" != "$PREV_PANEL" ]; then
     notify "ensemble changed" "Was: $PREV_PANEL

@@ -131,9 +131,10 @@ succeeded). The scheduler sends them for any job that failed without paging
 itself, was running when the scheduler stopped, or whose minute passed with no
 start; the receipt reads `failed`, `interrupted` or `missed`, and none is run
 late. A job sends its own when it knows more (a refused key, a set that is not
-ready). A run fails when any member of its ensemble cannot be reached: a model
-in the index's top four that cannot be run, or one whose calls fail. No other
-model stands in. ForecastBench adds a notice that the sets are ready, while
+ready). The ensemble is the top four by ECI of the models the installation
+holds an API key for; a model whose lab's key is not held is left out until
+there is one. A run fails when any member of that ensemble cannot be reached:
+one that cannot be run, or one whose calls fail. No other model stands in. ForecastBench adds a notice that the sets are ready, while
 upload is by hand.
 
 Notices: **condition failed** (outside the published number), **ECI fetch

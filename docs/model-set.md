@@ -80,8 +80,10 @@ on `/v1/chat/completions` OpenAI refuses function tools for it under any
   panel it joins, chosen once and kept. GPT-6.1 Sol, third on the 2026-10-07
   index, sat out that day's run for want of a row; this is why. A model
   that cannot be matched or fails the probe has no row, and since 2026-11-13
-  that FAILS THE RUN: no other model takes its seat. A `_ROWS` entry for it
-  mends that, and a hand row always wins over an automatic one. A tie at the cut is broken by Epoch's rank
+  that FAILS THE RUN when its lab's API key is held: no other model takes
+  its seat. A `_ROWS` entry for it mends that, and a hand row always wins
+  over an automatic one. A model whose lab's key is not held is not in the
+  ensemble at all, until there is a key. A tie at the cut is broken by Epoch's rank
   order and WARNed.
 - Every registry row carries a color, so any row the index promotes can be
   drawn. `model_colors()` lists the panel first, in its own colors, then every

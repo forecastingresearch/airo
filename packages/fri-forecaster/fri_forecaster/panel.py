@@ -19,10 +19,12 @@ the index reader lived here; they are one thing and now sit together.
                    or one a dashboard's box added on its own after probing the
                    model (AIRO's redlines.autoreg writes auto_models.json
                    beside the snapshots). A hand row wins.
-  no fallback      a model in the index's top k that is NOT runnable fails a
-                   new run (require(), 2026-11-13): no other model takes its
-                   seat. So does a member whose calls fail, in each dashboard's
-                   runner.
+  no fallback      the ensemble is the top k of the models this installation
+                   holds an API key for. One of them that is NOT runnable
+                   fails a new run (require(), 2026-11-13): no other model
+                   takes its seat. So does a member whose calls fail, in each
+                   dashboard's runner. A model whose lab's key is not held is
+                   left out until there is one.
 
 Everything the rule does out of the ordinary is a warning, returned and
 printed once: a stale snapshot, a model passed over for its family, a model
@@ -37,7 +39,7 @@ import os
 import sys
 from pathlib import Path
 
-from . import eci
+from . import eci, keys
 
 PANEL_K = 4
 PANEL_SET = "eci_topk"
@@ -108,8 +110,11 @@ def reasoning_for(model):
 
 def pi_model(model):
     """A row's `model` -> pi's id for it. pi picks the API itself, so the
-    Responses-API path segment is dropped."""
-    return model.replace("openai/responses/", "openai/", 1)
+    Responses-API path segment is dropped; its provider for Gemini is
+    `google` (a `gemini/` id is "not found": 2026-11-13, Gemini 4 Carbon sat
+    out for it)."""
+    model = model.replace("openai/responses/", "openai/", 1)
+    return "google/" + model[len("gemini/"):] if model.startswith("gemini/") else model
 
 
 def auto_models_path(snapshot_dir=None):
@@ -148,23 +153,45 @@ class PanelError(RuntimeError):
     """The index's top k cannot all be run."""
 
 
-# NO FALLBACK (2026-11-13): a run asks the top k by ECI or it does not run.
-# select() still seats the next runnable model, because a past run's panel is
+# NO FALLBACK (2026-11-13). The ensemble is the top k by ECI of the models
+# this installation holds an API key for. A model in it that cannot be run
+# fails the run: no other model takes its seat. A model whose lab's key is
+# not held is not in it at all, until there is a key. select() still seats
+# the next runnable model either way, because a past run's panel is
 # re-derived from its snapshot with the same rule; a NEW run must call
-# require() on the warnings, which refuses that panel.
-UNSEATED = ("cannot run", "panel is short")
+# require(), which refuses the panel when it is not that ensemble.
+def unseated(ranked, table, k=PANEL_K, snapshot_name="the snapshot", held=None):
+    """Why a new run may not use select()'s panel. -> (problems, omitted):
+    `problems` are the models above the cut that cannot be run though their
+    lab's key is held (and a short panel); `omitted`, the ones left out for
+    want of a key. `held(provider)` defaults to keys.held."""
+    held = held or keys.held
+    chosen, warnings = select(ranked, table, k, snapshot_name)
+    problems = [w for w in warnings if "panel is short" in w]
+    omitted = []
+    if chosen:
+        cut, rows = chosen[-1][1], {m["epoch_name"] for m in table}
+        for r in ranked:
+            if r["model"] in rows or (r["eci"], -r["rank"]) <= (cut["eci"], -cut["rank"]):
+                continue
+            provider = keys.provider_of(r.get("organization"))
+            if provider and held(provider):
+                problems.append(f"{r['model']} is in the top {k} of {snapshot_name} and cannot be run, though "
+                                f"{keys.KEY_FOR[provider]} is set (no row in fri_forecaster/panel.py, and no "
+                                f"automatic one -- the autoreg log line says why)")
+            else:
+                omitted.append(f"{r['model']} is left out of the ensemble: no API key for its lab "
+                               f"({keys.KEY_FOR.get(provider) or r.get('organization') or 'unknown'})")
+    return problems, omitted
 
 
-def unseated(warnings):
-    """The warnings that say a top-k model has no seat."""
-    return [w for w in warnings if any(s in w for s in UNSEATED)]
-
-
-def require(warnings):
-    """Refuse a panel that is not the index's top k: raise PanelError."""
-    problems = unseated(warnings)
+def require(ranked, table, k=PANEL_K, snapshot_name="the snapshot", held=None):
+    """Refuse a panel that is not the ensemble: raise PanelError. -> the
+    notes on models left out for want of a key."""
+    problems, omitted = unseated(ranked, table, k, snapshot_name, held)
     if problems:
-        raise PanelError("the panel cannot be seated, and no other model stands in: " + "; ".join(problems))
+        raise PanelError("the ensemble cannot be seated, and no other model stands in: " + "; ".join(problems))
+    return omitted
 
 
 def select(ranked, table, k=PANEL_K, snapshot_name="the snapshot", stale=None):
@@ -203,7 +230,8 @@ def select(ranked, table, k=PANEL_K, snapshot_name="the snapshot", stale=None):
         if above:
             warnings.append(f"the index ranks {', '.join(above)} above the panel's cut but the "
                             f"registry cannot run them (no row in fri_forecaster/panel.py, and no "
-                            f"automatic one -- the autoreg log line says why)")
+                            f"automatic one -- the autoreg log line says why); "
+                            f"skipped, the next runnable model took the seat")
         tied = [r["model"] for r in ranked if r["eci"] == cut["eci"]
                 and r["model"] not in {m["epoch_name"] for m, _ in chosen}]
         if tied:
@@ -223,12 +251,13 @@ def panel(k=PANEL_K, snapshot=None, snapshot_dir=None, auto=None, warn=True):
     snapshot chose the panel, how old it was, the warnings)."""
     day, path = snapshot or eci.latest(snapshot_dir)
     stale = None if snapshot else eci.stale_message(snapshot_dir=snapshot_dir)
-    chosen, warnings = select(eci.ranked(path), models(auto, snapshot_dir), k, Path(path).name, stale)
+    ranked, table = eci.ranked(path), models(auto, snapshot_dir)
+    chosen, warnings = select(ranked, table, k, Path(path).name, stale)
+    if not snapshot:
+        warnings = warnings + require(ranked, table, k, Path(path).name)
     if warn:
         for w in warnings:
             print(f"WARN: {w}", file=sys.stderr)
-    if not snapshot:
-        require(warnings)
     members = [{**m, "pi_model": pi_model(m["model"]), "reasoning": reasoning_for(m["model"]),
                 "eci": r["eci"], "rank": r["rank"], "organization": r.get("organization")}
                for m, r in chosen]

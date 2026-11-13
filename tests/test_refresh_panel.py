@@ -23,7 +23,7 @@ fi
 if [ "$1 $2" = "-m redlines.autoreg" ]; then echo -n "${ADDED:-}"; exit 0; fi
 if [ "$1" = "-c" ]; then
     case "$2" in
-        *panel_warnings*) echo -n "${UNRUNNABLE:-}" ;;
+        *unseated*) echo -n "${UNRUNNABLE:-}" ;;
         *) if [ -e "$FETCHED" ]; then echo "$AFTER"; else echo "$BEFORE"; fi ;;
     esac
     exit 0
