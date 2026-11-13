@@ -114,7 +114,8 @@ question ([the call itself](../README.md#how-it-works)):
   and a member two conditions share runs once; a second pass retries whatever the first
   left unanswered;
 - a provider that refuses the API key stops its member at once (`run` exits 2) and the
-  round pages (`NTFY_TOPIC`) there and then, once per provider: nothing else mends it.
+  round pages (`fri_forecaster.alert`) there and then, once per provider: nothing else
+  mends it.
 
 **Build.** Each submitted condition becomes one forecast set, as soon as its members are
 in and again after the second pass: per question and resolution date, the mean of its
@@ -169,8 +170,9 @@ scripts/fb_round.sh 2026-10-25                       # the real round
 ```
 
 Unattended, cron runs `scripts/fb_cron.sh <due>` instead: the same round, its output in
-`<ROUNDS_DIR>/<due>/logs/cron.out`, then one ntfy push (`NTFY_TOPIC` in `round.env` or
-the keys file) saying how many sets are ready to upload. One crontab line per due date,
+`<ROUNDS_DIR>/<due>/logs/cron.out`, then one alert (`fri_forecaster.alert`; where it goes
+is the installation's `alerts.json`): a notice that the sets are ready to upload, or a
+page that they are not. One crontab line per due date,
 a few minutes after the question set appears:
 
 ```

@@ -3,8 +3,8 @@ outputs the pull also changes are backed up and replaced, anything else in
 the way stops it and pages.
 
 Each test builds an upstream repository, a box clone of it and a dev clone
-that pushes the incoming commits, all under a temp root, with a stub curl
-that records each page. Nothing outside the temp root is touched."""
+that pushes the incoming commits, all under a temp root, with a stub
+interpreter that records each alert. Nothing outside the temp root is touched."""
 import os
 from pathlib import Path
 import shutil
@@ -14,7 +14,7 @@ import unittest
 
 ROOT = Path(__file__).resolve().parents[1]
 
-STUB_CURL = '#!/usr/bin/env bash\necho "$*" >> "$PAGES"\n'
+STUB_PY = '#!/usr/bin/env bash\necho "$*" >> "$PAGES"\n'
 
 
 class TestPull(unittest.TestCase):
@@ -24,11 +24,11 @@ class TestPull(unittest.TestCase):
         self.home, bin_ = t / "home", t / "bin"
         self.home.mkdir()
         bin_.mkdir()
-        (bin_ / "curl").write_text(STUB_CURL)
-        (bin_ / "curl").chmod(0o755)
+        (bin_ / "py").write_text(STUB_PY)
+        (bin_ / "py").chmod(0o755)
         self.pages = t / "pages"
         self.env = {"PATH": f"{bin_}:{os.environ['PATH']}", "HOME": str(self.home),
-                    "NTFY_TOPIC": "test", "PAGES": str(self.pages),
+                    "PY": str(bin_ / "py"), "PAGES": str(self.pages),
                     "GIT_AUTHOR_NAME": "t", "GIT_AUTHOR_EMAIL": "t@t", "GIT_COMMITTER_NAME": "t",
                     "GIT_COMMITTER_EMAIL": "t@t", "GIT_CONFIG_NOSYSTEM": "1"}
         upstream, self.dev, self.box = t / "upstream.git", t / "dev", t / "box"

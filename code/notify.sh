@@ -1,12 +1,12 @@
-# notify TITLE MESSAGE [PRIORITY] [TAGS] -- one line to the operator's phone,
-# for the scripts the box's crontab runs (source this file). The topic is
-# NTFY_TOPIC, else the one in ~/.config/redlines/env. Anyone who knows it can
-# read the channel, so messages say what failed, never data. A no-op without
-# a topic; a failed push is logged, never fatal.
+# notify TITLE MESSAGE [PRIORITY] -- one alert from the scripts a scheduled job
+# runs (source this file). The shared sender decides where it goes
+# (fri_forecaster.alert: the installation's alerts file); this only maps the
+# old priorities onto its severities: `high` pages, anything else is a notice.
+# NOTIFY_DEPLOYMENT names the deployment (default airo); the interpreter is the
+# caller's PY, else the checkout's venv. Never fatal.
 notify() {
-    local topic="${NTFY_TOPIC:-$(sed -n 's/^NTFY_TOPIC=//p' "$HOME/.config/redlines/env" 2>/dev/null | tr -d "\"'")}"
-    [ -n "$topic" ] || return 0
-    curl -fsS -m 20 -H "Title: $1" -H "Priority: ${3:-default}" -H "Tags: ${4:-}" \
-        --data-binary "$2" "https://ntfy.sh/$topic" >/dev/null \
-        || echo "WARN: ntfy push failed: $1"
+    local severity=notice
+    [ "${3:-default}" = high ] && severity=page
+    "${PY:-$REPO/.venv/bin/python}" -m fri_forecaster.alert send --deployment "${NOTIFY_DEPLOYMENT:-airo}" \
+        --severity "$severity" --title "$1" "$2" || echo "WARN: alert not sent: $1"
 }

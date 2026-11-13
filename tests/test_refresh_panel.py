@@ -3,8 +3,8 @@ first, the AIRO cron or a ForecastBench round.
 
 The script runs from a copy under a temp root, with a stub interpreter whose
 panel is $BEFORE until the stub's fetch has run and $AFTER from then on (the
-fetched snapshot stays on disk, as data/ does), and a stub curl that records
-each page. No model, network or snapshot is touched."""
+fetched snapshot stays on disk, as data/ does) and which records each alert
+sent through it. No model, network or snapshot is touched."""
 import os
 from pathlib import Path
 import shutil
@@ -15,6 +15,7 @@ import unittest
 ROOT = Path(__file__).resolve().parents[1]
 
 STUB_PY = r'''#!/usr/bin/env bash
+if [ "$1 $2" = "-m fri_forecaster.alert" ]; then echo "$*" >> "$PAGES"; exit 0; fi
 if [ "$1 $2" = "-m redlines.eci" ]; then
     [ -n "${FETCH_FAILS:-}" ] && exit 1
     touch "$FETCHED"; exit 0
@@ -30,7 +31,6 @@ fi
 exit 0
 '''
 
-STUB_CURL = '#!/usr/bin/env bash\necho "$*" >> "$PAGES"\n'
 
 
 class TestRefreshPanel(unittest.TestCase):
@@ -43,12 +43,12 @@ class TestRefreshPanel(unittest.TestCase):
         for f in ("refresh_panel.sh", "notify.sh"):
             shutil.copy(ROOT / "code" / f, root / "code" / f)
         self.script = root / "code" / "refresh_panel.sh"
-        for path, text in ((t / "py", STUB_PY), (bin_ / "curl", STUB_CURL)):
+        for path, text in ((t / "py", STUB_PY),):
             path.write_text(text)
             path.chmod(0o755)
         self.pages = t / "pages"
         self.env = {"PATH": f"{bin_}:{os.environ['PATH']}", "HOME": str(t / "home"),
-                    "REDLINES_PY": str(t / "py"), "NTFY_TOPIC": "test", "PAGES": str(self.pages),
+                    "REDLINES_PY": str(t / "py"), "PAGES": str(self.pages),
                     "FETCHED": str(t / "fetched"), "BEFORE": "A, B", "AFTER": "A, B"}
 
     def tearDown(self):

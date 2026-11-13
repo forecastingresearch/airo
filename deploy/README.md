@@ -114,9 +114,22 @@ most one of them public.
 A single lock excludes deployment, rollback and jobs from one another. The
 scheduler records a run **before** starting it. Failed/interrupted runs require
 inspection and an explicit recovery action; reboot never retries paid work or
-catches up missed dates automatically. Check receipts and the existing job
-notifications. A timer outage during a scheduled minute means a missed run, not
-an automatic later bill. To start scheduling after migration, create the private
+catches up missed dates automatically. A timer outage during a scheduled minute
+means a missed run, not an automatic later bill. Jobs run one at a time, so a
+long job (a ForecastBench round) also costs any job whose minute falls inside it.
+
+**Alerts.** Every job alerts through one sender, `fri_forecaster.alert`: a caller
+says what happened (`page`: someone must act; `notice`: degraded, no deadline),
+and the installation's private `alerts.json`
+(`~/.config/fri-forecaster/alerts.json` under the runtime home) says where it
+goes. Deployment refuses a release when that file has no channel that takes
+every page (`python -m fri_forecaster.alert check`; `... alert test` sends one
+line down each channel). The scheduler pages for a job that failed without
+paging itself, a job that was running when the scheduler stopped, and a job
+whose minute passed with no start; the receipt reads `failed`, `interrupted` or
+`missed`, and none is run late. A job adds what only it knows (a refused key, a
+set that is not ready). Nothing is sent on success, and nothing on the box can
+report that the box is down: watch that from outside. To start scheduling after migration, create the private
 `jobs-enabled` file only after disabling the old server's corresponding jobs.
 
 The website is published into a new directory. A frontend deploy verifies its

@@ -46,10 +46,9 @@ if [[ -n "$PUBLIC" && -z "${FB_PUBLIC_ORG:-}" ]]; then
 fi
 
 log() { echo "$(date -u +%FT%TZ) $*" | tee -a "$ROOT/logs/round.log"; }
-page() {  # one ntfy line now, for what cannot wait for the round's end (NTFY_TOPIC: see fb_cron.sh)
-  local topic="${NTFY_TOPIC:-$(sed -n 's/^NTFY_TOPIC=//p' "$FORECASTER_ENV_FILE" 2>/dev/null | tr -d "\"'")}"
-  [[ -z "$topic" ]] || curl -fsS -m 20 -H "Title: ForecastBench $DUE" -H "Priority: high" --data-binary "$1" \
-    "https://ntfy.sh/$topic" >/dev/null || log "WARN: ntfy push failed"
+page() {  # TITLE MESSAGE: one page now, for what cannot wait for the round's end (fri_forecaster.alert)
+  "$PY" -m fri_forecaster.alert send --deployment forecastbench --severity page --title "$DUE: $1" \
+    --log "$ROOT/logs/round.log" "$2" 2>&1 | tee -a "$ROOT/logs/round.log" >&2
 }
 
 QSET="$DUE-llm.json"
@@ -90,7 +89,7 @@ run_member() {  # a names.py member spec, MODEL@THINKING,MODE (research, noresea
   # A refused key takes the provider's every member with it, and only a person
   # can mend it: say so now, once per provider, while the day is still long.
   if [[ $rc == 2 ]] && ( set -o noclobber; : > "$ROOT/logs/key-refused-${model%%/*}" ) 2>/dev/null; then
-    page "${model%%/*}'s API key was refused: its members are not running. Fix the keys file ($FORECASTER_ENV_FILE on $(hostname)) and rerun scripts/fb_round.sh $DUE${TAG:+ $TAG}; what is done is kept."
+    page "${model%%/*} key refused" "${model%%/*}'s API key was refused: its members are not running. Fix the keys file ($FORECASTER_ENV_FILE) and rerun scripts/fb_round.sh $DUE${TAG:+ $TAG}; what is done is kept."
   fi
 }
 

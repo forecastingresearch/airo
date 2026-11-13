@@ -45,13 +45,14 @@
 #   one takes the seat) and paged as a fault; a hand row in
 #   redlines/registry.py, if one is ever wanted, takes precedence.
 #
-# ALERTS (2026-10-01): with NTFY_TOPIC set in the env file, a failed run, a
-#   failed fetch, a failed publish, a panel change and an unrunnable model at
-#   the top of the index each push one line to https://ntfy.sh/$NTFY_TOPIC
-#   (the ntfy app, subscribed to that topic). A finished run pushes a quiet
-#   one too, so silence on a Wednesday or Friday afternoon means the box or
-#   cron itself is down. The topic lives only in the env file: anyone who
-#   knows it can read the channel, so messages say what failed, never data.
+# ALERTS (2026-10-01; the shared sender since 2026-11-13): a failed run, a
+#   failed fetch, a failed publish and an unrunnable model at the top of the
+#   index each page; a panel change is a notice (code/notify.sh ->
+#   fri_forecaster.alert, which reads the installation's channels). A
+#   finished run says nothing: a run that never started is the scheduler's
+#   to report (code/production.py), and a dead box is watched from outside.
+#   Anyone who knows a channel's address can read it, so messages say what
+#   failed, never data.
 #
 # OUTPUT
 #   One dated file per run under results/runs/. Never appends to the shared
@@ -216,7 +217,7 @@ if [ "$WITHHELD" = 1 ]; then
 fi
 if [ "$PUBLISHED" != 1 ]; then
     FINISHED=1
-    notify "AIRO run $STAMP done" "Nothing to publish: $(echo "$DUE" | cut -d' ' -f1 | sort -u | tr '\n' ' ')" low
+    echo "done: nothing to publish ($(echo "$DUE" | cut -d' ' -f1 | sort -u | tr '\n' ' '))"
     exit 0
 fi
 
@@ -244,7 +245,7 @@ if ! "$REPO/code/publish_dashboard.sh"; then
     exit 0
 fi
 FINISHED=1
-notify "AIRO run $STAMP published" "$(grep -E 'ok, [0-9]+ failed' "$LOG" | tail -1 | sed 's/ -> .*//'). Panel: $PANEL" low white_check_mark
+echo "published: $(grep -E 'ok, [0-9]+ failed' "$LOG" | tail -1 | sed 's/ -> .*//'). Panel: $PANEL"
 
 # THE SHADOW (2026-10-14 to 2026-10-21) ran the published instrument a second
 # time through the litellm loop, after publication, when the env file set
