@@ -156,8 +156,9 @@ def paged(ledger):
 
 
 class Runtime:
-    def __init__(self, config):
+    def __init__(self, config, config_path=None):
         self.config = config
+        self.config_path = config_path
         self.root = Path(config['root']).expanduser().resolve()
         self.root.mkdir(parents=True, exist_ok=True)
         self.current = self.root / 'current'
@@ -407,6 +408,19 @@ class Runtime:
                 'origin_commit': previous.get('origin_commit', prior.get('publication_commit')),
                 'source_release': previous.get('source_release', prior.get('release'))}
 
+    def builder(self, code):
+        """The candidate's own copy of this script, if it can build a release.
+        A release is built by the code it carries, so a commit that moves files
+        or changes the build deploys without the live release knowing how."""
+        script = code / 'code/production.py'
+        if not self.config_path or not script.is_file():
+            return None
+        try:
+            usage = output([sys.executable, script, '--help'])
+        except (subprocess.CalledProcessError, OSError):
+            return None
+        return script if 'build-release' in usage else None
+
     def deploy(self, requested=None, keep_publication=False, publish_data=False):
         if keep_publication and publish_data:
             raise ValueError('Choose either preserved publication or new data publication')
@@ -421,49 +435,66 @@ class Runtime:
             try:
                 run(['git', 'clone', '--no-hardlinks', self.mirror, code])
                 run(['git', '-C', code, 'checkout', '--detach', sha])
-                validate_jobs(json.loads((code / 'deploy/jobs.json').read_text()))
-                env = os.environ.copy()
-                env.update(PATH=self.config['path'], TMPDIR=str(self.root / 'tmp'))
-                run(['python3', '-m', 'venv', code / '.venv'], env=env)
-                run([code / '.venv/bin/pip', 'install', '-e', code, '-e', code / 'packages/fri-forecaster'], env=env)
-                run(['npm', 'ci', '--prefix', code / 'packages/fri-forecaster'], env=env)
-                (release / 'python-packages.txt').write_text(output([code / '.venv/bin/pip', 'freeze']))
-                # A release whose failures would reach nobody does not go live.
-                run([code / '.venv/bin/python', '-m', 'fri_forecaster.alert', 'check'], cwd=code, env=self.environment(code, self.root / 'tmp'))
-                self.stage_data(code, copy_results=publish_data)
-                site = self.root / 'sites' / name
-                metadata = {'release': name, 'commit': sha, 'publication': 'frontend', 'publication_commit': sha, 'frontend_commit': sha}
-                if keep_publication:
-                    source = self.current / 'site' if self.current.exists() else Path(self.config['bootstrap_publication'])
-                    self.verify_site(source)
-                    shutil.copytree(source, site)
-                    prior = json.loads((source / 'release.json').read_text()) if (source / 'release.json').exists() else {}
-                    metadata.update(publication='preserved', publication_commit=prior.get('publication_commit', prior.get('commit')),
-                                    frontend_commit=prior.get('frontend_commit', prior.get('publication_commit')))
-                    if 'data_snapshot' in prior:
-                        metadata['data_snapshot'] = prior['data_snapshot']
-                elif publish_data:
-                    site.mkdir()
-                    run(['bash', code / 'code/publish_dashboard.sh'], cwd=code, env=self.environment(code, site))
-                    self.verify_site(site)
-                    metadata.update(publication='rebuilt', data_snapshot={**data_snapshot(site), 'origin_commit': sha, 'source_release': name})
-                else:
-                    metadata['data_snapshot'] = self.publish_frontend(code, site)
-                self.verify_site(site)
-                write_json(site / 'release.json', metadata)
-                link(site, release / 'site')
-                write_json(release / 'release.json', metadata)
-                self.attach_state(code)
-                self.activate(release)
-                try:
-                    self.prune_locked()
-                except (OSError, RuntimeError) as exc:
-                    print(f'Retention needs attention: {exc}', file=sys.stderr)
-                print(json.dumps({'deployed': name, 'commit': sha}))
+                script = self.builder(code)
+                if script:
+                    run([sys.executable, script, '--config', self.config_path, 'build-release', '--release', name, '--commit', sha,
+                         *(['--keep-publication'] if keep_publication else []), *(['--publish-data'] if publish_data else [])])
+                else:   # a commit from before releases built themselves
+                    self.build_release(name, sha, keep_publication=keep_publication, publish_data=publish_data)
             except Exception:
                 # Keep the candidate and logs for diagnosis; never switch on failure.
                 write_json(release / 'failed.json', {'at': datetime.now(timezone.utc).isoformat()})
                 raise
+
+    def build_release(self, name, sha, keep_publication=False, publish_data=False):
+        """Install, publish and activate the checked-out release `name`. Called
+        by deploy, which holds operation.lock (in the live release's process
+        when this is the candidate's)."""
+        if keep_publication and publish_data:
+            raise ValueError('Choose either preserved publication or new data publication')
+        if not re.fullmatch(r'\d{8}T\d{6}-[0-9a-f]{12}', name or '') or not re.fullmatch(r'[0-9a-f]{40}', sha or ''):
+            raise ValueError('Expected a release name and its full commit SHA')
+        release = self.root / 'releases' / name
+        code = release / 'code'
+        validate_jobs(json.loads((code / 'deploy/jobs.json').read_text()))
+        env = os.environ.copy()
+        env.update(PATH=self.config['path'], TMPDIR=str(self.root / 'tmp'))
+        run(['python3', '-m', 'venv', code / '.venv'], env=env)
+        run([code / '.venv/bin/pip', 'install', '-e', code, '-e', code / 'packages/fri-forecaster'], env=env)
+        run(['npm', 'ci', '--prefix', code / 'packages/fri-forecaster'], env=env)
+        (release / 'python-packages.txt').write_text(output([code / '.venv/bin/pip', 'freeze']))
+        # A release whose failures would reach nobody does not go live.
+        run([code / '.venv/bin/python', '-m', 'fri_forecaster.alert', 'check'], cwd=code, env=self.environment(code, self.root / 'tmp'))
+        self.stage_data(code, copy_results=publish_data)
+        site = self.root / 'sites' / name
+        metadata = {'release': name, 'commit': sha, 'publication': 'frontend', 'publication_commit': sha, 'frontend_commit': sha}
+        if keep_publication:
+            source = self.current / 'site' if self.current.exists() else Path(self.config['bootstrap_publication'])
+            self.verify_site(source)
+            shutil.copytree(source, site)
+            prior = json.loads((source / 'release.json').read_text()) if (source / 'release.json').exists() else {}
+            metadata.update(publication='preserved', publication_commit=prior.get('publication_commit', prior.get('commit')),
+                            frontend_commit=prior.get('frontend_commit', prior.get('publication_commit')))
+            if 'data_snapshot' in prior:
+                metadata['data_snapshot'] = prior['data_snapshot']
+        elif publish_data:
+            site.mkdir()
+            run(['bash', code / 'code/publish_dashboard.sh'], cwd=code, env=self.environment(code, site))
+            self.verify_site(site)
+            metadata.update(publication='rebuilt', data_snapshot={**data_snapshot(site), 'origin_commit': sha, 'source_release': name})
+        else:
+            metadata['data_snapshot'] = self.publish_frontend(code, site)
+        self.verify_site(site)
+        write_json(site / 'release.json', metadata)
+        link(site, release / 'site')
+        write_json(release / 'release.json', metadata)
+        self.attach_state(code)
+        self.activate(release)
+        try:
+            self.prune_locked()
+        except (OSError, RuntimeError) as exc:
+            print(f'Retention needs attention: {exc}', file=sys.stderr)
+        print(json.dumps({'deployed': name, 'commit': sha}))
 
     def rollback(self):
         with self.lock():
@@ -600,15 +631,17 @@ class Runtime:
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--config', default=os.environ.get('AIRO_RUNTIME_CONFIG', str(Path.home() / '.config/airo/runtime.json')))
-    parser.add_argument('command', choices=['deploy', 'rollback', 'status', 'tick', 'serve', 'smoke', 'prune', 'storage'])
+    parser.add_argument('command', choices=['deploy', 'rollback', 'status', 'tick', 'serve', 'smoke', 'prune', 'storage', 'build-release'])
     parser.add_argument('--commit')
+    parser.add_argument('--release', help='build-release only (deploy runs it in the candidate): the checked-out release to build')
     publication = parser.add_mutually_exclusive_group()
     publication.add_argument('--keep-publication', action='store_true', help='Retain the entire website while deploying code and schedules')
     publication.add_argument('--publish-data', action='store_true', help='Rebuild and validate forecast data as part of deployment; never launches forecast jobs')
     parser.add_argument('--run-id', default='smoke-' + uuid.uuid4().hex[:12])
     args = parser.parse_args()
-    runtime = Runtime(json.loads(Path(args.config).read_text()))
+    runtime = Runtime(json.loads(Path(args.config).read_text()), config_path=args.config)
     if args.command == 'deploy': runtime.deploy(args.commit, keep_publication=args.keep_publication, publish_data=args.publish_data)
+    elif args.command == 'build-release': runtime.build_release(args.release, args.commit, keep_publication=args.keep_publication, publish_data=args.publish_data)
     elif args.command == 'smoke': runtime.execute_job(args.run_id, {'id': 'smoke', 'kind': 'smoke'})
     else: getattr(runtime, args.command)()
 
