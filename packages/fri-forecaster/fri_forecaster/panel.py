@@ -19,6 +19,10 @@ the index reader lived here; they are one thing and now sit together.
                    or one a dashboard's box added on its own after probing the
                    model (AIRO's redlines.autoreg writes auto_models.json
                    beside the snapshots). A hand row wins.
+  no fallback      a model in the index's top k that is NOT runnable fails a
+                   new run (require(), 2026-11-13): no other model takes its
+                   seat. So does a member whose calls fail, in each dashboard's
+                   runner.
 
 Everything the rule does out of the ordinary is a warning, returned and
 printed once: a stale snapshot, a model passed over for its family, a model
@@ -140,6 +144,29 @@ def models(auto=None, snapshot_dir=None):
     return out
 
 
+class PanelError(RuntimeError):
+    """The index's top k cannot all be run."""
+
+
+# NO FALLBACK (2026-11-13): a run asks the top k by ECI or it does not run.
+# select() still seats the next runnable model, because a past run's panel is
+# re-derived from its snapshot with the same rule; a NEW run must call
+# require() on the warnings, which refuses that panel.
+UNSEATED = ("cannot run", "panel is short")
+
+
+def unseated(warnings):
+    """The warnings that say a top-k model has no seat."""
+    return [w for w in warnings if any(s in w for s in UNSEATED)]
+
+
+def require(warnings):
+    """Refuse a panel that is not the index's top k: raise PanelError."""
+    problems = unseated(warnings)
+    if problems:
+        raise PanelError("the panel cannot be seated, and no other model stands in: " + "; ".join(problems))
+
+
 def select(ranked, table, k=PANEL_K, snapshot_name="the snapshot", stale=None):
     """THE RULE. `ranked` is the index best first (eci.ranked); `table` the
     runnable rows, each with at least `epoch_name` and `family` (a dashboard
@@ -176,8 +203,7 @@ def select(ranked, table, k=PANEL_K, snapshot_name="the snapshot", stale=None):
         if above:
             warnings.append(f"the index ranks {', '.join(above)} above the panel's cut but the "
                             f"registry cannot run them (no row in fri_forecaster/panel.py, and no "
-                            f"automatic one -- the autoreg log line says why); "
-                            f"skipped, the next runnable model took the seat")
+                            f"automatic one -- the autoreg log line says why)")
         tied = [r["model"] for r in ranked if r["eci"] == cut["eci"]
                 and r["model"] not in {m["epoch_name"] for m, _ in chosen}]
         if tied:
@@ -188,8 +214,10 @@ def select(ranked, table, k=PANEL_K, snapshot_name="the snapshot", stale=None):
 
 def panel(k=PANEL_K, snapshot=None, snapshot_dir=None, auto=None, warn=True):
     """The panel for a dashboard with no table of its own: the k highest-ECI
-    runnable models of `snapshot` ((date, path); the newest in `snapshot_dir`
-    by default), best first. -> (members, provenance). A member is its row
+    models of `snapshot` ((date, path); the newest in `snapshot_dir` by
+    default), best first. Raises PanelError when one of them cannot be run,
+    unless `snapshot` is given (a past run's panel, re-derived).
+    -> (members, provenance). A member is its row
     plus `pi_model`, `reasoning`, and the index's `eci`, `rank` and
     `organization`; `provenance` is what a run stamps on its rows (which
     snapshot chose the panel, how old it was, the warnings)."""
@@ -199,6 +227,8 @@ def panel(k=PANEL_K, snapshot=None, snapshot_dir=None, auto=None, warn=True):
     if warn:
         for w in warnings:
             print(f"WARN: {w}", file=sys.stderr)
+    if not snapshot:
+        require(warnings)
     members = [{**m, "pi_model": pi_model(m["model"]), "reasoning": reasoning_for(m["model"]),
                 "eci": r["eci"], "rank": r["rank"], "organization": r.get("organization")}
                for m, r in chosen]
@@ -219,8 +249,8 @@ def main(argv=None):
     k = int(args[0]) if args else PANEL_K
     try:
         members, _ = panel(k, snapshot_dir=snapshot_dir)
-    except FileNotFoundError as e:
-        print(e, file=sys.stderr)
+    except (FileNotFoundError, PanelError) as e:
+        print(f"FATAL: {e}", file=sys.stderr)
         return 1
     for m in members:
         print(m["epoch_name"], m["pi_model"], m["organization"] or "", sep="\t")

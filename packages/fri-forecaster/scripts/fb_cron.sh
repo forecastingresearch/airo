@@ -22,13 +22,15 @@ rc=$?
 sets="$("$PY" -m fri_forecaster.names conditions 2>/dev/null | wc -l | tr -d ' ')"
 ready="$(grep -c "build exited 0" "$ROOT/logs/round.log" 2>/dev/null)"
 # The sets are uploaded by hand, so a round that is ready still needs someone:
-# a notice. One that is not ready needs them sooner: a page.
+# a notice. One that is not ready is a failed run: a page, unless the round
+# already sent one (a refused key).
 if [[ "$rc" == 0 && "${ready:-0}" == "$sets" ]]; then
-  severity=notice; title="$DUE: $sets sets ready to upload"; what="Upload by 23:59 UTC: $ROOT"
-else
-  severity=page; title="$DUE: round exited $rc, ${ready:-0}/$sets sets ready"
-  what="The sets are due by 23:59 UTC. See summary.txt in $ROOT, then rerun scripts/fb_round.sh $DUE; what is done is kept."
+  "$PY" -m fri_forecaster.alert send --deployment forecastbench --severity notice --title "sets ready to upload" \
+    "$DUE: $sets sets. Upload by 23:59 UTC: $ROOT" >> "$ROOT/logs/cron.out" 2>&1
+elif [[ ! -e "$ROOT/logs/paged" ]]; then
+  why="$(grep -hE 'FATAL|gave up|could not|NOT READY|SHORT' "$ROOT/logs/round.log" "$ROOT/summary.txt" 2>/dev/null | sort -u | tail -2 | cut -c1-200)"
+  "$PY" -m fri_forecaster.alert send --deployment forecastbench --severity page --title "run FAILED" \
+    --log "$ROOT/logs/round.log" "$DUE: exit $rc, ${ready:-0}/$sets sets ready, due by 23:59 UTC. $why
+Rerun scripts/fb_round.sh $DUE once fixed; what is done is kept." >> "$ROOT/logs/cron.out" 2>&1
 fi
-"$PY" -m fri_forecaster.alert send --deployment forecastbench --severity "$severity" --title "$title" \
-  --log "$ROOT/logs/round.log" "$what" >> "$ROOT/logs/cron.out" 2>&1
 exit $rc

@@ -40,16 +40,17 @@
 #   model shipping and the panel and prompt knowing it. A new model the index
 #   ranks into the panel that the registry has no row for is ADDED ON ITS OWN
 #   since 2026-10-07 (redlines.autoreg: matched to its provider's API id,
-#   probed with one request, recorded in data/auto_models.json) and paged once
-#   as news. Only a model that cannot be added is skipped (the next runnable
-#   one takes the seat) and paged as a fault; a hand row in
-#   redlines/registry.py, if one is ever wanted, takes precedence.
+#   probed with one request, recorded in data/auto_models.json). A model
+#   that cannot be added FAILS THE RUN (2026-11-13): no other model takes
+#   its seat. A hand row in redlines/registry.py, if one is ever wanted,
+#   takes precedence.
 #
-# ALERTS (2026-10-01; the shared sender since 2026-11-13): a failed run, a
-#   failed fetch, a failed publish and an unrunnable model at the top of the
-#   index each page; a panel change is a notice (code/notify.sh ->
-#   fri_forecaster.alert, which reads the installation's channels). A
-#   finished run says nothing: a run that never started is the scheduler's
+# ALERTS (2026-10-01; the shared sender since 2026-11-13). Pages: run FAILED
+#   (any early exit, which includes a panel model that could not be run or
+#   whose call failed: nothing stands in for it) and publish FAILED (the run
+#   succeeded). Notices: condition failed, ECI fetch failed, news fetch
+#   failed, ensemble changed (code/notify.sh -> fri_forecaster.alert, which
+#   reads the installation's channels). A finished run says nothing: a run that never started is the scheduler's
 #   to report (code/production.py), and a dead box is watched from outside.
 #   Anyone who knows a channel's address can read it, so messages say what
 #   failed, never data.
@@ -113,8 +114,8 @@ FINISHED=0
 on_exit() {
     local rc=$?
     if [ "$FINISHED" != 1 ]; then
-        notify "AIRO run $STAMP FAILED" "exit $rc on $(hostname). $(grep -E 'FATAL|Error|failed|stale' "$LOG" | tail -3 | cut -c1-200)
-log: $LOG" high rotating_light
+        notify "run FAILED" "$STAMP, exit $rc. $(grep -E 'FATAL|Error|failed|stale' "$LOG" | tail -3 | cut -c1-200)
+log: $LOG" high
     fi
 }
 trap on_exit EXIT
@@ -139,7 +140,7 @@ cd "$REPO"
 # history the prompt quotes -- and page what changed. code/refresh_panel.sh
 # since 2026-10-21, shared with the ForecastBench rounds, which refresh the
 # same panel on their own days.
-"$REPO/code/refresh_panel.sh"
+"$REPO/code/refresh_panel.sh" || exit 1
 PANEL="$(sed -n 's/^panel: //p' "$LOG" | tail -1)"
 # ONE call per model, every question. The second command that used to run here
 # forecast XPT question #2 (a natural pandemic), which was held out of the batch
@@ -199,17 +200,21 @@ while read -r exp dest conds; do
         [ -z "$news_snapshot" ] || args+=(--news-snapshot "$news_snapshot")
     else
         echo "ERROR: $exp ($dest) news preparation failed; skipping $conds (no fallback)."
-        notify "AIRO $exp news preparation FAILED" "Skipped $conds; no stale cache used. log: $LOG" high warning
+        notify "news fetch failed" "$exp: skipped $conds; no stale cache used. log: $LOG"
         [ "$dest" != publish ] || WITHHELD=1
         continue
     fi
+    seen="$(wc -l < "$LOG")"
     if "$PY" code/run_unified.py --experiment "$exp" "${args[@]}" --workers 10 </dev/null; then
         [ "$dest" = publish ] && PUBLISHED=1
+        # A condition outside the published number failed: the day stands, someone should know.
+        aside="$(tail -n +"$((seen + 1))" "$LOG" | grep -o '[0-9]* call(s) outside the pooled conditions failed' | tail -1 || true)"
+        [ -z "$aside" ] || notify "condition failed" "$exp: $aside; the published number is unaffected. log: $LOG"
     elif [ "$dest" = publish ]; then
         echo "FATAL: $exp did not complete for every panel model; see above. Publication withheld."
         WITHHELD=1
     else
-        notify "AIRO $exp FAILED" "An unpublished run failed; the published runs are unaffected. log: $LOG" default warning
+        notify "condition failed" "$exp ($conds) failed; the published runs are unaffected. log: $LOG"
     fi
 done <<< "$DUE"
 if [ "$WITHHELD" = 1 ]; then
@@ -240,7 +245,7 @@ fi
 # mask the successful run above — log it and carry on.
 if ! "$REPO/code/publish_dashboard.sh"; then
     echo "WARN: publish_dashboard.sh failed — the last successful dashboard publication remains served"
-    notify "AIRO run $STAMP: publish FAILED" "The forecasts ran but the dashboard was not republished. log: $LOG" high warning
+    notify "publish FAILED" "$STAMP: the forecasts ran but the dashboard was not republished. log: $LOG" high
     FINISHED=1
     exit 0
 fi

@@ -412,10 +412,15 @@ def main(argv=None):
     """`python -m redlines.registry [K]`: the panel's top K runnable models (default
     PANEL_K), best first, one per line as `<Epoch name> TAB <pi model id> TAB <lab>`:
     the panel as fri_forecaster.names sync reads it, so a ForecastBench round on
-    this machine runs the same ensemble as the AIRO runs do."""
+    this machine runs the same ensemble as the AIRO runs do. Exits 1 when a
+    model in the index's top PANEL_K cannot be run: no other model stands in."""
     from .pi_loop import pi_model
     argv = sys.argv[1:] if argv is None else argv
     k = int(argv[0]) if argv else PANEL_K
+    try:   # the panel itself (PANEL_K), however many are printed
+        _panel.require(panel_warnings())
+    except _panel.PanelError as e:
+        sys.exit(f"FATAL: {e}")
     for m, r in panel(k):
         print(r["model"], pi_model(m["litellm_id"]), r.get("organization") or "", sep="\t")
 

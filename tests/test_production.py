@@ -450,7 +450,7 @@ def test_status_lists_receipts_by_start_time_not_filename(runtime, capsys):
 
 def alerts(runtime, monkeypatch):
     sent = []
-    monkeypatch.setattr(runtime, 'alert', lambda job, title, message, log=None: sent.append(title))
+    monkeypatch.setattr(runtime, 'alert', lambda job, message, log=None, title='run FAILED': sent.append((job['id'], title, message)))
     return sent
 
 
@@ -460,17 +460,44 @@ def test_failed_job_pages_once_unless_the_job_already_paged(runtime, monkeypatch
     def fail(argv, **kw):
         raise subprocess.CalledProcessError(1, 'job')
     monkeypatch.setattr(p, 'run', fail)
-    job = {'id': 'recent-news-poll', 'kind': 'news-poll', 'daily_utc': '11:45'}
+    monkeypatch.setattr(p, 'output', lambda *a, **kw: '')
+    job = {'id': 'airo', 'kind': 'forecast', 'daily_utc': '12:00'}
     with pytest.raises(subprocess.CalledProcessError):
         runtime.execute_job('quiet-job', job)
-    assert sent == ['recent-news-poll failed']
+    assert [(j, t) for j, t, _ in sent] == [('airo', 'run FAILED')]
     def page_then_fail(argv, **kw):   # the job says what went wrong itself, through the shared sender's ledger
-        Path(kw['env']['FRI_ALERT_LEDGER']).write_text(json.dumps({'severity': 'page', 'title': 'key refused'}) + '\n')
+        Path(kw['env']['FRI_ALERT_LEDGER']).write_text(json.dumps({'severity': 'page', 'title': 'run FAILED'}) + '\n')
         raise subprocess.CalledProcessError(1, 'job')
     monkeypatch.setattr(p, 'run', page_then_fail)
     with pytest.raises(subprocess.CalledProcessError):
         runtime.execute_job('loud-job', job)
-    assert sent == ['recent-news-poll failed']
+    assert len(sent) == 1
+
+
+def test_a_run_that_succeeds_but_cannot_publish_is_a_publish_failure(runtime, monkeypatch):
+    p.link(release(runtime, 'old'), runtime.current)
+    sent = alerts(runtime, monkeypatch)
+    def run_and_write_a_bad_site(argv, **kw):
+        (Path(kw['env']['REDLINES_DOCROOT']) / 'index.html').write_text('not a dashboard')
+    monkeypatch.setattr(p, 'run', run_and_write_a_bad_site)
+    monkeypatch.setattr(p, 'output', lambda *a, **kw: '')
+    with pytest.raises(Exception):
+        runtime.execute_job('bad-site', {'id': 'airo', 'kind': 'forecast', 'daily_utc': '12:00'})
+    assert [(j, t) for j, t, _ in sent] == [('airo', 'publish FAILED')]
+
+
+def test_a_failed_news_poll_is_a_notice_and_a_failed_run_a_page(runtime, monkeypatch):
+    r = release(runtime, 'old')
+    p.link(r, runtime.current)
+    sent = []
+    monkeypatch.setattr(p.subprocess, 'run', lambda argv, **kw: sent.append([str(a) for a in argv]))
+    runtime.alert({'id': 'recent-news-poll', 'kind': 'news-poll'}, 'poll failed')
+    runtime.alert({'id': 'airo', 'kind': 'forecast'}, 'run failed')
+    runtime.alert({'id': 'round', 'kind': 'forecastbench'}, 'not ready')
+    def args(argv):
+        return [argv[argv.index(flag) + 1] for flag in ('--deployment', '--severity', '--title')]
+    assert [args(a) for a in sent] == [['airo', 'notice', 'news fetch failed'], ['airo', 'page', 'run FAILED'],
+                                      ['forecastbench', 'page', 'run FAILED']]
 
 
 def test_missed_and_interrupted_jobs_page_once_and_are_not_run_late(runtime, monkeypatch):
@@ -487,21 +514,21 @@ def test_missed_and_interrupted_jobs_page_once_and_are_not_run_late(runtime, mon
     p.write_json(runtime.root / 'runs/round-20301108T0005.json', {'key': 'round-20301108T0005', 'job': 'round', 'status': 'succeeded'})
     now = datetime(2030, 11, 8, 23, 4, 20, tzinfo=timezone.utc)
     runtime.report_unrun(jobs, now)
-    assert sent == ['airo did not start']   # not 11-07's (before switch-on), not the old round's
+    assert len(sent) == 1 and sent[0][0] == 'airo' and 'never started' in sent[0][2]   # not 11-07's (before switch-on), not the old round's
     assert json.loads((runtime.root / 'runs/airo-20301108.json').read_text())['status'] == 'missed'
     runtime.report_unrun(jobs, now)
-    assert sent == ['airo did not start']
+    assert len(sent) == 1
     assert not runtime.execute_job('airo-20301108', jobs[0])
     # A job due this very minute is not missed: it is about to start.
     runtime.report_unrun(jobs, datetime(2030, 11, 9, 12, 0, 30, tzinfo=timezone.utc))
-    assert sent == ['airo did not start']
+    assert len(sent) == 1
     # A receipt still `running` while nothing holds the lock is a job that died.
     receipt = runtime.root / 'runs/airo-20301109.json'
     p.write_json(receipt, {'key': 'airo-20301109', 'job': 'airo', 'status': 'running'})
     stamp = datetime(2030, 11, 9, 12, 0, tzinfo=timezone.utc).timestamp()
     p.os.utime(receipt, (stamp, stamp))
     runtime.report_unrun(jobs, datetime(2030, 11, 9, 12, 30, tzinfo=timezone.utc))
-    assert sent == ['airo did not start', 'airo was interrupted']
+    assert len(sent) == 2 and 'was running when the scheduler stopped' in sent[1][2]
     assert json.loads(receipt.read_text())['status'] == 'interrupted'
 
 

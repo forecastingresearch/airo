@@ -124,12 +124,22 @@ and the installation's private `alerts.json`
 (`~/.config/fri-forecaster/alerts.json` under the runtime home) says where it
 goes. Deployment refuses a release when that file has no channel that takes
 every page (`python -m fri_forecaster.alert check`; `... alert test` sends one
-line down each channel). The scheduler pages for a job that failed without
-paging itself, a job that was running when the scheduler stopped, and a job
-whose minute passed with no start; the receipt reads `failed`, `interrupted` or
-`missed`, and none is run late. A job adds what only it knows (a refused key, a
-set that is not ready). Nothing is sent on success, and nothing on the box can
-report that the box is down: watch that from outside. To start scheduling after migration, create the private
+line down each channel).
+
+Pages, for every dashboard: **run FAILED** and **publish FAILED** (the run
+succeeded). The scheduler sends them for any job that failed without paging
+itself, was running when the scheduler stopped, or whose minute passed with no
+start; the receipt reads `failed`, `interrupted` or `missed`, and none is run
+late. A job sends its own when it knows more (a refused key, a set that is not
+ready). A run fails when any member of its ensemble cannot be reached: a model
+in the index's top four that cannot be run, or one whose calls fail. No other
+model stands in. ForecastBench adds a notice that the sets are ready, while
+upload is by hand.
+
+Notices: **condition failed** (outside the published number), **ECI fetch
+failed** (the last known ensemble is used), **news fetch failed**, **ensemble
+changed**. Nothing is sent on success, and nothing on the box can report that
+the box is down: watch that from outside. To start scheduling after migration, create the private
 `jobs-enabled` file only after disabling the old server's corresponding jobs.
 
 The website is published into a new directory. A frontend deploy verifies its

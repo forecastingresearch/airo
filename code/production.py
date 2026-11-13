@@ -190,13 +190,17 @@ class Runtime:
                    NO_PROXY='localhost,127.0.0.1,::1', no_proxy='localhost,127.0.0.1,::1')
         return env
 
-    def alert(self, job, title, message, log=None):
-        """One page through the release's shared sender (fri_forecaster.alert). Never raises."""
+    def alert(self, job, message, log=None, title='run FAILED'):
+        """One alert through the release's shared sender (fri_forecaster.alert):
+        a page that the run (or its publication) failed; for the news poll, a
+        notice that the news fetch failed. Never raises."""
         try:
             code = self.current.resolve(strict=True) / 'code'
             env = self.environment(code, self.root / 'tmp')
+            news = job['kind'] == 'news-poll'
             argv = [code / '.venv/bin/python', '-m', 'fri_forecaster.alert', 'send', '--deployment', DEPLOYMENT[job['kind']],
-                    '--severity', 'page', '--title', title, *(['--log', str(log)] if log else []), message]
+                    '--severity', 'notice' if news else 'page', '--title', 'news fetch failed' if news else title,
+                    *(['--log', str(log)] if log else []), message]
             subprocess.run(argv, cwd=code, env=env, timeout=120, check=False)
         except Exception as exc:
             print(f'Alert not sent ({type(exc).__name__}): {title}', file=sys.stderr)
@@ -490,6 +494,7 @@ class Runtime:
                     'news-poll': [code / '.venv/bin/python', code / 'code/recent_news.py', 'poll'],
                     'forecastbench': ['bash', code / 'packages/fri-forecaster/scripts/fb_cron.sh', job.get('due', '')],
                     'smoke': [code / '.venv/bin/python', '-c', 'import redlines, fri_forecaster; print("scheduled runtime smoke passed")']}[job['kind']]
+            stage = 'run FAILED'
             try:
                 expects_site = job['kind'] == 'forecast' and any(
                     len(row.split()) > 1 and row.split()[1] == 'publish'
@@ -504,6 +509,7 @@ class Runtime:
                     built = (round_root / 'logs/round.log').read_text().count('build exited 0')
                     if count == 0 or built < count:
                         raise RuntimeError('ForecastBench has incomplete submission sets')
+                stage = 'publish FAILED'   # the run succeeded; what follows only publishes it
                 if expects_site or (site / 'index.html').exists():
                     self.verify_site(site)
                     meta = json.loads((release / 'release.json').read_text())
@@ -516,8 +522,8 @@ class Runtime:
             except Exception as exc:
                 started.update(status='failed', error=type(exc).__name__)
                 if job['kind'] != 'smoke' and not paged(ledger):  # the job's own page says more than this one
-                    self.alert(job, f"{job['id']} failed", f"The scheduled job {key} failed ({type(exc).__name__}). It is not retried.",
-                               log=self.root / 'logs' / (key + '.log'))
+                    self.alert(job, f"{key} failed ({type(exc).__name__}). It is not retried.",
+                               log=self.root / 'logs' / (key + '.log'), title=stage)
                 raise
             finally:
                 self.save_generated_data(code)
@@ -541,8 +547,8 @@ class Runtime:
                 write_json(receipt, record)
                 job = next((j for j in jobs if j['id'] == record.get('job')), None)
                 if job and job['kind'] != 'smoke':
-                    self.alert(job, f"{job['id']} was interrupted", f"The scheduled job {record['key']} was running when the scheduler "
-                               'stopped. It is not resumed.', log=self.root / 'logs' / (record['key'] + '.log'))
+                    self.alert(job, f"{record['key']} was running when the scheduler stopped. It is not resumed.",
+                               log=self.root / 'logs' / (record['key'] + '.log'))
             # Only since this release and schedule were switched on: a job added with a past time was never due here.
             since = max(datetime.fromtimestamp(max(os.lstat(self.current).st_mtime, (self.root / 'jobs-enabled').stat().st_mtime), timezone.utc),
                         now - timedelta(days=2))
@@ -551,7 +557,7 @@ class Runtime:
                 if receipt.exists():
                     continue
                 write_json(receipt, {'key': key, 'job': job['id'], 'status': 'missed', 'started': at.isoformat(), 'finished': now.isoformat()})
-                self.alert(job, f"{job['id']} did not start", f"The scheduled job {key} was due at {at:%Y-%m-%d %H:%M} UTC and never started: "
+                self.alert(job, f"{key} was due at {at:%Y-%m-%d %H:%M} UTC and never started: "
                            'the scheduler was not running, or was busy with another job. It is not run late.')
 
     def tick(self):

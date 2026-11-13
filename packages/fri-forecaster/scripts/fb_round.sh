@@ -34,6 +34,7 @@ WAIT_UNTIL="${WAIT_UNTIL:-${DUE}T08:00:00Z}"    # give up waiting for the set af
 export FORECASTER_ENV_FILE="${FORECASTER_ENV_FILE:-$HOME/.config/fri-forecaster/env}"
 export PI_CODING_AGENT_DIR="${PI_CODING_AGENT_DIR:-$HOME/.config/fri-forecaster/pi-agent}"
 mkdir -p "$ROOT/logs" "$PI_CODING_AGENT_DIR"
+rm -f "$ROOT/logs/paged"
 
 # The submissions, in set-number order, are the registry's submitted
 # conditions; the others (OTHERS) only run, for scoring afterwards.
@@ -46,9 +47,10 @@ if [[ -n "$PUBLIC" && -z "${FB_PUBLIC_ORG:-}" ]]; then
 fi
 
 log() { echo "$(date -u +%FT%TZ) $*" | tee -a "$ROOT/logs/round.log"; }
-page() {  # TITLE MESSAGE: one page now, for what cannot wait for the round's end (fri_forecaster.alert)
-  "$PY" -m fri_forecaster.alert send --deployment forecastbench --severity page --title "$DUE: $1" \
-    --log "$ROOT/logs/round.log" "$2" 2>&1 | tee -a "$ROOT/logs/round.log" >&2
+page() {  # MESSAGE: "run FAILED" now, for what cannot wait for the round's end (fri_forecaster.alert)
+  "$PY" -m fri_forecaster.alert send --deployment forecastbench --severity page --title "run FAILED" \
+    --log "$ROOT/logs/round.log" "$DUE: $1" 2>&1 | tee -a "$ROOT/logs/round.log" >&2
+  : > "$ROOT/logs/paged"   # fb_cron.sh says nothing more about a round that already paged
 }
 
 QSET="$DUE-llm.json"
@@ -67,8 +69,14 @@ log "question set is up"
 # whose code drifted, so a round never runs a stale ensemble and never waits
 # for a hand step. Without a hook the ranking is Epoch's published index,
 # names only: a moved top N is then logged, not registered.
-PANEL="$(declare -F panel_members >/dev/null && panel_members 2>>"$ROOT/logs/round.log" \
-         || "$PY" -m fri_forecaster.eci --fetch --names 2>/dev/null)"
+# A hook that fails stops the round (a top model it cannot run, say): nothing
+# stands in for the panel.
+if declare -F panel_members >/dev/null; then
+  PANEL="$(panel_members 2>>"$ROOT/logs/round.log")" \
+    || { log "FATAL: the panel could not be read (panel_members failed; see above): the round does not run"; exit 3; }
+else
+  PANEL="$("$PY" -m fri_forecaster.eci --fetch --names 2>/dev/null)"
+fi
 SYNC_NOTE="$("$PY" -m fri_forecaster.names sync <<< "$PANEL")" || { log "names sync failed: $SYNC_NOTE"; exit 3; }
 while read -r line; do log "$line"; done <<< "$SYNC_NOTE"
 for c in "${ALL[@]}"; do "$PY" -m fri_forecaster.names current "$c" >/dev/null || exit 3; done
@@ -89,7 +97,7 @@ run_member() {  # a names.py member spec, MODEL@THINKING,MODE (research, noresea
   # A refused key takes the provider's every member with it, and only a person
   # can mend it: say so now, once per provider, while the day is still long.
   if [[ $rc == 2 ]] && ( set -o noclobber; : > "$ROOT/logs/key-refused-${model%%/*}" ) 2>/dev/null; then
-    page "${model%%/*} key refused" "${model%%/*}'s API key was refused: its members are not running. Fix the keys file ($FORECASTER_ENV_FILE) and rerun scripts/fb_round.sh $DUE${TAG:+ $TAG}; what is done is kept."
+    page "${model%%/*}'s API key was refused: its members are not running. Fix the keys file ($FORECASTER_ENV_FILE) and rerun scripts/fb_round.sh $DUE${TAG:+ $TAG}; what is done is kept."
   fi
 }
 

@@ -43,6 +43,22 @@ class TestRule(unittest.TestCase):
         self.assertEqual(warnings[0], "old")
         self.assertTrue(any("only 2 of the top 4 in snap.csv" in w and "panel is short" in w for w in warnings))
 
+    def test_a_new_run_refuses_a_panel_that_is_not_the_top_k(self):
+        # X 9 ranks second and cannot be run: no other model stands in for it.
+        _, warnings = panel.select(self._ranked([("A 2", 170), ("X 9", 169), ("B 1", 160)]), self.TABLE, 2, "snap.csv")
+        with self.assertRaises(panel.PanelError) as e:
+            panel.require(warnings)
+        self.assertIn("X 9", str(e.exception))
+        # A short panel is refused too; a family pass-over or a tie is the rule working.
+        _, warnings = panel.select(self._ranked([("B 1", 160)]), self.TABLE, 2, "snap.csv")
+        self.assertRaises(panel.PanelError, panel.require, warnings)
+        _, warnings = panel.select(self._ranked([("A 2", 170), ("A 1", 168), ("B 1", 160), ("C 1", 160)]), self.TABLE, 2)
+        self.assertTrue(warnings)
+        panel.require(warnings)
+        # An unrunnable model BELOW the cut costs nothing.
+        _, warnings = panel.select(self._ranked([("A 2", 170), ("B 1", 160), ("X 9", 150)]), self.TABLE, 2)
+        panel.require(warnings)
+
     def test_rows_come_back_as_given(self):
         table = [dict(r, color="#123456") for r in self.TABLE]
         members, _ = panel.select(self._ranked([("C 1", 150)]), table, 1)

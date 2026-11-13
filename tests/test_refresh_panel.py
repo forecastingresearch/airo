@@ -71,7 +71,7 @@ class TestRefreshPanel(unittest.TestCase):
         rc, out, pages = self.refresh(AFTER="A, C")
         self.assertEqual(rc, 0)
         self.assertIn("panel: A, C", out)
-        self.assertTrue(any("AIRO panel changed" in p for p in pages), pages)
+        self.assertTrue(any("--severity notice --title ensemble changed" in p for p in pages), pages)
         # The next job's refresh starts from the snapshot the first one fetched.
         _, _, pages = self.refresh(AFTER="A, C")
         self.assertEqual(pages, [])
@@ -80,17 +80,19 @@ class TestRefreshPanel(unittest.TestCase):
         rc, out, pages = self.refresh(FETCH_FAILS="1")
         self.assertEqual(rc, 0)
         self.assertIn("panel: A, B", out)
-        self.assertTrue(any("ECI fetch failed" in p for p in pages), pages)
+        self.assertTrue(any("--severity notice --title ECI fetch failed" in p for p in pages), pages)
 
-    def test_a_new_model_pages(self):
+    def test_a_new_model_is_logged_and_the_changed_ensemble_is_the_notice(self):
         rc, out, pages = self.refresh(ADDED="added Model X as x-1")
         self.assertEqual(rc, 0)
         self.assertIn("added Model X", out)
-        self.assertTrue(any("new model joins" in p for p in pages), pages)
+        self.assertEqual(pages, [])
 
-    def test_an_unrunnable_model_pages(self):
-        _, _, pages = self.refresh(UNRUNNABLE="the index ranks X above the panel's cut but the registry cannot run them")
-        self.assertTrue(any("no registry row" in p for p in pages), pages)
+    def test_an_unrunnable_top_model_fails_and_nothing_stands_in(self):
+        rc, out, pages = self.refresh(UNRUNNABLE="the index ranks X above the panel's cut but the registry cannot run them")
+        self.assertEqual(rc, 1)
+        self.assertIn("FATAL: the ensemble cannot be seated", out)
+        self.assertEqual(pages, [])   # the caller fails its run and pages that
 
 
 if __name__ == "__main__":

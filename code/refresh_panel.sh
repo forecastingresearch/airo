@@ -28,28 +28,27 @@ panel_labels() {
 }
 PREV_PANEL="$(panel_labels 2>/dev/null || true)"
 if ! "$PY" -m redlines.eci --fetch; then
-    notify "AIRO: Epoch ECI fetch failed" "The panel stays on the previous snapshot. Check https://epoch.ai/data/eci_scores.csv" high warning
+    notify "ECI fetch failed" "Falling back to the last known ensemble. Check https://epoch.ai/data/eci_scores.csv"
 fi
 # NEW MODELS (2026-10-07): give a row to each model the index now ranks into
-# the panel without one (redlines.autoreg), before the panel is read. A crash
-# here costs only the new model's seat -- the job goes ahead, and the model is
-# paged below as unrunnable.
+# the panel without one (redlines.autoreg), before the panel is read. A model
+# that still has no row afterwards fails the run below: nothing stands in.
 if ! ADDED="$("$PY" -m redlines.autoreg)"; then
-    echo "WARN: redlines.autoreg failed; a new model without a registry row sits this run out"
+    echo "WARN: redlines.autoreg failed"
     ADDED=""
 fi
-if [ -n "$ADDED" ]; then
-    echo "$ADDED"
-    notify "AIRO: new model joins the registry" "$ADDED" default new
-fi
+[ -z "$ADDED" ] || echo "$ADDED"
 "$PY" code/check_eci_snapshot.py --rebuild
 PANEL="$(panel_labels)"
 UNRUNNABLE="$("$PY" -c 'from redlines import registry; print("\n".join(w for w in registry.panel_warnings() if "cannot run" in w or "panel is short" in w))')"
 echo "panel: $PANEL"
 if [ -n "$PREV_PANEL" ] && [ "$PANEL" != "$PREV_PANEL" ]; then
-    notify "AIRO panel changed" "Was: $PREV_PANEL
-Now: $PANEL" default busts_in_silhouette
+    notify "ensemble changed" "Was: $PREV_PANEL
+Now: $PANEL"
 fi
+# NO FALLBACK (2026-11-13): the run asks the index's top models or it does not
+# run. The caller fails its run on this exit and pages that.
 if [ -n "$UNRUNNABLE" ]; then
-    notify "AIRO: index model with no registry row" "$UNRUNNABLE" high warning
+    echo "FATAL: the ensemble cannot be seated, and no other model stands in: $UNRUNNABLE"
+    exit 1
 fi
