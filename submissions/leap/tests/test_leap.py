@@ -115,7 +115,7 @@ def test_a_member_short_of_an_entry_stops_the_build(monkeypatch, tmp_path, capsy
     runfile.write_text("".join(json.dumps(r) + "\n" for r in rows))
     questions = tmp_path / "recSET.json"
     questions.write_text(json.dumps(QUESTIONS))
-    args = SimpleNamespace(questions=str(questions), run=str(runfile), model="system-v1", organization="FRI",
+    args = SimpleNamespace(questions=str(questions), run=str(runfile), model="system-v1", system="chorus", organization="FRI",
                            model_organization="FRI", out=str(tmp_path / "out"), allow_partial=False)
     with pytest.raises(SystemExit, match="1 entries lack a member"):
         build.main(args)
@@ -134,3 +134,17 @@ def test_a_call_with_missing_values_is_asked_again(monkeypatch, tmp_path):
         return {"rc": 0, "cells": replies.pop(0), "answer": {}, "usage": {"cost_usd": 1.0}, "evidence": []}
     rows = run.ask(MEMBERS[0], QUESTIONS, TODAY, "run-1", retries=1, harness_run=harness_run)
     assert rows[0]["call"]["attempts"] == 2 and rows[0]["call"]["values"] == 16 and rows[0]["call"]["cost_usd"] == 2.0
+
+
+def test_the_file_takes_the_registrys_name_when_none_is_given(monkeypatch, tmp_path):
+    rows = rows_for({"anthropic/m-a": answers(), "openai/m-b": answers()}, monkeypatch, tmp_path)
+    runfile, questions, registry = tmp_path / "run-1.jsonl", tmp_path / "recSET.json", tmp_path / "names.json"
+    runfile.write_text("".join(json.dumps(r) + "\n" for r in rows))
+    questions.write_text(json.dumps(QUESTIONS))
+    registry.write_text(json.dumps({"places": ["oak"], "ensembles": [], "names": {},
+                                    "systems": {"chorus": {"current": "chorus-oak", "size": 2, "condition": "baseline", "description": ""}}}))
+    monkeypatch.setenv("FORECASTER_NAMES", str(registry))
+    args = SimpleNamespace(questions=str(questions), run=str(runfile), model=None, system="chorus", organization="FRI",
+                           model_organization="FRI", out=str(tmp_path / "out"), allow_partial=False)
+    assert build.main(args) == 0
+    assert json.loads((tmp_path / "out/chorus-oak.recSET.json").read_text())["model"] == "chorus-oak"

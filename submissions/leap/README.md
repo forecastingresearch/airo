@@ -9,7 +9,8 @@ The system submitted is the standing panel under the Baseline condition: the top
 four models by Epoch's index (`fri_forecaster.panel`), each asked the whole
 question set once with web search (`fri_forecaster.baseline`), pooled by an
 equal-weight mean per value. It is the same system as ForecastBench's `chorus`
-condition and goes under the same name (`python -m forecastbench.names current chorus`).
+and goes out under the same name, read from the name registry
+(`python -m fri_forecaster.systems current chorus`).
 
 ```
 leap/
@@ -29,7 +30,7 @@ question set and everything a run writes stay outside the repository.
 python -m leap prompt QUESTIONS.json                          # what a model is asked; free
 python -m leap run    QUESTIONS.json --out WAVE/runs          # PAID: four model calls with search
 python -m leap run    QUESTIONS.json --out WAVE/runs --resume RUN_ID   # only the members it lacks
-python -m leap build  QUESTIONS.json WAVE/runs/RUN_ID.jsonl --model NAME --out WAVE
+python -m leap build  QUESTIONS.json WAVE/runs/RUN_ID.jsonl --out WAVE     # or --model NAME where there is no registry
 ```
 
 `build` writes `WAVE/<model>.<question_set>.json` and prints the validator's

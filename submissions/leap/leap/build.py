@@ -54,7 +54,12 @@ def main(args):
     if not rows:
         sys.exit(f"{args.run}: no rows for question set {question_set['question_set']}")
     members = list(dict.fromkeys(r["label"] for r in rows))
-    built, short = submission(question_set, rows, organization=args.organization, model=args.model,
+    model = args.model
+    if not model:
+        # The name the same system goes out under everywhere (fri_forecaster.systems).
+        from fri_forecaster import systems
+        model = systems.current(systems.load(), args.system)
+    built, short = submission(question_set, rows, organization=args.organization, model=model,
                               model_organization=args.model_organization)
     for qid, entry, have, _ in short:
         print(f"SHORT   {qid} {entry}: {len(have)} of {len(members)} members ({', '.join(have) or 'none'})")
@@ -67,7 +72,7 @@ def main(args):
         print(f"WARNING {line}")
     if errors:
         sys.exit(f"not built: the validator found {len(errors)} errors")
-    out = Path(args.out) / f"{args.model}.{question_set['question_set']}.json"
+    out = Path(args.out) / f"{model}.{question_set['question_set']}.json"
     out.parent.mkdir(parents=True, exist_ok=True)
     out.write_text(json.dumps(built, indent=1, ensure_ascii=False) + "\n", encoding="utf-8")
     values = sum(len(instrument.value_keys(q)) * len(instrument.entries(q)) for q in question_set["questions"])

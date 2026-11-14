@@ -238,18 +238,18 @@ class NamesTest(unittest.TestCase):
         self.names, self.reg = names, names.load(EXAMPLE_REGISTRY)
 
     def test_registered_names_match_the_code(self):
-        for ch in self.reg["conditions"]:
+        for ch in self.reg["systems"]:
             name = self.names.current(self.reg, ch)
             self.assertEqual(name, name.lower())
             self.assertTrue(name.startswith(ch + "-"))
 
-    def test_drift_is_refused_and_points_to_the_next_place(self):
+    def test_drift_is_refused_and_points_to_the_next_revision(self):
         import copy
         reg = copy.deepcopy(self.reg)
         reg["names"]["solo-oak"]["members"][0]["options"]["thinking"] = "medium"
         with self.assertRaises(SystemExit) as e:
             self.names.current(reg, "solo")
-        self.assertIn("solo-elm", str(e.exception))
+        self.assertIn("solo-oak-2", str(e.exception))
 
     def test_member_specs(self):
         self.assertEqual(self.names.member_specs(self.reg, "solo"), ["anthropic/claude-opus-5-5@high,research"])
@@ -276,19 +276,19 @@ class NamesTest(unittest.TestCase):
         finally:
             variants.VARIANTS["recent"] = old
 
-    def test_submitted_and_public_conditions(self):
+    def test_submitted_and_public_systems(self):
         self.assertEqual(self.names.submitted(self.reg), ["ensemble", "solo", "pooled"])   # unaided only runs
         self.assertEqual(self.names.public_of(self.reg), ["ensemble"])
 
     def test_forecastbench_limits_are_refused(self):
         import copy
         four = copy.deepcopy(self.reg)
-        four["conditions"]["unaided"].pop("submit")
+        four["systems"]["unaided"].pop("submit")
         with self.assertRaises(SystemExit) as e:
             self.names.submitted(four)
         self.assertIn("at most 3 sets", str(e.exception))
         two_public = copy.deepcopy(self.reg)
-        two_public["conditions"]["solo"]["public"] = True
+        two_public["systems"]["solo"]["public"] = True
         with self.assertRaises(SystemExit):
             self.names.submitted(two_public)
 
@@ -312,18 +312,21 @@ class SyncTest(unittest.TestCase):
         import copy
         before = copy.deepcopy(self.reg)
         panel = self.names.parse_panel(self.lines(self.panel))
-        for cond in self.reg["conditions"]:
+        for cond in self.reg["systems"]:
             name, note = self.names.sync(self.reg, cond, panel)
             self.assertEqual(name, f"{cond}-oak")
             self.assertIn("code unchanged", note)
         self.assertEqual(self.reg, before)
 
-    def test_a_moved_top_n_registers_the_next_place_for_each_condition(self):
+    def test_a_moved_top_n_is_the_next_ensemble_and_every_system_takes_its_place(self):
         newcomer = ("Claude Fable 5.1", "anthropic/claude-fable-5-1", "Anthropic")
         panel = self.names.parse_panel(self.lines(self.panel[:3] + [newcomer] + self.panel[3:]))
         self.assertEqual(self.names.sync(self.reg, "ensemble", panel, today="2026-10-19")[0], "ensemble-elm")
         self.assertEqual(self.names.sync(self.reg, "unaided", panel)[0], "unaided-elm")
-        self.assertEqual(self.names.sync(self.reg, "solo", panel)[0], "solo-oak")       # the top model is the same
+        self.assertEqual(self.names.sync(self.reg, "solo", panel)[0], "solo-elm")       # the same model, on ensemble 2
+        self.assertEqual(self.reg["names"]["solo-elm"]["members"], self.reg["names"]["solo-oak"]["members"])
+        self.assertEqual([(x["version"], x["place"]) for x in self.reg["ensembles"]], [(1, "oak"), (2, "elm")])
+        self.assertEqual({e["ensemble"] for n, e in self.reg["names"].items() if n.endswith("-elm")}, {2})
         e = self.reg["names"]["ensemble-elm"]
         self.assertEqual(self.names.current(self.reg, "ensemble"), "ensemble-elm")    # its fingerprint matches the code
         self.assertEqual([m["eci_name"] for m in e["members"]], self.have[:3] + ["Claude Fable 5.1"])
@@ -339,7 +342,7 @@ class SyncTest(unittest.TestCase):
         self.assertEqual(self.reg["names"]["unaided-elm"]["members"][3]["options"]["tools"], ["submit_forecast"])
         self.assertEqual([m["one_shot_baseline"] for m in self.reg["names"]["unaided-elm"]["members"]],   # a no-research
                          [m["one_shot_baseline"] for m in self.reg["names"]["unaided-oak"]["members"][:3]] + [None])  # entry's own
-        self.assertEqual(e["reason"], "sync 2026-10-19: members " + ", ".join(self.have) + " -> " +
+        self.assertEqual(e["reason"], "sync 2026-10-19: ensemble 1 -> 2: members " + ", ".join(self.have) + " -> " +
                          ", ".join(self.have[:3] + ["Claude Fable 5.1"]))
         self.assertEqual(self.reg["names"]["ensemble-oak"]["members"][3]["eci_name"], self.have[3])  # never edited
         self.assertEqual(self.names.member_specs(self.reg, "ensemble")[3], "anthropic/claude-fable-5-1@high,research")
@@ -360,14 +363,53 @@ class SyncTest(unittest.TestCase):
         self.assertIn("Claude Fable 5.1", note)
         self.assertNotIn("ensemble-elm", self.reg["names"])
 
-    def test_code_drift_registers_the_next_place_with_the_same_members(self):
+    def test_code_drift_alone_is_a_revision_on_the_same_ensemble(self):
         self.reg["names"]["solo-oak"]["fingerprint"] = "0000000000000000"
         panel = self.names.parse_panel(self.lines(self.panel))
         name, note = self.names.sync(self.reg, "solo", panel)
-        self.assertEqual(name, "solo-elm")
+        self.assertEqual(name, "solo-oak-2")
         self.assertIn("fingerprint", note)
-        self.assertEqual(self.reg["names"]["solo-elm"]["members"], self.reg["names"]["solo-oak"]["members"])
-        self.assertEqual(self.names.current(self.reg, "solo"), "solo-elm")
+        self.assertEqual(self.reg["names"]["solo-oak-2"]["members"], self.reg["names"]["solo-oak"]["members"])
+        self.assertEqual(self.reg["names"]["solo-oak-2"]["ensemble"], 1)
+        self.assertEqual(len(self.reg["ensembles"]), 1)
+        self.assertEqual(self.names.current(self.reg, "solo"), "solo-oak-2")
+        self.assertEqual(self.names.sync(self.reg, "ensemble", panel)[0], "ensemble-oak")   # the others stay
+
+    def test_an_order_change_that_moves_no_model_across_a_size_is_not_a_new_ensemble(self):
+        swapped = self.names.parse_panel(self.lines([self.panel[0], self.panel[2], self.panel[1], self.panel[3]]))
+        for system in self.reg["systems"]:
+            self.assertEqual(self.names.sync(self.reg, system, swapped)[0], f"{system}-oak")
+        new_top = self.names.parse_panel(self.lines([self.panel[1], self.panel[0], self.panel[2], self.panel[3]]))
+        self.assertEqual(self.names.sync(self.reg, "ensemble", new_top)[0], "ensemble-elm")   # the same four, a new top model
+        self.assertEqual(self.names.sync(self.reg, "solo", new_top)[0], "solo-elm")
+        self.assertEqual(self.names.member_specs(self.reg, "solo"), ["openai/gpt-6-astra@high,research"])
+
+    def test_an_old_registry_upgrades_without_renaming_anything(self):
+        import copy
+        new = self.names.load(EXAMPLE_REGISTRY)
+        old = copy.deepcopy(new)                      # back to the old shape: conditions, no ensembles
+        old["conditions"] = {c: {k: v for k, v in d.items() if k not in ("condition", "size")} for c, d in old.pop("systems").items()}
+        old.pop("ensembles")
+        for e in old["names"].values():
+            e["condition"] = e.pop("system")
+            e.pop("ensemble")
+        # the lead system moved on once, the others did not follow: the old scheme's drift
+        moved = copy.deepcopy(old["names"]["ensemble-oak"])
+        moved["members"][3] = dict(moved["members"][3], pi_model="anthropic/claude-fable-5-1", eci_name="Claude Fable 5.1")
+        moved["fingerprint"] = self.names.fingerprint(moved)
+        old["names"]["ensemble-elm"] = moved
+        old["conditions"]["ensemble"]["current"] = "ensemble-elm"
+        reg = self.names.upgrade(old)
+        self.assertEqual([(x["version"], x["place"]) for x in reg["ensembles"]], [(1, "oak"), (2, "elm")])
+        self.assertEqual(reg["systems"]["ensemble"], dict(new["systems"]["ensemble"], current="ensemble-elm"))
+        self.assertEqual(set(reg["names"]), set(old["names"]))                       # nothing renamed
+        self.assertEqual(reg["names"]["ensemble-elm"]["ensemble"], 2)
+        self.assertEqual(reg["names"]["solo-oak"]["ensemble"], 1)
+        self.assertEqual(self.names.upgrade(reg), reg)                               # once is enough
+        panel = self.names.parse_panel(self.lines(self.panel[:3] + [("Claude Fable 5.1", "anthropic/claude-fable-5-1", "Anthropic")]))
+        self.assertEqual([self.names.sync(reg, system, panel)[0] for system in reg["systems"]],
+                         ["ensemble-elm", "unaided-elm", "solo-elm", "pooled-elm"])  # the next sync brings the others level
+        self.assertEqual(len(reg["ensembles"]), 2)
 
     def test_cli_saves_unless_dry_run(self):
         import io
@@ -379,11 +421,11 @@ class SyncTest(unittest.TestCase):
             try:
                 moved = self.lines(self.panel[:3] + [("Claude Fable 5.1", "anthropic/claude-fable-5-1", "Anthropic")])
                 self.names.main(["sync", "--dry-run"], stdin=io.StringIO("".join(moved)))
-                self.assertEqual(json.load(open(path))["conditions"]["ensemble"]["current"], "ensemble-oak")
+                self.assertEqual(json.load(open(path))["systems"]["ensemble"]["current"], "ensemble-oak")
                 self.names.main(["sync"], stdin=io.StringIO("".join(moved)))
                 reg = json.load(open(path))
-                self.assertEqual(reg["conditions"]["ensemble"]["current"], "ensemble-elm")
-                self.assertEqual(reg["conditions"]["solo"]["current"], "solo-oak")
+                self.assertEqual(reg["systems"]["ensemble"]["current"], "ensemble-elm")
+                self.assertEqual(reg["systems"]["solo"]["current"], "solo-elm")
                 self.assertFalse(os.path.exists(path + ".tmp"))
             finally:
                 os.environ.pop("FORECASTER_NAMES")
