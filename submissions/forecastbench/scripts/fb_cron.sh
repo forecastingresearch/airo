@@ -19,7 +19,7 @@ mkdir -p "$ROOT/logs"
 
 "$HERE/scripts/fb_round.sh" "$DUE" >> "$ROOT/logs/cron.out" 2>&1
 rc=$?
-sets="$("$PY" -m forecastbench.names conditions 2>/dev/null | wc -l | tr -d ' ')"
+sets="$("$PY" -m forecastbench.names systems 2>/dev/null | wc -l | tr -d ' ')"
 ready="$(grep -c "build exited 0" "$ROOT/logs/round.log" 2>/dev/null)"
 # The sets are uploaded by hand, so a round that is ready still needs someone:
 # a notice. One that is not ready is a failed run: a page, unless the round

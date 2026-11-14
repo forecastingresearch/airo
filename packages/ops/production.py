@@ -518,7 +518,7 @@ class Runtime:
                     # fb_round's shell exit alone is insufficient; every expected set must build.
                     round_root = self.home / 'forecastbench/rounds' / job['due']
                     # Use the same CLI/config as the round, without exposing private names.
-                    count = int(output(['bash', '-o', 'pipefail', '-c', 'set -a; source "$FORECASTER_ROUND_ENV"; set +a; "$PY" -m forecastbench.names conditions | wc -l'], cwd=code, env=env))
+                    count = int(output(['bash', '-o', 'pipefail', '-c', 'set -a; source "$FORECASTER_ROUND_ENV"; set +a; "$PY" -m forecastbench.names systems | wc -l'], cwd=code, env=env))
                     built = (round_root / 'logs/round.log').read_text().count('build exited 0')
                     if count == 0 or built < count:
                         raise RuntimeError('ForecastBench has incomplete submission sets')

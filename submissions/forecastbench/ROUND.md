@@ -8,14 +8,14 @@ private and live outside the repo (`~/.config/fri-forecaster/`); `examples/` sho
 shape.
 
 ```
- Epoch's ECI ──> the panel ──> registry: conditions, their members, a fingerprint
+ Epoch's ECI ──> the panel ──> registry: systems, their members, a fingerprint
                  (the models this            │
                   machine can run,           │
                   best first)                ▼
  round day:  1 wait    for <due>-llm.json in forecastbench-datasets
-             2 sync    each condition against the panel: a moved top N or drifted
-                       code registers the condition's next place, then and there
-             3 check   each condition's name matches the code (it does, after sync)
+             2 sync    the registry against the panel: changed models are the next
+                       ensemble, and every system is registered under its place
+             3 check   each system's name matches the code (it does, after sync)
              4 run     each member forecasts every question: one pi call each
              5 build   each submitted condition = the mean of its members' forecasts
                        ──> <due>.<team>.<N>.json, ready to upload
@@ -54,22 +54,27 @@ round's: the submitted conditions run first, in set-number order, so put first t
 that must not miss the day.
 
 The pick happens **every round, at sync**: the round reads the panel (the models this
-machine can run, best by ECI first) and a condition whose members are not the panel's
-top N gets a new registry entry with them. The entry records why in its `reason` (what
+machine can run, best by ECI first). When the models any system runs have changed, that
+is the next ensemble, and every system gets a new registry entry on it. The entry records why in its `reason` (what
 sync found changed, and when), each member in fri-utils' `ModelRun` shape (model,
 provider, thinking level, tools, the one-shot baseline's `model_run_key`), and a
 fingerprint of the code that shapes forecasts: the system prompt, the question prompt
 and the tool descriptions.
 
-A configuration gets a leaderboard name, `<condition>-<place>` (e.g. `ensemble-oak`), and
-a registered entry is never edited. When anything that changes forecasts changes
-(members, thinking, prompts, tools, the pi version), the condition moves to the next
-place in the registry's list. So a leaderboard name always means exactly one
-configuration, and places carry no rank: a later configuration never reads as an
-upgrade.
+**Names.** A system (called a condition above) is a way of asking, run by the top N
+models of an ensemble. Ensembles are numbered: when the models any system runs change,
+the number goes up by one and every system moves with it. A leaderboard name is
+`<system>-<place>` (e.g. `ensemble-oak`); the place is only the readable form of the
+ensemble's number, read off the registry's list of places by position, so `ensemble-elm`
+and `solo-elm` are always the same ensemble. When a system's code changes (thinking,
+prompts, tools, the pi version) and the ensemble does not, it becomes a revision,
+`ensemble-oak-2`. A registered entry is never edited, so a name always means exactly one
+configuration. The names and the numbering are the engine's (`fri_forecaster.systems`),
+so LEAP and the dashboards put the same name on the same system.
 
 ```sh
-python -m forecastbench.names show                  # each condition's current name
+python -m fri_forecaster.systems show               # the ensemble, and each system's current name
+python -m forecastbench.names show                  # the same, with what ForecastBench submits
 python -m forecastbench.names current ensemble      # its name, or exit 1 if the code drifted
 python -m forecastbench.names sync --dry-run < panel.tsv   # what the panel would change
 python -m forecastbench.names fingerprint ensemble  # for registering a name by hand
@@ -86,10 +91,10 @@ at 00:00 UTC on the due date. The script polls every two minutes and gives up at
 model per line, best first: `<Epoch name> TAB <pi model id> TAB <lab>`. On AIRO's box
 that is `python -m redlines.registry`, so the round runs the same ensemble as the AIRO
 runs (ranked by `fri_forecaster.eci`, one seat per model family, only models the
-machine can run). `names sync` then compares every condition with the panel's top N:
-a moved top N, or code that no longer matches the registered fingerprint, registers
-the condition under its next place with the panel's models and the live code, and the
-round runs under the new name. Nothing waits for a hand step; the log and summary say
+machine can run). `names sync` then compares the registry with the panel: changed
+models are the next ensemble, and every system is registered under its place with the
+panel's models and the live code; code that no longer matches a registered fingerprint
+registers that system's next revision. The round runs under the new names. Nothing waits for a hand step; the log and summary say
 what was registered and why. Without a hook the ranking is Epoch's published index,
 names only (`python -m fri_forecaster.eci --fetch --names`): a moved top N is then
 logged, not registered, because a name alone does not say how to run the model.
@@ -184,7 +189,7 @@ a few minutes after the question set appears:
 | file               | what it does                                                      |
 |--------------------|-------------------------------------------------------------------|
 | `forecastbench/__init__.py` | the ForecastBench driver: members (`run`) and sets (`build`) |
-| `forecastbench/names.py`    | the name registry: conditions, members, fingerprints         |
+| `forecastbench/names.py`    | each name's settings: members, fingerprints; `sync`          |
 | `scripts/fb_round.sh`       | one round, unattended; `scripts/fb_cron.sh` is the scheduler's entry |
 
 The agent loop, the research tools, the panel and the keys are the engine's

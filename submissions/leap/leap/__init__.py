@@ -12,7 +12,7 @@ number at every combination of its dimensions, scenarios and resolution dates
 
     python -m leap prompt QUESTIONS.json                       # the prompt, free
     python -m leap run    QUESTIONS.json --out DIR             # PAID: model and search calls
-    python -m leap build  QUESTIONS.json DIR/<run>.jsonl --model NAME --out DIR
+    python -m leap build  QUESTIONS.json DIR/<run>.jsonl --out DIR   # named by the registry, or --model NAME
 
 Question sets and run files stay outside the repository.
 """

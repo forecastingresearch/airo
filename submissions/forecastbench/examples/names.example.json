@@ -1,5 +1,5 @@
 {
- "_doc": "The shape of the private name registry (fri_forecaster/names.py), under placeholder names: <condition>-<place>. Members follow fri-utils' ModelRun shape (model_key, provider, provider_model_id, lab, options); one_shot_baseline is the fri-utils model_run_key of the same model without the pi loop, for the agentic-vs-one-shot comparison. An entry with `prompts` asks its members under each of those AIRO conditions instead of the ForecastBench prompt. A condition is submitted unless it says \"submit\": false (it still runs) and anonymously unless it says \"public\": true: at most 3 submitted, at most one public. Never edit a registered name's entry: register the next place instead.",
+ "_doc": "The shape of the private name registry (fri_forecaster.systems; forecastbench.names records each name's settings), under placeholder names: <system>-<place>. A system is a condition run by the top `size` models of a numbered ensemble; the place is the ensemble's number, read off `places` by position. Members follow fri-utils' ModelRun shape (model_key, provider, provider_model_id, lab, options); one_shot_baseline is the fri-utils model_run_key of the same model without the pi loop, for the agentic-vs-one-shot comparison. An entry with `prompts` asks its members under each of those AIRO conditions instead of the ForecastBench prompt. A system is submitted unless it says \"submit\": false (it still runs) and anonymously unless it says \"public\": true: at most 3 submitted, at most one public. Never edit a registered name's entry: `sync` registers the next one.",
  "places": [
   "oak",
   "elm",
@@ -10,29 +10,48 @@
   "rowan",
   "alder"
  ],
- "conditions": {
+ "ensembles": [
+  {
+   "version": 1,
+   "place": "oak",
+   "members": [
+    "anthropic/claude-opus-5-5",
+    "openai/gpt-6-astra",
+    "openai/gpt-6.1-sol",
+    "anthropic/claude-sonnet-5-5"
+   ]
+  }
+ ],
+ "systems": {
   "ensemble": {
    "description": "the top 4 models by ECI with research, mean per cell",
-   "current": "ensemble-oak",
-   "public": true
+   "public": true,
+   "condition": "forecastbench",
+   "size": 4,
+   "current": "ensemble-oak"
   },
   "unaided": {
    "description": "the same top 4 without research, mean per cell",
-   "current": "unaided-oak",
-   "submit": false
+   "submit": false,
+   "condition": "forecastbench-no-research",
+   "size": 4,
+   "current": "unaided-oak"
   },
   "solo": {
    "description": "the top model by ECI alone, with research",
+   "condition": "forecastbench",
+   "size": 1,
    "current": "solo-oak"
   },
   "pooled": {
    "description": "the top 4 models by ECI under each of AIRO's five prompts, mean per cell",
+   "condition": "baseline+independent+recent+critical+two-step",
+   "size": 4,
    "current": "pooled-oak"
   }
  },
  "names": {
   "ensemble-oak": {
-   "condition": "ensemble",
    "reason": "the top 4 models by ECI at registration",
    "aggregate": "mean",
    "research": true,
@@ -119,10 +138,11 @@
      "eci_name": "Claude Sonnet 5.5"
     }
    ],
-   "fingerprint": "750a8da435fd2568"
+   "fingerprint": "750a8da435fd2568",
+   "system": "ensemble",
+   "ensemble": 1
   },
   "unaided-oak": {
-   "condition": "unaided",
    "reason": "the same 4 models as ensemble, without research",
    "aggregate": "mean",
    "research": false,
@@ -201,10 +221,11 @@
      "eci_name": "Claude Sonnet 5.5"
     }
    ],
-   "fingerprint": "1e547482f7780a1f"
+   "fingerprint": "1e547482f7780a1f",
+   "system": "unaided",
+   "ensemble": 1
   },
   "solo-oak": {
-   "condition": "solo",
    "reason": "the top model by ECI at registration",
    "aggregate": "mean",
    "research": true,
@@ -234,10 +255,11 @@
      "eci_name": "Claude Opus 5.5"
     }
    ],
-   "fingerprint": "f1d79cd7c1e5ad13"
+   "fingerprint": "f1d79cd7c1e5ad13",
+   "system": "solo",
+   "ensemble": 1
   },
   "pooled-oak": {
-   "condition": "pooled",
    "reason": "the top 4 models by ECI at registration, under AIRO's five pooled prompts",
    "aggregate": "mean",
    "research": true,
@@ -331,7 +353,9 @@
      "eci_name": "Claude Sonnet 5.5"
     }
    ],
-   "fingerprint": "92ad1c6287adfd81"
+   "fingerprint": "92ad1c6287adfd81",
+   "system": "pooled",
+   "ensemble": 1
   }
  }
 }

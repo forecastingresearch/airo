@@ -38,8 +38,8 @@ rm -f "$ROOT/logs/paged"
 
 # The submissions, in set-number order, are the registry's submitted
 # conditions; the others (OTHERS) only run, for scoring afterwards.
-SETS=($("$PY" -m forecastbench.names conditions)) || exit 3
-ALL=($("$PY" -m forecastbench.names conditions --all)) || exit 3
+SETS=($("$PY" -m forecastbench.names systems)) || exit 3
+ALL=($("$PY" -m forecastbench.names systems --all)) || exit 3
 OTHERS=(); for c in "${ALL[@]}"; do [[ " ${SETS[*]} " == *" $c "* ]] || OTHERS+=("$c"); done
 PUBLIC="$("$PY" -m forecastbench.names public)" || exit 3
 if [[ -n "$PUBLIC" && -z "${FB_PUBLIC_ORG:-}" ]]; then

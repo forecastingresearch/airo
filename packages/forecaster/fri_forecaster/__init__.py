@@ -11,6 +11,7 @@ Factored out of AIRO (forecastingresearch/airo, commit 3be3b93) on 2026-10-05.
     variants.py      the prompt variants (AIRO's conditions): one instruction each
     panel.py, eci.py the panel: the top models by Epoch's index
     baseline.py      the Baseline condition: how a dashboard asks the panel
+    systems.py       the names forecasts go out under: numbered ensembles, one registry
 
 Its users are the projects under dashboards/ and submissions/.
 """
