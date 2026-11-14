@@ -26,7 +26,7 @@ AIRO = 'dashboards/airo'                    # its index.html, web/, data/, resul
 FORECASTER = 'packages/forecaster'          # the engine; pi is under its node_modules
 FORECASTBENCH = 'submissions/forecastbench'
 JOBS = 'packages/ops/jobs.json'
-PROJECTS = (FORECASTER, 'packages/dashboard', AIRO, 'dashboards/eeai', FORECASTBENCH)   # each installed into the release's venv
+PROJECTS = (FORECASTER, 'packages/dashboard', AIRO, 'dashboards/eeai', FORECASTBENCH, 'submissions/leap')   # each installed into the release's venv
 # The installation's launcher runs this path in the live release, and deploy
 # runs it in a candidate (build-release): it stays put whatever else moves.
 LAUNCHER = 'code/production.py'

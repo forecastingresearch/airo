@@ -19,6 +19,7 @@ dashboards/         forecasts published as a site
   eeai/             EEAI, the Economic Effects of AI (eeai)
 submissions/        forecasts delivered in someone else's format
   forecastbench/    the ForecastBench rounds (forecastbench)
+  leap/             the LEAP survey waves (leap)
 code/production.py  the production launcher's fixed path; it runs packages/ops
 ```
 
@@ -34,7 +35,7 @@ information, no credentials, no production receipts.
 ```sh
 python3 -m venv .venv
 .venv/bin/pip install -e 'packages/forecaster[dev]' -e packages/dashboard -e 'dashboards/airo[test]' \
-    -e dashboards/eeai -e submissions/forecastbench
+    -e dashboards/eeai -e submissions/forecastbench -e submissions/leap
 npm ci --prefix packages/forecaster     # pi, pinned; the engine's tests skip without it
 .venv/bin/python -m pytest -q           # every project's tests; no API key needed
 ```
