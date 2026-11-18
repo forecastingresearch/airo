@@ -28,8 +28,14 @@ A member's mode is one of:
                          one instruction in the prompt (fri_forecaster.variants).
                          airo-none is the default Baseline condition.
 
+A member's research tools search with Tavily (the default) or with Exa
+(`run --search exa`, an `,exa` member for build): fri_forecaster.tool_cli.
+`run --search both` runs the two members, one after the other. To get one
+forecast set from the two, give build the two members.
+
     M=openai-codex/gpt-6-astra
     python -m forecastbench run   --root R --model $M
+    python -m forecastbench run   --root R --model $M --search exa
     python -m forecastbench run   --root R --model $M --no-research
     python -m forecastbench run   --root R --model $M --airo two-step
     python -m forecastbench build --root R --set-number 2 \
@@ -57,6 +63,7 @@ from concurrent.futures import ThreadPoolExecutor, as_completed
 
 from fri_forecaster import baseline, harness, panel
 from fri_forecaster.keys import load_keys
+from fri_forecaster.tool_cli import BACKENDS, SEARCH_ENV
 from fri_forecaster.variants import VARIANTS
 
 QSETS = "https://raw.githubusercontent.com/forecastingresearch/forecastbench-datasets/main/datasets/question_sets"
@@ -190,11 +197,11 @@ def slug(s):
     return "".join(c if c.isalnum() or c in "-._" else "_" for c in s)
 
 
-def member_dir(root, model, thinking, mode):
-    return os.path.join(root, "members", slug(f"{model}--{thinking}--{mode}"))
+def member_dir(root, model, thinking, mode, search="tavily"):
+    return os.path.join(root, "members", slug(f"{model}--{thinking}--{mode}" + ("" if search == "tavily" else f"--{search}")))
 
 
-def manifest_of(qset, model, thinking, mode, min_research, pi):
+def manifest_of(qset, model, thinking, mode, min_research, pi, search="tavily"):
     airo = airo_of(mode)
     system = baseline.SYSTEM if airo else SYSTEM if mode == "research" else SYSTEM_NO_RESEARCH
     return {"model": model, "thinking": thinking, "research": mode != "noresearch",
@@ -205,7 +212,8 @@ def manifest_of(qset, model, thinking, mode, min_research, pi):
             "prompt_version": AIRO_PROMPT_VERSION if airo else PROMPT_VERSION,
             "pi": pi, "pi_version": harness.pi_version(pi),
             **({"condition": airo, "instruction_sha256": hashlib.sha256((VARIANTS[airo] or "").encode()).hexdigest()}
-               if airo else {})}
+               if airo else {}),
+            **({} if search == "tavily" else {"search": search})}
 
 
 def check_manifest(path, want):
@@ -247,7 +255,7 @@ def forecast_one(q, due, mdir, args):
         res = baseline.run(args.model, airo_prompt(q, due, airo), workdir=workdir, cell_schema=CELL_SCHEMA,
                            key_fields=["resolution_date"], allowed_keys=dates,
                            submit_forecast={"description": TOOL_DESCRIPTIONS["submit_forecast"]},
-                           pi=args.pi, timeout=args.timeout, retries=3)
+                           pi=args.pi, timeout=args.timeout, retries=3, env={SEARCH_ENV: args.search})
     else:
         res = harness.run(model=args.model, system=SYSTEM if research else SYSTEM_NO_RESEARCH,
                           prompt=build_prompt(q, due), workdir=workdir,
@@ -255,7 +263,8 @@ def forecast_one(q, due, mdir, args):
                           cells_tool=False, tool_descriptions=TOOL_DESCRIPTIONS,
                           research_tools=harness.RESEARCH_TOOLS if research else (),
                           min_research=args.min_research if research else 0,
-                          thinking=args.thinking, pi=args.pi, timeout=args.timeout, retries=3)
+                          thinking=args.thinking, pi=args.pi, timeout=args.timeout, retries=3,
+                          env={SEARCH_ENV: args.search})
     probs = {}
     for d in dates:
         c = res["cells"].get(d)
@@ -341,6 +350,10 @@ def validate(fs, qset):
 def cmd_run(args):
     harness.pi_argv(args.pi)             # no pi: fail here, not once per question
     load_keys()
+    if args.search != "tavily" and not os.environ.get("EXA_API_KEY"):   # no key: each Exa call fails
+        sys.exit(f"--search {args.search} needs EXA_API_KEY in the keys file")
+    if args.search == "both":   # one member for each backend
+        return max(cmd_run(argparse.Namespace(**vars(args) | {"search": s})) for s in BACKENDS)
     root = os.path.abspath(args.root)
     os.makedirs(root, exist_ok=True)
     qpath = os.path.join(root, "question_set.json")
@@ -355,10 +368,10 @@ def cmd_run(args):
     if args.airo:
         args.mode = f"airo-{args.airo}"
     args.thinking = thinking_of(args.model, args.mode, args.thinking)
-    mdir = member_dir(root, args.model, args.thinking, args.mode)
+    mdir = member_dir(root, args.model, args.thinking, args.mode, args.search)
     os.makedirs(mdir, exist_ok=True)
     check_manifest(os.path.join(mdir, "manifest.json"),
-                   manifest_of(qset, args.model, args.thinking, args.mode, args.min_research, args.pi))
+                   manifest_of(qset, args.model, args.thinking, args.mode, args.min_research, args.pi, args.search))
     qs = questions_of(qset)[: args.limit]
     if args.sample:
         qs = sample_of(qs, args.sample)
@@ -412,6 +425,8 @@ def cmd_build(args):
     members = {}
     for spec in args.member:
         head, *flags = spec.split(",")
+        search = next((f for f in flags if f in BACKENDS), "tavily")
+        flags = [f for f in flags if f not in BACKENDS]
         model, _, thinking = head.partition("@")
         mode = args.mode
         for part in flags:
@@ -419,7 +434,7 @@ def cmd_build(args):
                 sys.exit(f"--member {spec!r}: unknown mode {part!r} (have {', '.join(MODES)})")
             mode = part
         thinking = thinking_of(model, mode, thinking or args.thinking)
-        mdir = member_dir(root, model, thinking, mode)
+        mdir = member_dir(root, model, thinking, mode, search)
         if not os.path.exists(os.path.join(mdir, "manifest.json")):
             sys.exit(f"no member run at {mdir}")
         members[os.path.basename(mdir)] = read_results(os.path.join(mdir, "results.jsonl"))
@@ -476,6 +491,8 @@ def main(argv=None):
     mode.add_argument("--airo", choices=AIRO_CONDITIONS, default=None,
                    help="ask under this AIRO condition instead of the ForecastBench prompt: no system prompt, "
                         "research offered and never required, the condition's instruction in the prompt")
+    r.add_argument("--search", choices=[*BACKENDS, "both"], default="tavily",
+                   help="the search backend of the research tools: tavily or exa; both runs one member for each")
     r.add_argument("--min-research", type=int, default=2, help="successful research calls before submitting")
     r.add_argument("--workers", type=int, default=8)
     r.add_argument("--limit", type=int, default=None, help="only the first N questions (smoke test)")
@@ -485,8 +502,8 @@ def main(argv=None):
     b = sub.add_parser("build", help="combine members into a forecast set (mean per cell)")
     b.add_argument("--root", required=True)
     b.add_argument("--member", action="append", required=True,
-                   help="MODEL[@THINKING][,MODE]; MODE is research, noresearch or airo-<condition>; "
-                        "repeat for an ensemble")
+                   help="MODEL[@THINKING][,MODE][,exa]; MODE is research, noresearch or airo-<condition>; "
+                        "exa is the member that ran with --search exa; repeat for an ensemble")
     b.add_argument("--thinking", default=None, help="default thinking for --member")
     b.set_defaults(mode="airo-none")
     build_mode = b.add_mutually_exclusive_group()

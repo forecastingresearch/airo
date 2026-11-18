@@ -18,7 +18,8 @@ FAKE_PI = textwrap.dedent("""\
     import json, os, sys
     out = os.environ["FORECASTER_OUT"]
     open(os.path.join(out, "stdin.txt"), "w").write(sys.stdin.read())   # the prompt, as pi would read it
-    json.dump({{k: os.environ.get(k) for k in ("PI_CODING_AGENT_DIR", "ANTHROPIC_AUTH_TOKEN", "ANTHROPIC_OAUTH_TOKEN", "ANTHROPIC_API_KEY")}},
+    json.dump({{k: os.environ.get(k) for k in ("PI_CODING_AGENT_DIR", "ANTHROPIC_AUTH_TOKEN", "ANTHROPIC_OAUTH_TOKEN", "ANTHROPIC_API_KEY",
+                                                      "FORECASTER_SEARCH")}},
               open(os.path.join(out, "env.json"), "w"))
     if os.environ.get("FAKE_API_ERROR"):   # a provider error: pi ends the turn, exit 0, no cells
         print(json.dumps({{"type": "message_end", "message": {{"role": "assistant", "stopReason": "error",
@@ -159,6 +160,23 @@ class ForecastBenchTest(unittest.TestCase):
                                       "--model-org", "X", "--org", "Example Team", "--set-number", "1"]), 1)  # found; short coverage
             with self.assertRaises(SystemExit):
                 fb.main(["build", "--root", root, "--member", "a/one", "--name", "x", "--model-org", "X", "--org", "Example Team", "--set-number", "1"])
+
+    def test_a_search_backend_is_another_member(self):
+        with tempfile.TemporaryDirectory() as d:
+            qpath, root = self._round(d)
+            run = ["run", "--root", root, "--question-set", qpath, "--model", "a/one", "--search", "both", "--pi", fake_pi(d)]
+            with self.assertRaises(SystemExit):             # no Exa key: no member starts
+                fb.main(run)
+            with unittest.mock.patch.dict(os.environ, {"FAKE_ALL": "1", "EXA_API_KEY": "unused"}):
+                self.assertEqual(fb.main(run), 0)           # both: one member for each backend
+            for folder, search in (("a_one--high--airo-none", "tavily"), ("a_one--high--airo-none--exa", "exa")):
+                mdir = os.path.join(root, "members", folder)
+                env = json.load(open(os.path.join(mdir, "calls", "metaculus__m1", "attempt-1", "env.json")))
+                self.assertEqual(env["FORECASTER_SEARCH"], search)
+                manifest = json.load(open(os.path.join(mdir, "manifest.json")))
+                self.assertEqual(manifest.get("search"), None if search == "tavily" else search)   # Tavily: no new key
+            self.assertEqual(fb.main(["build", "--root", root, "--member", "a/one,exa", "--name", "x",
+                                      "--org", "Example Team", "--set-number", "1"]), 0)
 
     def test_an_airo_condition_is_the_baseline_loop_plus_its_instruction(self):
         from fri_forecaster import baseline

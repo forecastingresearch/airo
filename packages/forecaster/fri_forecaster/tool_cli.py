@@ -4,6 +4,10 @@
 returns. One implementation for every harness, so comparisons are of loops,
 not search stacks. Keys come from the environment the harness passes down.
 
+The search backend also comes from that environment. FORECASTER_SEARCH is
+tavily (tools.py, the default) or exa (exa_tools.py, the same tools and
+result shapes). A caller sets it for each call with harness.run(env=...).
+
 `tool_cli.py validate` (arguments on stdin: {file, function, kwargs, value})
 runs a caller's debrief validator, `function(value, **kwargs)` from the
 Python file `file`, and prints {"problems": [...]}."""
@@ -16,8 +20,23 @@ import time
 
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
 
-from fri_forecaster import tools  # noqa: E402
+from fri_forecaster import exa_tools, tools  # noqa: E402
 from fri_forecaster.keys import load_keys  # noqa: E402
+
+SEARCH_ENV = "FORECASTER_SEARCH"
+BACKENDS = {"tavily": tools, "exa": exa_tools}
+
+
+def backend():
+    name = (os.environ.get(SEARCH_ENV) or "tavily").strip().lower()
+    if name not in BACKENDS:
+        sys.exit(f"{SEARCH_ENV}={name!r}: have {', '.join(BACKENDS)}")
+    return BACKENDS[name]
+
+
+def web_search(**args):
+    return backend().web_search(**args)
+
 
 def read_page(url, offset=0):
     if tools.domain_blocked(url, tools.blocked_domains()) or tools.is_blocked(url, tools.blocked_patterns()):
@@ -28,10 +47,10 @@ def read_page(url, offset=0):
         return prior
     from fri_forecaster.news_cache import read_snapshot
     cached = read_snapshot(url, offset)
-    return cached if cached is not None else tools.read_page(url, offset)
+    return cached if cached is not None else backend().read_page(url, offset)
 
 
-FN = {"web_search": tools.web_search, "read_page": read_page}
+FN = {"web_search": web_search, "read_page": read_page}
 # Tavily answers 429 when many agents search at once (2026-10-06 practice
 # run: 32 concurrent calls, ~1,700 failures). Back off and retry here, not in
 # the shared tools.py implementation.

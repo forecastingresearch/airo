@@ -6,7 +6,7 @@ Agentic forecasting jobs for FRI. Today this is the FRI Forecaster package
 (`fri_forecaster`); the job queue it is growing into is specced in issue #1.
 
 [pi](https://github.com/earendil-works/pi) drives the model; this package supplies the
-research tools (Tavily `web_search` / `read_page`), the submit tools, a research floor,
+research tools (`web_search` / `read_page`, on Tavily or Exa), the submit tools, a research floor,
 and the bookkeeping (evidence, usage, merged answer). Factored out of AIRO on 2026-10-05;
 AIRO and the ForecastBench driver are its users.
 
@@ -33,7 +33,7 @@ with the tools it is given, and the answers land in the same folder, which is th
                                  ▼
  ┌─ pi 0.99.2: the agent loop (model calls, retries, context) ────┐
  │ no built-in tools; its only tools come from pi_tools.ts:       │
- │   web_search, read_page ──> tool_cli.py ──> Tavily             │
+ │   web_search, read_page ──> tool_cli.py ──> Tavily or Exa      │
  │   submit_forecast (and optionally submit_cells), locked        │
  │   until the research floor is met                              │
  └───────────────────────────────┬────────────────────────────────┘
@@ -183,6 +183,9 @@ What FRI's dashboards share when they ask a standing panel of models (AIRO, EEAI
   or its `cli.js`). pi owns model auth.
 - `TAVILY_API_KEY` for research, and the providers' API keys, from the environment or an
   env file (`keys.py`).
+- Optional: `FORECASTER_SEARCH`, the search backend of the research tools. `tavily` is the
+  default. `exa` uses Exa (`exa_tools.py`, needs `EXA_API_KEY`) with the same tools and
+  result shapes. Pass it per run with `harness.run(env=...)`.
 - Optional: `FORECASTER_BLOCK_URL_PATTERNS`, regular expressions separated by commas or
   newlines, matched case-insensitively against URLs. When set, `web_search` drops matching
   results and `read_page` refuses matching URLs; unset or empty, nothing changes. Pass it

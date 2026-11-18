@@ -18,7 +18,7 @@ from pathlib import Path
 # pi provider id -> the API key it bills to (harness.run requires the model's).
 KEY_FOR = {"anthropic": "ANTHROPIC_API_KEY", "openai": "OPENAI_API_KEY", "google": "GEMINI_API_KEY",
            "xai": "XAI_API_KEY", "openrouter": "OPENROUTER_API_KEY", "deepinfra": "DEEPINFRA_API_KEY"}
-KEYS = ("TAVILY_API_KEY",) + tuple(KEY_FOR.values())
+KEYS = ("TAVILY_API_KEY", "EXA_API_KEY") + tuple(KEY_FOR.values())
 
 
 # Epoch's `organization`, by substring -> pi provider id (the labs a key can be held for).
