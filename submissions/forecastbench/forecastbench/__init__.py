@@ -28,8 +28,12 @@ A member's mode is one of:
                          one instruction in the prompt (fri_forecaster.variants).
                          airo-none is the default Baseline condition.
 
+A member forecasts with the market price (the default) or without it
+(`run --no-price`, a `,noprice` member for build): see price_free.
+
     M=openai-codex/gpt-6-astra
     python -m forecastbench run   --root R --model $M
+    python -m forecastbench run   --root R --model $M --no-price
     python -m forecastbench run   --root R --model $M --no-research
     python -m forecastbench run   --root R --model $M --airo two-step
     python -m forecastbench build --root R --set-number 2 \
@@ -57,6 +61,7 @@ from concurrent.futures import ThreadPoolExecutor, as_completed
 
 from fri_forecaster import baseline, harness, panel
 from fri_forecaster.keys import load_keys
+from fri_forecaster.tools import BLOCK_ENV
 from fri_forecaster.variants import VARIANTS
 
 QSETS = "https://raw.githubusercontent.com/forecastingresearch/forecastbench-datasets/main/datasets/question_sets"
@@ -147,6 +152,21 @@ def build_prompt(q, due):
 
 PROMPT_VERSION = "fb-v1"   # bump when SYSTEM / build_prompt change
 
+# The sites of the market sources (MARKET), as URL guard patterns (tools.BLOCK_ENV).
+# A price-free call cannot search or read them. The guard keeps Tavily's summary
+# of a search, unless the search found a page of one of these sites.
+MARKET_SITES = (r"kalshi\.com,manifold\.markets,metaculus\.com,polymarket\.com,"
+                r"infer-pub\.com,randforecastinginitiative\.org")
+
+
+def price_free(q):
+    """A market question without its price. The function removes the freeze
+    value, its date and its explanation, so build_prompt writes no `Value on`
+    line. A dataset question does not change: its value is the last reading
+    of the series, not a price for the question."""
+    return {k: v for k, v in q.items() if not k.startswith("freeze_datetime")} if is_market(q) else q
+
+
 # AIRO's conditions, asked of ForecastBench questions (2026-11-13): the five
 # whose mean is each model's published AIRO number (experiments/airo.toml
 # `pooled`). The question prompt is build_prompt's; there is no system prompt,
@@ -190,11 +210,11 @@ def slug(s):
     return "".join(c if c.isalnum() or c in "-._" else "_" for c in s)
 
 
-def member_dir(root, model, thinking, mode):
-    return os.path.join(root, "members", slug(f"{model}--{thinking}--{mode}"))
+def member_dir(root, model, thinking, mode, price=True):
+    return os.path.join(root, "members", slug(f"{model}--{thinking}--{mode}" + ("" if price else "--noprice")))
 
 
-def manifest_of(qset, model, thinking, mode, min_research, pi):
+def manifest_of(qset, model, thinking, mode, min_research, pi, price=True):
     airo = airo_of(mode)
     system = baseline.SYSTEM if airo else SYSTEM if mode == "research" else SYSTEM_NO_RESEARCH
     return {"model": model, "thinking": thinking, "research": mode != "noresearch",
@@ -205,7 +225,8 @@ def manifest_of(qset, model, thinking, mode, min_research, pi):
             "prompt_version": AIRO_PROMPT_VERSION if airo else PROMPT_VERSION,
             "pi": pi, "pi_version": harness.pi_version(pi),
             **({"condition": airo, "instruction_sha256": hashlib.sha256((VARIANTS[airo] or "").encode()).hexdigest()}
-               if airo else {})}
+               if airo else {}),
+            **({} if price else {"price": False})}
 
 
 def check_manifest(path, want):
@@ -243,11 +264,15 @@ def forecast_one(q, due, mdir, args):
     dates = dates_of(q)
     workdir = os.path.join(mdir, "calls", slug(f"{q['source']}__{q['id']}"))
     airo, research = airo_of(args.mode), args.mode == "research"
+    env = None
+    if args.no_price:   # the prompt has no price, and research cannot get it from the market sites
+        q = price_free(q)
+        env = {BLOCK_ENV: ",".join(filter(None, [os.environ.get(BLOCK_ENV), MARKET_SITES]))}
     if airo:   # the Baseline loop; the one answer tool is ours, the research tools are its own
         res = baseline.run(args.model, airo_prompt(q, due, airo), workdir=workdir, cell_schema=CELL_SCHEMA,
                            key_fields=["resolution_date"], allowed_keys=dates,
                            submit_forecast={"description": TOOL_DESCRIPTIONS["submit_forecast"]},
-                           pi=args.pi, timeout=args.timeout, retries=3)
+                           pi=args.pi, timeout=args.timeout, retries=3, env=env)
     else:
         res = harness.run(model=args.model, system=SYSTEM if research else SYSTEM_NO_RESEARCH,
                           prompt=build_prompt(q, due), workdir=workdir,
@@ -255,7 +280,7 @@ def forecast_one(q, due, mdir, args):
                           cells_tool=False, tool_descriptions=TOOL_DESCRIPTIONS,
                           research_tools=harness.RESEARCH_TOOLS if research else (),
                           min_research=args.min_research if research else 0,
-                          thinking=args.thinking, pi=args.pi, timeout=args.timeout, retries=3)
+                          thinking=args.thinking, pi=args.pi, timeout=args.timeout, retries=3, env=env)
     probs = {}
     for d in dates:
         c = res["cells"].get(d)
@@ -355,10 +380,11 @@ def cmd_run(args):
     if args.airo:
         args.mode = f"airo-{args.airo}"
     args.thinking = thinking_of(args.model, args.mode, args.thinking)
-    mdir = member_dir(root, args.model, args.thinking, args.mode)
+    mdir = member_dir(root, args.model, args.thinking, args.mode, not args.no_price)
     os.makedirs(mdir, exist_ok=True)
     check_manifest(os.path.join(mdir, "manifest.json"),
-                   manifest_of(qset, args.model, args.thinking, args.mode, args.min_research, args.pi))
+                   manifest_of(qset, args.model, args.thinking, args.mode, args.min_research, args.pi,
+                               not args.no_price))
     qs = questions_of(qset)[: args.limit]
     if args.sample:
         qs = sample_of(qs, args.sample)
@@ -412,6 +438,8 @@ def cmd_build(args):
     members = {}
     for spec in args.member:
         head, *flags = spec.split(",")
+        price = "noprice" not in flags
+        flags = [f for f in flags if f != "noprice"]
         model, _, thinking = head.partition("@")
         mode = args.mode
         for part in flags:
@@ -419,7 +447,7 @@ def cmd_build(args):
                 sys.exit(f"--member {spec!r}: unknown mode {part!r} (have {', '.join(MODES)})")
             mode = part
         thinking = thinking_of(model, mode, thinking or args.thinking)
-        mdir = member_dir(root, model, thinking, mode)
+        mdir = member_dir(root, model, thinking, mode, price)
         if not os.path.exists(os.path.join(mdir, "manifest.json")):
             sys.exit(f"no member run at {mdir}")
         members[os.path.basename(mdir)] = read_results(os.path.join(mdir, "results.jsonl"))
@@ -476,6 +504,9 @@ def main(argv=None):
     mode.add_argument("--airo", choices=AIRO_CONDITIONS, default=None,
                    help="ask under this AIRO condition instead of the ForecastBench prompt: no system prompt, "
                         "research offered and never required, the condition's instruction in the prompt")
+    r.add_argument("--no-price", action="store_true",
+                   help="forecast market questions without the market price: the prompt does not give it, and "
+                        "research cannot search or read the market sites (default: the prompt gives the price)")
     r.add_argument("--min-research", type=int, default=2, help="successful research calls before submitting")
     r.add_argument("--workers", type=int, default=8)
     r.add_argument("--limit", type=int, default=None, help="only the first N questions (smoke test)")
@@ -485,8 +516,8 @@ def main(argv=None):
     b = sub.add_parser("build", help="combine members into a forecast set (mean per cell)")
     b.add_argument("--root", required=True)
     b.add_argument("--member", action="append", required=True,
-                   help="MODEL[@THINKING][,MODE]; MODE is research, noresearch or airo-<condition>; "
-                        "repeat for an ensemble")
+                   help="MODEL[@THINKING][,MODE][,noprice]; MODE is research, noresearch or airo-<condition>; "
+                        "noprice is the member that ran with --no-price; repeat for an ensemble")
     b.add_argument("--thinking", default=None, help="default thinking for --member")
     b.set_defaults(mode="airo-none")
     build_mode = b.add_mutually_exclusive_group()

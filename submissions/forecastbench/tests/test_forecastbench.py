@@ -18,7 +18,8 @@ FAKE_PI = textwrap.dedent("""\
     import json, os, sys
     out = os.environ["FORECASTER_OUT"]
     open(os.path.join(out, "stdin.txt"), "w").write(sys.stdin.read())   # the prompt, as pi would read it
-    json.dump({{k: os.environ.get(k) for k in ("PI_CODING_AGENT_DIR", "ANTHROPIC_AUTH_TOKEN", "ANTHROPIC_OAUTH_TOKEN", "ANTHROPIC_API_KEY")}},
+    json.dump({{k: os.environ.get(k) for k in ("PI_CODING_AGENT_DIR", "ANTHROPIC_AUTH_TOKEN", "ANTHROPIC_OAUTH_TOKEN", "ANTHROPIC_API_KEY",
+                                                      "FORECASTER_BLOCK_URL_PATTERNS")}},
               open(os.path.join(out, "env.json"), "w"))
     if os.environ.get("FAKE_API_ERROR"):   # a provider error: pi ends the turn, exit 0, no cells
         print(json.dumps({{"type": "message_end", "message": {{"role": "assistant", "stopReason": "error",
@@ -159,6 +160,23 @@ class ForecastBenchTest(unittest.TestCase):
                                       "--model-org", "X", "--org", "Example Team", "--set-number", "1"]), 1)  # found; short coverage
             with self.assertRaises(SystemExit):
                 fb.main(["build", "--root", root, "--member", "a/one", "--name", "x", "--model-org", "X", "--org", "Example Team", "--set-number", "1"])
+
+    def test_a_price_free_member_gets_no_price(self):
+        m, ds = fb.questions_of(QSET)
+        self.assertIs(fb.price_free(ds), ds)                # a dataset question keeps its value
+        with tempfile.TemporaryDirectory() as d:
+            qpath, root = self._round(d)
+            with unittest.mock.patch.dict(os.environ, {"FAKE_ALL": "1"}):
+                self.assertEqual(fb.main(["run", "--root", root, "--question-set", qpath, "--model", "a/one",
+                                          "--no-price", "--pi", fake_pi(d)]), 0)
+            mdir = os.path.join(root, "members", "a_one--high--airo-none--noprice")
+            self.assertIs(json.load(open(os.path.join(mdir, "manifest.json")))["price"], False)
+            call = os.path.join(mdir, "calls", "metaculus__m1", "attempt-1")
+            prompt = open(os.path.join(call, "prompt.txt")).read()
+            self.assertEqual(prompt, fb.build_prompt(m, "2026-10-11").replace("Value on 2026-10-01: 0.4 (The market value.)\n", ""))
+            self.assertIn("metaculus", json.load(open(os.path.join(call, "env.json")))["FORECASTER_BLOCK_URL_PATTERNS"])
+            self.assertEqual(fb.main(["build", "--root", root, "--member", "a/one,noprice", "--name", "x",
+                                      "--org", "Example Team", "--set-number", "1"]), 0)
 
     def test_an_airo_condition_is_the_baseline_loop_plus_its_instruction(self):
         from fri_forecaster import baseline

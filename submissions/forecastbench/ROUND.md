@@ -45,6 +45,15 @@ A **condition** is a rule for what to forecast with, defined by rank on Epoch's 
   (`fri_forecaster.variants`; `none`, AIRO's Baseline, adds nothing). An entry lists them
   in `prompts`, and its forecast is the mean over every member under every prompt.
 
+In each mode a member gets the market price (the default) or does not (`forecastbench run
+--no-price`). Without the price, a market question's prompt has no `Value on` line, and
+the research tools cannot search or read the market sites. When a search finds a page
+of a market site, the tools drop that page and the Tavily summary (`answer`) of that
+search. A page on another site can still give the price. A dataset question keeps its
+value. `forecastbench build --member
+MODEL[@THINKING][,MODE],noprice` selects a price-free member. The registry and
+`fb_round.sh` do not run price-free members yet: run and build them by hand.
+
 **What goes up.** ForecastBench takes at most 3 sets a round and, since 2026-11-13, at
 most one under the team's own name; the rest carry its anonymous one (`Anonymous N`). A
 condition is submitted unless the registry says `"submit": false`, and anonymously unless
@@ -154,6 +163,7 @@ short, the files to upload, and API cost per member.
 <ROUNDS_DIR>/<due>/
   question_set.json                       the round's questions, fetched once
   members/<model>--<thinking>--<mode>/     mode: research, noresearch, airo-<condition>
+                                          (a price-free member adds --noprice)
     manifest.json                         the member's settings, pinned
     results.jsonl                         one line per question answered
     calls/<source>__<id>/attempt-N/       one pi call's inbox and outbox
