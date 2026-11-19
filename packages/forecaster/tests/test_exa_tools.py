@@ -11,7 +11,7 @@ from fri_forecaster import exa_tools, tool_cli, tools
 class SearchBody(unittest.TestCase):
     def test_plain(self):
         b = exa_tools.search_body("q", 3)
-        self.assertEqual(b["numResults"], 3)
+        self.assertEqual((b["numResults"], b["type"]), (3, "deep"))
         self.assertNotIn("startPublishedDate", b)
         self.assertNotIn("excludeDomains", b)
         self.assertEqual(b["outputSchema"]["type"], "text")        # a general search asks for the summary

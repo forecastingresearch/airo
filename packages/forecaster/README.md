@@ -184,7 +184,7 @@ What FRI's dashboards share when they ask a standing panel of models (AIRO, EEAI
 - `TAVILY_API_KEY` for research, and the providers' API keys, from the environment or an
   env file (`keys.py`).
 - Optional: `FORECASTER_SEARCH`, the search backend of the research tools. `tavily` is the
-  default. `exa` uses Exa (`exa_tools.py`, needs `EXA_API_KEY`) and `keenable` uses Keenable
+  default. `exa` uses Exa's `deep` search (`exa_tools.py`, needs `EXA_API_KEY`) and `keenable` uses Keenable
   (`keenable_tools.py`; `KEENABLE_API_KEY` is optional and removes the limit of 1,000
   requests an hour), with the same tools and result shapes. Keenable writes no summary of
   a search (`answer`), and its publish dates are less exact, so `recent_days` is too. Pass it per run with `harness.run(env=...)`.

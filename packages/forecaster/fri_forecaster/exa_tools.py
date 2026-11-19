@@ -33,6 +33,9 @@ from fri_forecaster.tools import (BLOCK_TITLES, PAGE_CHARS, blocked_domains, blo
 EXA_SEARCH_URL = "https://api.exa.ai/search"
 EXA_CONTENTS_URL = "https://api.exa.ai/contents"
 SNIPPET_CHARS = 1500       # one result's `content`, as tools.py caps Tavily's
+# Exa's search of more than one step: $0.012 and 6 to 7 seconds for each search (2 live searches, 2026-11-19).
+# "auto", the search of one step, costs $0.007.
+SEARCH_TYPE = "deep"
 # Exa writes about 1000 characters for this (4 live searches, 2026-11-18). Tavily's `answer` is about 250.
 ANSWER = "A short answer to the query, in two or three sentences."
 PAGE_FETCH_CHARS = 200000  # the most of one page read_page asks Exa for
@@ -55,7 +58,7 @@ def _cost(data):
 def search_body(query, max_results=5, recent_days=None, today=None, exclude=()):
     """The Exa request for a search. With `recent_days`, news published in
     [today - recent_days, today], as tools.search_body bounds Tavily's."""
-    body = {"query": query, "type": "auto", "numResults": max(1, min(int(max_results or 5), 10)),
+    body = {"query": query, "type": SEARCH_TYPE, "numResults": max(1, min(int(max_results or 5), 10)),
             "contents": {"highlights": {"maxCharacters": SNIPPET_CHARS}}}
     if exclude:
         body["excludeDomains"] = list(exclude)
