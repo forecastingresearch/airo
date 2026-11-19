@@ -164,12 +164,14 @@ class ForecastBenchTest(unittest.TestCase):
     def test_a_search_backend_is_another_member(self):
         with tempfile.TemporaryDirectory() as d:
             qpath, root = self._round(d)
-            run = ["run", "--root", root, "--question-set", qpath, "--model", "a/one", "--search", "both", "--pi", fake_pi(d)]
+            run = ["run", "--root", root, "--question-set", qpath, "--model", "a/one", "--search", "all", "--pi", fake_pi(d)]
             with self.assertRaises(SystemExit):             # no Exa key: no member starts
                 fb.main(run)
+            self.assertFalse(os.path.exists(os.path.join(root, "members")))
             with unittest.mock.patch.dict(os.environ, {"FAKE_ALL": "1", "EXA_API_KEY": "unused"}):
-                self.assertEqual(fb.main(run), 0)           # both: one member for each backend
-            for folder, search in (("a_one--high--airo-none", "tavily"), ("a_one--high--airo-none--exa", "exa")):
+                self.assertEqual(fb.main(run), 0)           # all: one member for each backend
+            for folder, search in (("a_one--high--airo-none", "tavily"), ("a_one--high--airo-none--exa", "exa"),
+                                   ("a_one--high--airo-none--keenable", "keenable")):
                 mdir = os.path.join(root, "members", folder)
                 env = json.load(open(os.path.join(mdir, "calls", "metaculus__m1", "attempt-1", "env.json")))
                 self.assertEqual(env["FORECASTER_SEARCH"], search)

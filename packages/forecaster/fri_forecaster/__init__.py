@@ -6,6 +6,7 @@ Factored out of AIRO (forecastingresearch/airo, commit 3be3b93) on 2026-10-05.
     pi_tools.ts      the pi extension: research tools, submit tools, research floor
     tools.py         web_search / read_page (Tavily), stdlib only
     exa_tools.py     the same two tools on Exa
+    keenable_tools.py  the same two tools on Keenable
     tool_cli.py      the research tools as a CLI, for pi_tools.ts: it selects the backend
     keys.py          API keys from the environment or an env file
     alert.py         alerts: callers say what happened, the installation says where it goes

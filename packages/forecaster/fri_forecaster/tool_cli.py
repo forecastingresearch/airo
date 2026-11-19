@@ -5,8 +5,9 @@ returns. One implementation for every harness, so comparisons are of loops,
 not search stacks. Keys come from the environment the harness passes down.
 
 The search backend also comes from that environment. FORECASTER_SEARCH is
-tavily (tools.py, the default) or exa (exa_tools.py, the same tools and
-result shapes). A caller sets it for each call with harness.run(env=...).
+tavily (tools.py, the default), exa (exa_tools.py) or keenable
+(keenable_tools.py): the same tools and result shapes. A caller sets it for
+each call with harness.run(env=...).
 
 `tool_cli.py validate` (arguments on stdin: {file, function, kwargs, value})
 runs a caller's debrief validator, `function(value, **kwargs)` from the
@@ -20,11 +21,11 @@ import time
 
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
 
-from fri_forecaster import exa_tools, tools  # noqa: E402
+from fri_forecaster import exa_tools, keenable_tools, tools  # noqa: E402
 from fri_forecaster.keys import load_keys  # noqa: E402
 
 SEARCH_ENV = "FORECASTER_SEARCH"
-BACKENDS = {"tavily": tools, "exa": exa_tools}
+BACKENDS = {"tavily": tools, "exa": exa_tools, "keenable": keenable_tools}
 
 
 def backend():
