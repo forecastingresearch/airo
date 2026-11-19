@@ -85,9 +85,9 @@ for (const [title, first, second] of [
   }
 }
 
-function drawHistory() {
+function drawHistory(runs) {
   const history = byId("history");
-  if (!latest) { element("p", history, "Forecast history will appear after the first run."); return; }
+  if (!runs.length) { element("p", history, "Forecast history will appear after the first run."); return; }
   const svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
   svg.setAttribute("viewBox","0 0 760 230");
   svg.setAttribute("class","history-chart");
@@ -201,7 +201,7 @@ function drawHistory() {
   element("span",legend,"Median across ensembles");
   element("span",legend,"Condition ensemble medians");
 }
-drawHistory();
+drawHistory(runs.filter(r => r.answers["Q3.2"]));
 function openQuestion(id,opener) {
   const q = questions.get(id);
   const section = sections.find(s => s.questions.includes(q));
@@ -262,17 +262,18 @@ for (const section of sections) {
     const text = format(point(answer),q.id) + (interval(answer,q.id) ? " (" + interval(answer,q.id) + ")" : "");
     element("td",row,text);
     const values = latest?.arms.flatMap(arm => arm.models.map(m => point(m.answers[q.id])));
-    element("td",row,values ? format(Math.min(...values),q.id)+"–"+format(Math.max(...values),q.id) : "—");
-    const delta = weekAgo ? point(answer)-point(weekAgo.answers[q.id]) : null;
+    element("td",row,answer && values ? format(Math.min(...values),q.id)+"–"+format(Math.max(...values),q.id) : "—");
+    const delta = answer && weekAgo?.answers[q.id] ? point(answer)-point(weekAgo.answers[q.id]) : null;
     element("td",row,delta == null ? "—" : (delta>0?"+":"")+Number(delta.toFixed(2))+(unit(q.id)?" pp":""));
   }
 
 }
-if (latest) {
+if (latest?.answers["Q3.2"]) {
   const implied = byId("implied");
   implied.hidden = false;
   const fastYear = latest.answers["Q3.2"].probability/100;
   for (const [label,yes,no] of [["Expert AGI by 2050","Q5.1","Q5.2"],["AI catastrophe by 2050","Q5.3","Q5.4"]]) {
+    if (!latest.answers[yes] || !latest.answers[no]) continue;
     const row = element("div",implied);
     const probability = fastYear*latest.answers[yes].probability + (1-fastYear)*latest.answers[no].probability;
     element("strong",row,label + " · " + format(probability,yes));
@@ -286,6 +287,7 @@ byId("download").onclick = () => {
     for (const model of [...run.models,{id:"ensemble",answers:run.answers}]) {
       for (const s of sections) for (const q of s.questions) {
         const a = model.answers[q.id];
+        if (!a) continue;
         rows.push([run.id,run.date,run.web_access || "legacy",model.id,q.id,a.probability,a.p10,a.p50,a.p90,model.rationales?.[s.id]]);
       }
     }
@@ -293,6 +295,7 @@ byId("download").onclick = () => {
   for (const run of runs) {
     for (const section of sections) for (const q of section.questions) {
       const a = run.answers[q.id];
+      if (!a) continue;
       rows.push([run.id,run.date,"all-conditions","median-across-ensembles",q.id,a.probability,a.p10,a.p50,a.p90,""]);
     }
   }

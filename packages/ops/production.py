@@ -19,7 +19,7 @@ import uuid
 
 # This script runs on the system interpreter, outside the release's venv.
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / 'dashboard'))
-from dashboard import page, site as site_kit  # noqa: E402
+from dashboard import page, resolutions, site as site_kit  # noqa: E402
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 from dashboard_projects import AIRO_FILES, DASHBOARDS  # noqa: E402
 
@@ -212,6 +212,8 @@ class Runtime:
         env.update(FORECASTER_ECI_DIR=str(panel_dir), EEAI_ECI_DIR=str(panel_dir))
         if self.name == 'eeai':
             env['EEAI_RESULTS'] = str(self.state / 'economic-data')
+        root = self.state / 'economic-data' if self.name == 'eeai' else self.state
+        env['DASHBOARD_RESOLUTIONS_DB'] = str(root / 'resolutions.sqlite')
         return env
 
     def jobs(self, code):
@@ -692,8 +694,16 @@ class Runtime:
                                 primary.save_generated_data(primary_code)
                         incoming = self.state / 'attempts' / key
                         argv = self.project_command(code, self.dashboard.forecast, site, incoming)
+                    if job['kind'] == 'forecast':
+                        env['DASHBOARD_SCHEDULED_FORECAST'] = '1'
                     launched = True
-                    run(argv, cwd=cwd, env=env, stdout=log, stderr=subprocess.STDOUT)
+                    try:
+                        run(argv, cwd=cwd, env=env, stdout=log, stderr=subprocess.STDOUT)
+                    except subprocess.CalledProcessError as exc:
+                        if job['kind'] != 'forecast' or exc.returncode != resolutions.NO_OPEN_TARGETS:
+                            raise
+                        started.update(status='skipped', reason='no open forecast targets')
+                        return True
                 if job['kind'] == 'forecastbench':
                     # fb_round's shell exit alone is insufficient; every expected set must build.
                     round_root = self.home / 'forecastbench/rounds' / job['due']

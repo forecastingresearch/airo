@@ -660,6 +660,16 @@ class TestRollingSelfElicitedSet(unittest.TestCase):
             self.assertIn("{target_date}", text)
         self.assertNotIn("2030", self.es["elicit"]["text"])
 
+    def test_recorded_outcome_excludes_only_that_dated_target(self):
+        from dashboard.resolutions import Target
+        groups = {"ai": [{"id": "q", "horizons": ["6mo", "2030"]}]}
+        spec = {"rolling": [{"id": "6mo", "months": 6}]}
+        closed = {Target("q", "2027-01-01", 1)}
+        def select(day):
+            return self.ru.open_batch(groups, ["6mo", "2030"], spec, day, closed)["ai"][0]["horizons"]
+        self.assertEqual(select(date(2026, 7, 1)), ["2030"])
+        self.assertEqual(select(date(2026, 7, 2)), ["6mo", "2030"])
+
     def test_add_months_matches_the_rolling_horizons(self):
         from redlines.questions import resolves_on
         spec = {"rolling": [{"id": "6mo", "months": 6, "label": "within 6 months"}]}

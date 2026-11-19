@@ -48,6 +48,21 @@ def horizons(question, today=None):
             or (int(h["id"]) == today.year and (today.month, today.day) == (1, 1))]
 
 
+def open_survey(survey, today, resolved):
+    """Select the instrument to send, preserving the original for publication."""
+    from dashboard.resolutions import Target
+    questions = []
+    for q in survey["questions"]:
+        version = q.get("resolution", {}).get("version", 1)
+        remaining = [h for h in horizons(q, today) if Target(q["id"], h["id"], version) not in resolved]
+        if remaining:
+            questions.append(dict(q, horizons=remaining))
+    scenario_version = survey["scenarios"].get("resolution", {}).get("version", 1)
+    part1 = [p for p in survey["part1"] if today.year <= 2030 and
+             (p["id"] != "scenario_probabilities" or Target("ai_scenario", "2030", scenario_version) not in resolved)]
+    return dict(survey, questions=questions, part1=part1)
+
+
 def asked(survey, question, today=None):
     """Every value the question asks for, as (horizon, scenario, percentile)."""
     return [(h["id"], s, p) for h in horizons(question, today) for s in scenario_ids(survey)

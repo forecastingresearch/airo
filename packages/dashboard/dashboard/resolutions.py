@@ -1,9 +1,10 @@
 """A dashboard's resolver contract and append-only outcome history (one DB per dashboard)."""
 from collections.abc import Mapping, Sequence
-from contextlib import closing
+from contextlib import closing, contextmanager
 from dataclasses import dataclass
 from datetime import date, datetime, timezone
 import json
+import os
 from pathlib import Path
 import sqlite3
 from typing import NamedTuple, Protocol
@@ -160,12 +161,13 @@ def refresh(path, requests: Sequence[Request], resolvers: Mapping[str, Resolver]
                            (name, generation + 1, _json(batch.next_checkpoint)))
 
 
-def history(path, *, through=None):
-    """Return (snapshot ID, histories). Each target retains first-ingestion order."""
-    if not Path(path).exists():
+@contextmanager
+def _read_snapshot(path, through):
+    if not path or not Path(path).exists():
         if through not in (None, 0):
             raise ValueError("Unknown outcome snapshot")
-        return 0, {}
+        yield None, 0
+        return
     with closing(sqlite3.connect(path)) as db, db:
         db.execute("BEGIN")
         if not _has(db, "observations"):
@@ -177,11 +179,43 @@ def history(path, *, through=None):
         cutoff = head if through is None else through
         if not 0 <= cutoff <= head:
             raise ValueError("Unknown outcome snapshot")
+        yield db, cutoff
+
+
+def history(path, *, through=None):
+    """Return (snapshot ID, histories). Each target retains first-ingestion order."""
+    with _read_snapshot(path, through) as (db, cutoff):
+        if db is None:
+            return cutoff, {}
         targets = {}
         for q, h, v, rev, raw, stamp in db.execute("""SELECT question,horizon,version,revision,payload,observed
                 FROM observations WHERE seq<=? ORDER BY seq""", (cutoff,)):
             targets.setdefault(Target(q, h, v), {})[rev] = _unpack((raw, stamp), rev)
         return cutoff, {target: list(records.values()) for target, records in targets.items()}
+
+
+def forecast_snapshot(path=None, *, through=None):
+    """Accepted outcomes in this dashboard's ledger, keyed by question, horizon and rule."""
+    path = path or os.environ.get("DASHBOARD_RESOLUTIONS_DB")
+    with _read_snapshot(path, through) as (db, cutoff):
+        if db is None:
+            return cutoff, set()
+        targets = db.execute("SELECT DISTINCT question,horizon,version FROM observations WHERE seq<=?", (cutoff,))
+        return cutoff, {Target(*row) for row in targets}
+
+
+def resolved_targets(path=None):
+    return forecast_snapshot(path)[1]
+
+
+# Scheduled runners use a distinct exit code so an empty selection is a successful
+# skip, while a runner that accidentally produces no artifact still fails validation.
+NO_OPEN_TARGETS = 42
+
+
+def no_open_targets():
+    print("No open forecast targets.")
+    return NO_OPEN_TARGETS if os.environ.get("DASHBOARD_SCHEDULED_FORECAST") else 0
 
 
 def _release_order(records):

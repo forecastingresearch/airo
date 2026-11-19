@@ -339,8 +339,6 @@ def validate(fs, qset):
 
 
 def cmd_run(args):
-    harness.pi_argv(args.pi)             # no pi: fail here, not once per question
-    load_keys()
     root = os.path.abspath(args.root)
     os.makedirs(root, exist_ok=True)
     qpath = os.path.join(root, "question_set.json")
@@ -351,6 +349,13 @@ def cmd_run(args):
     else:
         qset = load_question_set(args.question_set)
         json.dump(qset, open(qpath, "w"))
+    from fri_forecaster.eligibility import is_resolved
+    qs = [q for q in questions_of(qset) if not is_resolved(q)][: args.limit]
+    if not qs:
+        print("No open forecast targets.")
+        return 0
+    harness.pi_argv(args.pi)
+    load_keys()
     due = qset["forecast_due_date"]
     if args.airo:
         args.mode = f"airo-{args.airo}"
@@ -359,7 +364,6 @@ def cmd_run(args):
     os.makedirs(mdir, exist_ok=True)
     check_manifest(os.path.join(mdir, "manifest.json"),
                    manifest_of(qset, args.model, args.thinking, args.mode, args.min_research, args.pi))
-    qs = questions_of(qset)[: args.limit]
     if args.sample:
         qs = sample_of(qs, args.sample)
     log = os.path.join(mdir, "results.jsonl")

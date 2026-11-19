@@ -189,6 +189,7 @@ PANEL="$(sed -n 's/^panel: //p' "$LOG" | tail -1)"
 # ignores the variable and the sixth call searches unguarded while its rows
 # say otherwise.
 PUBLISHED=0
+NO_TARGETS=0
 WITHHELD=0
 while read -r exp dest conds; do
     args=()
@@ -206,11 +207,13 @@ while read -r exp dest conds; do
         continue
     fi
     seen="$(wc -l < "$LOG")"
-    if "$PY" code/run_unified.py --experiment "$exp" "${args[@]}" --workers 10 </dev/null; then
+    if DASHBOARD_SCHEDULED_FORECAST=1 "$PY" code/run_unified.py --experiment "$exp" "${args[@]}" --workers 10 </dev/null; then
         [ "$dest" = publish ] && PUBLISHED=1
         # A condition outside the published number failed: the day stands, someone should know.
         aside="$(tail -n +"$((seen + 1))" "$LOG" | grep -o '[0-9]* call(s) outside the pooled conditions failed' | tail -1 || true)"
         [ -z "$aside" ] || notify "condition failed" "$exp: $aside; the published number is unaffected. log: $LOG"
+    elif [ "$?" -eq 42 ]; then
+        NO_TARGETS=1
     elif [ "$dest" = publish ]; then
         echo "FATAL: $exp did not complete for every panel model; see above. Publication withheld."
         WITHHELD=1
@@ -223,6 +226,7 @@ if [ "$WITHHELD" = 1 ]; then
 fi
 if [ "$PUBLISHED" != 1 ]; then
     FINISHED=1
+    if [ "$NO_TARGETS" = 1 ]; then exit 42; fi
     echo "done: nothing to publish ($(echo "$DUE" | cut -d' ' -f1 | sort -u | tr '\n' ' '))"
     exit 0
 fi

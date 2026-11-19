@@ -97,3 +97,13 @@ def test_paired_conditions_freeze_one_panel_and_never_pool_answers(tmp_path, mon
     (pair / "fri-blocked" / "ensemble.json").unlink()
     with pytest.raises(ValueError, match="incomplete run"):
         load_runs(tmp_path, source, parse(source), publication=True)
+
+def test_resolved_rsi_question_excluded_from_both_prompt_and_tools():
+    from rsi_dashboard.instrument import selected_sections, survey_prompt
+    text = run.SOURCE.read_text()
+    excluded = ["Q1.1"]
+    assert "### Q1.1 " not in survey_prompt(text, excluded)
+    assert "### Q1.2 " in survey_prompt(text, excluded)
+    selected = selected_sections(parse(text), excluded)
+    schema = run.submission_tool(selected)["parameters"]["properties"]["answers"]
+    assert "Q1.1" not in schema["properties"] and "Q1.2" in schema["required"]

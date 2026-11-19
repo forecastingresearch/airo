@@ -160,7 +160,8 @@ def build(survey=None, history=None, runs=None, outcomes=None):
                                      "status": "resolved" if got else ("needs_adjudication" if rule and rule["method"] == "adjudicated" else "awaiting_evidence"),
                                      "actual": {"date": f"{h['id']}-01-01", **got} if got else None})
         if latest:
-            rows = latest[2].get(q["id"], [])
+            rows = next((by_q[q["id"]] for _, _, by_q, _ in reversed(per_run)
+                         if any(r["forecasts"] for r in by_q.get(q["id"], []))), [])
             rank = {label: i for i, label in enumerate(blob["latest"]["models"])}
             item["models"] = [{"label": r["label"], "forecasts": r["forecasts"], "rationale": r["rationale"],
                                "problems": r.get("problems") or []}

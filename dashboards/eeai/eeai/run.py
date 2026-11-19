@@ -25,6 +25,7 @@ import time
 from datetime import date, datetime, timezone
 
 from . import config, instrument, survey as S
+from dashboard import resolutions
 
 # A call that delivers less than this share of the values is asked again.
 COMPLETE = 0.9
@@ -34,9 +35,7 @@ def ask(member, survey, history, today, run_id, *, panel=None, retries=1, harnes
         synthetic=False):
     """One call. -> rows, one per question, the first carrying `call`."""
     from fri_forecaster import baseline
-    prompt, qids = instrument.build_prompt(survey, history, today)
-    submit_cells, submit_forecast = instrument.tools(survey)
-    want = S.n_values(survey, today)
+    original = survey
     base = os.environ.get("EEAI_PI_DIR") or os.path.join(tempfile.gettempdir(), "eeai-pi")
     from fri_forecaster.tools import BLOCK_ENV
     blocked = [p for p in (os.environ.get(BLOCK_ENV) or "").replace(",", "\n").split("\n") if p.strip()]
@@ -44,10 +43,16 @@ def ask(member, survey, history, today, run_id, *, panel=None, retries=1, harnes
     env = dict(env or {}, **{BLOCK_ENV: "\n".join(blocked)})
     attempts, usage = 0, []
     while True:
+        survey = S.open_survey(original, today, resolutions.resolved_targets(config.RESULTS / "resolutions.sqlite"))
+        want = S.n_values(survey, today)
+        if not want and not survey["part1"]:
+            return []
+        prompt, qids = instrument.build_prompt(survey, history, today)
+        submit_cells, submit_forecast = instrument.tools(survey)
         attempts += 1
         res = baseline.run(member["model"], prompt,
                            workdir=os.path.join(base, f"{member['key']}-{time.time_ns()}"),
-                           cell_schema=instrument.cell_schema(survey), key_fields=["question_id"],
+                           cell_schema=instrument.cell_schema(survey) if qids else {"type": "object"}, key_fields=["question_id"],
                            allowed_keys=qids, submit_cells=submit_cells, submit_forecast=submit_forecast,
                            env=env, harness_run=harness_run)
         usage.append(res.get("usage") or {})
@@ -55,11 +60,12 @@ def ask(member, survey, history, today, run_id, *, panel=None, retries=1, harnes
                    for q in survey["questions"]}
         got = sum(len(ps) for f, _, _ in cleaned.values() for scen in f.values() for ps in scen.values())
         part1, part1_problems = instrument.clean_part1(survey, res.get("answer"))
-        if (got >= COMPLETE * want and "scenario_probabilities" in part1) or attempts > retries:
+        need_scenario = any(p["id"] == "scenario_probabilities" for p in survey["part1"])
+        if (got >= COMPLETE * want and (not need_scenario or "scenario_probabilities" in part1)) or attempts > retries:
             break
         print(f"  retry {member['label']:16} attempt {attempts}: {got}/{want} values"
               f"{'' if 'scenario_probabilities' in part1 else ', no scenario probabilities'}", flush=True)
-    if not got:
+    if (want and not got) or (not want and not part1):
         raise RuntimeError(f"no forecasts after {attempts} attempt(s) (pi exit {res.get('rc')}; trace {res.get('trace')})")
     answer = res.get("answer") or {}
     evidence = [{k: e.get(k) for k in ("tool", "args", "result")} for e in res.get("evidence") or []]
@@ -71,9 +77,11 @@ def ask(member, survey, history, today, run_id, *, panel=None, retries=1, harnes
             "delivery": res.get("delivery"), "attempts": attempts, "values": got, "values_asked": want,
             "prompt": prompt, "system_prompt": baseline.SYSTEM, "reasoning": member.get("reasoning"),
             "history": history, "question_set": survey, "blocked_urls": blocked}
+    if survey != original:
+        call["original_question_set"] = original
     rows = []
-    for i, q in enumerate(survey["questions"]):
-        forecasts, rationale, problems = cleaned[q["id"]]
+    for i, q in enumerate(original["questions"]):
+        forecasts, rationale, problems = cleaned.get(q["id"], ({}, "", []))
         rows.append({"run_id": run_id, "run_date": today.isoformat(), "elicited_at": stamp,
                      "experiment": config.EXPERIMENT, "condition": config.CONDITION,
                      "instrument": survey["instrument"],
@@ -105,6 +113,10 @@ def select_members(args):
 def main(args):
     survey = S.load()
     today = date.fromisoformat(args.today) if args.today else datetime.now(timezone.utc).date()
+    if not args.resume:
+        eligible = S.open_survey(survey, today, resolutions.resolved_targets(config.RESULTS / "resolutions.sqlite"))
+        if not eligible["questions"] and not eligible["part1"]:
+            return resolutions.no_open_targets()
     from .baselines import current
     history = S.history(current(today))
     input_snapshot = {"baseline_sha256": hashlib.sha256(json.dumps(history, sort_keys=True).encode()).hexdigest()}
@@ -144,6 +156,7 @@ def main(args):
             sys.exit("Cannot reproduce the original prompt for this run")
         if args.synthetic:
             harness_run = synthetic.harness_run(survey, history, today)
+        survey = original_call.get("original_question_set", survey)
         done = {r["key"] for r in have}
         members = [m for m in members if m["key"] not in done]
         if not members:
@@ -152,10 +165,13 @@ def main(args):
           f"{S.n_values(survey, today)} values + Part 1, {len(members)} model(s): {', '.join(m['label'] for m in members)}"
           f"{' -- SYNTHETIC, no calls' if args.synthetic else ''}", flush=True)
     lock, failed, spent = threading.Lock(), [], 0.0
+    skipped = False
 
     def one(member):
         rows = ask(member, survey, history, today, run_id, panel=provenance, retries=args.retries,
                    harness_run=harness_run, synthetic=args.synthetic)
+        if not rows:
+            return rows
         with lock, open(path, "a", encoding="utf-8") as f:
             for r in rows:
                 if input_snapshot is not None:
@@ -168,7 +184,11 @@ def main(args):
         for fut in cf.as_completed(futures):
             m = futures[fut]
             try:
-                call = fut.result()[0]["call"]
+                rows = fut.result()
+                if not rows:
+                    skipped = True
+                    continue
+                call = rows[0]["call"]
             except Exception as exc:
                 failed.append(m["label"])
                 print(f"  FAILED {m['label']:16} {type(exc).__name__}: {str(exc)[:300]}", flush=True)
@@ -177,6 +197,8 @@ def main(args):
             turns = sum(u.get("turns") or 0 for u in call["usage"])
             print(f"  done   {m['label']:16} {call['values']}/{call['values_asked']} values, "
                   f"{turns} turns, {call['search_hits']} search hits, ${call['cost_usd']:.2f}", flush=True)
+    if skipped and not failed:
+        return resolutions.no_open_targets()
     print(f"{path}: {len(members) - len(failed)} of {len(members)} calls, ${spent:.2f}"
           + (f"; FAILED: {', '.join(failed)}" if failed else ""), flush=True)
     return 1 if failed else 0

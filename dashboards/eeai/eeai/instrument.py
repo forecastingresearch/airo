@@ -70,6 +70,10 @@ def build_prompt(survey, history, today):
             out += ["", "Answer: a probability in percent, 0 to 100."]
         out += [""]
 
+    if not qs:
+        out.append("Submit the AI progress answers, your rationale and sources with submit_forecast.")
+        return "\n".join(out), []
+
     ins = survey["instructions"]
     out += ["===== ECONOMIC OUTCOMES =====", "", ins["percentiles"], "", ins["conditional"], "",
             "Scenario ids: " + ", ".join(S.scenario_ids(survey)) + ". "
@@ -145,6 +149,10 @@ def tools(survey):
                                       "key_sources": {"type": "array", "items": {"type": "string"}},
                                       "forecasts": cells},
                        "required": [*part1, "rationale"]}}
+    if not survey["questions"]:
+        del submit_forecast["parameters"]["properties"]["forecasts"]
+        submit_forecast["description"] = "Submit the AI progress answers, rationale and sources."
+        return None, submit_forecast
     return submit_cells, submit_forecast
 
 
