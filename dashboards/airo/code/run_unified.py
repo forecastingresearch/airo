@@ -713,6 +713,28 @@ def load_batch(ladder_path, cross_path, exclude):
     return groups, by_group, horizons, skipped, spec
 
 
+def open_elicits(policies, today, resolved):
+    from dashboard.resolutions import Target
+    policies = resolve_set(policies, today)
+    eligible = [e for e in set_elicits(policies)
+                if Target(e["key"], e.get("target_date") or "", 1) not in resolved]
+    return dict(policies, elicits=eligible, elicit=None)
+
+
+def open_batch(by_group, horizons, spec, today, resolved):
+    """Rolling targets use their concrete end date, not a reusable horizon label."""
+    from dashboard.resolutions import Target
+    selected = {}
+    for group, questions in by_group.items():
+        selected[group] = []
+        for q in questions:
+            remaining = [h for h in q["horizons"] if h in horizons and
+                         Target(q["id"], resolves_on(h, today, spec), 1) not in resolved]
+            if remaining:
+                selected[group].append(dict(q, horizons=remaining))
+    return selected
+
+
 def build_prompt(groups, by_group, horizons, spec, today=None):
     """The whole set in one prompt, with each question's own resolution criteria.
 
@@ -1246,7 +1268,13 @@ def run_one_joint(label, model_id, groups, by_group, horizons, run_id, retries, 
                 "missing": len(missing), "missing_first": missing[:20]}
 
     partial = {**submit_cells_tool(qids, horizons, scenario_ids), "fn": take_cells}
+    from dashboard import resolutions
+    targets = {resolutions.Target(qid, resolves_on(h, today, spec), 1)
+               for qid, dates in allowed.items() for h in dates}
+    targets.update(resolutions.Target(e["key"], e.get("target_date") or "", 1) for e in elicits)
     while attempts <= retries:
+        if targets & resolutions.resolved_targets():
+            raise ValueError("A target in the prepared AIRO prompt has resolved. Rebuild the run from the current ledger.")
         attempts += 1
         received.clear()
         delivery.update(cells_calls=0, cells_in_pieces=0, cells_in_final=0)
@@ -1337,6 +1365,7 @@ def run_one_joint(label, model_id, groups, by_group, horizons, run_id, retries, 
                     "resolves_on": {h: resolves_on(h, today, spec) for h in horizons},
                     "run_date": today.isoformat(),
                     "instrument_version": spec.get("instrument_version"),
+                    **({"resolution_snapshot": spec["resolution_snapshot"]} if "resolution_snapshot" in spec else {}),
                     "counting_window": counting_windows(q, horizons, today, spec),
                     "prompt_sha256": hashlib.sha256(prompt.encode()).hexdigest(),
                     "prompt": prompt if first else None,
@@ -1551,6 +1580,14 @@ def run(args, exp, conditions, path, publish):
         sys.exit("--conditional-out must differ from --out")
     groups, by_group, horizons, skipped, spec = load_batch(LADDER, CROSS, UNBATCHED)
     horizons = set_horizons(policies, horizons)
+    from dashboard import resolutions
+    seq, resolved = resolutions.forecast_snapshot()
+    if resolved:
+        by_group = open_batch(by_group, horizons, spec, today, resolved)
+        policies = open_elicits(policies, today, resolved)
+        spec["resolution_snapshot"] = seq
+        if not any(by_group.values()):
+            return resolutions.no_open_targets()
     prompt, n, cells = build_prompt_joint(groups, by_group, horizons, spec, scenarios,
                                           policies, today)
     for el in set_elicits(resolve_set(policies, today)):
@@ -1695,4 +1732,4 @@ def condition_line(c):
 
 
 if __name__ == "__main__":
-    main()
+    sys.exit(main())

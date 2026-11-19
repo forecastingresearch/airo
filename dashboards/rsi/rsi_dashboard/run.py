@@ -9,12 +9,13 @@ import os
 from pathlib import Path
 from statistics import median
 
+from dashboard import resolutions
 from fri_forecaster import baseline, eci, keys, panel
 
 from fri_forecaster.tools import BLOCK_ENV, BLOCK_DOMAINS_ENV
 
 from .conditions import DOMAINS
-from .instrument import SOURCE, fields, parse, validate
+from .instrument import SOURCE, fields, parse, selected_sections, survey_prompt, validate
 
 PROJECT = Path(__file__).resolve().parents[1]
 
@@ -47,7 +48,7 @@ def execute(out, plan, harness_run=None):
     if plan.get("blocked_domains", []) != domains:
         raise ValueError("Frozen web access settings differ from this condition")
     env = {BLOCK_ENV: "", BLOCK_DOMAINS_ENV: " ".join(domains)}
-    sections = parse(plan["survey"])
+    sections = selected_sections(parse(plan["survey"]), plan.get("excluded_questions", []))
     tool = submission_tool(sections)
 
     def one(member):
@@ -61,6 +62,9 @@ def execute(out, plan, harness_run=None):
                 raise ValueError(f"{receipt} belongs to a different web access condition")
             validate(sections, record["response"])
             return record
+        settled = resolutions.resolved_targets()
+        if any(resolutions.Target(q["id"], "", 1) in settled for s in sections for q in s["questions"]):
+            raise ValueError("A target in the frozen RSI plan has resolved. Start a fresh run for the remaining questions.")
         result = baseline.run(member["model"], plan["prompt"], workdir=str(out / "attempts" / key),
                               cell_schema={"type": "object"}, key_fields=[], allowed_keys=[],
                               submit_forecast=tool, env=env, harness_run=harness_run)
@@ -103,6 +107,13 @@ def main():
     now = datetime.now(timezone.utc)
     out = (args.resume or args.out / now.strftime("%Y%m%dT%H%M%S.%fZ")).resolve()
     if not args.resume:
+        survey = args.instrument.read_text(encoding="utf-8")
+        sections = parse(survey)
+        settled = resolutions.resolved_targets()
+        excluded = [q["id"] for s in sections for q in s["questions"]
+                    if resolutions.Target(q["id"], "", 1) in settled]
+        if not selected_sections(sections, excluded):
+            return resolutions.no_open_targets()
         out.mkdir(parents=True)
     with (out / ".lock").open("a") as lock:
         fcntl.flock(lock, fcntl.LOCK_EX | fcntl.LOCK_NB)
@@ -111,14 +122,14 @@ def main():
             if plan.get("conditions") and plan.get("web_access"):
                 parser.error(f"resume a paired run from {out.parent}")
         else:
-            survey = args.instrument.read_text(encoding="utf-8")
-            parse(survey)
             members, provenance = panel.panel(snapshot_dir=args.eci_dir, require_today=True)
             today = now.date().isoformat()
-            prompt = f"Today is {today}.\n\n{survey.rstrip()}\n\nSubmit your answers using submit_forecast."
+            prompt = f"Today is {today}.\n\n{survey_prompt(survey, excluded)}\n\nSubmit your answers using submit_forecast."
             plan = {"condition": "baseline", "date": today, "survey": survey, "prompt": prompt,
                     "prompt_sha256": hashlib.sha256(prompt.encode()).hexdigest(), "system_prompt": baseline.SYSTEM,
                     "members": members, "panel": provenance}
+            if excluded:
+                plan["excluded_questions"] = excluded
             conditions = list(DOMAINS) if args.condition == "both" else [args.condition or "full-web"]
             if len(conditions) == 1:
                 plan.update(web_access=conditions[0], blocked_domains=DOMAINS[conditions[0]])
@@ -144,4 +155,4 @@ def main():
 
 
 if __name__ == "__main__":
-    main()
+    raise SystemExit(main())

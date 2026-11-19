@@ -91,6 +91,11 @@ def load_rows(path):
 def main(args, harness_run=None):
     with open(args.questions, encoding="utf-8") as f:
         question_set = json.load(f)
+    from fri_forecaster.eligibility import is_resolved
+    question_set["questions"] = [q for q in question_set["questions"] if not is_resolved(q)]
+    if not question_set["questions"]:
+        print("No open forecast targets.")
+        return 0
     today = date.fromisoformat(args.today) if args.today else datetime.now(timezone.utc).date()
     members, provenance = select_members(args)
     if harness_run is None:

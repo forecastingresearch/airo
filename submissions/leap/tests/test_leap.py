@@ -134,3 +134,9 @@ def test_a_call_with_missing_values_is_asked_again(monkeypatch, tmp_path):
         return {"rc": 0, "cells": replies.pop(0), "answer": {}, "usage": {"cost_usd": 1.0}, "evidence": []}
     rows = run.ask(MEMBERS[0], QUESTIONS, TODAY, "run-1", retries=1, harness_run=harness_run)
     assert rows[0]["call"]["attempts"] == 2 and rows[0]["call"]["values"] == 16 and rows[0]["call"]["cost_usd"] == 2.0
+
+
+def test_resolved_wave_makes_no_calls(tmp_path):
+    path = tmp_path / "questions.json"
+    path.write_text(json.dumps({**QUESTIONS, "questions": [dict(q, status="resolved") for q in QUESTIONS["questions"]]}))
+    assert run.main(SimpleNamespace(questions=path), harness_run=lambda **kw: pytest.fail("unexpected call")) == 0

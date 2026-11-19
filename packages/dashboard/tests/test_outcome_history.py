@@ -122,3 +122,17 @@ def test_invalid_second_resolver_rolls_back_all_observations_and_cursors(tmp_pat
     assert R.history(db) == (0, {})
     R.refresh(db, requests, {"panel": reports, "other": Reports([])}, as_of=day)
     assert reports.checkpoints == [None, None]
+
+
+def test_forecast_eligibility_follows_first_decision_and_its_rule_version(tmp_path):
+    from dashboard import resolutions as r
+    db = tmp_path / "outcomes.sqlite"
+    key = r.Target("rate", "2030", 1)
+    assert r.forecast_snapshot(db) == (0, set())
+    rule = {"version": 1}
+    r.record(db, *key[:2], rule, {"value": 0, "vintage": "2031-01-01"})
+    seq, closed = r.forecast_snapshot(db)
+    assert closed == {key}
+    r.record(db, *key[:2], rule, {"value": 1, "vintage": "2031-02-01"})
+    assert r.resolved_targets(db) == closed
+    assert r.forecast_snapshot(db, through=seq) == (seq, closed)

@@ -5,7 +5,7 @@ from datetime import date
 from statistics import median
 
 from .conditions import DOMAINS
-from .instrument import fields, validate
+from .instrument import fields, selected_sections, survey_prompt, validate
 
 
 def read(path):
@@ -20,6 +20,12 @@ def load_run(folder, source, sections):
             or plan["survey"] != source or digest != plan["prompt_sha256"]
             or digest != ensemble["prompt_sha256"] or plan["date"] != ensemble["date"]):
         raise ValueError(f"{folder}: instrument or run metadata mismatch")
+    if "excluded_questions" in plan:
+        excluded = plan["excluded_questions"]
+        expected = f"Today is {plan['date']}.\n\n{survey_prompt(source, excluded)}\n\nSubmit your answers using submit_forecast."
+        if expected != plan["prompt"]:
+            raise ValueError(f"{folder}: eligibility differs from the frozen prompt")
+        sections = selected_sections(sections, excluded)
     access = plan.get("web_access")
     domains = plan.get("blocked_domains", [])
     expected_domains = DOMAINS.get(access, [])

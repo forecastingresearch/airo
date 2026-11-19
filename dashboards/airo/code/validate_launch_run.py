@@ -101,6 +101,14 @@ def main():
         scenarios = list(policies['conditions'])
         groups, by_group, horizons, _, spec = ru.load_batch(ru.LADDER, ru.CROSS, ru.UNBATCHED)
         horizons = ru.set_horizons(policies, horizons)
+        snapshots = {r.get('resolution_snapshot', 0) for r in rows}
+        if len(snapshots) > 1:
+            raise ValueError("Inconsistent resolution snapshot across forecast calls")
+        if any(snapshots):
+            from dashboard import resolutions
+            _, resolved = resolutions.forecast_snapshot(through=next(iter(snapshots)))
+            policies = ru.open_elicits(policies, args.date, resolved)
+            by_group = ru.open_batch(by_group, horizons, spec, args.date, resolved)
         qs = {q['id']: q for g in groups for q in by_group[g['key']]}
         prompt, n, cells = ru.build_prompt_joint(groups, by_group, horizons, spec, scenarios, policies, args.date)
         prompt_sha = hashlib.sha256(prompt.encode()).hexdigest()

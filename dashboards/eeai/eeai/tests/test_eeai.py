@@ -8,6 +8,7 @@ import unittest
 from datetime import date
 from pathlib import Path
 from types import SimpleNamespace
+from unittest.mock import patch
 
 REPO = Path(__file__).resolve().parent.parent.parent
 if str(REPO) not in sys.path:
@@ -183,6 +184,36 @@ class TestRunAndBuild(unittest.TestCase):
             rows += run.ask(m, self.survey, self.history, day, f"{day}T0000Z", panel={"members": [{"label": x["label"]} for x in members]},
                             harness_run=fake, synthetic=True)
         return rows
+
+    def test_resolved_targets_are_excluded_before_call_and_cleaning(self):
+        from dashboard.resolutions import Target
+        q = self.survey["questions"][0]
+        first, second = q["horizons"][:2]
+        closed = {Target(q["id"], first["id"], q["resolution"]["version"]),
+                  Target("ai_scenario", "2030", 1)}
+        with patch("dashboard.resolutions.resolved_targets", return_value=closed):
+            rows = self._rows(TODAY, MEMBERS[:1])
+        call = rows[0]["call"]
+        selected = call["question_set"]
+        self.assertNotIn(first, selected["questions"][0]["horizons"])
+        self.assertIn(second, selected["questions"][0]["horizons"])
+        self.assertNotIn(first["id"], rows[0]["forecasts"])
+        self.assertNotIn("scenario_probabilities", call["part1"])
+        self.assertNotIn("scenario_probabilities", instrument.tools(selected)[1]["parameters"]["required"])
+        self.assertEqual(call["attempts"], 1)
+
+    def test_only_progress_open_and_then_no_targets(self):
+        from dashboard.resolutions import Target
+        closed = {Target(q["id"], h["id"], q["resolution"]["version"])
+                  for q in self.survey["questions"] for h in q["horizons"]}
+        with patch("dashboard.resolutions.resolved_targets", return_value=closed):
+            rows = self._rows(TODAY, MEMBERS[:1])
+            self.assertTrue(all(not r["forecasts"] for r in rows))
+            selected = rows[0]["call"]["question_set"]
+            self.assertIsNone(instrument.tools(selected)[0])
+            self.assertTrue(rows[0]["call"]["part1"])
+            self.assertEqual(self._rows(date(2051, 1, 1), MEMBERS[:1],
+                                        harness_run=lambda **kw: self.fail("unexpected call")), [])
 
     def test_a_call_becomes_one_row_per_question(self):
         rows = self._rows(TODAY, MEMBERS[:1])

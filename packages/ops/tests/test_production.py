@@ -764,6 +764,21 @@ def test_survey_frontend_retains_its_publication(tmp_path, name, block, download
         assert (new / download).read_bytes() == b"old download"
 
 
+def test_no_open_targets_skips_without_publishing(tmp_path, monkeypatch, runtime):
+    runtime = p.Runtime({"dashboard": "eeai", "root": str(tmp_path), "path": "/usr/bin", "socket": str(tmp_path / "site.sock")})
+    active = release(runtime, "active")
+    p.link(active, runtime.current)
+
+    def empty(argv, **kwargs):
+        assert kwargs["env"]["DASHBOARD_SCHEDULED_FORECAST"] == "1"
+        raise p.subprocess.CalledProcessError(p.resolutions.NO_OPEN_TARGETS, argv)
+    monkeypatch.setattr(p, "run", empty)
+    assert runtime.execute_job("all-settled", {"id": "eeai", "kind": "forecast"})
+    receipt = json.loads((runtime.root / "runs/all-settled.json").read_text())
+    assert receipt["status"] == "skipped"
+    assert not (runtime.state / "results").exists()
+
+
 def test_survey_job_failure_does_not_publish_partial_models(tmp_path, monkeypatch, runtime):
     runtime = p.Runtime({"dashboard": "eeai", "root": str(tmp_path), "path": "/usr/bin", "socket": str(tmp_path / "site.sock")})
     active = release(runtime, "active")
