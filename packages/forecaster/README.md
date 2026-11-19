@@ -187,6 +187,10 @@ What FRI's dashboards share when they ask a standing panel of models (AIRO, EEAI
   newlines, matched case-insensitively against URLs. When set, `web_search` drops matching
   results and `read_page` refuses matching URLs; unset or empty, nothing changes. Pass it
   per run with `harness.run(env=...)`.
+- Optional: `FORECASTER_BLOCK_MARKET_PRICES`. When set, the research tools remove prediction
+  market prices from their results (`price_filter.py`): each sentence and line with a price
+  number, in a text that is about a prediction market. Pass it per run with
+  `harness.run(env=...)`.
 
 ```sh
 git clone https://github.com/forecastingresearch/agent-box && cd agent-box

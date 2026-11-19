@@ -16,7 +16,7 @@ import time
 
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
 
-from fri_forecaster import tools  # noqa: E402
+from fri_forecaster import price_filter, tools  # noqa: E402
 from fri_forecaster.keys import load_keys  # noqa: E402
 
 def read_page(url, offset=0):
@@ -67,7 +67,8 @@ def main():
     tool, args = sys.argv[1], json.loads(sys.argv[2] if len(sys.argv) > 2 else "{}")
     if tool not in FN:
         sys.exit(f"unknown tool {tool!r}")
-    print(json.dumps(call(FN[tool], args)))
+    res = call(FN[tool], args)
+    print(json.dumps(price_filter.clean(res) if os.environ.get(price_filter.ENV) else res))
 
 
 if __name__ == "__main__":

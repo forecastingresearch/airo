@@ -6,6 +6,7 @@ Factored out of AIRO (forecastingresearch/airo, commit 3be3b93) on 2026-10-05.
     pi_tools.ts      the pi extension: research tools, submit tools, research floor
     tools.py         web_search / read_page (Tavily), stdlib only
     tool_cli.py      the research tools as a CLI, for pi_tools.ts
+    price_filter.py  tool results without prediction market prices
     keys.py          API keys from the environment or an env file
     alert.py         alerts: callers say what happened, the installation says where it goes
     variants.py      the prompt variants (AIRO's conditions): one instruction each

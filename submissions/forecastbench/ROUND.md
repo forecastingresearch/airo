@@ -49,8 +49,10 @@ In each mode a member gets the market price (the default) or does not (`forecast
 --no-price`). Without the price, a market question's prompt has no `Value on` line, and
 the research tools cannot search or read the market sites. When a search finds a page
 of a market site, the tools drop that page and the Tavily summary (`answer`) of that
-search. A page on another site can still give the price. A dataset question keeps its
-value. `forecastbench build --member
+search. Other sites repeat the prices, so the tools also remove each sentence and line
+with a price number from a text that is about a prediction market
+(`fri_forecaster.price_filter`). This removes most of the prices, not all: a price in
+words stays. A dataset question keeps its value. `forecastbench build --member
 MODEL[@THINKING][,MODE],noprice` selects a price-free member. The registry and
 `fb_round.sh` do not run price-free members yet: run and build them by hand.
 

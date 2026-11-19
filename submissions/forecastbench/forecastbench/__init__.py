@@ -61,6 +61,7 @@ from concurrent.futures import ThreadPoolExecutor, as_completed
 
 from fri_forecaster import baseline, harness, panel
 from fri_forecaster.keys import load_keys
+from fri_forecaster import price_filter
 from fri_forecaster.tools import BLOCK_ENV
 from fri_forecaster.variants import VARIANTS
 
@@ -267,7 +268,8 @@ def forecast_one(q, due, mdir, args):
     env = None
     if args.no_price:   # the prompt has no price, and research cannot get it from the market sites
         q = price_free(q)
-        env = {BLOCK_ENV: ",".join(filter(None, [os.environ.get(BLOCK_ENV), MARKET_SITES]))}
+        env = {BLOCK_ENV: ",".join(filter(None, [os.environ.get(BLOCK_ENV), MARKET_SITES])),
+               price_filter.ENV: "1"}   # other sites repeat the prices: remove them from the text
     if airo:   # the Baseline loop; the one answer tool is ours, the research tools are its own
         res = baseline.run(args.model, airo_prompt(q, due, airo), workdir=workdir, cell_schema=CELL_SCHEMA,
                            key_fields=["resolution_date"], allowed_keys=dates,
@@ -505,8 +507,9 @@ def main(argv=None):
                    help="ask under this AIRO condition instead of the ForecastBench prompt: no system prompt, "
                         "research offered and never required, the condition's instruction in the prompt")
     r.add_argument("--no-price", action="store_true",
-                   help="forecast market questions without the market price: the prompt does not give it, and "
-                        "research cannot search or read the market sites (default: the prompt gives the price)")
+                   help="forecast market questions without the market price: the prompt does not give it, research "
+                        "cannot search or read the market sites, and the tools remove market prices from "
+                        "other pages (default: the prompt gives the price)")
     r.add_argument("--min-research", type=int, default=2, help="successful research calls before submitting")
     r.add_argument("--workers", type=int, default=8)
     r.add_argument("--limit", type=int, default=None, help="only the first N questions (smoke test)")

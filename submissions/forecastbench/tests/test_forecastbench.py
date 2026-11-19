@@ -19,7 +19,7 @@ FAKE_PI = textwrap.dedent("""\
     out = os.environ["FORECASTER_OUT"]
     open(os.path.join(out, "stdin.txt"), "w").write(sys.stdin.read())   # the prompt, as pi would read it
     json.dump({{k: os.environ.get(k) for k in ("PI_CODING_AGENT_DIR", "ANTHROPIC_AUTH_TOKEN", "ANTHROPIC_OAUTH_TOKEN", "ANTHROPIC_API_KEY",
-                                                      "FORECASTER_BLOCK_URL_PATTERNS")}},
+                                                      "FORECASTER_BLOCK_URL_PATTERNS", "FORECASTER_BLOCK_MARKET_PRICES")}},
               open(os.path.join(out, "env.json"), "w"))
     if os.environ.get("FAKE_API_ERROR"):   # a provider error: pi ends the turn, exit 0, no cells
         print(json.dumps({{"type": "message_end", "message": {{"role": "assistant", "stopReason": "error",
@@ -174,7 +174,9 @@ class ForecastBenchTest(unittest.TestCase):
             call = os.path.join(mdir, "calls", "metaculus__m1", "attempt-1")
             prompt = open(os.path.join(call, "prompt.txt")).read()
             self.assertEqual(prompt, fb.build_prompt(m, "2026-10-11").replace("Value on 2026-10-01: 0.4 (The market value.)\n", ""))
-            self.assertIn("metaculus", json.load(open(os.path.join(call, "env.json")))["FORECASTER_BLOCK_URL_PATTERNS"])
+            env = json.load(open(os.path.join(call, "env.json")))
+            self.assertIn("metaculus", env["FORECASTER_BLOCK_URL_PATTERNS"])
+            self.assertEqual(env["FORECASTER_BLOCK_MARKET_PRICES"], "1")
             self.assertEqual(fb.main(["build", "--root", root, "--member", "a/one,noprice", "--name", "x",
                                       "--org", "Example Team", "--set-number", "1"]), 0)
 
