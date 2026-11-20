@@ -33,7 +33,9 @@ async function main() {
   try {
     execFileSync('ssh', ['-F', config, '-o', 'ExitOnForwardFailure=yes', '-M', '-S', mux, '-fN',
                          '-L', '127.0.0.1:' + port + ':127.0.0.1:443', 'stage-web'], { stdio: 'inherit' });
+    const browserEnv = Object.fromEntries(Object.entries(process.env).filter(([key]) => !/^(https?|all|no)_proxy$/i.test(key)));
     browser = await chromium.launch({
+      env: browserEnv,
       executablePath: process.env.CHROMIUM_EXECUTABLE_PATH || undefined,
       args: ['--no-proxy-server', '--disable-dev-shm-usage', '--ignore-certificate-errors-spki-list=' + spki,
              '--host-resolver-rules=' + domains.map(host => 'MAP ' + host + ' 127.0.0.1:' + port).join(',')],

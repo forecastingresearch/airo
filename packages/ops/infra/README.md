@@ -182,7 +182,7 @@ For the grants, production checkpoint and acceptance tests for a complete replac
 
 ## Run the two-host staging acceptance
 
-A second operator can build a private staging pair from a checkout of this PR. Use an x86-64 Ubuntu controller with Python 3.12, Git, curl, OpenSSL, OpenSSH, tar, `debootstrap`, `e2fsprogs`, `python3-venv` `qemu-system-x86` and `libnss3`. The controller needs sudo to build two bootable disks, access to Ubuntu, Node, PyPI and npm, and space for two 10 GiB sparse disks, the build tree and the package caches. The guests use about 3 GiB RAM in total. KVM speeds up the run where available. Keep the destination outside the checkout, on a private volume with a short path.
+A second operator can build a private staging pair from a checkout of this PR. Use an x86-64 Ubuntu controller with Python 3.12, Git, curl, OpenSSL, OpenSSH, tar, `debootstrap`, `e2fsprogs`, `python3-venv` `qemu-system-x86`, `libnss3`, `fontconfig` and `fonts-dejavu-core`. The controller needs sudo to build two bootable disks, access to Ubuntu, Node, PyPI and npm, and space for two 10 GiB sparse disks, the build tree and the package caches. The guests use about 3 GiB RAM in total. KVM speeds up the run where available. Keep the destination outside the checkout, on a private volume with a short path.
 
 From the repository root, pass a new directory under an existing parent. The command builds the images, generates the guest and publisher identities, verifies the pinned Node archive, builds the publications and runs the acceptance checks. The guest network connects the two roles to one another and forwards administrative SSH to controller loopback. The recipe generates credentials for this pair.
 
