@@ -283,7 +283,8 @@ python3 packages/ops/infra/staging_guest_release.py \
 
 The controller needs package-registry access and the same Python version and
 architecture as the guest for wheel selection. The first invocation builds a
-private cache of public dependencies. Reuse it with `--python-wheelhouse` and
+private cache of public dependencies. The same preparation command resumes a
+partially downloaded cache after a registry interruption. Reuse it with `--python-wheelhouse` and
 `--npm-cache` pointed at its `python-wheelhouse/` and `npm-cache/`
 subdirectories. The guest requires the staging marker, disabled scheduling
 and restored baseline publications. The drill runs `forecast-prod` as the

@@ -104,9 +104,9 @@ def prepare_cache(target, repo, env):
     """Cache only public package downloads, with empty Git, pip and npm settings."""
     import tomllib
 
-    target.mkdir()
+    target.mkdir(exist_ok=True)
     wheelhouse, npm_cache = (target / directory for directory in ("python-wheelhouse", "npm-cache"))
-    wheelhouse.mkdir()
+    wheelhouse.mkdir(exist_ok=True)
     packages = [tomllib.loads(path.read_text()) for path in
                 [*repo.glob("packages/*/pyproject.toml"), *repo.glob("dashboards/*/pyproject.toml"),
                  *repo.glob("submissions/*/pyproject.toml")]]
