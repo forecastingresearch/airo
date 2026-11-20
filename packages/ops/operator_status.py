@@ -177,8 +177,11 @@ def recovery(runtime, job, record, selected, release, now, public=None):
                       ['doctor'] if stage == 'upstream' else None)
     if kind == 'forecast' and stage == 'publish FAILED':
         if record.get('failure_detail') == 'transfer' and selected and selected.name == 'job-' + key:
-            if public == 'verified':
-                return None  # A later republish resolved delivery while retaining the original run receipt.
+            if public and public['result'] == 'verified':
+                if public['scope'] == 'content':
+                    return None
+                return {'message': 'Public release metadata matches. Verify the served files to confirm recovery.',
+                        'argv': ['dashboardctl', 'status', '--verify-content']}
             return action('Fix public delivery, then resend the selected snapshot and check fleet status.', ['republish'])
         if record.get('failure_detail') == 'retain_results':
             return action('Inspect the completed attempt and results directory before rebuilding the publication.')
@@ -237,7 +240,7 @@ def snapshot_identity(metadata):
 
 
 def socket_status(config, metadata):
-    result = {'result': 'unknown'}
+    result = {'result': 'unknown', 'scope': 'release_metadata'}
     expected = snapshot_identity(metadata)
     if not all(expected) or not config.get('socket'):
         return result
@@ -252,25 +255,27 @@ def socket_status(config, metadata):
             if response.status != 200:
                 return {**result, 'http_status': response.status}
             actual = snapshot_identity(json.loads(response.read(65537)))
-            return {'result': ('unknown' if not all(actual) else 'verified' if actual == expected else 'stale')}
+            return {**result, 'result': ('unknown' if not all(actual) else 'verified' if actual == expected else 'stale')}
     except (AttributeError, OSError, TypeError, ValueError, http.client.HTTPException):
         return result
 
 
-def public_delivery(runtime, site, release):
+def public_delivery(runtime, site, release, *, content=False):
     external = bool(runtime.config.get('public_publisher'))
     route = 'external' if external else 'socket'
     origin = socket_status(runtime.config, release)
-    public = {'result': 'unknown', 'url': eeai_operator.public_url(runtime.config)}
+    scope = 'content' if content else 'release_metadata'
+    public = {'result': 'unknown', 'url': eeai_operator.public_url(runtime.config), 'scope': scope}
     if site:
         try:
-            for name in runtime.dashboard.required:
-                if not (site / name).is_file():
+            files = ()
+            if content:
+                if any(not (site / name).is_file() for name in runtime.dashboard.required):
                     raise ValueError('Selected site lacks required files')
-            files = ('index.html', *(name for name in runtime.dashboard.downloads if (site / name).is_file()))
-            probe = eeai_operator.check_public(runtime.config, site, release, content=True, files=files)
+                files = ('index.html', *(name for name in runtime.dashboard.downloads if (site / name).is_file()))
+            probe = eeai_operator.check_public(runtime.config, site, release, content=content, files=files)
             public = {**probe, 'result': probe['result'] if probe['result'] in ('verified', 'stale') else 'unknown',
-                      'probe_result': probe['result']}
+                      'probe_result': probe['result'], 'scope': scope}
         except (AttributeError, OSError, TypeError, ValueError):
             public['reason'] = 'Selected site or verification inputs unavailable'
     return {'route': route, 'origin': origin, 'public': public}
@@ -314,7 +319,7 @@ def freshness(runtime, site, release, jobs, receipts, complete, enabled):
             'published_receipt': receipt_summary(previous), 'baseline': baseline}
 
 
-def report(runtime, scheduled_between):
+def report(runtime, scheduled_between, *, verify_content=False):
     now = datetime.now(timezone.utc)
     release, site, jobs = {}, None, []
     selection = 'unknown'
@@ -344,9 +349,9 @@ def report(runtime, scheduled_between):
     except OSError:
         pass
     receipts, complete = read_receipts(runtime.root)
-    delivery = public_delivery(runtime, site, release)
+    delivery = public_delivery(runtime, site, release, content=verify_content)
     visible_jobs = [job_status(runtime, job, receipts, complete, since, now, scheduled_between,
-                              site, release, delivery['public']['result'])
+                              site, release, delivery['public'])
                     for job in jobs]
     if not complete:
         reasons.append('One or more run receipts were unavailable')

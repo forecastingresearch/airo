@@ -181,7 +181,8 @@ print(json.dumps(checks))
     def cli(*args, **overrides):
         systemd_file.write_text(json.dumps(systemd))
         config_path.write_text(json.dumps(settings))
-        command = (args if args[:1] == ('tick-all',) or args == ('status', '--json') else ('eeai', *args))
+        fleet = args[:1] == ('tick-all',) or (args[:1] == ('status',) and len(args) > 1)
+        command = args if fleet else ('eeai', *args)
         return subprocess.run([sys.executable, OPS / 'dashboardctl', *command],
                               env={**env, **overrides}, capture_output=True, text=True, timeout=25)
 
@@ -204,12 +205,17 @@ def test_fleet_status_checks_content_without_touching_jobs_or_deployments(instal
     assert eeai['freshness']['state'] == 'unknown'
     assert eeai['delivery']['public']['result'] == 'verified'
     assert eeai['delivery']['origin']['result'] == 'unknown'
-    assert set(eeai['delivery']['public']['checks']) == {'release.json', 'index.html', 'eeai-data.zip'}
+    assert set(eeai['delivery']['public']['checks']) == {'release.json'}
+    assert eeai['delivery']['public']['scope'] == 'release_metadata'
     assert set(installed.root.rglob('*')) == before
     assert not installed.calls.exists()
     (installed.public / 'eeai-data.zip').write_bytes(b'stale')
     report = json.loads(installed.cli('status', '--json').stdout)['dashboards']['eeai']
+    assert report['delivery']['public']['result'] == 'verified'
+    report = json.loads(installed.cli('status', '--json', '--verify-content').stdout)['dashboards']['eeai']
     assert report['delivery']['public']['result'] == 'stale'
+    assert report['delivery']['public']['scope'] == 'content'
+    assert set(report['delivery']['public']['checks']) == {'release.json', 'index.html', 'eeai-data.zip'}
     report = json.loads(installed.cli('status', '--json', FIXTURE_PUBLIC_MODE='access_denied').stdout)['dashboards']['eeai']
     assert report['delivery']['public']['result'] == 'unknown'
     assert report['delivery']['public']['probe_result'] == 'access_denied'

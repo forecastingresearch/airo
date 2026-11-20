@@ -1205,6 +1205,8 @@ def main():
     parser.add_argument('--run-id', help='unique durable receipt ID (required for a paid manual run)')
     parser.add_argument('--verify', action='store_true', help='refresh: require verification of the served publication')
     parser.add_argument('--retry', metavar='RUN_ID', help='refresh: retry publication of a failed verified-refresh candidate')
+    parser.add_argument('--verify-content', action='store_true',
+                        help='operator-status: check the served homepage and published downloads')
     args = parser.parse_args()
     config = json.loads(Path(args.config).read_text())
     if args.wait and (config.get('dashboard') != 'eeai' or args.command not in ('deploy', 'build-release')):
@@ -1215,6 +1217,8 @@ def main():
         parser.error('EEAI refresh requires --verify')
     if args.command != 'refresh' and (args.verify or args.retry):
         parser.error('--verify and --retry apply to EEAI refresh')
+    if args.command != 'operator-status' and args.verify_content:
+        parser.error('--verify-content applies to fleet operator status')
     read_only = args.command in ('doctor', 'status', 'operator-status')
     runtime = Runtime(config, config_path=args.config, read_only=read_only)
     if args.command == 'deploy': runtime.deploy(args.commit, keep_publication=args.keep_publication, publish_data=args.publish_data, wait=args.wait)
@@ -1238,7 +1242,8 @@ def main():
         except ValueError as exc:
             parser.error(str(exc))
         raise SystemExit(0 if ok else 1)
-    elif args.command == 'operator-status': print(json.dumps(operator_status.report(runtime, scheduled_between), indent=2))
+    elif args.command == 'operator-status':
+        print(json.dumps(operator_status.report(runtime, scheduled_between, verify_content=args.verify_content), indent=2))
     elif args.command == 'doctor': raise SystemExit(0 if runtime.doctor() else 1)
     elif args.command == 'refresh':
         try:

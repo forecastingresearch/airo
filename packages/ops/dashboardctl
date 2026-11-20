@@ -10,7 +10,12 @@ import sys
 import subprocess
 
 directory = Path(os.environ.get("DASHBOARD_CONFIG_DIR", "/etc/fri-dashboards"))
-if sys.argv[1:] in (["status"], ["status", "--json"]):
+if sys.argv[1:2] == ["status"]:
+    flags = sys.argv[2:]
+    if len(set(flags)) != len(flags) or set(flags) - {"--json", "--verify-content"}:
+        sys.exit("usage: dashboardctl status [--json] [--verify-content]")
+    verify_content = "--verify-content" in flags
+
     def unavailable(reason):
         return {
             "selection": "unknown",
@@ -18,7 +23,11 @@ if sys.argv[1:] in (["status"], ["status", "--json"]):
             "scheduler": {"state": "unknown"},
             "jobs": [],
             "freshness": {"state": "unknown"},
-            "delivery": {"route": "unknown", "origin": {"result": "unknown"}, "public": {"result": "unknown"}},
+            "delivery": {
+                "route": "unknown",
+                "origin": {"result": "unknown", "scope": "release_metadata"},
+                "public": {"result": "unknown", "scope": "content" if verify_content else "release_metadata"},
+            },
             "warnings": [reason],
         }
 
@@ -26,7 +35,10 @@ if sys.argv[1:] in (["status"], ["status", "--json"]):
         if not (directory / (name + ".json")).is_file():
             return unavailable("Installation configuration unavailable")
         try:
-            response = subprocess.run([sys.executable, __file__, name, "operator-status"],
+            command = [sys.executable, __file__, name, "operator-status"]
+            if verify_content:
+                command.append("--verify-content")
+            response = subprocess.run(command,
                                       capture_output=True, text=True, timeout=75, check=True)
             result = json.loads(response.stdout)
             if not isinstance(result, dict):
@@ -43,12 +55,14 @@ if sys.argv[1:] in (["status"], ["status", "--json"]):
     else:
         for name, report in dashboards.items():
             delivery = report.get("delivery", {})
+            public = delivery.get("public", {})
+            scope = "content" if public.get("scope") == "content" else "release metadata"
             release = report.get("release", {})
             print(f"{name.upper()}  release={release.get('id') or 'unknown'}  "
                   f"scheduler={report.get('scheduler', {}).get('state', 'unknown')}  "
                   f"freshness={report.get('freshness', {}).get('state', 'unknown')}  "
-                  f"public={delivery.get('public', {}).get('result', 'unknown')}  "
-                  f"origin={delivery.get('origin', {}).get('result', 'unknown')}")
+                  f"public={public.get('result', 'unknown')} ({scope})  "
+                  f"origin={delivery.get('origin', {}).get('result', 'unknown')} (release metadata)")
             for job in report.get("jobs", []):
                 receipt = job["receipt"] or {}
                 print(f"  {job['id']}  {job['state']}  {receipt.get('stage', '')}".rstrip())
@@ -75,7 +89,7 @@ if sys.argv[1:] == ["tick-all"]:
     sys.exit("Failed dashboard ticks: " + ", ".join(failures) if failures else 0)
 
 if len(sys.argv) < 3 or not re.fullmatch(r"[a-z0-9][a-z0-9_-]*", sys.argv[1]):
-    sys.exit("usage: dashboardctl status [--json] | dashboardctl DASHBOARD COMMAND [OPTIONS]")
+    sys.exit("usage: dashboardctl status [--json] [--verify-content] | dashboardctl DASHBOARD COMMAND [OPTIONS]")
 name = sys.argv[1]
 config = directory / (name + ".json")
 settings = json.loads(config.read_text())

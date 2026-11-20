@@ -585,7 +585,7 @@ def test_socket_origin_and_public_route_are_verified_independently(runtime, monk
     with UnixStreamServer(runtime.config['socket'], Handler) as server:
         thread = Thread(target=server.handle_request)
         thread.start()
-        delivery = p.operator_status.public_delivery(runtime, site, metadata)
+        delivery = p.operator_status.public_delivery(runtime, site, metadata, content=True)
         thread.join(timeout=5)
     assert delivery['route'] == 'socket'
     assert delivery['origin']['result'] == 'verified'
