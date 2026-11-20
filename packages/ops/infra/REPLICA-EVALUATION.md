@@ -2,6 +2,8 @@
 
 Give a second operator or agent a clean controller, a reviewed commit, access to the target platform, a private inventory and a dated restore bundle. Start the clock before the first host exists. The operator should be able to create the deployment, verify it and recover a deliberately failed publication using those inputs. After capture, the incumbent must be able to keep serving without the candidate reading anything from it.
 
+A second operator can start with the [keyless staging rehearsal](README.md#run-the-two-host-staging-acceptance) using a checkout of the draft PR and a controller with sudo and package-registry access. Its default acceptance includes the installed pi, a loopback model endpoint, real tool execution, validated forecasts and reader-facing publication. The production access checklist below applies when evaluating production parity.
+
 ## Access the evaluator needs
 
 Record the provider, resource scope, identity or vault item reference, and the result of each access test in the private installation record. Supply credentials to the relevant service identity. Keep keys, cookies, connection details and evidence outside git.

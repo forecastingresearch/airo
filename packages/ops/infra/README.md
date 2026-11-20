@@ -184,11 +184,23 @@ For the grants, production checkpoint and acceptance tests for a complete replac
 
 A second operator can build a private staging pair from a checkout of this PR. Use an x86-64 Ubuntu controller with Python 3.12, Git, curl, OpenSSL, OpenSSH, tar, `xz-utils`, `debootstrap`, `e2fsprogs`, `python3-venv`, `qemu-system-x86`, `libnss3`, `fontconfig` and `fonts-dejavu-core`. The controller needs sudo to build two bootable disks, access to Ubuntu, Node, PyPI and npm, and space for two 10 GiB sparse disks, the build tree and the package caches. The guests use about 3 GiB RAM in total. KVM speeds up the run where available. Keep the destination outside the checkout, on a private volume with a short path. The controller downloads from `archive.ubuntu.com`, `nodejs.org`, `pypi.org`, `files.pythonhosted.org` and `registry.npmjs.org`. Include those domains in its approved package-registry access or configure approved mirrors.
 
+The complete rehearsal uses **keyless acceptance by default**. Repository read access, controller sudo and the package-registry grants above supply its inputs. It generates its own staging SSH identities and TLS/access fixtures.
+
+The installed pi agent runs against a deterministic local model endpoint in a loopback-only systemd network namespace. It executes the real `read_page` tool against a hash-pinned fixture, consumes that result, submits a complete RSI forecast, and consumes the successful submission result. The normal RSI runner, publication validator and builder process that forecast. The installed publication code then activates it on the local origin, sends it over the real restricted SSH publisher, verifies reader-facing HTTPS content, and restores the selected staging release. A fresh HOME, empty agent authentication and a clean environment exclude ambient provider and coding credentials. Missing pi or incomplete tool execution fails the acceptance check.
+
 From the repository root, pass a new directory under an existing parent. The command builds the images, generates the guest and publisher identities, verifies the pinned Node archive, builds the publications and runs the acceptance checks. The guest network connects the two roles to one another and forwards administrative SSH to controller loopback. The recipe generates credentials for this pair.
 
 ```sh
 packages/ops/infra/staging_pair.sh rehearse /var/tmp/my-forecast-stage
 ```
+
+To repeat just the installed pi and forecast-to-HTTPS acceptance on an existing pair, use the same private directory.
+
+```sh
+packages/ops/infra/staging_pair.sh keyless /var/tmp/my-forecast-stage
+```
+
+The result is recorded in `keyless-verdict.json`. Its private evidence archive contains the model requests, real pi event trace, validated run files and built publication. Each attempt records its own outcome, including failures.
 
 A successful run leaves both guests online. To verify the three origins, the reader-side HTTPS responses and protected EEAI content later, or to power-cycle the pair, use the same directory.
 

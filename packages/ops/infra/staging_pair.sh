@@ -6,7 +6,7 @@ umask 077
 action=${1:-}
 work=${2:-}
 if [[ $# != 2 || "$work" != /* || "$work" == *[[:space:]]* ]]; then
-    echo "Usage: $0 rehearse|create|start|stop|verify /absolute/private/directory" >&2
+    echo "Usage: $0 rehearse|keyless|create|start|stop|verify /absolute/private/directory" >&2
     exit 2
 fi
 if [[ $(id -u) == 0 ]]; then
@@ -181,6 +181,13 @@ create_pair() {
     boot_guests
 }
 
+keyless_pair() {
+    local here
+    here=$(cd -- "$(dirname -- "$0")" && pwd)
+    TMPDIR=/var/tmp python3 "$here/keyless_staging.py" --ssh-config "$work/ssh-config" \
+        --nonce-file "$work/nonce" --report "$work/keyless-verdict.json"
+}
+
 rehearse() {
     local here node digest pyinfra chromium
     here=$(cd -- "$(dirname -- "$0")" && pwd)
@@ -204,6 +211,7 @@ rehearse() {
     ssh -F "$work/ssh-config" stage-prod 'python3 - --disposable-staging' < "$here/scheduler_drill.py"
     TMPDIR=/var/tmp python3 "$here/staging_guest_release.py" --ssh-config "$work/ssh-config" \
         --prepare-cache "$work/release-dependencies" --keep-verified-release --report "$work/guest-verdict.json"
+    keyless_pair
     stop_pair
     boot_guests
     verify_pair
@@ -227,11 +235,12 @@ rehearse() {
 
 case "$action" in
     rehearse) rehearse ;;
+    keyless) keyless_pair ;;
     create) create_pair ;;
     start)
         boot_guests
         ;;
     stop) stop_pair ;;
     verify) verify_pair ;;
-    *) echo 'Expected rehearse, create, start, stop or verify' >&2; exit 2 ;;
+    *) echo 'Expected rehearse, keyless, create, start, stop or verify' >&2; exit 2 ;;
 esac
