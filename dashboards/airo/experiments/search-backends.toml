@@ -1,0 +1,15 @@
+# Manual, private-output runs of the Baseline prompt on the other search
+# backends (fri_forecaster.tool_cli). Does not change AIRO's published conditions.
+#
+#   python code/run_unified.py --experiment search-backends --condition exa --smoke
+scenarios = "data/combined_conditions.json"
+instrument = "minimal"
+harness = "pi"
+publish = false
+cadence = "manual"
+
+[conditions.exa]
+search = "exa"
+
+[conditions.keenable]
+search = "keenable"

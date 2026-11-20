@@ -98,6 +98,7 @@ from redlines.logs import run_file  # noqa: E402
 from redlines import experiments  # noqa: E402
 from redlines.experiments import DEFAULT_VARIANT, VARIANTS, check_patterns  # noqa: E402
 from redlines.tools import FORECAST_TOOLS, BLOCK_ENV     # noqa: E402
+from fri_forecaster.tool_cli import SEARCH_ENV          # noqa: E402
 from redlines.registry import MODEL_SETS, panel_provenance  # noqa: E402
 from redlines.instrument import counting_windows  # noqa: E402
 from redlines.config import UNBATCHED                      # noqa: E402
@@ -1189,10 +1190,15 @@ def run_one_joint(label, model_id, groups, by_group, horizons, run_id, retries, 
     # says so (`url_block_patterns`).
     own_guard = condition["url_block_patterns"]
     guard = own_guard or os.environ.get(BLOCK_ENV) or None
+    # The search backend goes the same way. A row that is not on Tavily says so (`search`).
+    own_search = condition.get("search") or "tavily"
+    search = own_search if own_search != "tavily" else os.environ.get(SEARCH_ENV) or "tavily"
     extra = {**({"url_block_patterns": guard} if guard else {}),
+             **({"search": search} if search != "tavily" else {}),
              # Not in the published number: redlines.runlog.pooled_rows.
              **({"pooled": False} if not condition["pooled"] else {})}
-    call_env = {BLOCK_ENV: own_guard} if own_guard else {}
+    call_env = {**({BLOCK_ENV: own_guard} if own_guard else {}),
+                **({SEARCH_ENV: own_search} if own_search != "tavily" else {})}
     if condition.get("news_cache") or condition.get("recent_news"):
         from redlines.news_shadow import PATH_ENV, HASH_ENV
         frozen = condition.get("_news_snapshot")
@@ -1487,6 +1493,10 @@ def main():
             check_patterns(os.environ[BLOCK_ENV])
         except re.error as e:
             sys.exit(f"{BLOCK_ENV}: bad pattern: {e}")
+    # The same rule for a search backend in the process environment.
+    if (os.environ.get(SEARCH_ENV) or "tavily") != "tavily" and publish and not args.dry_run:
+        sys.exit(f"{SEARCH_ENV} is set: a run on another search backend must not publish. "
+                 "A condition's own backend travels per call (search).")
     path = os.path.join(ROOT, conditions[0]["scenarios"])
     # The combined instrument asks models to forecast and condition on frontier
     # ECI. Refuse to run it against a stale frontier history or a scenario
@@ -1582,13 +1592,16 @@ def run(args, exp, conditions, path, publish):
             c["_prior_snapshot"] = (load_self("results", args.prior_publication, args.seed_prior_baseline)
                                     if c.get("prior_self") else freeze(args.prior_publication, "results"))
     load_keys()
-    if not os.environ.get("TAVILY_API_KEY") and not args.allow_ungrounded:
+    # The key of each search backend in use. Keenable needs none.
+    keys = {{"tavily": "TAVILY_API_KEY", "exa": "EXA_API_KEY"}.get(c["search"]) for c in conditions}
+    unset = sorted(k for k in keys if k and not os.environ.get(k))
+    if unset and not args.allow_ungrounded:
         # Refuse rather than degrade. Without Tavily every model still answers
         # -- from parametric memory, with no current evidence -- and the run
         # looks identical from the outside. These forecasts are published under
         # a provenance line that names web search, so an ungrounded run has to
         # be an explicit choice.
-        sys.exit("refusing to run: TAVILY_API_KEY is unset, so every web_search "
+        sys.exit(f"refusing to run: {', '.join(unset)} is unset, so every web_search "
                  "returns an error and the forecasts would be ungrounded while "
                  "the dashboard labels them grounded.\n"
                  "  override: --allow-ungrounded (marks the rows grounded=false)")

@@ -2,7 +2,8 @@
 
 A CONDITION is one configured way of running the instrument: the scenario
 set it asks, the prompt variant, the instrument (minimal or standard), the
-loop (harness), the models, a URL guard, and whether its rows publish. An
+loop (harness), the models, a URL guard, the search backend, and whether its
+rows publish. An
 EXPERIMENT is a set of conditions with shared config, one TOML file under
 experiments/: its top-level settings are every condition's, and a
 condition's own table overrides any of them (2026-10-21; before that a
@@ -56,12 +57,15 @@ PUBLISHED = "airo"
 # (fri_forecaster.variants) since 2026-11-13: the ForecastBench driver asks
 # under the same ones, and the two must not drift.
 from fri_forecaster.variants import DEFAULT_VARIANT, VARIANTS  # noqa: E402,F401
+from fri_forecaster.tool_cli import BACKENDS  # noqa: E402
 
 INSTRUMENTS = ("standard", "minimal")
 # The loop: pi (agent-box), the only one since litellm left on 2026-10-22.
 # Still a setting, and still hashed, so a condition records the loop its
 # calls ran through.
 HARNESSES = ("pi",)
+# The search backends of the research tools. The first one, Tavily, is the default.
+SEARCHES = tuple(BACKENDS)
 # Every setting a condition has, and its value when neither the experiment
 # nor the condition sets it.
 DEFAULTS = {
@@ -72,6 +76,7 @@ DEFAULTS = {
     "model_set": DEFAULT_MODEL_SET,   # redlines.registry.MODEL_SETS
     "repeats": 1,                     # calls per model per run
     "url_block_patterns": None,       # agent-box's URL guard for these calls alone
+    "search": SEARCHES[0],            # the search backend of the research tools (SEARCHES)
     "recent_news": False,            # news access without the legacy ban
     "prior_self": False,             # use this shadow’s previous complete ensemble
     "prior_baseline": False,         # optional prior Baseline ensemble file
@@ -139,6 +144,8 @@ def condition_sha256(settings):
         del keep["news_cache"]
     if keep["max_turns"] is None:
         del keep["max_turns"]
+    if keep["search"] == SEARCHES[0]:
+        del keep["search"]
     return hashlib.sha256(json.dumps(keep, sort_keys=True).encode()).hexdigest()
 
 
@@ -216,6 +223,8 @@ def _check(s, pooled, where):
         raise ValueError(f"{where}: unknown variant {s['variant']!r}; choose from {sorted(VARIANTS)}")
     if s["instrument"] not in INSTRUMENTS:
         raise ValueError(f"{where}: instrument {s['instrument']!r} is not one of {INSTRUMENTS}")
+    if s["search"] not in SEARCHES:
+        raise ValueError(f"{where}: search {s['search']!r} is not one of {SEARCHES}")
     if s["harness"] not in HARNESSES:
         raise ValueError(f"{where}: harness {s['harness']!r} is not one of {HARNESSES}")
     if s["url_block_patterns"]:

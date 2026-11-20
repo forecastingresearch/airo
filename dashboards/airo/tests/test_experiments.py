@@ -121,7 +121,7 @@ model_set = "frontier5"
         h = experiments.condition_sha256(base)
         self.assertEqual(h, experiments.condition_sha256(dict(base, publish=True, repeats=3)))
         for k, v in (("variant", "recent"), ("harness", "other"), ("model_set", "frontier5"),
-                     ("url_block_patterns", "x"), ("scenarios", "data/axes_conditions.json")):
+                     ("url_block_patterns", "x"), ("scenarios", "data/axes_conditions.json"), ("search", "exa")):
             self.assertNotEqual(h, experiments.condition_sha256(dict(base, **{k: v})), k)
         self.assertEqual(AIRO["conditions"]["none"]["sha256"],
                          experiments.condition_sha256({k: AIRO["conditions"]["none"][k] for k in experiments.DEFAULTS}))
@@ -135,6 +135,7 @@ model_set = "frontier5"
                 ('[conditions.a]\nharness = "litellm"\n', "harness 'litellm' is not one of"),
                 ('[conditions.a]\nurl_block_patterns = "(x"\n', "bad url_block_patterns"),
                 ('[conditions.a]\nvariant = "nope"\n', "unknown variant"),
+                ('[conditions.a]\nsearch = "bing"\n', "search 'bing' is not one of"),
                 ('[conditions.a]\nrepeats = 0\n', "repeats"),
                 ('', "no \\[conditions")):
             with self.assertRaisesRegex(ValueError, why):
@@ -321,6 +322,11 @@ class TestRunOneJoint(unittest.TestCase):
         self.assertEqual({r["protocol"] for r in rows}, {"unified-joint-combined-v12"})
         self.assertTrue(rows[0]["call_id"].endswith(":ai-banned"))
         self.assertTrue(all(r["forecasts"] for r in rows))
+
+    def test_a_condition_on_another_search_backend(self):
+        rows, seen = self._call("none", search="exa")
+        self.assertEqual(seen["env"], {ru.SEARCH_ENV: "exa"})      # the backend to THIS call only
+        self.assertEqual({r["search"] for r in rows}, {"exa"})
 
     def test_a_process_environment_guard_is_stamped_on_every_row(self):
         # #5's stamping: a guard in os.environ reaches every call and every row says so.
