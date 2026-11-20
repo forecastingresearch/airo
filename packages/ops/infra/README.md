@@ -178,6 +178,8 @@ installation's private configuration and secret store.
    validated restored site. Reenable scheduling only after the recovery
    checkpoint and receipt state have been reviewed.
 
+For the grants, production checkpoint and acceptance tests for a complete replacement, see [Evaluate a cold rebuild](REPLICA-EVALUATION.md).
+
 ## Rehearse locally
 
 Run the drill with nginx, restic, OpenSSL, ssh-keygen and the pinned pyinfra available.
