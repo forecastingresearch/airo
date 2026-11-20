@@ -5,10 +5,63 @@ import json
 import os
 from pathlib import Path
 import re
+import shlex
 import sys
 import subprocess
 
 directory = Path(os.environ.get("DASHBOARD_CONFIG_DIR", "/etc/fri-dashboards"))
+if sys.argv[1:] in (["status"], ["status", "--json"]):
+    def unavailable(reason):
+        return {
+            "selection": "unknown",
+            "release": {"id": None, "code_commit": None, "frontend_commit": None},
+            "scheduler": {"state": "unknown"},
+            "jobs": [],
+            "freshness": {"state": "unknown"},
+            "delivery": {"route": "unknown", "origin": {"result": "unknown"}, "public": {"result": "unknown"}},
+            "warnings": [reason],
+        }
+
+    def read_status(name):
+        if not (directory / (name + ".json")).is_file():
+            return unavailable("Installation configuration unavailable")
+        try:
+            response = subprocess.run([sys.executable, __file__, name, "operator-status"],
+                                      capture_output=True, text=True, timeout=75, check=True)
+            result = json.loads(response.stdout)
+            if not isinstance(result, dict):
+                raise ValueError("Expected dashboard status")
+            return result
+        except (OSError, ValueError, subprocess.SubprocessError):
+            return unavailable("Installed release did not provide operator status")
+
+    with ThreadPoolExecutor(max_workers=3) as workers:
+        names = ("airo", "eeai", "rsi")
+        dashboards = dict(zip(names, workers.map(read_status, names)))
+    if "--json" in sys.argv:
+        print(json.dumps({"schema_version": 1, "dashboards": dashboards}, indent=2))
+    else:
+        for name, report in dashboards.items():
+            delivery = report.get("delivery", {})
+            release = report.get("release", {})
+            print(f"{name.upper()}  release={release.get('id') or 'unknown'}  "
+                  f"scheduler={report.get('scheduler', {}).get('state', 'unknown')}  "
+                  f"freshness={report.get('freshness', {}).get('state', 'unknown')}  "
+                  f"public={delivery.get('public', {}).get('result', 'unknown')}  "
+                  f"origin={delivery.get('origin', {}).get('result', 'unknown')}")
+            for job in report.get("jobs", []):
+                receipt = job["receipt"] or {}
+                print(f"  {job['id']}  {job['state']}  {receipt.get('stage', '')}".rstrip())
+                if deadline := job.get("submission_deadline_utc"):
+                    print(f"    Submission deadline {deadline}")
+                if recovery := job.get("recovery"):
+                    print(f"    {recovery['message']}")
+                    if recovery["argv"]:
+                        print("    " + shlex.join(recovery["argv"]))
+            for warning in report.get("warnings", []):
+                print(f"  {warning}")
+    sys.exit(0)
+
 if sys.argv[1:] == ["tick-all"]:
     configs = sorted(directory.glob("*.json"))
     if not configs:
@@ -22,7 +75,7 @@ if sys.argv[1:] == ["tick-all"]:
     sys.exit("Failed dashboard ticks: " + ", ".join(failures) if failures else 0)
 
 if len(sys.argv) < 3 or not re.fullmatch(r"[a-z0-9][a-z0-9_-]*", sys.argv[1]):
-    sys.exit("usage: dashboardctl DASHBOARD COMMAND [OPTIONS]")
+    sys.exit("usage: dashboardctl status [--json] | dashboardctl DASHBOARD COMMAND [OPTIONS]")
 name = sys.argv[1]
 config = directory / (name + ".json")
 settings = json.loads(config.read_text())

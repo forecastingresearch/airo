@@ -109,9 +109,19 @@ a test filename and location agreed with them. `gcloud auth list` alone does not
 prove that credentials can refresh or that the account can write to the bucket.
 Do not place a test forecast into a live round without their agreement.
 
-For a real submission, configure the destination from the round invitation and
-run the upload-only command (also used by `scripts/fb_cron.sh` after a successful
-round). This retries saved forecasts without any paid model calls:
+On the managed forecasting host, retry a prepared real round on its UTC date
+with the upload-only command. It sources the installation's private `round.env`,
+uses the configured rounds directory and validates the saved submission sets
+before uploading. The upload-only attempt gets its own runtime receipt under
+`runs/` and appears under the matching round in `dashboardctl status`.
+
+```sh
+dashboardctl airo retry-forecastbench-upload --due YYYY-MM-DD
+```
+
+For a standalone runner, configure the destination from the round invitation
+and use the same uploader as `scripts/fb_cron.sh`. This retries saved forecasts
+without any paid model calls.
 
 ```sh
 set -a

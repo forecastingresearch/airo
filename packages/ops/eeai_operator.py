@@ -151,19 +151,34 @@ def scheduler_timer(config):
                                               calendar)) if calendar else None}, unit.get('Triggers', '').split()
 
 
-def tick_command(unit):
+def launcher_command(unit):
     start = re.fullmatch(r'\{ path=(\S+) ; argv\[\]=([^;]*?)\s*; .*\}', unit.get('ExecStart', ''))
     if not start or unit.get('LoadState') != 'loaded':
-        return None, False
+        return []
     executable, argv = start.groups()
     args = argv.split()
-    if executable in ('/usr/bin/python3', '/usr/local/bin/python3') and len(args) == 3 and args[0] == executable:
-        executable, argv = args[1], ' '.join(args[1:])
-    eligible = Path(executable).name == 'dashboardctl' and argv.split() == [executable, 'tick-all']
-    return [executable, 'tick-all' if eligible else '[arguments omitted]'], eligible
+    if not args or args[0] != executable:
+        return []
+    if executable in ('/usr/bin/python3', '/usr/local/bin/python3'):
+        return args[1:]
+    return args
 
 
-def scheduler(config):
+def tick_command(unit):
+    args = launcher_command(unit)
+    if not args:
+        return None, False
+    eligible = Path(args[0]).name == 'dashboardctl' and args[1:] in (['tick-all'], ['tick-all', '--queued'])
+    return args if eligible else [args[0], '[arguments omitted]'], eligible
+
+
+def worker_command(unit, lane):
+    args = launcher_command(unit)
+    return bool(args and Path(args[0]).name == 'dashboardctl'
+                and args[1:] == ['worker-all', '--lane', lane])
+
+
+def scheduler(config, *, queued=False):
     timer, triggers = scheduler_timer(config)
     service = config.get('scheduler_service', 'fri-dashboard-tick.service')
     unit = unit_properties(service, UNIT_PROPERTIES)
@@ -172,6 +187,12 @@ def scheduler(config):
                'timer_dispatches_service': service in triggers if triggers else None}
     if not eligible:
         return details, None, 'systemd ExecStart unavailable or unsupported'
+    if queued:
+        execution_service = 'fri-dashboard-worker@data.service'
+        details['execution_service'] = execution_service
+        unit = unit_properties(execution_service, (*UNIT_PROPERTIES, 'ActiveState'))
+        if not worker_command(unit, 'data') or unit.get('ActiveState') != 'active':
+            return details, None, 'active data worker unavailable or unsupported'
     route, source = scheduler_environment(unit)
     return details, route, source
 
@@ -268,11 +289,13 @@ def baseline_metadata(blob):
     return {'source': 'unknown', 'as_of': None}
 
 
-def public_manifest(site, metadata, url, content):
+def public_manifest(site, metadata, url, content, files=None):
     expected = {'url': url, 'frontend_commit': frontend_commit(metadata),
                 'data_snapshot_sha256': (metadata.get('data_snapshot') or {}).get('sha256'), 'files': {}}
+    if files is not None:
+        expected['dashboard'] = metadata.get('dashboard', 'airo')
     if content:
-        for name in ('index.html', ARCHIVE):
+        for name in files if files is not None else ('index.html', ARCHIVE):
             with (site / name).open('rb') as f:
                 expected['files'][name] = {'sha256': hashlib.file_digest(f, 'sha256').hexdigest(),
                                            'size': os.fstat(f.fileno()).st_size}
@@ -305,7 +328,9 @@ def public_probe(expected, headers=None):
                         checks[name] = 'unverifiable'
                     else:
                         checks[name] = ('verified' if snapshot == expected['data_snapshot_sha256']
-                                        and commit == expected['frontend_commit'] else 'stale')
+                                        and commit == expected['frontend_commit']
+                                        and ('dashboard' not in expected or found.get('dashboard', 'airo')
+                                             == expected['dashboard']) else 'stale')
                     continue
                 manifest = expected['files'][name]
                 digest = hashlib.sha256()
@@ -338,12 +363,12 @@ def private_headers(path):
     return headers
 
 
-def check_public(config, site, metadata, *, content=False):
+def check_public(config, site, metadata, *, content=False, files=None):
     url = public_url(config)
     result = {'url': url, 'source': 'public_url'}
     if not url or not frontend_commit(metadata) or not (metadata.get('data_snapshot') or {}).get('sha256'):
         return {**result, 'result': 'unverifiable', 'reason': 'configured HTTPS URL or expected release metadata missing'}
-    manifest = public_manifest(site, metadata, url, content)
+    manifest = public_manifest(site, metadata, url, content, files)
     custom = config.get('public_verifier')
     if custom is not None:
         result['source'] = 'public_verifier'

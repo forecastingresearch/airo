@@ -22,8 +22,10 @@ rc=$?
 if [[ "$rc" == 0 ]]; then
   # The uploader revalidates every registered set, its coverage and build hashes.
   # A missing upload configuration fails visibly; it never falls back to manual.
-  "$PY" -m forecastbench.upload --root "$ROOT" >> "$ROOT/logs/cron.out" 2>&1
-  rc=$?
+  if [[ "${2:-}" != "--build-only" ]]; then
+    "$PY" -m forecastbench.upload --root "$ROOT" >> "$ROOT/logs/cron.out" 2>&1
+    rc=$?
+  fi
 elif [[ ! -e "$ROOT/logs/paged" ]]; then
   why="$(grep -hE 'FATAL|gave up|could not|NOT READY|SHORT' "$ROOT/logs/round.log" "$ROOT/summary.txt" 2>/dev/null | sort -u | tail -2 | cut -c1-200)"
   "$PY" -m fri_forecaster.alert send --deployment forecastbench --severity page --title "run FAILED" \

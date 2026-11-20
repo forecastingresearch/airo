@@ -16,6 +16,7 @@ import hashlib
 import json
 import os
 from pathlib import Path
+import re
 import subprocess
 import sys
 import urllib.error
@@ -229,7 +230,21 @@ def main(argv=None):
     action = parser.add_mutually_exclusive_group(required=True)
     action.add_argument('--root')
     action.add_argument('--check-access', metavar='YYYY-MM-DD', help='explicit .txt probe; no forecasts or alerts')
+    parser.add_argument('--validate-only', action='store_true',
+                        help='validate the saved real round locally without uploading or sending alerts')
     args = parser.parse_args(argv)
+    if args.validate_only:
+        if not args.root:
+            parser.error('--validate-only requires --root')
+        try:
+            due, files = submissions(Path(args.root).resolve(), names.load(),
+                                     os.environ.get('FB_ORG'), os.environ.get('FB_PUBLIC_ORG'))
+            check_window(due)
+        except (Exception, SystemExit) as error:
+            print(f'Round validation failed ({type(error).__name__}): {error}', file=sys.stderr)
+            return 1
+        print(f'{due}: {len(files)} submission sets validated')
+        return 0
     if args.check_access:
         try:
             check_access(*settings(), args.check_access)
@@ -242,9 +257,13 @@ def main(argv=None):
         receipt = upload(args.root, names.load(), os.environ.get('FB_ORG'), os.environ.get('FB_PUBLIC_ORG'),
                          prefix, account)
     except (Exception, SystemExit) as error:
-        message = (f'{type(error).__name__}: {error}. Forecasts retained in {args.root}. '
-                   'Fix access/configuration, source the private round.env with variables exported, '
-                   f'and retry python -m forecastbench.upload --root {args.root}; do not rerun forecasting.')
+        managed_due = os.environ.get('FRI_FORECASTBENCH_MANAGED_DUE', '')
+        if re.fullmatch(r'\d{4}-\d{2}-\d{2}', managed_due):
+            retry = f'Retry before the UTC deadline with dashboardctl airo retry-forecastbench-upload --due {managed_due}.'
+        else:
+            retry = (f'Source the private round.env with variables exported and retry '
+                     f'python -m forecastbench.upload --root {args.root} before the UTC deadline.')
+        message = f'{type(error).__name__}: {error}. Forecasts retained in {args.root}. Fix the failure. {retry}'
         print('UPLOAD FAILED: ' + message, file=sys.stderr)
         alert.send('forecastbench', 'upload FAILED', message, severity='page')
         return 1

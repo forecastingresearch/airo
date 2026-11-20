@@ -174,6 +174,20 @@ class UploadTest(unittest.TestCase):
         self.assertEqual(send.call_args.args[:2], ('forecastbench', 'upload FAILED'))
         self.assertEqual(send.call_args.kwargs['severity'], 'page')
 
+    def test_validate_only_checks_saved_sets_without_auth_or_alerts(self):
+        with patch.object(upload.names, 'load', return_value=self.reg), \
+                patch.dict(os.environ, {'FB_ORG': 'Example Team'}), \
+                patch.object(upload, 'settings') as settings, \
+                patch.object(upload, 'upload') as send_sets, \
+                patch.object(upload.alert, 'send') as alert:
+            args = ['--root', str(self.root), '--validate-only']
+            self.assertEqual(upload.main(args), 0)
+            self.path.write_text(self.path.read_text() + ' ')
+            self.assertEqual(upload.main(args), 1)
+            settings.assert_not_called()
+            send_sets.assert_not_called()
+            alert.assert_not_called()
+
     def test_personal_account_cannot_be_used_accidentally(self):
         with self.assertRaisesRegex(ValueError, 'dedicated service-account'):
             upload.Storage('person@example.org')

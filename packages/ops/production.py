@@ -25,6 +25,7 @@ from dashboard import page, site as site_kit  # noqa: E402
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 from dashboard_projects import AIRO_FILES, DASHBOARDS  # noqa: E402
 import eeai_operator  # noqa: E402
+import operator_status  # noqa: E402
 
 # Where things are in a release: the repository's layout.
 AIRO = 'dashboards/airo'                    # its index.html, web/, data/, results/ and code/
@@ -282,6 +283,56 @@ class Runtime:
             code = self.current.resolve(strict=True) / 'code'
             run([code / '.venv/bin/python', '-m', 'forecastbench.upload', '--check-access', due],
                 env=self.environment(code, self.root / 'tmp'), cwd=code, timeout=360)
+
+    def forecastbench_upload(self, code, due, env, log, *, validate_only=False):
+        # Resolve the directory with the same private settings and default as fb_cron.sh.
+        script = """
+if [[ -f "$FORECASTER_ROUND_ENV" ]]; then
+    set -a
+    source "$FORECASTER_ROUND_ENV"
+    set +a
+fi
+root="${ROUNDS_DIR:-$2}/$3"
+export FRI_FORECASTBENCH_MANAGED_DUE="$3"
+exec "$1" -m forecastbench.upload --root "$root" "${@:4}"
+"""
+        run(['bash', '-ec', script, 'forecastbench-upload', code / '.venv/bin/python',
+             code / FORECASTBENCH / 'rounds', due, *(['--validate-only'] if validate_only else [])],
+            env=env, cwd=code, stdout=log, stderr=subprocess.STDOUT, timeout=900)
+
+    def retry_forecastbench_upload(self, due):
+        if (not due or not re.fullmatch(r'\d{4}-\d{2}-\d{2}', due)
+                or date.fromisoformat(due) != datetime.now(timezone.utc).date()):
+            raise ValueError('ForecastBench upload requires --due YYYY-MM-DD for the current UTC date')
+        with self.lock():
+            now = datetime.now(timezone.utc)
+            if due != now.date().isoformat():
+                raise ValueError('ForecastBench submission window closed while waiting for the runtime lock')
+            release = self.current.resolve(strict=True)
+            code = release / 'code'
+            key = 'forecastbench-upload-' + due + '-' + uuid.uuid4().hex[:12]
+            receipt_path = self.root / 'runs' / (key + '.json')
+            log_path = self.root / 'logs' / (key + '.log')
+            receipt = {'key': key, 'job': 'forecastbench-upload', 'kind': 'forecastbench-upload',
+                       'release': release.name, 'due': due, 'status': 'running',
+                       'stage': 'forecastbench_validate', 'started': now.isoformat()}
+            write_json(receipt_path, receipt)
+            try:
+                env = self.environment(code, self.root / 'tmp')
+                env['FRI_ALERT_LEDGER'] = str(receipt_path.with_suffix('.alerts.jsonl'))
+                with log_path.open('a') as log:
+                    self.forecastbench_upload(code, due, env, log, validate_only=True)
+                    receipt['stage'] = 'forecastbench_upload'
+                    write_json(receipt_path, receipt)
+                    self.forecastbench_upload(code, due, env, log)
+                receipt.update(status='succeeded', stage='uploaded')
+            except (OSError, subprocess.SubprocessError) as exc:
+                receipt.update(status='failed', error=type(exc).__name__)
+            finally:
+                receipt['finished'] = datetime.now(timezone.utc).isoformat()
+                write_json(receipt_path, receipt)
+            print(json.dumps(receipt, indent=2))
+            return receipt['status'] == 'succeeded'
 
     def alert(self, job, message, log=None, title='run FAILED'):
         """One alert through the release's shared sender (fri_forecaster.alert):
@@ -779,6 +830,9 @@ class Runtime:
             code = release / 'code'
             started = {'key': key, 'job': job['id'], 'release': release.name, 'status': 'running', 'started': datetime.now(timezone.utc).isoformat()}
             refresh = self.name == 'eeai' and job['kind'] == 'refresh'
+            forecastbench = job['kind'] == 'forecastbench'
+            if forecastbench:
+                started.update(kind='forecastbench', due=job['due'], stage='preflight')
             if refresh:
                 started.update(kind='refresh', stage='preflight')
                 if retry:
@@ -790,13 +844,14 @@ class Runtime:
             argv = {'refresh': [code / '.venv/bin/python', *self.dashboard.refresh],
                     'forecast': ['bash', airo / 'code/cron_run.sh'],
                     'news-poll': [code / '.venv/bin/python', airo / 'code/recent_news.py', 'poll'],
-                    'forecastbench': ['bash', code / FORECASTBENCH / 'scripts/fb_cron.sh', job.get('due', '')],
+                    'forecastbench': ['bash', code / FORECASTBENCH / 'scripts/fb_cron.sh', job.get('due', ''), '--build-only'],
                     'smoke': [code / '.venv/bin/python', '-c', 'import redlines, eeai, forecastbench, fri_forecaster, dashboard; print("scheduled runtime smoke passed")']}.get(job['kind'])
             survey_job = job['kind'] == 'forecast' and self.name != 'airo'
             if job['kind'] == 'smoke' and self.name != 'airo':
                 argv = [code / '.venv/bin/python', *self.dashboard.forecast[:2], '--help']
             cwd = code if job['kind'] in ('forecastbench', 'smoke') else code / self.dashboard.project
             stage = 'preflight FAILED'
+            failure_detail = None
             launched = False
 
             def set_refresh_stage(value):
@@ -804,6 +859,8 @@ class Runtime:
                 write_json(receipt, started)
 
             try:
+                if forecastbench and job['due'] != datetime.now(timezone.utc).date().isoformat():
+                    raise RuntimeError('ForecastBench round is outside its UTC submission date')
                 env = self.environment(code, site)
                 env['FRI_ALERT_LEDGER'] = str(ledger)
                 if job.get('paired_rationale_on') and key == job['id'] + '-' + date.fromisoformat(job['paired_rationale_on']).strftime('%Y%m%d'):
@@ -826,6 +883,8 @@ class Runtime:
                     started.update(status='succeeded', stage='verified')
                     return True
                 stage = 'run FAILED'
+                if forecastbench:
+                    set_refresh_stage('forecastbench_build')
                 with (self.root / 'logs' / (key + '.log')).open('a') as log:
                     if survey_job:
                         if self.panel_runtime:
@@ -842,18 +901,19 @@ class Runtime:
                         argv = self.project_command(code, self.dashboard.forecast, site, incoming)
                     launched = True
                     run(argv, cwd=cwd, env=env, stdout=log, stderr=subprocess.STDOUT)
-                if job['kind'] == 'forecastbench':
-                    # fb_round's shell exit alone is insufficient; every expected set must build.
-                    round_root = self.home / 'forecastbench/rounds' / job['due']
-                    # Use the same CLI/config as the round, without exposing private names.
-                    count = int(output(['bash', '-o', 'pipefail', '-c', 'set -a; source "$FORECASTER_ROUND_ENV"; set +a; "$PY" -m forecastbench.names conditions | wc -l'], cwd=code, env=env))
-                    built = (round_root / 'logs/round.log').read_text().count('build exited 0')
-                    if count == 0 or built < count:
-                        raise RuntimeError('ForecastBench has incomplete submission sets')
+                    if forecastbench:
+                        set_refresh_stage('forecastbench_validate')
+                        self.forecastbench_upload(code, job['due'], env, log, validate_only=True)
+                        stage = 'upload FAILED'
+                        set_refresh_stage('forecastbench_upload')
+                        self.forecastbench_upload(code, job['due'], env, log)
+                        started.update(status='succeeded', stage='uploaded')
+                        return True
                 stage = 'publish FAILED'   # the run succeeded; what follows only publishes it
                 if survey_job:
                     # The runners produce one file (EEAI) or directory (RSI).
                     # Failed attempts stay private; later builds read completed runs only.
+                    failure_detail = 'retain_results'
                     artifacts = list(incoming.iterdir())
                     if len(artifacts) != 1:
                         raise RuntimeError('Expected one completed survey run')
@@ -864,9 +924,11 @@ class Runtime:
                     if target.exists():
                         raise RuntimeError(f'Run already exists: {artifact.name}')
                     artifact.rename(target)
+                    failure_detail = 'build_publication'
                     with (self.root / 'logs' / (key + '.log')).open('a') as log:
                         self.build_data(code, site, env, stdout=log, stderr=subprocess.STDOUT)
                 if expects_site or (site / 'index.html').exists():
+                    failure_detail = 'validate_publication'
                     self.verify_site(site)
                     meta = self.release_metadata(release)
                     meta.update(publication='rebuilt', publication_commit=meta['commit'], frontend_commit=meta['commit'],
@@ -874,11 +936,16 @@ class Runtime:
                     write_json(site / 'release.json', meta)
                     link(site, release / 'site')
                     write_json(release / 'release.json', meta)
+                    failure_detail = 'transfer'
+                    started['published_snapshot'] = meta['data_snapshot']['sha256']
+                    started['publication_ready_at'] = datetime.now(timezone.utc).isoformat()
                     self.publish_public(site)
                 started.update(status='succeeded')
             except Exception as exc:
-                failed_stage = started['stage'] if refresh else stage
+                failed_stage = started['stage'] if refresh or forecastbench else stage
                 started.update(status='failed', error=type(exc).__name__, stage=failed_stage)
+                if failure_detail:
+                    started['failure_detail'] = failure_detail
                 # Keep the reason in the private log, including failures before launch.
                 with (self.root / 'logs' / (key + '.log')).open('a') as log:
                     print(f'{failed_stage}: {type(exc).__name__}: {exc}', file=log)
@@ -887,6 +954,11 @@ class Runtime:
                     if job['kind'] == 'forecast':
                         failure = 'failed to publish dashboard' if stage == 'publish FAILED' else 'failed to produce forecast'
                     retry_note = 'It is not retried automatically.' if refresh else 'It is not retried.'
+                    if forecastbench and failed_stage == 'forecastbench_validate':
+                        retry_note = 'Inspect set validation and rebuild from saved member results before upload.'
+                    if forecastbench and failed_stage == 'forecastbench_upload':
+                        retry_note = (f"Retry with dashboardctl airo retry-forecastbench-upload --due {job['due']} "
+                                      'before the UTC deadline.')
                     self.alert(job, f"{key}: {failure} ({type(exc).__name__}). {retry_note}",
                                log=self.root / 'logs' / (key + '.log'),
                                title=f'{failed_stage} FAILED' if refresh else stage)
@@ -984,8 +1056,11 @@ class Runtime:
 
     def doctor(self):
         report = {'hostname': socket.gethostname(), 'project': self.name}
-        scheduler, route, env_source = eeai_operator.scheduler(self.config)
+        queued = (self.root / 'scheduler-v2.json').is_file()
+        scheduler, route, env_source = eeai_operator.scheduler(self.config, queued=queued)
         scheduler.update(jobs_enabled=(self.root / 'jobs-enabled').exists(), environment_source=env_source)
+        mode = ['tick-all', '--queued'] if queued else ['tick-all']
+        scheduler['mode_matches'] = bool(scheduler['command'] and scheduler['command'][1:] == mode)
         report['scheduler'] = scheduler
         report['https_proxy_settings'] = 'unknown'
         report['fred'] = {'destination': eeai_operator.FRED_HOST, 'route': 'unknown', 'result': 'unverifiable'}
@@ -1026,7 +1101,7 @@ class Runtime:
                 and report['completed_runs']['result'] == 'run_files_present'
                 and scheduler['timer_dispatches_service'] is True and scheduler['timer_activity'] == 'active'
                 and scheduler['timer_enablement'] in ('enabled', 'enabled-runtime')
-                and scheduler['jobs_enabled'] and scheduler['installation_matches'] is True
+                and scheduler['jobs_enabled'] and scheduler['installation_matches'] is True and scheduler['mode_matches']
                 and scheduler['minute_calendar'] is True)
 
     def economic_status(self, release, site, jobs, enabled, receipts, now):
@@ -1051,8 +1126,9 @@ class Runtime:
                 state = 'unknown'
             elif timer['timer_activity'] == 'active' and service in triggers:
                 unit = eeai_operator.unit_properties(service, ('ExecStart', 'LoadState'))
-                _, runs_tick = eeai_operator.tick_command(unit)
-                if runs_tick:
+                command, runs_tick = eeai_operator.tick_command(unit)
+                mode = ['tick-all', '--queued'] if (self.root / 'scheduler-v2.json').is_file() else ['tick-all']
+                if runs_tick and command[1:] == mode:
                     recurring = [job for job in economic_jobs if 'at' not in job]
                     future = [at for _, _, at in scheduled_between(recurring, now, now + timedelta(days=8))]
                     future.extend(at for job in economic_jobs if 'at' in job
@@ -1117,9 +1193,9 @@ def main():
     parser.add_argument('--config', default=os.environ.get('AIRO_RUNTIME_CONFIG', str(Path.home() / '.config/airo/runtime.json')))
     parser.add_argument('command', choices=['deploy', 'rollback', 'status', 'tick', 'serve', 'smoke', 'prune', 'storage', 'build-release',
                                             'configure-forecastbench', 'check-forecastbench-upload', 'run-dashboard', 'republish',
-                                            'doctor', 'refresh'])
+                                            'doctor', 'refresh', 'operator-status', 'retry-forecastbench-upload'])
     parser.add_argument('--upload-prefix', help='configure-forecastbench: gs://bucket/team-prefix/binary; key JSON on stdin')
-    parser.add_argument('--due', help='check-forecastbench-upload: round folder date for a .txt access probe')
+    parser.add_argument('--due', help='ForecastBench round UTC date (YYYY-MM-DD)')
     parser.add_argument('--commit')
     parser.add_argument('--wait', action='store_true', help='EEAI deploy: wait for required checks and verify the served release')
     parser.add_argument('--release', help='build-release only (deploy runs it in the candidate): the checked-out release to build')
@@ -1139,7 +1215,7 @@ def main():
         parser.error('EEAI refresh requires --verify')
     if args.command != 'refresh' and (args.verify or args.retry):
         parser.error('--verify and --retry apply to EEAI refresh')
-    read_only = config.get('dashboard') == 'eeai' and args.command in ('doctor', 'status')
+    read_only = args.command in ('doctor', 'status', 'operator-status')
     runtime = Runtime(config, config_path=args.config, read_only=read_only)
     if args.command == 'deploy': runtime.deploy(args.commit, keep_publication=args.keep_publication, publish_data=args.publish_data, wait=args.wait)
     elif args.command == 'build-release': runtime.build_release(args.release, args.commit, keep_publication=args.keep_publication, publish_data=args.publish_data, wait=args.wait)
@@ -1152,10 +1228,17 @@ def main():
         if receipt.get('status') not in ('succeeded', 'skipped'):
             raise SystemExit(1)
     elif args.command == 'smoke': runtime.execute_job(args.run_id or 'smoke-' + uuid.uuid4().hex[:12], {'id': 'smoke', 'kind': 'smoke'})
-    elif args.command in ('configure-forecastbench', 'check-forecastbench-upload') and runtime.name != 'airo':
+    elif args.command in ('configure-forecastbench', 'check-forecastbench-upload', 'retry-forecastbench-upload') and runtime.name != 'airo':
         parser.error('ForecastBench is managed by the AIRO runtime')
     elif args.command == 'configure-forecastbench': runtime.configure_forecastbench(args.upload_prefix, json.load(sys.stdin))
     elif args.command == 'check-forecastbench-upload': runtime.check_forecastbench_upload(args.due)
+    elif args.command == 'retry-forecastbench-upload':
+        try:
+            ok = runtime.retry_forecastbench_upload(args.due)
+        except ValueError as exc:
+            parser.error(str(exc))
+        raise SystemExit(0 if ok else 1)
+    elif args.command == 'operator-status': print(json.dumps(operator_status.report(runtime, scheduled_between), indent=2))
     elif args.command == 'doctor': raise SystemExit(0 if runtime.doctor() else 1)
     elif args.command == 'refresh':
         try:
