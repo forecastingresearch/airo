@@ -207,6 +207,11 @@ rehearse() {
     stop_pair
     boot_guests
     verify_pair
+    ssh -F "$work/ssh-config" stage-prod '
+        for project in airo eeai rsi; do
+            runuser -u forecast -- forecast-prod "$project" smoke || exit 1
+        done
+    '
 
     mkdir -p "$work/browser/tmp"
     (
