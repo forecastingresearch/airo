@@ -241,3 +241,29 @@ an expired queued slot without a second paid-runner invocation. The drill uses
 synthetic replacements at the provider, upstream data, alerts, build and
 publication transport boundaries. Host reboot, live providers, public HTTPS
 and the remote publication host are outside this drill.
+### Build and deploy the real dashboards in staging
+
+Use Python with venv, Git, and the release builder's Node/npm toolchain.
+Choose a disk-backed temporary directory with room for the release checkouts
+and dependencies. The output paths below must be new directories.
+
+```sh
+python3 packages/ops/infra/build_staging_publications.py /private/staging-initial
+python3 packages/ops/infra/staging_release_drill.py /private/staging-initial \
+  --candidate-output /private/staging-updated
+```
+
+The first command builds browsable output for each dashboard from the selected
+Git source. It preserves AIRO's checked assembled page and generates its
+download files through the real exporter with a fictional run. EEAI builds from
+the checked instrument, historical series and public cohort aggregates.
+RSI displays its checked instrument with an empty forecast history.
+
+The second command creates a disposable Git repository from that checked tree
+and uses a local fixture for GitHub's required-check responses. The real
+`dashboardctl` launcher and release builder install dependencies into fresh
+releases and serve them over temporary Unix sockets. The drill verifies the
+cold import, rejects a candidate with an omitted required check, deploys its
+frontend around the saved data and downloads, and rolls back. It compares
+served file bytes and leaves scheduling off. The optional candidate output can
+be used in a separate transfer and HTTPS rehearsal.
