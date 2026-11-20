@@ -18,6 +18,7 @@ SLOT = datetime(2030, 1, 2, 12, tzinfo=timezone.utc)
 FORECAST = {'id': 'airo', 'kind': 'forecast', 'daily_utc': '12:00'}
 NEWS = {'id': 'news-poll', 'kind': 'news-poll', 'daily_utc': '12:01'}
 REFRESH = {'id': 'eeai-economic-data', 'dashboard': 'eeai', 'kind': 'refresh', 'daily_utc': '12:01'}
+SURVEY = {'id': 'eeai-survey', 'dashboard': 'eeai', 'kind': 'forecast', 'daily_utc': '12:01'}
 
 
 def selected(runtime, jobs, name='20290101T000000-aaaaaaaaaaaa', *, capable=True):
@@ -64,8 +65,9 @@ def test_long_paid_attempt_and_repeat_ticks_do_not_block_eeai_refresh(tmp_path, 
 
     monkeypatch.setattr(p, 'run', run)
     monkeypatch.setattr(eeai, 'economic_refresh', refresh)
+    monkeypatch.setattr(eeai, 'alert', lambda *args, **kwargs: None)
 
-    for site, jobs in ((runtime, [FORECAST, NEWS]), (eeai, [REFRESH])):
+    for site, jobs in ((runtime, [FORECAST, NEWS]), (eeai, [REFRESH, SURVEY])):
         selected(site, jobs)
         enable(site)
         site.scheduler.cutover()
@@ -83,11 +85,15 @@ def test_long_paid_attempt_and_repeat_ticks_do_not_block_eeai_refresh(tmp_path, 
             for tick in ticks:
                 tick.result(timeout=2)
             pool.submit(runtime.scheduler.worker, 'paid').result(timeout=2)
+            assert pool.submit(eeai.scheduler.worker, 'paid').result(timeout=2) is False
             pool.submit(eeai.scheduler.worker, 'data').result(timeout=2)
             assert refresh_finished.is_set()
             assert p.scheduler.read_json(eeai.scheduler.receipt('eeai-economic-data-20300102'))['status'] == 'succeeded'
             assert p.scheduler.read_json(runtime.scheduler.receipt('airo-20300102'))['status'] == 'running'
             assert p.scheduler.read_json(runtime.scheduler.receipt('news-poll-20300102'))['status'] == 'queued'
+            clock['now'] += timedelta(minutes=1)
+            assert eeai.scheduler.worker('paid')
+            assert p.scheduler.read_json(eeai.scheduler.receipt('eeai-survey-20300102'))['status'] == 'missed'
         finally:
             finish_paid.set()
         worker.result(timeout=2)

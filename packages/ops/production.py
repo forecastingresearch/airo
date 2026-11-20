@@ -950,7 +950,7 @@ exec "$1" -m forecastbench.upload --root "$root" "${@:4}"
                                 primary.save_generated_data(primary_code)
                         incoming = self.state / 'attempts' / key
                         argv = self.project_command(code, self.dashboard.forecast, site, incoming)
-                    if survey_job and start_window_closed():
+                    if start_window_closed():
                         return False
                     launched = True
                     run(argv, cwd=cwd, env=env, stdout=log, stderr=subprocess.STDOUT)
