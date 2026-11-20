@@ -190,7 +190,7 @@ def main():
     parser.add_argument("--projects", choices=PROJECTS, nargs="+", default=PROJECTS)
     parser.add_argument("--keep-verified-release", action="store_true",
                         help="reselect the verified candidate after checking rollback")
-    parser.add_argument("--prepare-cache", type=Path, help="populate a new public dependency cache")
+    parser.add_argument("--prepare-cache", type=Path, help="populate or resume a public dependency cache")
     parser.add_argument("--python-wheelhouse", type=Path)
     parser.add_argument("--npm-cache", type=Path)
     args = parser.parse_args()
