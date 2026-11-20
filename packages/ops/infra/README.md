@@ -270,3 +270,40 @@ cold import, rejects a candidate with an omitted required check, deploys its
 frontend around the saved data and downloads, and rolls back. It compares
 served file bytes and leaves scheduling off. The optional candidate output can
 be used in a separate transfer and HTTPS rehearsal.
+
+## Use an existing pair of empty guests
+
+Use two empty, isolated Ubuntu 24.04 guests with real systemd, an SSH route
+from the controller, and an SSH and HTTPS route from the forecast guest
+to the serving guest. Prepare the Node archive with its trusted SHA-256 on
+the forecast guest. Install the base apt dependencies beforehand if the
+network is offline. The controller needs pinned pyinfra, Python, OpenSSL,
+ssh-keygen and a private SSH config with root identities and pinned host
+keys for `stage-prod` and `stage-web`.
+
+Generate a random hexadecimal nonce (32 to 128 characters) on the
+controller. Provision a root-owned mode 0600 `/etc/fri-acceptance-host`
+regular file on each guest with that nonce on its first line and the guest's
+role on the second (`forecast-prod` or `forecast-web`). Pass the nonce file
+and the web guest's private IPv4 address to the rehearsal. Use two
+credential-free publication fixture directories for all three sites, from
+different frontend revisions with matching data snapshots.
+
+```sh
+TMPDIR=/var/tmp python3 packages/ops/infra/accept_staging.py \
+  --ssh-config /private/staging/ssh-config --nonce-file /private/staging/nonce \
+  --web-address 192.0.2.2 --pyinfra /private/venv/bin/pyinfra \
+  --node-archive /var/tmp/node-v22.21.1-linux-x64.tar.xz --node-sha256 "$NODE_SHA256" \
+  /private/staging-initial /private/staging-updated
+```
+
+The harness checks the marks, distinct guests, web address and empty paths
+before provisioning. It generates a private 90-day TLS certificate and fixture
+credentials. It compares every served fixture file to its original
+hash, tests the EEAI gate and site-restricted SSH keys, injects a publication
+failure, and confirms rollback on all three dashboards. It backs up both
+roles to separate encrypted fixture repositories, restores their trees
+with paid scheduling and credentials excluded, reapplies the roles, and
+restarts the actual services. Archive any output privately. The guests
+remain staged for inspection. Reset them to empty images to repeat the
+full rehearsal.
