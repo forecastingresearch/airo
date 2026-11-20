@@ -197,7 +197,7 @@ rehearse() {
         --node-sha256 "$digest" "$work/initial" "$work/candidate"
     ssh -F "$work/ssh-config" stage-prod 'python3 - --disposable-staging' < "$here/scheduler_drill.py"
     TMPDIR=/var/tmp python3 "$here/staging_guest_release.py" --ssh-config "$work/ssh-config" \
-        --prepare-cache "$work/release-dependencies" --keep-verified-release
+        --prepare-cache "$work/release-dependencies" --keep-verified-release --report "$work/guest-verdict.json"
     stop_pair
     boot_guests
     verify_pair
