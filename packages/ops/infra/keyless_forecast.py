@@ -213,7 +213,10 @@ def worker(pi, output):
           'frontend_commit': commit, 'publication_commit': commit, 'publication': 'rebuilt', 'fixture': True,
           'data_snapshot': {**site.snapshot(publication, ()), 'origin_commit': commit, 'source_release': release}})
     site.verify(publication)
-    verdict = {'pi_version': harness.PINNED_PI_VERSION, 'source_commit': commit, 'fixture': True,
+    auth = agent / 'auth.json'
+    if auth.exists() and json.loads(auth.read_text()):
+        raise RuntimeError('Unexpected authentication persisted in the private agent directory')
+    verdict = {'result': 'passed', 'pi_version': harness.PINNED_PI_VERSION, 'source_commit': commit, 'fixture': True,
                'model_requests': len(model.requests), 'read_page_executed': True,
                'ambient_credentials': 'excluded', 'coding_login': 'absent',
                'tool_result_consumed': model.read_consumed, 'submission_result_consumed': model.submission_consumed,
