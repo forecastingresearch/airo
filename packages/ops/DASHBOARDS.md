@@ -6,6 +6,8 @@ and rollback command. Each installation selects a dashboard by name. Its own
 process pins every response to one publication. The existing AIRO configuration
 and `airo` command remain valid.
 
+For a new installation, see the [pyinfra roles and restore drill](infra/README.md). The manual installation below describes socket-backed origins and the legacy timer. Use the [queued scheduler guide](SCHEDULER.md) to install and activate the independent workers.
+
 ## Server roles
 
 Use **forecast-prod** for the forecasting server and **forecast-web** for the

@@ -1,6 +1,6 @@
 # While the primary operator is away
 
-Sign in with your own account using the **forecast-prod** SSH entry in the private installation record. Run `dashboardctl status` there. For the affected project, read `dashboardctl NAME status` and the receipt identified by the alert. All schedule times are UTC. Check the expected job, its receipt, and the publicly verified publication separately. A healthy page can still contain yesterday's data.
+Sign in with your own account using the **forecast-prod** SSH entry in the private installation record. Use the assigned forecasting service role to run `dashboardctl status` there. For the affected project, read `dashboardctl NAME status` and the receipt identified by the alert. All schedule times are UTC. Check the expected job, its receipt, and the publicly verified publication separately. The default public check compares release metadata. Use `dashboardctl status --verify-content` after recovery to check the served homepage and downloads. A healthy page can still contain yesterday's data.
 
 | Situation | Action | Evidence of recovery |
 | --- | --- | --- |
@@ -10,8 +10,10 @@ Sign in with your own account using the **forecast-prod** SSH entry in the priva
 | ForecastBench reports an upload failure | Inspect the round's upload receipt and deadline. Within its permitted UTC date, use `dashboardctl airo retry-forecastbench-upload --due YYYY-MM-DD` on the prepared round. | The uploader confirms every expected object and records its checksum and generation. Escalate an expired round to the submission contact. |
 | A paid run was interrupted or missed | Preserve its receipt, attempts and logs. Check the private record for authority to spend and the instrument's valid time window before authorizing another attempt. | The incident records the decision and the affected occurrence. Routine publication and upload recovery use saved outputs. |
 
+To pause future scheduled starts for one project, follow the [scheduler pause and resume procedure](SCHEDULER.md#pause-or-return-to-legacy). Already launched work can finish.
+
 Use the runtime root in the installation record to find `runs/ID.json` and `logs/ID.log`. Handle raw results, logs and receipts privately. For storage pressure, run `dashboardctl NAME storage` and use the supported `prune` command for disposable releases.
 
 **Private installation record.** Maintain the login route, monitored URLs, vault item names, pager destination and backup access there. Record who owns host, repository, DNS, provider and submission recovery, who may approve paid reruns, and the applicable limit. Until spending authority is recorded, escalate additional paid work. Keep credentials with their service identities.
 
-**Handoff drill.** From the covering operator's laptop, receive a test page, diagnose a stale staging publication, recover it using saved data, and verify the result at the reader-facing URL. Restore the saved state to an isolated installation with scheduling disabled. Record the date, evidence and any access that still depends on the primary operator in the private record.
+**Handoff drill.** From the covering operator's laptop, receive a test page, diagnose a stale staging publication, recover it using saved data, and verify the result at the reader-facing URL. Follow the [backup and restore procedure](infra/README.md#back-up-and-restore) to recover the saved state on an isolated installation with scheduling disabled. Record the date, evidence and any access that still depends on the primary operator in the private record.
