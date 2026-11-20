@@ -15,6 +15,8 @@ REPO = HERE.parents[2]
 settings = host.data.settings
 role = settings['role']
 staging = settings.get('staging', True)
+if not isinstance(staging, bool):
+    raise ValueError('Select staging with a boolean inventory value')
 fixture = host.name == '@local' and os.environ.get('FRI_INFRA_FIXTURE') == '1'
 prefix = settings.get('fixture_root', '')
 if bool(prefix) != fixture or (host.name == '@local' and not fixture):
@@ -75,6 +77,31 @@ install = path('/opt/fri-ops')
 private = path('/etc/fri-ops')
 units = path('/etc/systemd/system')
 bindir = path('/usr/local/bin')
+if role == 'forecast-prod' and not fixture:
+    server.shell(name='Check existing scheduler before writing units', commands=[fr"""
+set -eu
+timer=fri-dashboard-tick.timer
+tick=fri-dashboard-tick.service
+tick_state=$(systemctl show -p ActiveState --value "$tick")
+if systemctl is-active --quiet "$timer" || systemctl is-enabled --quiet "$timer" ||
+   [ "$tick_state" = activating ] || [ "$tick_state" = active ] || [ "$tick_state" = deactivating ]; then
+    if [ {int(staging)} = 1 ] ||
+       ! systemctl show -p ExecStart --value "$tick" |
+           grep -Eq 'argv\[\]=/usr/local/bin/dashboardctl tick-all --queued( ;|$)'; then
+        echo "Stop, disable and drain $timer and $tick before provisioning their replacements." >&2
+        exit 1
+    fi
+fi
+if [ {int(staging)} = 1 ]; then
+    for lane in paid data; do
+        worker=fri-dashboard-worker@$lane.service
+        if systemctl is-active --quiet "$worker" || systemctl is-enabled --quiet "$worker"; then
+            echo "Stop and disable $worker before applying a staging inventory." >&2
+            exit 1
+        fi
+    done
+fi
+"""])
 directory(install)
 directory(private)
 directory(units)

@@ -58,7 +58,7 @@ Set each inventory `public_publisher` alias in its SSH config with
 `UserKnownHostsFile` and `StrictHostKeyChecking yes`. The server grants that
 key just the configured receiver for its own site. Use separate reader access
 for the operator CLI's private `public_verifier` on protected sites. For
-Basic access, an example argv to put in that project's inventory is:
+Basic access, put the following argv in that project's inventory.
 
 ```json
 [
@@ -109,7 +109,8 @@ file. The role leaves paid scheduling inactive. For a [scheduler migration](../S
 coordinate the application cutover and then explicitly enable the one
 `fri-dashboard-tick.timer` and the `fri-dashboard-worker@paid.service` and
 `fri-dashboard-worker@data.service` units. Stop and drain existing schedulers
-before switching. Leave an existing AIRO ingress and schedule in place
+before switching. Provisioning refuses to replace an enabled legacy timer
+or an active legacy tick. Leave an existing AIRO ingress and schedule in place
 until its cutover is authorized.
 
 ## Back up and restore
@@ -179,7 +180,7 @@ installation's private configuration and secret store.
 
 ## Rehearse locally
 
-With nginx, restic, OpenSSL, ssh-keygen and the pinned pyinfra available, run:
+Run the drill with nginx, restic, OpenSSL, ssh-keygen and the pinned pyinfra available.
 
 ```sh
 python3 packages/ops/infra/staging_drill.py
