@@ -194,3 +194,28 @@ a local pipe. It uses fresh path trees for restoration and verifies that
 the same protected publication can be served again. Validate actual systemd
 activation, SSH policy, and off-host backup credentials on disposable hosts
 before a production rollout.
+
+## Exercise the installed scheduler
+
+On a disposable, booted forecast guest provisioned in staging mode, run
+the scheduler acceptance drill as root. Allow about three minutes and
+at least 2 GiB of free space on the fixture filesystem.
+
+```sh
+sudo python3 packages/ops/infra/scheduler_drill.py --disposable-staging
+```
+
+The drill clones the installed timer and service units into temporary systemd
+units, uses the installed launcher and release runtime, and verifies the
+staging condition blocks the copied services before activating their isolated
+fixtures. The real staging marker stays in place. Test processes use a private
+network namespace with IP sockets disabled and use only synthetic UTC schedules.
+
+The minute timer dispatches a long synthetic AIRO forecast and an EEAI refresh.
+The refresh must verify its locally copied publication while the forecast is
+still running. A repeated tick and repeated run ID must preserve the receipts.
+Stopping and restarting the paid worker must close the interrupted attempt and
+an expired queued slot without a second paid-runner invocation. The drill uses
+synthetic replacements at the provider, upstream data, alerts, build and
+publication transport boundaries. Host reboot, live providers, public HTTPS
+and the remote publication host are outside this drill.
