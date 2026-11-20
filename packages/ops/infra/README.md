@@ -289,7 +289,8 @@ partially downloaded cache after a registry interruption. Reuse it with `--pytho
 subdirectories. The guest requires the staging marker, disabled scheduling
 and restored baseline publications. The drill runs `forecast-prod` as the
 forecast service account, verifies the public endpoint before and after the
-checked offline deploy, rolls back, and verifies delivery again.
+checked offline deploy, runs the installed provider-free runtime smoke, rolls
+back, and verifies delivery again.
 
 Pass `--keep-verified-release` to reselect the tested candidate after the rollback
 checks. The guest then retains real installed release dependencies and a working

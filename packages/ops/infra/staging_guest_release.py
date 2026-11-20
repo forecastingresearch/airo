@@ -79,6 +79,7 @@ def on_guest(fixture, projects, keep_verified_release=False):
                 if edited["index.html"] == files["index.html"] or any(edited.get(path) != files[path] for path in unchanged):
                     raise RuntimeError(f"{name}: unexpected change to the candidate file manifest")
                 verify()
+                cli("smoke")
             finally:
                 if (runtime / "current").resolve(strict=True) != initial_release:
                     cli("rollback")
