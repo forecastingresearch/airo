@@ -271,6 +271,25 @@ frontend around the saved data and downloads, and rolls back. It compares
 served file bytes and leaves scheduling off. The optional candidate output can
 be used in a separate transfer and HTTPS rehearsal.
 
+After restoring the publications on a disposable provisioned pair, run the
+same checked-release path on the forecast guest using its existing SSH
+publisher and HTTPS verifier.
+
+```sh
+python3 packages/ops/infra/staging_guest_release.py \
+  --ssh-config /private/staging-ssh-config \
+  --prepare-cache /private/staging-release-dependencies
+```
+
+The controller needs package-registry access and the same Python version and
+architecture as the guest for wheel selection. The first invocation builds a
+private cache of public dependencies. Reuse it with `--python-wheelhouse` and
+`--npm-cache` pointed at its `python-wheelhouse/` and `npm-cache/`
+subdirectories. The guest requires the staging marker, disabled scheduling
+and restored baseline publications. The drill runs `forecast-prod` as the
+forecast service account, verifies the public endpoint before and after the
+checked offline deploy, rolls back, and verifies delivery again.
+
 ## Use an existing pair of empty guests
 
 Use two empty, isolated Ubuntu 24.04 guests with real systemd, an SSH route
