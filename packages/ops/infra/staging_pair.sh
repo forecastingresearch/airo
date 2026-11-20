@@ -6,7 +6,7 @@ umask 077
 action=${1:-}
 work=${2:-}
 if [[ $# != 2 || "$work" != /* || "$work" == *[[:space:]]* ]]; then
-    echo "Usage: $0 rehearse|create|start|stop /absolute/private/directory" >&2
+    echo "Usage: $0 rehearse|create|start|stop|verify /absolute/private/directory" >&2
     exit 2
 fi
 if [[ $(id -u) == 0 ]]; then
@@ -127,6 +127,46 @@ boot_guests() {
     done
 }
 
+stop_pair() {
+    local role i
+    for role in "${projects[@]}"; do
+        [[ ! -e "$work/$role.pid" ]] || ssh -F "$work/ssh-config" "stage-$role" systemctl --no-block poweroff
+    done
+    for role in "${projects[@]}"; do
+        for ((i=0; i<120; i++)); do [[ ! -e "$work/$role.pid" ]] && break; sleep 1; done
+        [[ ! -e "$work/$role.pid" ]] || { echo "$role is still shutting down" >&2; exit 1; }
+    done
+}
+
+verify_pair() (
+    local reader
+    reader=$(mktemp -d /var/tmp/fri-reader.XXXXXXXX)
+    trap 'ssh -F "$work/ssh-config" -S "$reader/mux" -O exit stage-web >/dev/null 2>&1 || true; rm -rf -- "$reader"' EXIT
+    ssh -F "$work/ssh-config" stage-web cat /var/lib/fri-acceptance/tls.pem > "$reader/ca.pem"
+    ssh -F "$work/ssh-config" -o ExitOnForwardFailure=yes -M -S "$reader/mux" -fN \
+        -L "$reader/https.sock:127.0.0.1:443" stage-web
+    local site code
+    local transport=(--noproxy '*' --unix-socket "$reader/https.sock" --cacert "$reader/ca.pem" --silent --show-error)
+    for site in airo eeai rsi; do
+        code=$(curl "${transport[@]}" -o /dev/null -w '%{http_code}' "https://$site.forecast.test/")
+        if [[ $site == eeai ]]; then [[ $code == 401 ]]; else [[ $code == 200 ]]; fi
+        echo "$site HTTPS from controller: $code"
+    done
+    ssh -F "$work/ssh-config" stage-prod 'runuser -u forecast -- forecast-prod status --verify-content --json' > "$work/status.json"
+    python3 - "$work/status.json" <<'PYTHON'
+import json, sys
+from pathlib import Path
+dashboards = json.loads(Path(sys.argv[1]).read_text())['dashboards']
+if set(dashboards) != {'airo', 'eeai', 'rsi'}:
+    raise SystemExit('Fleet status did not return all three dashboards')
+for name, dashboard in dashboards.items():
+    for endpoint in ('origin', 'public'):
+        if dashboard['delivery'][endpoint]['result'] != 'verified':
+            raise SystemExit(f'{name} {endpoint} verification failed')
+print('Verified origin and reader-facing content for all three dashboards.')
+PYTHON
+)
+
 create_pair() {
     mkdir -m 0700 -- "$work"
     make_base
@@ -156,6 +196,9 @@ rehearse() {
         --web-address 192.0.2.2 --pyinfra "$pyinfra" --node-archive "/var/tmp/$node.tar.xz" \
         --node-sha256 "$digest" "$work/initial" "$work/candidate"
     ssh -F "$work/ssh-config" stage-prod 'python3 - --disposable-staging' < "$here/scheduler_drill.py"
+    stop_pair
+    boot_guests
+    verify_pair
 }
 
 case "$action" in
@@ -164,14 +207,7 @@ case "$action" in
     start)
         boot_guests
         ;;
-    stop)
-        for role in "${projects[@]}"; do
-            [[ ! -e "$work/$role.pid" ]] || ssh -F "$work/ssh-config" "stage-$role" systemctl --no-block poweroff
-        done
-        for role in "${projects[@]}"; do
-            for ((i=0; i<120; i++)); do [[ ! -e "$work/$role.pid" ]] && break; sleep 1; done
-            [[ ! -e "$work/$role.pid" ]] || { echo "$role is still shutting down" >&2; exit 1; }
-        done
-        ;;
-    *) echo 'Expected rehearse, create, start or stop' >&2; exit 2 ;;
+    stop) stop_pair ;;
+    verify) verify_pair ;;
+    *) echo 'Expected rehearse, create, start, stop or verify' >&2; exit 2 ;;
 esac

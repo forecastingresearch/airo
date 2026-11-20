@@ -180,7 +180,29 @@ installation's private configuration and secret store.
 
 For the grants, production checkpoint and acceptance tests for a complete replacement, see [Evaluate a cold rebuild](REPLICA-EVALUATION.md).
 
-## Rehearse locally
+## Run the two-host staging acceptance
+
+A second operator can build a private staging pair from a checkout of this PR. Use an x86-64 Ubuntu controller with Python 3.12, Git, curl, OpenSSL, OpenSSH, tar, `debootstrap`, `e2fsprogs`, `python3-venv` and `qemu-system-x86`. The controller needs sudo to build two bootable disks, access to Ubuntu, Node, PyPI and npm, and space for two 10 GiB sparse disks, the build tree and the package caches. The guests use about 3 GiB RAM in total. KVM speeds up the run where available. Keep the destination outside the checkout, on a private volume with a short path.
+
+From the repository root, pass a new directory under an existing parent. The command builds the images, generates the guest and publisher identities, verifies the pinned Node archive, builds the publications and runs the acceptance checks. The guest network connects the two roles to one another and forwards administrative SSH to controller loopback. The recipe generates credentials for this pair.
+
+```sh
+packages/ops/infra/staging_pair.sh rehearse /var/tmp/my-forecast-stage
+```
+
+A successful run leaves both guests online. To verify the three origins, the reader-side HTTPS responses and protected EEAI content later, or to power-cycle the pair, use the same directory.
+
+```sh
+packages/ops/infra/staging_pair.sh verify /var/tmp/my-forecast-stage
+packages/ops/infra/staging_pair.sh stop /var/tmp/my-forecast-stage
+packages/ops/infra/staging_pair.sh start /var/tmp/my-forecast-stage
+```
+
+For an interactive session use `ssh -F /var/tmp/my-forecast-stage/ssh-config stage-prod` or `stage-web`. The installation record is private. It includes the disk images, SSH key and generated connections for this pair. Run `sudo -u forecast forecast-prod status --verify-content --json` on the forecast guest. The controller's last verified status is written to `status.json` in the private directory.
+
+The input publications exercise the actual dashboard renderers and download formats. AIRO includes a fictional forecast export, EEAI uses the reviewed survey/history preview, and RSI renders its instrument with an empty results tree. The drill uses a local Git repository and fixture GitHub check responses. The two-host checks cover restricted publisher SSH, real origin services, ingress TLS, EEAI Basic authentication, deliberately failed updates, restore and restart. Restic repositories and the test TLS trust anchor belong to the disposable pair. For comparison with live production state, hosted delivery or external integrations, use the [replica evaluation](REPLICA-EVALUATION.md).
+
+## Run the single-machine smoke test
 
 Run the drill with nginx, restic, OpenSSL, ssh-keygen and the pinned pyinfra available.
 
