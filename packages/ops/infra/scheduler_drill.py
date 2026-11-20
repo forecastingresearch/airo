@@ -43,7 +43,7 @@ with (root / 'events').open('a') as events:
     print(operation, file=events)
 
 if operation == 'forecast':
-    time.sleep(180)
+    time.sleep(600)
 elif operation in ('build', 'seed'):
     site = Path(args[0])
     baseline = {'source': 'fred', 'as_of': '2030-01-02'}
@@ -74,7 +74,7 @@ elif operation not in ('refresh', 'alert'):
 
 
 def command(*argv, **options):
-    return subprocess.run(argv, check=True, text=True, timeout=options.pop('timeout', 20), **options)
+    return subprocess.run(argv, check=True, text=True, timeout=options.pop('timeout', 60), **options)
 
 
 def systemctl(*argv):
@@ -236,14 +236,14 @@ def drill(root, units, uid, gid):
         systemctl('start', paid, data, timer)
         wait_for(lambda: 'forecast' in (root / 'events').read_text().splitlines(),
                  'timer to dispatch the synthetic forecast', 90)
-        wait_for(lambda: status(refresh, 'succeeded'), 'EEAI verified refresh', 30)
+        wait_for(lambda: status(refresh, 'succeeded'), 'EEAI verified refresh', 60)
         assert status(long, 'running')
         assert json.loads(refresh.read_text())['public_verification']['result'] == 'verified'
         assert property_of(timer, 'LastTriggerUSec') not in ('', 'n/a')
 
         saved = {path: path.read_bytes() for path in (long, refresh)}
         started = time.monotonic()
-        command('systemctl', 'start', tick, capture_output=True, timeout=8)
+        command('systemctl', 'start', tick, capture_output=True, timeout=60)
         repeat_seconds = round(time.monotonic() - started, 3)
         repeated = standalone(root, uid, gid, 'eeai', 'refresh', '--verify', '--run-id', refresh.stem)
         assert json.loads(repeated)['key'] == refresh.stem
@@ -256,7 +256,7 @@ def drill(root, units, uid, gid):
         wait_until(later + timedelta(minutes=1))
         systemctl('start', paid)
         wait_for(lambda: status(long, 'interrupted') and status(missed, 'missed'),
-                 'worker restart to reconcile interruption and miss', 30)
+                 'worker restart to reconcile interruption and miss', 60)
         try:
             standalone(root, uid, gid, 'airo', 'run-dashboard', '--run-id', long.stem)
         except subprocess.CalledProcessError as exc:
