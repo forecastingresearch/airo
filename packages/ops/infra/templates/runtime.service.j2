@@ -1,0 +1,19 @@
+[Unit]
+Description={{ description }}
+After=network.target
+{% if scheduled %}ConditionPathExists=!{{ private }}/staging
+{% endif %}
+[Service]
+Type={{ kind }}
+User={{ account }}
+Group={{ runtime_group }}
+UMask=0077
+Environment=DASHBOARD_CONFIG_DIR={{ configs }}
+{% if environment_file %}EnvironmentFile={{ environment_file }}
+{% endif %}ExecStart={{ launcher }} {{ command }}
+{% if restart %}Restart=on-failure
+RestartSec=5s
+{% endif %}
+{% if install_target %}[Install]
+WantedBy={{ install_target }}
+{% endif %}
