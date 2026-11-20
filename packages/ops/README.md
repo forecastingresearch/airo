@@ -1,5 +1,7 @@
 # Production releases
 
+Covering operations? Start with [While the primary operator is away](AWAY.md) for status, recovery and escalation.
+
 AIRO, EEAI and RSI use the production runtime. See [deploying and scheduling dashboards](DASHBOARDS.md) for per-site setup, protected HTTPS, shared panels and the host timer.
 
 On a configured cell, say **deploy** after merging the work. The agent runs
