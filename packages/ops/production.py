@@ -509,6 +509,8 @@ exec "$1" -m forecastbench.upload --root "$root" "${@:4}"
         # Results are accrued production data, not reset by git. Seed only new files.
         airo = code / AIRO
         source = airo / 'results'
+        (self.state / 'results').mkdir(parents=True, exist_ok=True)
+        (self.state / 'data').mkdir(exist_ok=True)
         for p in source.rglob('*'):
             dest = self.state / 'results' / p.relative_to(source)
             if p.is_file() and not dest.exists():

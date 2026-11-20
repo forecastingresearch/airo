@@ -80,6 +80,20 @@ def test_staging_build_cannot_modify_accrued_data(runtime):
     assert (r / 'code' / p.AIRO / 'results/runs.jsonl').read_text() == 'accrued\n'
 
 
+def test_airo_cold_release_seeds_results_and_panel_state(runtime):
+    airo = release(runtime, 'candidate') / 'code' / p.AIRO
+    (airo / 'results').mkdir()
+    (airo / 'results/run.jsonl').write_text('archived\n')
+    snapshot = 'epoch_capabilities_index_2030-01-01.csv'
+    (airo / 'data' / snapshot).write_text('snapshot\n')
+    assert not runtime.state.exists()
+    runtime.attach_state(airo.parents[1])
+    assert (airo / 'results').resolve() == runtime.state / 'results'
+    assert (runtime.state / 'results/run.jsonl').read_text() == 'archived\n'
+    assert (airo / 'data' / snapshot).resolve() == runtime.state / 'data' / snapshot
+    assert (runtime.state / 'data' / snapshot).read_text() == 'snapshot\n'
+
+
 def test_job_receipt_prevents_duplicate_after_process_restart(runtime, monkeypatch):
     r = release(runtime, 'old')
     p.link(r, runtime.current)
