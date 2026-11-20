@@ -5,30 +5,170 @@ import json
 import os
 from pathlib import Path
 import re
+import shlex
 import sys
 import subprocess
+import time
 
 directory = Path(os.environ.get("DASHBOARD_CONFIG_DIR", "/etc/fri-dashboards"))
-if sys.argv[1:] == ["tick-all"]:
-    configs = sorted(directory.glob("*.json"))
+if sys.argv[1:2] == ["status"]:
+    flags = sys.argv[2:]
+    if len(set(flags)) != len(flags) or set(flags) - {"--json", "--verify-content"}:
+        sys.exit("usage: dashboardctl status [--json] [--verify-content]")
+    verify_content = "--verify-content" in flags
+
+    def unavailable(reason):
+        return {
+            "selection": "unknown",
+            "release": {"id": None, "code_commit": None, "frontend_commit": None},
+            "scheduler": {"state": "unknown"},
+            "jobs": [],
+            "freshness": {"state": "unknown"},
+            "delivery": {
+                "route": "unknown",
+                "origin": {"result": "unknown", "scope": "release_metadata"},
+                "public": {"result": "unknown", "scope": "content" if verify_content else "release_metadata"},
+            },
+            "warnings": [reason],
+        }
+
+    def read_status(name):
+        if not (directory / (name + ".json")).is_file():
+            return unavailable("Installation configuration unavailable")
+        try:
+            command = [sys.executable, __file__, name, "operator-status"]
+            if verify_content:
+                command.append("--verify-content")
+            response = subprocess.run(command,
+                                      capture_output=True, text=True, timeout=75, check=True)
+            result = json.loads(response.stdout)
+            if not isinstance(result, dict):
+                raise ValueError("Expected dashboard status")
+            return result
+        except (OSError, ValueError, subprocess.SubprocessError):
+            return unavailable("Installed release did not provide operator status")
+
+    with ThreadPoolExecutor(max_workers=3) as workers:
+        names = ("airo", "eeai", "rsi")
+        dashboards = dict(zip(names, workers.map(read_status, names)))
+    if "--json" in sys.argv:
+        print(json.dumps({"schema_version": 1, "dashboards": dashboards}, indent=2))
+    else:
+        for name, report in dashboards.items():
+            delivery = report.get("delivery", {})
+            public = delivery.get("public", {})
+            scope = "content" if public.get("scope") == "content" else "release metadata"
+            release = report.get("release", {})
+            print(f"{name.upper()}  release={release.get('id') or 'unknown'}  "
+                  f"scheduler={report.get('scheduler', {}).get('state', 'unknown')}  "
+                  f"freshness={report.get('freshness', {}).get('state', 'unknown')}  "
+                  f"public={public.get('result', 'unknown')} ({scope})  "
+                  f"origin={delivery.get('origin', {}).get('result', 'unknown')} (release metadata)")
+            for job in report.get("jobs", []):
+                receipt = job["receipt"] or {}
+                print(f"  {job['id']}  {job['state']}  {receipt.get('stage', '')}".rstrip())
+                if deadline := job.get("submission_deadline_utc"):
+                    print(f"    Submission deadline {deadline}")
+                if recovery := job.get("recovery"):
+                    print(f"    {recovery['message']}")
+                    if recovery["argv"]:
+                        print("    " + shlex.join(recovery["argv"]))
+            for warning in report.get("warnings", []):
+                print(f"  {warning}")
+    sys.exit(0)
+
+
+
+def installations():
+    return sorted(directory.glob("*.json"))
+
+
+def runtime_root(config):
+    return Path(json.loads(config.read_text())["root"]).expanduser()
+
+
+def installed_command(config, *args):
+    return [sys.executable, __file__, config.stem, *args]
+
+
+def tick_all(queued_only):
+    configs = installations()
     if not configs:
         sys.exit(f"No dashboard installations under {directory}")
 
     def tick(config):
-        return subprocess.run([sys.executable, __file__, config.stem, "tick"]).returncode
+        try:
+            if queued_only:
+                root = runtime_root(config)
+                if not (root / "scheduler-v2.json").is_file():
+                    if (root / "jobs-enabled").exists():
+                        print(f"{config.stem}: scheduled work requires scheduler-cutover for tick-all --queued", file=sys.stderr)
+                        return 1
+                    return 0
+            flags = ["--queued"] if queued_only else []
+            return subprocess.run(installed_command(config, "tick", *flags)).returncode
+        except (KeyError, OSError, ValueError) as exc:
+            print(f"{config.stem}: cannot read scheduler configuration ({type(exc).__name__})", file=sys.stderr)
+            return 1
 
     with ThreadPoolExecutor(max_workers=len(configs)) as workers:
         failures = [config.stem for config, rc in zip(configs, workers.map(tick, configs)) if rc]
-    sys.exit("Failed dashboard ticks: " + ", ".join(failures) if failures else 0)
+    return "Failed dashboard ticks: " + ", ".join(failures) if failures else 0
+
+
+def worker_all(lane):
+    # Each project has an independent child so a long publication cannot
+    # prevent polling other projects in the same lane.
+    active = {}
+    scanned = {}
+    while True:
+        configs = set(installations())
+        for config, (proc, activity) in list(active.items()):
+            result = proc.poll()
+            if result is not None:
+                del active[config]
+                if result == 0:
+                    scanned[config] = activity
+                else:
+                    scanned.pop(config, None)  # Pending work or a worker failure.
+        for config in scanned.keys() - configs:
+            del scanned[config]
+        for config in sorted(configs - active.keys()):
+            try:
+                root = runtime_root(config)
+                marker = root / "scheduler-v2.json"
+                if not marker.is_file():
+                    scanned.pop(config, None)
+                    continue
+                # Atomic receipt replacements update the directory timestamp.
+                # Use the timestamp captured before starting the child so work
+                # written while it runs cannot be missed.
+                activity = tuple(path.stat().st_mtime_ns for path in (config, marker, root / "runs"))
+                if scanned.get(config) != activity:
+                    active[config] = (subprocess.Popen(installed_command(config, "worker", "--lane", lane)), activity)
+            except (KeyError, OSError, ValueError) as exc:
+                print(f"{config.stem}: cannot start {lane} worker ({type(exc).__name__})", file=sys.stderr)
+        time.sleep(2)
+
+
+if sys.argv[1:2] == ["tick-all"] and sys.argv[2:] in ([], ["--queued"]):
+    sys.exit(tick_all("--queued" in sys.argv[2:]))
+
+if sys.argv[1:3] == ["worker-all", "--lane"] and sys.argv[3:] in (["paid"], ["data"]):
+    worker_all(sys.argv[3])
 
 if len(sys.argv) < 3 or not re.fullmatch(r"[a-z0-9][a-z0-9_-]*", sys.argv[1]):
-    sys.exit("usage: dashboardctl DASHBOARD COMMAND [OPTIONS]")
+    sys.exit("usage: dashboardctl status [--json] [--verify-content] | dashboardctl DASHBOARD COMMAND [OPTIONS]")
 name = sys.argv[1]
 config = directory / (name + ".json")
 settings = json.loads(config.read_text())
 if settings.get("dashboard", "airo") != name:
     sys.exit("dashboard name differs from its runtime configuration")
-current = Path(settings["root"]).expanduser() / "current"
-code = current / "code" if current.exists() else Path(settings["bootstrap_code"])
+root = Path(settings["root"]).expanduser()
+current = root / "current"
+code = current.resolve(strict=True) / "code" if current.exists() else Path(settings["bootstrap_code"])
+if sys.argv[2] in ("tick", "worker") and (root / "scheduler-v2.json").is_file():
+    if not (code / "packages/ops/scheduler.py").is_file():
+        sys.exit("Selected release does not support queued scheduling")
 launcher = code / "code/production.py"
 os.execv(sys.executable, [sys.executable, str(launcher), "--config", str(config), *sys.argv[2:]])

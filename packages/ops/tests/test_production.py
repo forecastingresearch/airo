@@ -1,10 +1,13 @@
 """Release and scheduler failure tests; never call a provider or GitHub."""
-from datetime import datetime, timezone
+from datetime import datetime, timedelta, timezone
+from http.server import BaseHTTPRequestHandler
 import importlib.util
 import json
 from pathlib import Path
+from socketserver import UnixStreamServer
 import subprocess
 import sys
+from threading import Thread
 
 import pytest
 
@@ -75,6 +78,20 @@ def test_staging_build_cannot_modify_accrued_data(runtime):
     assert raw.read_text() == 'accrued\n'
     runtime.attach_state(r / 'code')
     assert (r / 'code' / p.AIRO / 'results/runs.jsonl').read_text() == 'accrued\n'
+
+
+def test_airo_cold_release_seeds_results_and_panel_state(runtime):
+    airo = release(runtime, 'candidate') / 'code' / p.AIRO
+    (airo / 'results').mkdir()
+    (airo / 'results/run.jsonl').write_text('archived\n')
+    snapshot = 'epoch_capabilities_index_2030-01-01.csv'
+    (airo / 'data' / snapshot).write_text('snapshot\n')
+    assert not runtime.state.exists()
+    runtime.attach_state(airo.parents[1])
+    assert (airo / 'results').resolve() == runtime.state / 'results'
+    assert (runtime.state / 'results/run.jsonl').read_text() == 'archived\n'
+    assert (airo / 'data' / snapshot).resolve() == runtime.state / 'data' / snapshot
+    assert (runtime.state / 'data' / snapshot).read_text() == 'snapshot\n'
 
 
 def test_job_receipt_prevents_duplicate_after_process_restart(runtime, monkeypatch):
@@ -491,6 +508,103 @@ def test_status_lists_receipts_by_start_time_not_filename(runtime, capsys):
     receipts = json.loads(capsys.readouterr().out)['recent_runs']
     assert len(receipts) == 10
     assert receipts[0]['key'] == 'airo-latest'
+
+
+def test_forecastbench_upload_retry_uses_saved_round_and_configured_home(runtime, capsys):
+    active = release(runtime, 'old')
+    p.link(active, runtime.current)
+    code = active / 'code'
+    executable = code / '.venv/bin/python'
+    executable.parent.mkdir(parents=True)
+    executable.write_text(
+        '#!/bin/bash\n'
+        '[[ "$1" == -m && "$2" == forecastbench.upload && "$3" == --root && "$FB_ORG" == "Fixture Team" ]] || exit 2\n'
+        'printf "%s|%s|%s\\n" "$HOME" "$4" "${5:-upload}" >> "$ROUND_TEST_CALLS"\n'
+    )
+    executable.chmod(0o700)
+    config = runtime.home / '.config/fri-forecaster/round.env'
+    config.parent.mkdir(parents=True)
+    rounds = runtime.root / 'saved rounds'
+    calls = runtime.root / 'calls'
+    config.write_text(f'ROUNDS_DIR="{rounds}"\nROUND_TEST_CALLS="{calls}"\nFB_ORG="Fixture Team"\n')
+    today = datetime.now(timezone.utc).date()
+    for due in ('yesterday', (today - timedelta(days=1)).isoformat(), (today + timedelta(days=1)).isoformat()):
+        with pytest.raises(ValueError, match='current UTC date'):
+            runtime.retry_forecastbench_upload(due)
+    assert not calls.exists()
+    assert runtime.retry_forecastbench_upload(today.isoformat())
+    assert calls.read_text().splitlines() == [
+        f'{runtime.home}|{rounds / today.isoformat()}|--validate-only',
+        f'{runtime.home}|{rounds / today.isoformat()}|upload',
+    ]
+    receipt = json.loads(capsys.readouterr().out)
+    assert receipt['status'] == 'succeeded' and receipt['stage'] == 'uploaded'
+    assert json.loads((runtime.root / 'runs' / (receipt['key'] + '.json')).read_text()) == receipt
+
+
+@pytest.mark.parametrize('failure', ['forecastbench_build', 'forecastbench_validate', 'forecastbench_upload'])
+def test_forecastbench_job_records_failed_stage_and_offers_only_eligible_upload_retry(runtime, monkeypatch, failure):
+    p.link(release(runtime, 'old'), runtime.current)
+    job = {'id': 'round', 'kind': 'forecastbench', 'due': datetime.now(timezone.utc).date().isoformat()}
+    calls = []
+
+    def build(argv, **kwargs):
+        assert argv[-1] == '--build-only'
+        calls.append('forecastbench_build')
+        if failure == calls[-1]:
+            raise subprocess.CalledProcessError(1, 'build')
+
+    def upload(code, due, env, log, *, validate_only=False):
+        calls.append('forecastbench_validate' if validate_only else 'forecastbench_upload')
+        if failure == calls[-1]:
+            raise subprocess.CalledProcessError(1, 'upload')
+
+    monkeypatch.setattr(p, 'run', build)
+    monkeypatch.setattr(runtime, 'forecastbench_upload', upload)
+    monkeypatch.setattr(runtime, 'alert', lambda *args, **kwargs: None)
+    with pytest.raises(subprocess.CalledProcessError):
+        runtime.execute_job('round-test', job)
+    assert calls[-1] == failure
+    receipt = json.loads((runtime.root / 'runs/round-test.json').read_text())
+    assert receipt['status'] == 'failed' and receipt['stage'] == failure
+    hint = p.operator_status.recovery(runtime, job, receipt, None, {}, datetime.now(timezone.utc))
+    if failure == 'forecastbench_upload':
+        assert hint['argv'] == ['dashboardctl', 'airo', 'retry-forecastbench-upload', '--due', job['due']]
+    else:
+        assert hint['argv'] is None
+
+
+def test_socket_origin_and_public_route_are_verified_independently(runtime, monkeypatch):
+    metadata = {'dashboard': 'airo', 'frontend_commit': 'a' * 40, 'data_snapshot': {'sha256': 'b' * 64}}
+
+    class Handler(BaseHTTPRequestHandler):
+        def do_GET(self):
+            assert self.path == '/release.json'
+            self.send_response(200)
+            self.end_headers()
+            self.wfile.write(json.dumps(metadata).encode())
+
+        def log_message(self, *args):
+            pass
+
+    def public(config, site, release, *, content, files):
+        assert content and files == ('index.html', *runtime.dashboard.required)
+        return {'result': 'proxy_connect_denied'}
+
+    site = runtime.root / 'sites' / 'site'
+    site.mkdir()
+    for name in ('index.html', *runtime.dashboard.required):
+        (site / name).write_text('fixture')
+    monkeypatch.setattr(p.eeai_operator, 'check_public', public)
+    with UnixStreamServer(runtime.config['socket'], Handler) as server:
+        thread = Thread(target=server.handle_request)
+        thread.start()
+        delivery = p.operator_status.public_delivery(runtime, site, metadata, content=True)
+        thread.join(timeout=5)
+    assert delivery['route'] == 'socket'
+    assert delivery['origin']['result'] == 'verified'
+    assert delivery['public']['result'] == 'unknown'
+    assert delivery['public']['probe_result'] == 'proxy_connect_denied'
 
 
 def alerts(runtime, monkeypatch):

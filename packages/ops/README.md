@@ -1,5 +1,7 @@
 # Production releases
 
+Covering operations? Start with [While the primary operator is away](AWAY.md) for status, recovery and escalation.
+
 AIRO, EEAI and RSI use the production runtime. See [deploying and scheduling dashboards](DASHBOARDS.md) for per-site setup, protected HTTPS, shared panels and the host timer.
 
 On a configured cell, say **deploy** after merging the work. The agent runs
@@ -140,12 +142,14 @@ which of the team's names, is the private name registry's
 (`submissions/forecastbench/ROUND.md`): at most three sets, at
 most one of them public.
 
-A single lock excludes deployment, rollback and jobs from one another. The
+In the legacy scheduler, a single lock excludes deployment, rollback and jobs from one another. The
 scheduler records a run **before** starting it. Failed/interrupted runs require
 inspection and an explicit recovery action; reboot never retries paid work or
 catches up missed dates automatically. A timer outage during a scheduled minute
 means a missed run, not an automatic later bill. Jobs run one at a time, so a
 long job (a ForecastBench round) also costs any job whose minute falls inside it.
+
+The [queued scheduler](SCHEDULER.md) records due occurrences in a short tick and runs independent projects in paid and data workers. Follow its cutover procedure to opt in. The [pyinfra roles](infra/README.md) provision the runtime and ingress on replacement hosts and include a staging restore drill.
 
 **Alerts.** Every job alerts through one sender, `fri_forecaster.alert`: a caller
 says what happened (`page`: someone must act; `notice`: degraded, no deadline),

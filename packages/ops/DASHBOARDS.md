@@ -6,6 +6,8 @@ and rollback command. Each installation selects a dashboard by name. Its own
 process pins every response to one publication. The existing AIRO configuration
 and `airo` command remain valid.
 
+For a new installation, see the [pyinfra roles and restore drill](infra/README.md). The manual installation below describes socket-backed origins and the legacy timer. Use the [queued scheduler guide](SCHEDULER.md) to install and activate the independent workers.
+
 ## Server roles
 
 Use **forecast-prod** for the forecasting server and **forecast-web** for the
@@ -161,6 +163,20 @@ curl --fail --user reader https://rsi.example.org/release.json
 ```
 
 ## Schedule and recover runs
+
+Run `dashboardctl status` on forecast-prod to see AIRO, EEAI, RSI and the
+ForecastBench rounds registered under AIRO. Add `--json` for structured
+results. The command reports selected releases, scheduled job receipts and
+data freshness separately from public delivery. Its default probes compare
+dashboard identity, frontend commit and data snapshot hash in served release
+metadata. The local socket and public HTTPS route have separate results.
+
+Use `dashboardctl status --verify-content` when you need to compare the
+public homepage and configured downloads with the selected publication.
+Content checks read and hash those files. For protected HTTPS routes,
+configure a private read-only `public_verifier` as described below. A missing
+configuration, failed authentication or unreachable route produces an
+unknown public result.
 
 Use the **one host timer**, `fri-dashboard-tick.timer`. It invokes
 `dashboardctl tick-all` every UTC minute. Each installed dashboard reads

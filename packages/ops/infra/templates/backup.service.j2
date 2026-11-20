@@ -1,0 +1,10 @@
+[Unit]
+Description=Back up {{ role }} with restic
+Wants=network-online.target
+After=network-online.target
+
+[Service]
+Type=oneshot
+UMask=0077
+{% if backup_environment %}EnvironmentFile={{ backup_environment }}
+{% endif %}ExecStart={{ install }}/backup.py {{ backup_config }} backup

@@ -1,0 +1,20 @@
+server {
+    listen {{ listen }} ssl;
+    server_name {{ hostname }};
+    ssl_certificate {{ certificate }};
+    ssl_certificate_key {{ certificate_key }};
+    ssl_protocols TLSv1.2 TLSv1.3;
+
+    root {{ site_root }}/current;
+    index index.html;
+    autoindex off;
+{% if password_file %}    auth_basic "Forecasting dashboard";
+    auth_basic_user_file {{ password_file }};
+    add_header Cache-Control "private, no-store" always;
+{% endif %}
+{% if policy_include %}    include {{ policy_include }};
+{% endif %}
+    location / {
+        try_files $uri $uri/ =404;
+    }
+}
