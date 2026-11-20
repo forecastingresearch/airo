@@ -8,6 +8,7 @@ import re
 import shlex
 import sys
 import subprocess
+import time
 
 directory = Path(os.environ.get("DASHBOARD_CONFIG_DIR", "/etc/fri-dashboards"))
 if sys.argv[1:2] == ["status"]:
@@ -76,17 +77,85 @@ if sys.argv[1:2] == ["status"]:
                 print(f"  {warning}")
     sys.exit(0)
 
-if sys.argv[1:] == ["tick-all"]:
-    configs = sorted(directory.glob("*.json"))
+
+
+def installations():
+    return sorted(directory.glob("*.json"))
+
+
+def runtime_root(config):
+    return Path(json.loads(config.read_text())["root"]).expanduser()
+
+
+def installed_command(config, *args):
+    return [sys.executable, __file__, config.stem, *args]
+
+
+def tick_all(queued_only):
+    configs = installations()
     if not configs:
         sys.exit(f"No dashboard installations under {directory}")
 
     def tick(config):
-        return subprocess.run([sys.executable, __file__, config.stem, "tick"]).returncode
+        try:
+            if queued_only:
+                root = runtime_root(config)
+                if not (root / "scheduler-v2.json").is_file():
+                    if (root / "jobs-enabled").exists():
+                        print(f"{config.stem}: scheduled work requires scheduler-cutover for tick-all --queued", file=sys.stderr)
+                        return 1
+                    return 0
+            flags = ["--queued"] if queued_only else []
+            return subprocess.run(installed_command(config, "tick", *flags)).returncode
+        except (KeyError, OSError, ValueError) as exc:
+            print(f"{config.stem}: cannot read scheduler configuration ({type(exc).__name__})", file=sys.stderr)
+            return 1
 
     with ThreadPoolExecutor(max_workers=len(configs)) as workers:
         failures = [config.stem for config, rc in zip(configs, workers.map(tick, configs)) if rc]
-    sys.exit("Failed dashboard ticks: " + ", ".join(failures) if failures else 0)
+    return "Failed dashboard ticks: " + ", ".join(failures) if failures else 0
+
+
+def worker_all(lane):
+    # Each project has an independent child so a long publication cannot
+    # prevent polling other projects in the same lane.
+    active = {}
+    scanned = {}
+    while True:
+        configs = set(installations())
+        for config, (proc, activity) in list(active.items()):
+            result = proc.poll()
+            if result is not None:
+                del active[config]
+                if result == 0:
+                    scanned[config] = activity
+                else:
+                    scanned.pop(config, None)  # Pending work or a worker failure.
+        for config in scanned.keys() - configs:
+            del scanned[config]
+        for config in sorted(configs - active.keys()):
+            try:
+                root = runtime_root(config)
+                marker = root / "scheduler-v2.json"
+                if not marker.is_file():
+                    scanned.pop(config, None)
+                    continue
+                # Atomic receipt replacements update the directory timestamp.
+                # Use the timestamp captured before starting the child so work
+                # written while it runs cannot be missed.
+                activity = tuple(path.stat().st_mtime_ns for path in (config, marker, root / "runs"))
+                if scanned.get(config) != activity:
+                    active[config] = (subprocess.Popen(installed_command(config, "worker", "--lane", lane)), activity)
+            except (KeyError, OSError, ValueError) as exc:
+                print(f"{config.stem}: cannot start {lane} worker ({type(exc).__name__})", file=sys.stderr)
+        time.sleep(2)
+
+
+if sys.argv[1:2] == ["tick-all"] and sys.argv[2:] in ([], ["--queued"]):
+    sys.exit(tick_all("--queued" in sys.argv[2:]))
+
+if sys.argv[1:3] == ["worker-all", "--lane"] and sys.argv[3:] in (["paid"], ["data"]):
+    worker_all(sys.argv[3])
 
 if len(sys.argv) < 3 or not re.fullmatch(r"[a-z0-9][a-z0-9_-]*", sys.argv[1]):
     sys.exit("usage: dashboardctl status [--json] [--verify-content] | dashboardctl DASHBOARD COMMAND [OPTIONS]")
@@ -95,7 +164,11 @@ config = directory / (name + ".json")
 settings = json.loads(config.read_text())
 if settings.get("dashboard", "airo") != name:
     sys.exit("dashboard name differs from its runtime configuration")
-current = Path(settings["root"]).expanduser() / "current"
-code = current / "code" if current.exists() else Path(settings["bootstrap_code"])
+root = Path(settings["root"]).expanduser()
+current = root / "current"
+code = current.resolve(strict=True) / "code" if current.exists() else Path(settings["bootstrap_code"])
+if sys.argv[2] in ("tick", "worker") and (root / "scheduler-v2.json").is_file():
+    if not (code / "packages/ops/scheduler.py").is_file():
+        sys.exit("Selected release does not support queued scheduling")
 launcher = code / "code/production.py"
 os.execv(sys.executable, [sys.executable, str(launcher), "--config", str(config), *sys.argv[2:]])

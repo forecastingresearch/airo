@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
 """Explicit releases and durable UTC jobs. Configuration and data stay outside git."""
 import argparse
-from contextlib import contextmanager
+from contextlib import ExitStack, contextmanager, nullcontext
+from contextvars import ContextVar
 from datetime import date, datetime, timedelta, timezone
-import fcntl
 import http.client
 from http.server import SimpleHTTPRequestHandler
 import json
@@ -26,6 +26,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parent))
 from dashboard_projects import AIRO_FILES, DASHBOARDS  # noqa: E402
 import eeai_operator  # noqa: E402
 import operator_status  # noqa: E402
+import scheduler  # noqa: E402
 
 # Where things are in a release: the repository's layout.
 AIRO = 'dashboards/airo'                    # its index.html, web/, data/, results/ and code/
@@ -80,7 +81,13 @@ def link(target, path):
     tmp.replace(path)
 
 
+# An active child retains its project's execution lease across worker death.
+OPERATION_FDS = ContextVar('operation_fds', default=())
+
+
 def run(argv, **kw):
+    if fds := OPERATION_FDS.get():
+        kw['pass_fds'] = fds
     return subprocess.run([str(x) for x in argv], check=True, **kw)
 
 
@@ -187,6 +194,7 @@ class Runtime:
                 raise ValueError('Dashboard runtimes require separate roots and sockets')
         self.home = self.panel_runtime.home if self.panel_runtime else self.root / 'home'
         self.mirror = self.root / 'repository.git'
+        self.scheduler = scheduler.Scheduler(self, write_json=write_json, scheduled_between=scheduled_between)
         if not read_only:
             for name in ('releases', 'sites', 'runs', 'logs', 'tmp'):
                 (self.root / name).mkdir(exist_ok=True)
@@ -199,11 +207,30 @@ class Runtime:
         return json.loads((release / 'release.json').read_text())
 
     @contextmanager
-    def lock(self):
-        lock_path = (self.panel_runtime or self).root / 'operation.lock'
-        with lock_path.open('a') as f:
-            fcntl.flock(f, fcntl.LOCK_EX)
-            yield
+    def operation_locks(self, *, shared, blocking):
+        roots = [self.panel_runtime.root, self.root] if shared and self.panel_runtime else [self.root]
+        with ExitStack() as held:
+            fds = []
+            for root in roots:
+                fd = held.enter_context(scheduler.file_lock(root / 'operation.lock', blocking=blocking))
+                if fd is None:
+                    yield False
+                    return
+                fds.append(fd)
+            token = OPERATION_FDS.set(tuple(fds))
+            try:
+                yield True
+            finally:
+                OPERATION_FDS.reset(token)
+
+    @contextmanager
+    def lock(self, *, shared=False, blocking=True):
+        with self.scheduler.mode_lock(blocking=blocking) as mode:
+            if mode is None:
+                yield False
+                return
+            with self.operation_locks(shared=shared or not self.scheduler.active(), blocking=blocking) as acquired:
+                yield acquired
 
     def environment(self, code, docroot):
         env = os.environ.copy()
@@ -255,7 +282,7 @@ class Runtime:
                 or not credentials.get('private_key', '').startswith('-----BEGIN PRIVATE KEY-----')
                 or credentials.get('token_uri') != 'https://oauth2.googleapis.com/token'):
             raise ValueError('Expected a Google service-account JSON key on stdin')
-        with self.lock():
+        with self.lock(shared=True):
             private = self.home / '.config/forecastbench-uploader'
             private.mkdir(parents=True, mode=0o700, exist_ok=True)
             private.chmod(0o700)
@@ -279,7 +306,7 @@ class Runtime:
 
     def check_forecastbench_upload(self, due):
         datetime.strptime(due, '%Y-%m-%d')
-        with self.lock():
+        with self.lock(shared=True):
             code = self.current.resolve(strict=True) / 'code'
             run([code / '.venv/bin/python', '-m', 'forecastbench.upload', '--check-access', due],
                 env=self.environment(code, self.root / 'tmp'), cwd=code, timeout=360)
@@ -304,7 +331,7 @@ exec "$1" -m forecastbench.upload --root "$root" "${@:4}"
         if (not due or not re.fullmatch(r'\d{4}-\d{2}-\d{2}', due)
                 or date.fromisoformat(due) != datetime.now(timezone.utc).date()):
             raise ValueError('ForecastBench upload requires --due YYYY-MM-DD for the current UTC date')
-        with self.lock():
+        with self.lock(shared=True):
             now = datetime.now(timezone.utc)
             if due != now.date().isoformat():
                 raise ValueError('ForecastBench submission window closed while waiting for the runtime lock')
@@ -399,6 +426,8 @@ exec "$1" -m forecastbench.upload --root "$root" "${@:4}"
                 if target.parent != releases or not target.is_dir():
                     raise RuntimeError('Release pointer escapes retention root')
                 protected.add(target)
+        if self.scheduler.active():
+            protected.update(self.scheduler.release_pins())
         candidates = sorted((p for p in releases.iterdir()
                              if not p.is_symlink() and p.is_dir()
                              and re.fullmatch(r'\d{8}T\d{6}-[0-9a-f]{12}', p.name)), reverse=True)
@@ -564,9 +593,11 @@ exec "$1" -m forecastbench.upload --root "$root" "${@:4}"
             self.publish_public(site)
 
     def activate(self, release, *, verify=False):
+        self.scheduler.require_release(release)
         receipt = {}
         previous = self.current.resolve() if self.current.exists() else None
-        link(release, self.current)
+        with self.scheduler.dispatch_lock():
+            link(release, self.current)
         try:
             self.probe(release)
             self.publish_public(release / 'site')
@@ -578,12 +609,13 @@ exec "$1" -m forecastbench.upload --root "$root" "${@:4}"
                 receipt = dict(verified=True, public_url=report['url'], frontend_commit=meta['frontend_commit'],
                                data_snapshot_sha256=meta['data_snapshot']['sha256'])
         except Exception:
-            if previous:
-                link(previous, self.current)
-                if verify:
-                    self.publish_public(previous / 'site')
-            else:
-                self.current.unlink()
+            with self.scheduler.dispatch_lock():
+                if previous:
+                    link(previous, self.current)
+                else:
+                    self.current.unlink()
+            if previous and verify:
+                self.publish_public(previous / 'site')
             raise
         if previous and previous != release:
             link(previous, self.root / 'previous')
@@ -655,6 +687,7 @@ exec "$1" -m forecastbench.upload --root "$root" "${@:4}"
             try:
                 run(['git', 'clone', '--no-hardlinks', self.mirror, code])
                 run(['git', '-C', code, 'checkout', '--detach', sha])
+                self.scheduler.require_release(release)
                 script = self.builder(code)
                 if script:
                     run([sys.executable, script, '--config', self.config_path, 'build-release', '--release', name, '--commit', sha,
@@ -815,29 +848,37 @@ exec "$1" -m forecastbench.upload --root "$root" "${@:4}"
         receipt['baseline'] = self.verify_economic_site(site)
         self.publish_economic_site(release, site, receipt, set_stage)
 
-    def execute_job(self, key, job, scheduled_minute=None, *, retry=None):
+    def execute_job(self, key, job, scheduled_minute=None, *, retry=None, queued=None):
         if not re.fullmatch(r'[a-zA-Z0-9_-]+', key):
             raise ValueError('Unsafe run key')
         if retry and (job['kind'] != 'refresh' or not re.fullmatch(r'[a-zA-Z0-9_-]+', retry) or retry == key):
             raise ValueError('Invalid refresh retry ID')
-        with self.lock():
-            receipt = self.root / 'runs' / (key + '.json')
-            if scheduled_minute and datetime.now(timezone.utc).replace(second=0, microsecond=0) != scheduled_minute:
+        # A worker claiming a queued occurrence already holds the project lock
+        # and, for paid jobs, the shared forecast operation lock.
+        with (nullcontext() if queued else self.lock(shared=job['kind'] in scheduler.PAID_KINDS)):
+            if queued is None and self.scheduler.active():
+                self.scheduler.reconcile_running()
+            if scheduled_minute and scheduler.minute(datetime.now(timezone.utc)) != scheduled_minute:
                 return False  # the next tick records this as missed under the original key
-            if receipt.exists():
-                return False  # Includes interrupted/failed runs: no surprise paid retries.
-            release = self.current.resolve(strict=True)
-            code = release / 'code'
-            started = {'key': key, 'job': job['id'], 'release': release.name, 'status': 'running', 'started': datetime.now(timezone.utc).isoformat()}
+            receipt = self.scheduler.receipt(key)
             refresh = self.name == 'eeai' and job['kind'] == 'refresh'
             forecastbench = job['kind'] == 'forecastbench'
-            if forecastbench:
-                started.update(kind='forecastbench', due=job['due'], stage='preflight')
-            if refresh:
-                started.update(kind='refresh', stage='preflight')
-                if retry:
-                    started['retry_of'] = retry
-            write_json(receipt, started)
+            with self.scheduler.dispatch_lock():
+                if receipt.exists() and queued is None:
+                    return False  # Includes interrupted/failed runs: no surprise paid retries.
+                release = self.current.resolve(strict=True)
+                started = dict(queued or {}, key=key, job=job['id'], release=release.name,
+                               status='running', started=datetime.now(timezone.utc).isoformat())
+                if self.scheduler.active():
+                    started.update(kind=job['kind'], lane=scheduler.lane_for(job['kind']))
+                if forecastbench:
+                    started.update(kind='forecastbench', due=job['due'], stage='preflight')
+                if refresh:
+                    started.update(kind='refresh', stage='preflight')
+                    if retry:
+                        started['retry_of'] = retry
+                write_json(receipt, started)
+            code = release / 'code'
             site = self.root / 'sites' / ('job-' + key)
             ledger = self.root / 'runs' / (key + '.alerts.jsonl')
             airo = code / AIRO
@@ -858,6 +899,14 @@ exec "$1" -m forecastbench.upload --root "$root" "${@:4}"
                 started['stage'] = value
                 write_json(receipt, started)
 
+            def start_window_closed():
+                if not queued or self.scheduler.start_allowed(queued, scheduler.now_utc()):
+                    return False
+                reason = 'Scheduled start window closed before work began'
+                started.update(status='missed', reason=reason)
+                self.alert(job, f'{key}: {reason}.')
+                return True
+
             try:
                 if forecastbench and job['due'] != datetime.now(timezone.utc).date().isoformat():
                     raise RuntimeError('ForecastBench round is outside its UTC submission date')
@@ -877,6 +926,8 @@ exec "$1" -m forecastbench.upload --root "$root" "${@:4}"
                     self.prune_locked()
                 if job['kind'] != 'smoke':
                     self.require_space(publish_data=expects_site, job_kind=job['kind'])
+                if start_window_closed():
+                    return False
                 site.mkdir()
                 if refresh:
                     self.economic_refresh(release, site, env, started, set_refresh_stage, retry)
@@ -899,6 +950,8 @@ exec "$1" -m forecastbench.upload --root "$root" "${@:4}"
                                 primary.save_generated_data(primary_code)
                         incoming = self.state / 'attempts' / key
                         argv = self.project_command(code, self.dashboard.forecast, site, incoming)
+                    if survey_job and start_window_closed():
+                        return False
                     launched = True
                     run(argv, cwd=cwd, env=env, stdout=log, stderr=subprocess.STDOUT)
                     if forecastbench:
@@ -972,63 +1025,91 @@ exec "$1" -m forecastbench.upload --root "$root" "${@:4}"
                     write_json(receipt, started)
             return True
 
-    def report_unrun(self, jobs, now):
-        """Page, once each, for a job that died mid-run and for one whose minute
-        passed with no start (the scheduler was down, or busy with another job:
-        jobs run one at a time). Neither is run late; the receipt says what happened."""
-        with self.lock():   # held, so no job is running: a receipt that says so is a dead one
-            runs = self.root / 'runs'
-            for receipt in runs.glob('*.json'):
-                if now.timestamp() - receipt.stat().st_mtime > 7 * 86400:
-                    continue
-                record = json.loads(receipt.read_text())
-                if record.get('status') != 'running':
-                    continue
-                record.update(status='interrupted', finished=now.isoformat())
-                write_json(receipt, record)
-                job = next((j for j in jobs if j['id'] == record.get('job')), None)
-                if job and job['kind'] != 'smoke':
-                    self.alert(job, f"{record['key']} was running when the scheduler stopped. It is not resumed.",
-                               log=self.root / 'logs' / (record['key'] + '.log'))
-            # Only since this release and schedule were switched on: a job added with a past time was never due here.
-            since = max(datetime.fromtimestamp(max(os.lstat(self.current).st_mtime, (self.root / 'jobs-enabled').stat().st_mtime), timezone.utc),
-                        now - timedelta(days=2))
-            for key, job, at in scheduled_between(jobs, since, now.replace(second=0, microsecond=0)):
-                receipt = runs / (key + '.json')
-                if receipt.exists():
-                    continue
-                if job['kind'] == 'forecast' and self.name == 'airo':
-                    code = self.current.resolve(strict=True) / 'code'
-                    try:
-                        due = output([code / '.venv/bin/python', '-m', 'redlines.experiments',
-                                      'due', '--date', at.date().isoformat()],
-                                     cwd=code / AIRO, env=self.environment(code, self.root / 'tmp'))
-                    except Exception as exc:
-                        log = self.root / 'logs' / (key + '.log')
-                        log.write_text(f'preflight FAILED: {type(exc).__name__}: {exc}\n')
-                        write_json(receipt, {'key': key, 'job': job['id'], 'status': 'failed',
-                                            'stage': 'preflight FAILED', 'error': type(exc).__name__,
-                                            'started': at.isoformat(), 'finished': now.isoformat()})
-                        self.alert(job, f'{key}: could not check the forecast schedule. It is not run late.',
-                                   log=log, title='preflight FAILED')
-                        continue
-                    if not due.strip():
-                        write_json(receipt, {'key': key, 'job': job['id'], 'status': 'skipped',
-                                            'reason': 'No forecast conditions due',
-                                            'started': at.isoformat(), 'finished': now.isoformat()})
-                        continue
-                write_json(receipt, {'key': key, 'job': job['id'], 'status': 'missed', 'started': at.isoformat(), 'finished': now.isoformat()})
-                self.alert(job, f"{key} was due at {at:%Y-%m-%d %H:%M} UTC and never started: "
-                           'the scheduler was not running, or was busy with another job. It is not run late.')
+    def schedule_since(self, now, *, enabled_at=None):
+        # A job added with a past time was never due under this selection.
+        if enabled_at is None:
+            enabled_at = self.scheduler.enabled.stat().st_mtime
+        updated = max(os.lstat(self.current).st_mtime, enabled_at)
+        return max(datetime.fromtimestamp(updated, timezone.utc), now - timedelta(days=2))
 
-    def tick(self):
-        if not self.current.exists() or not (self.root / 'jobs-enabled').exists():
-            return
-        jobs = self.jobs(self.current / 'code')
-        now = datetime.now(timezone.utc)
-        self.report_unrun(jobs, now)
-        for key, job in due_jobs(jobs, now):
-            self.execute_job(key, job, scheduled_minute=now.replace(second=0, microsecond=0))
+    def legacy_job(self, record, jobs=None):
+        if jobs is None:
+            try:
+                jobs = self.jobs(self.current / 'code')
+            except FileNotFoundError:
+                jobs = []
+        job = next((job for job in jobs if job['id'] == record.get('job')), None)
+        if job is None:
+            kind = record.get('kind') or (
+                'smoke' if record.get('job') == 'smoke' else
+                'forecastbench' if record.get('job', '').startswith('forecastbench-') else 'forecast'
+            )
+            job = {'id': record.get('job'), 'kind': kind}
+        return job
+
+    def report_interrupted(self, receipt, record, job, now):
+        record.update(status='interrupted', finished=now.isoformat())
+        write_json(receipt, record)
+        if job['kind'] != 'smoke':
+            self.alert(job, f"{record['key']} was running when the scheduler stopped. It is not resumed.",
+                       log=self.root / 'logs' / (record['key'] + '.log'))
+
+    def report_missed(self, receipt, record, job, at, now, release, reason=None):
+        key = record['key']
+        record['finished'] = now.isoformat()
+        if job['kind'] == 'forecast' and self.name == 'airo':
+            code = release / 'code'
+            try:
+                due = output([code / '.venv/bin/python', '-m', 'redlines.experiments',
+                              'due', '--date', at.date().isoformat()],
+                             cwd=code / AIRO, env=self.environment(code, self.root / 'tmp'))
+            except Exception as exc:
+                log = self.root / 'logs' / (key + '.log')
+                log.write_text(f'preflight FAILED: {type(exc).__name__}: {exc}\n')
+                record.update(status='failed', stage='preflight FAILED', error=type(exc).__name__)
+                write_json(receipt, record)
+                self.alert(job, f'{key}: could not check the forecast schedule. It is not run late.',
+                           log=log, title='preflight FAILED')
+                return
+            if not due.strip():
+                record.update(status='skipped', reason='No forecast conditions due')
+                write_json(receipt, record)
+                return
+        record.update(status='missed')
+        if reason:
+            record['reason'] = reason
+        write_json(receipt, record)
+        self.alert(job, f"{key} was due at {at:%Y-%m-%d %H:%M} UTC and never started. "
+                   f"{reason + '. ' if reason else ''}It is not run late.")
+
+    def report_unrun(self, jobs, now):
+        with self.lock():
+            self.report_unrun_locked(jobs, now)
+
+    def report_unrun_locked(self, jobs, now, *, through=None):
+        self.scheduler.reconcile_running(now=now, jobs=jobs)
+        since = self.schedule_since(now)
+        release = self.current.resolve(strict=True)
+        for key, job, at in scheduled_between(jobs, since, through or scheduler.minute(now)):
+            receipt = self.scheduler.receipt(key)
+            if not receipt.exists():
+                self.report_missed(receipt, {'key': key, 'job': job['id'], 'started': at.isoformat()},
+                                   job, at, now, release)
+
+    def tick(self, *, queued_only=False):
+        with self.scheduler.mode_lock():
+            if self.scheduler.active():
+                self.scheduler.tick()
+                return
+            if queued_only and self.scheduler.enabled.exists():
+                raise RuntimeError('Queued tick requires scheduler-cutover')
+            if not self.current.exists() or not self.scheduler.enabled.exists():
+                return
+            jobs = self.jobs(self.current / 'code')
+            now = datetime.now(timezone.utc)
+            self.report_unrun(jobs, now)
+            for key, job in due_jobs(jobs, now):
+                self.execute_job(key, job, scheduled_minute=scheduler.minute(now))
 
     def refresh(self, key, retry):
         try:
@@ -1193,7 +1274,7 @@ def main():
     parser.add_argument('--config', default=os.environ.get('AIRO_RUNTIME_CONFIG', str(Path.home() / '.config/airo/runtime.json')))
     parser.add_argument('command', choices=['deploy', 'rollback', 'status', 'tick', 'serve', 'smoke', 'prune', 'storage', 'build-release',
                                             'configure-forecastbench', 'check-forecastbench-upload', 'run-dashboard', 'republish',
-                                            'doctor', 'refresh', 'operator-status', 'retry-forecastbench-upload'])
+                                            'doctor', 'refresh', 'operator-status', 'retry-forecastbench-upload', 'worker', 'scheduler-cutover'])
     parser.add_argument('--upload-prefix', help='configure-forecastbench: gs://bucket/team-prefix/binary; key JSON on stdin')
     parser.add_argument('--due', help='ForecastBench round UTC date (YYYY-MM-DD)')
     parser.add_argument('--commit')
@@ -1204,6 +1285,9 @@ def main():
     publication.add_argument('--publish-data', action='store_true', help='Rebuild and validate forecast data as part of deployment; never launches forecast jobs')
     parser.add_argument('--run-id', help='unique durable receipt ID (required for a paid manual run)')
     parser.add_argument('--verify', action='store_true', help='refresh: require verification of the served publication')
+    parser.add_argument('--lane', choices=['paid', 'data'], help='worker lane')
+    parser.add_argument('--queued', action='store_true', help='tick: require queued dispatch')
+    parser.add_argument('--legacy', action='store_true', help='scheduler-cutover: return to legacy dispatch')
     parser.add_argument('--retry', metavar='RUN_ID', help='refresh: retry publication of a failed verified-refresh candidate')
     parser.add_argument('--verify-content', action='store_true',
                         help='operator-status: check the served homepage and published downloads')
@@ -1217,6 +1301,12 @@ def main():
         parser.error('EEAI refresh requires --verify')
     if args.command != 'refresh' and (args.verify or args.retry):
         parser.error('--verify and --retry apply to EEAI refresh')
+    if (args.command == 'worker') != bool(args.lane):
+        parser.error('worker requires --lane, which applies to worker only')
+    if args.legacy and args.command != 'scheduler-cutover':
+        parser.error('--legacy applies to scheduler-cutover')
+    if args.queued and args.command != 'tick':
+        parser.error('--queued applies to tick')
     if args.command != 'operator-status' and args.verify_content:
         parser.error('--verify-content applies to fleet operator status')
     read_only = args.command in ('doctor', 'status', 'operator-status')
@@ -1244,6 +1334,9 @@ def main():
         raise SystemExit(0 if ok else 1)
     elif args.command == 'operator-status':
         print(json.dumps(operator_status.report(runtime, scheduled_between, verify_content=args.verify_content), indent=2))
+    elif args.command == 'worker': raise SystemExit(0 if runtime.scheduler.worker(args.lane) else os.EX_TEMPFAIL)
+    elif args.command == 'scheduler-cutover': runtime.scheduler.cutover(legacy=args.legacy)
+    elif args.command == 'tick': runtime.tick(queued_only=args.queued)
     elif args.command == 'doctor': raise SystemExit(0 if runtime.doctor() else 1)
     elif args.command == 'refresh':
         try:
