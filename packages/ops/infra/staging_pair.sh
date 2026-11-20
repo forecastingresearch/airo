@@ -152,6 +152,12 @@ verify_pair() (
         if [[ $site == eeai ]]; then [[ $code == 401 ]]; else [[ $code == 200 ]]; fi
         echo "$site HTTPS from controller: $code"
     done
+    ssh -F "$work/ssh-config" stage-prod '
+        test -f /etc/fri-ops/staging &&
+        for unit in fri-dashboard-tick.timer fri-dashboard-tick.service fri-dashboard-worker@paid.service fri-dashboard-worker@data.service; do
+            test "$(systemctl show -p ActiveState --value "$unit")" = inactive || exit 1
+        done
+    '
     ssh -F "$work/ssh-config" stage-prod 'runuser -u forecast -- forecast-prod status --verify-content --json' > "$work/status.json"
     python3 - "$work/status.json" <<'PYTHON'
 import json, sys
