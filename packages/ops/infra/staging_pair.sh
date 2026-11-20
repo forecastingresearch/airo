@@ -176,7 +176,7 @@ create_pair() {
 }
 
 rehearse() {
-    local here node digest pyinfra
+    local here node digest pyinfra chromium
     here=$(cd -- "$(dirname -- "$0")" && pwd)
     node=node-v22.21.1-linux-x64
     digest=680d3f30b24a7ff24b98db5e96f294c0070f8f9078df658da1bce1b9c9873c88
@@ -199,6 +199,17 @@ rehearse() {
     stop_pair
     boot_guests
     verify_pair
+
+    mkdir -p "$work/browser/tmp"
+    (
+        cd "$work/browser"
+        export TMPDIR="$PWD/tmp"
+        npm install --ignore-scripts --no-audit --no-fund --save-exact \
+            @sparticuz/chromium@143.0.4 playwright-core@1.57.0 react@18.3.1 react-dom@18.3.1 \
+            @babel/standalone@7.29.0 @popperjs/core@2.11.8 tippy.js@6.3.7
+        chromium=$(node --input-type=module -e "import chromium from '@sparticuz/chromium'; console.log(await chromium.executablePath())")
+        CHROMIUM_EXECUTABLE_PATH="$chromium" node "$here/browser_staging.cjs" "$work/ssh-config" "$PWD/node_modules"
+    )
 }
 
 case "$action" in
