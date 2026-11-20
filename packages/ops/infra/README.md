@@ -290,6 +290,12 @@ and restored baseline publications. The drill runs `forecast-prod` as the
 forecast service account, verifies the public endpoint before and after the
 checked offline deploy, rolls back, and verifies delivery again.
 
+Pass `--keep-verified-release` to reselect the tested candidate after the rollback
+checks. The guest then retains real installed release dependencies and a working
+previous publication for operator practice. Repeat the checked-deployment exercise
+through this controller entry point, which recreates its temporary source/check
+fixtures and restores the guest's original repository configuration afterward.
+
 ## Use an existing pair of empty guests
 
 Use two empty, isolated Ubuntu 24.04 guests with real systemd, an SSH route

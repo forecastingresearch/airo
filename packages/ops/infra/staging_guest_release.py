@@ -25,7 +25,7 @@ def manifest(site):
             for p in sorted(site.rglob("*")) if p.is_file()}
 
 
-def on_guest(fixture, projects):
+def on_guest(fixture, projects, keep_verified_release=False):
     if os.geteuid() or not Path("/etc/fri-ops/staging").is_file():
         raise RuntimeError("Expected the admin account on a provisioned staging guest")
     shutil.chown(fixture, user="forecast", group="forecast")
@@ -85,9 +85,15 @@ def on_guest(fixture, projects):
             if manifest(selected) != files:
                 raise RuntimeError(f"{name}: rollback did not restore the exact previous bytes")
             verify()
+            if keep_verified_release:
+                cli("rollback")
+                if manifest(selected) != edited:
+                    raise RuntimeError(f"{name}: retained release differs from the tested candidate")
+                verify()
             print(json.dumps({"dashboard": name, "frontend_commit": candidate,
                               "snapshot_sha256": deployed["data_snapshot"]["sha256"],
-                              "public_verification": "verified", "rollback": "verified"}), flush=True)
+                              "public_verification": "verified", "rollback": "verified",
+                              "selected": "candidate" if keep_verified_release else "original"}), flush=True)
         finally:
             config.write_bytes(original)
             if mirror.is_dir():
@@ -161,7 +167,8 @@ def on_controller(args):
                                stdin=archive.stdout, check=True)
                 if archive.wait():
                     raise RuntimeError("Unable to transfer release fixtures")
-            subprocess.run([*ssh, shlex.join(["python3", remote + "/rehearse.py", "installed", remote, *args.projects])],
+            subprocess.run([*ssh, shlex.join(["python3", remote + "/rehearse.py", "installed", remote, *args.projects,
+                                                    *(["--keep-verified-release"] if args.keep_verified_release else [])])],
                            stdin=subprocess.DEVNULL, check=True)
         finally:
             subprocess.run([*ssh, shlex.join(["rm", "-r", "--", remote])], check=True)
@@ -169,13 +176,20 @@ def on_controller(args):
 
 def main():
     if sys.argv[1:2] == ["installed"]:
-        on_guest(Path(sys.argv[2]).resolve(strict=True), sys.argv[3:])
+        installed = argparse.ArgumentParser()
+        installed.add_argument("fixture", type=Path)
+        installed.add_argument("projects", choices=PROJECTS, nargs="+")
+        installed.add_argument("--keep-verified-release", action="store_true")
+        args = installed.parse_args(sys.argv[2:])
+        on_guest(args.fixture.resolve(strict=True), args.projects, args.keep_verified_release)
         return
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--ssh-config", type=Path, required=True)
     parser.add_argument("--host", default="stage-prod")
     parser.add_argument("--source-commit", default="HEAD")
     parser.add_argument("--projects", choices=PROJECTS, nargs="+", default=PROJECTS)
+    parser.add_argument("--keep-verified-release", action="store_true",
+                        help="reselect the verified candidate after checking rollback")
     parser.add_argument("--prepare-cache", type=Path, help="populate a new public dependency cache")
     parser.add_argument("--python-wheelhouse", type=Path)
     parser.add_argument("--npm-cache", type=Path)
