@@ -32,6 +32,7 @@ def on_guest(fixture, projects, keep_verified_release=False):
     for path in fixture.rglob("*"):
         shutil.chown(path, user="forecast", group="forecast")
     candidate = read(fixture / "commits.json")["candidate"]
+    reports = {}
     for name in projects:
         config = Path("/etc/fri-dashboards") / (name + ".json")
         original = config.read_bytes()
@@ -91,10 +92,14 @@ def on_guest(fixture, projects, keep_verified_release=False):
                 if manifest(selected) != edited:
                     raise RuntimeError(f"{name}: retained release differs from the tested candidate")
                 verify()
-            print(json.dumps({"dashboard": name, "frontend_commit": candidate,
-                              "snapshot_sha256": deployed["data_snapshot"]["sha256"],
-                              "public_verification": "verified", "rollback": "verified",
-                              "selected": "candidate" if keep_verified_release else "original"}), flush=True)
+            report = {"dashboard": name, "frontend_commit": candidate,
+                      "snapshot_sha256": deployed["data_snapshot"]["sha256"],
+                      "checked_build": "verified", "public_verification": "verified",
+                      "runtime_smoke": "verified", "rollback": "verified",
+                      "selected": "candidate" if keep_verified_release else "original"}
+            reports[name] = report
+            (fixture / "verdict.json").write_text(json.dumps(reports, indent=2) + "\n")
+            print(json.dumps(report), flush=True)
         finally:
             config.write_bytes(original)
             if mirror.is_dir():
@@ -172,6 +177,11 @@ def on_controller(args):
                                                     *(["--keep-verified-release"] if args.keep_verified_release else [])])],
                            stdin=subprocess.DEVNULL, check=True)
         finally:
+            if args.report:
+                result = subprocess.run([*ssh, shlex.join(["cat", remote + "/verdict.json"])],
+                                        capture_output=True, text=True)
+                if result.returncode == 0:
+                    args.report.write_text(json.dumps(json.loads(result.stdout), indent=2) + "\n")
             subprocess.run([*ssh, shlex.join(["rm", "-r", "--", remote])], check=True)
 
 
@@ -191,6 +201,7 @@ def main():
     parser.add_argument("--projects", choices=PROJECTS, nargs="+", default=PROJECTS)
     parser.add_argument("--keep-verified-release", action="store_true",
                         help="reselect the verified candidate after checking rollback")
+    parser.add_argument("--report", type=Path, help="write per-project verification results")
     parser.add_argument("--prepare-cache", type=Path, help="populate or resume a public dependency cache")
     parser.add_argument("--python-wheelhouse", type=Path)
     parser.add_argument("--npm-cache", type=Path)
