@@ -136,7 +136,7 @@ if role == 'forecast-prod':
     owner = account_owner(account, group)
     if not fixture:
         server.group(group=group, system=True)
-        server.user(user=account, group=group, system=True, home=service_home, create_home=False)
+        server.user(user=account, group=group, system=True, home=service_home, ensure_home=False)
     directory(service_home, '0700', **owner)
     directory(runtime_parent)
     directory(configs, '0750', **account_owner('root', group))
@@ -150,6 +150,7 @@ if role == 'forecast-prod':
         release = node['version']
         if not re.fullmatch(r'[0-9]+[.][0-9]+[.][0-9]+', release):
             raise ValueError('Expected a pinned three-part Node.js version')
+        directory(f'{install}/node')
         node_root = f'{install}/node/{release}'
         command = [toolchain, 'install-node', checked_path(node['archive']), node['sha256'], release, node_root]
         server.shell(commands=[shlex.join(command)], name='Install pinned Node.js distribution')
@@ -157,6 +158,8 @@ if role == 'forecast-prod':
     content(f'{bindir}/forecast-prod',
             f'#!/bin/sh\nexport DASHBOARD_CONFIG_DIR="${{DASHBOARD_CONFIG_DIR:-{configs}}}"\n'
             f'exec {bindir}/dashboardctl "$@"\n', '0755')
+    for relative in ('', '/code', '/packages', '/packages/ops', '/packages/dashboard'):
+        directory(bootstrap + relative)
     bootstrap_files = [REPO / 'code/production.py', HERE.parent / 'jobs.json',
                        *sorted(HERE.parent.glob('*.py'))]
     for source in bootstrap_files:
@@ -217,7 +220,7 @@ if role == 'forecast-web':
     if not fixture:
         server.group(group=publisher, system=True)
         server.user(user=publisher, group=publisher, system=True, home=publisher_home,
-                    create_home=False, shell='/bin/sh')
+                    ensure_home=False, shell='/bin/sh', password_lock=True)
     directory(publisher_home)
     directory(f'{publisher_home}/.ssh')
     directory(sites)

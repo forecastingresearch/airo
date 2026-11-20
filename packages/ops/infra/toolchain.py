@@ -6,6 +6,7 @@ import json
 import os
 from pathlib import Path
 import re
+import stat
 import subprocess
 import tarfile
 from tempfile import TemporaryDirectory
@@ -43,7 +44,10 @@ def install_node(archive, sha, release, destination):
         if node_version(payload / 'bin/node') != version(release) or not (payload / 'bin/npm').is_file():
             raise ValueError('Node.js distribution version or npm differs from the requested toolchain')
         (payload / '.archive-sha256').write_text(sha + '\n')
-        payload.chmod(0o755)
+        for path in [payload, *payload.rglob('*')]:
+            if not path.is_symlink():
+                executable = path.is_dir() or path.stat().st_mode & stat.S_IXUSR
+                path.chmod(0o755 if executable else 0o644)
         payload.rename(destination)
 
 
