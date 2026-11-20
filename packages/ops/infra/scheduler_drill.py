@@ -278,6 +278,7 @@ def drill(root, units, uid, gid):
     finally:
         try:
             systemctl('stop', timer, tick, paid, data)
+            systemctl('reset-failed', timer, tick, paid, data)
         finally:
             for path in files:
                 path.unlink(missing_ok=True)
